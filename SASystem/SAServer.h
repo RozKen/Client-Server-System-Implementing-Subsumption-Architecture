@@ -87,6 +87,6 @@ protected:
 		Suppress‚³‚ê‚½‚Ü‚Ü‚Å‚¢‚écŠÔ
 	*/
 	int suppressed[NUM_MODULES];
-}
+};
 
-#endif
+#endif //_SAServer_H_
