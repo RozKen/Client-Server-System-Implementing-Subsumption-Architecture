@@ -1,7 +1,7 @@
 #ifndef _SAServer_H_
 #define _SAServer_H_
 
-#define	NUM_MODULES	3		//Moduleの数
+#define	NUM_MODULES	7		//Moduleの数
 
 class SAServer{
 public:
@@ -17,7 +17,7 @@ protected:
 	*/
 	void Initialize();
 	/**
-		Run all Modules
+		Serverに登録されているすべてのModuleをRunする
 	*/
 	void Run();
 	/**
@@ -63,7 +63,7 @@ protected:
 		一つ下の階層をInhibitする確率を知ればよいから，配列で良いはず
 		けれど，同じ階層のものを作ったりするときに，行列が必要
 	*/
-	float probIhibition[NUM_MODULES][NUM_MODULES];
+	float probInhibition[NUM_MODULES][NUM_MODULES];
 	/**
 		Suppressionの確率行列
 								Inferior Layer
