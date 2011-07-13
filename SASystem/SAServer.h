@@ -3,6 +3,8 @@
 
 #define	NUM_MODULES	7		//Module‚Ì”
 
+class SAModule;	//header“à‚Å•Ï”‚ğéŒ¾‚·‚é‚½‚ß‚ÉCclass‚ğéŒ¾
+
 class SAServer{
 public:
 	/**
@@ -87,6 +89,11 @@ protected:
 		Suppress‚³‚ê‚½‚Ü‚Ü‚Å‚¢‚écŠÔ
 	*/
 	int suppressed[NUM_MODULES];
+
+	/**
+		ŠÇ—‚³‚ê‚Ä‚¢‚éModule
+	*/
+	SAModule* modules[NUM_MODULES];
 };
 
 #endif //_SAServer_H_

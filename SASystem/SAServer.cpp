@@ -1,4 +1,5 @@
 #include "SAServer.h"
+#include "SAModule.h"
 
 SAServer::SAServer(){
 	Initialize();
@@ -22,21 +23,27 @@ void SAServer::Initialize(){
 		suppressed[i] = 0;
 	}
 	//Inhibition‚ÌŠm—¦‚ğİ’è
-	probInhibition[4][0] = 1.0;
-	probInhibition[4][1] = 1.0;
-	probInhibition[5][4] = 0.7;
-	probInhibition[6][5] = 0.2;
+	probInhibition[2][4] = 1.0;		//RangeSensor	-> avoid
+	probInhibition[4][0] = 1.0;		//avoid			-> LeftMotor
+	probInhibition[4][1] = 1.0;		//avoid			-> RightMotor
+	probInhibition[5][4] = 0.7;		//wander		-> avoid
+	probInhibition[6][5] = 0.2;		//return		-> wander
 	//Suppression‚ÌŠm—¦‚ğİ’è
 	//TODO ‚¢‚Ü‚Í‚È‚É‚àİ’è‚µ‚È‚¢‚æI
 	
 }
 
 void SAServer::Run(){
-	
+	for(int i = 0; i < NUM_MODULES; i++){
+		outbox[i] = modules[i]->Run(inbox[i]);
+	}
 }
 
 void SAServer::Inhibit(){
-	
+	//
+	for(int i = 0; i < NUM_MODULES; i++){
+		//inbox[i] = outbox[i];
+	}
 }
 
 void SAServer::Suppress(){

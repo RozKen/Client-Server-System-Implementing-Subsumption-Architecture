@@ -75,9 +75,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SAModule.cpp" />
+    <ClCompile Include="SAServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActWheel.hpp" />
+    <ClInclude Include="MotorDriver.hpp" />
+    <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />
+    <ClInclude Include="SenseRange.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
