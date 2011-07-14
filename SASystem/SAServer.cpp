@@ -40,9 +40,12 @@ void SAServer::Run(){
 }
 
 void SAServer::Inhibit(){
-	//
+	//TODO
+	//probInhibitionの確率に応じて，outboxの
+	//中身を選択し，inboxを生成
 	for(int i = 0; i < NUM_MODULES; i++){
 		//inbox[i] = outbox[i];
+
 	}
 }
 

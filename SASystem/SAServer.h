@@ -37,7 +37,7 @@ protected:
 	*/
 	void Inhibit();
 	/**
-		下層のModuleを抑制する.
+		下層のModuleを抑圧する.
 		<ol>
 			<li>suppressed[]の各要素から1を引く</li>
 			<li>suppressed[]の値が-1であるものは，0に直し，</li>
