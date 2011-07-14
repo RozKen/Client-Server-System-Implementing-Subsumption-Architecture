@@ -4,7 +4,7 @@
 #include "SAModule.h"
 #include <iostream>
 
-class SenseRange extends SAModule{
+class SenseRange :public SAModule{
 public:
 	float Run(float signal);
 	double getRange();

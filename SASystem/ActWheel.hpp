@@ -4,7 +4,7 @@
 #include "SAModule.h"
 #include <iostream>
 
-class ActWheel extends SAModule{
+class ActWheel :public SAModule{
 public:
 	float Run(float signal);
 	int getPos();

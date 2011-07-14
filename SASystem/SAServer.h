@@ -9,8 +9,10 @@ class SAServer{
 public:
 	/**
 		Construct and Run SAServer
-		1. Initialize()
-		2. While(0){ Run(); Inhibit(); Suppress(); }
+		<ol>
+			<li>Initialize()</li>
+			<li>While(0){ Run(); Inhibit(); Suppress(); }</li>
+		</ol>
 	*/
 	SAServer();
 protected:
@@ -24,20 +26,24 @@ protected:
 	void Run();
 	/**
 		下層のModuleを抑制する.
-		1. inhibited[]の各要素から1を引く
-		2. inhibited[]の値が-1であるものは，0に直し，
-		3. probInhibition[][]に基づいてinhibited[]を更新する
-		4. inhibited[]の値が正である要素をinhibitする
+		<ol>
+			<li>inhibited[]の各要素から1を引く</li>
+			<li>inhibited[]の値が-1であるものは，0に直し，</li>
+			<li>probInhibition[][]に基づいてinhibited[]を更新する</li>
+			<li>inhibited[]の値が正である要素をinhibitする</li>
+		</ol>
 		@sa inhibited[]
 		@sa probInhibition[][]
 	*/
 	void Inhibit();
 	/**
 		下層のModuleを抑制する.
-		1. suppressed[]の各要素から1を引く
-		2. suppressed[]の値が-1であるものは，0に直し，
-		3. probSuppression[][]に基づいてsuppressed[]を更新する
-		4. suppressed[]の値が正である要素をsuppressする
+		<ol>
+			<li>suppressed[]の各要素から1を引く</li>
+			<li>suppressed[]の値が-1であるものは，0に直し，</li>
+			<li>probSuppression[][]に基づいてsuppressed[]を更新する</li>
+			<li>suppressed[]の値が正である要素をsuppressする</li>
+		</ol>
 		@sa suppressed[]
 		@sa probSuppression[][]
 	*/
@@ -54,13 +60,31 @@ protected:
 
 	/**
 		Inhibitionの確率行列
-								Inferior Layer
-						0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-						0.2, 0.0, 0.0, 0.0, 0.0, 0.0
-		Superior Layer	0.0, 0.3, 0.0, 0.0, 0.0, 0.0
-						0.0, 0.0, 0.5, 0.0, 0.0, 0.0
-						0.0, 0.0, 0.0, 0.7, 0.0, 0.0
-						0.0, 0.0, 0.0, 0.0, 0.2, 0.0
+		<table width="200" border="1">
+		  <tr>
+			<td>&nbsp;</td>
+			<td colspan="6">Inferior Layer</td>
+		  </tr>
+		  <tr>
+			<td rowspan="6">Superior Layer</td>
+		<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.2</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.3</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.0</td><td>0.5</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.7</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.2</td><td>0.0</td>
+		  </tr>
+		</table>
 		普通のSubsumption Architectureなら，行列である必要はない．
 		一つ下の階層をInhibitする確率を知ればよいから，配列で良いはず
 		けれど，同じ階層のものを作ったりするときに，行列が必要
@@ -68,13 +92,31 @@ protected:
 	float probInhibition[NUM_MODULES][NUM_MODULES];
 	/**
 		Suppressionの確率行列
-								Inferior Layer
-						0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-						0.2, 0.0, 0.0, 0.0, 0.0, 0.0
-		Superior Layer	0.0, 0.3, 0.0, 0.0, 0.0, 0.0
-						0.0, 0.0, 0.5, 0.0, 0.0, 0.0
-						0.0, 0.0, 0.0, 0.7, 0.0, 0.0
-						0.0, 0.0, 0.0, 0.0, 0.2, 0.0
+		<table width="200" border="1">
+		  <tr>
+			<td>&nbsp;</td>
+			<td colspan="6">Inferior Layer</td>
+		  </tr>
+		  <tr>
+			<td rowspan="6">Superior Layer</td>
+		<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.2</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.3</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.0</td><td>0.5</td><td>0.0</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.7</td><td>0.0</td><td>0.0</td>
+		  </tr>
+		  <tr>
+			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.2</td><td>0.0</td>
+		  </tr>
+		</table>
 		普通のSubsumption Architectureなら，行列である必要はない．
 		一つ下の階層をSuppressionする確率を知ればよいから，配列で良いはず
 		けれど，同じ階層のものを作ったりするときに，行列が必要
