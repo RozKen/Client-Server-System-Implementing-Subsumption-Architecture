@@ -6,7 +6,8 @@
 #include "Random.hpp"
 
 /**
-	確率的に2つのうちのどちらかを選択するオブジェクト.
+	@class StochasticSelector
+	@brief	確率的に2つのうちのどちらかを選択するオブジェクト.
 	get()メソッドはtrue/falseの値を
 	最初に指定したprobabilityの確率で返す
 	@author Kenichi Yorozu
@@ -38,7 +39,7 @@ private:
 	///trueである確率
 	float prob;
 	//Random関数
-	Rand<boost::uniform_real<> > _rand;
+	Random<boost::uniform_real<> > _rand;
 };
 
 StochasticSelector::StochasticSelector()

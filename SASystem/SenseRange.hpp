@@ -5,7 +5,8 @@
 #include <iostream>
 
 /**
-	距離センサーのモジュール
+	@class SenseRange
+	@brief 距離センサーのモジュール
 	毎クロック距離を測り，危険であれば，0.0以外の値を出力する
  */
 class SenseRange :public SAModule{

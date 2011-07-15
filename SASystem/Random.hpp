@@ -4,7 +4,8 @@
 #include <boost/random.hpp>
 
 /**
-	Random生成クラス.
+	@class Random
+	@brief Random生成クラス.
 	オブジェクトを生成したら，"オブジェクト名()"でランダムな値をはき出す
 	ランダムの生成はboost::mt19937によるメルセンヌツイスタ．一様分布
 	@author n_shuyo
@@ -12,18 +13,18 @@
  */
 
 template<class D, class G = boost::mt19937>
-class Rand{
+class Random{
 public:
 	///Default Constructor
-	Rand() : _gen(static_cast<unsigned long>(time (0))),
+	Random() : _gen(static_cast<unsigned long>(time (0))),
 		_rand(_gen, _dst){}
 	///よく分からないけど，たぶん範囲を指定したコンストラクタ
 	template<typename T1>
-	Rand(T1 a1) : _gen(static_cast<unsigned long>(time(0))),
+	Random(T1 a1) : _gen(static_cast<unsigned long>(time(0))),
 		_dst(a1), _rand(_gen, _dst){}
 	///範囲を指定したコンストラクタ
 	template<typename T1, typename T2>
-	Rand(T1 a1, T2 a2): _gen(static_cast<unsigned long>(time(0))),
+	Random(T1 a1, T2 a2): _gen(static_cast<unsigned long>(time(0))),
 		_dst(a1, a2), _rand(_gen, _dst){}
 
 	///RandObjectに"()"を付けると，ランダムな数値が戻ってくる

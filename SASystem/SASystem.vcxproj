@@ -81,9 +81,11 @@
   <ItemGroup>
     <ClInclude Include="ActWheel.hpp" />
     <ClInclude Include="MotorDriver.hpp" />
+    <ClInclude Include="Random.hpp" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />
     <ClInclude Include="SenseRange.hpp" />
+    <ClInclude Include="StochasticSelecter.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
