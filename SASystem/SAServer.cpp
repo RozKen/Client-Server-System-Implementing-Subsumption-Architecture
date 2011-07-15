@@ -3,13 +3,12 @@
 
 SAServer::SAServer(){
 	Initialize();
-	while(true){
-		Run();
-		Inhibit();
-		Suppress();
-	}
 }
-
+void SAServer::Process(){
+	Run();
+	Inhibit();
+	Suppress();
+}
 void SAServer::Initialize(){
 	//0‚Å‰Šú‰»
 	for(int i = 0; i < NUM_MODULES; i++){

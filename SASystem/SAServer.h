@@ -11,10 +11,18 @@ public:
 		Construct and Run SAServer
 		<ol>
 			<li>Initialize()</li>
-			<li>While(0){ Run(); Inhibit(); Suppress(); }</li>
 		</ol>
 	*/
 	SAServer();
+	/**
+		一クロック分制御を進める
+		<ol>
+			<li>Run();</li>
+			<li>Inhibit();</li>
+			<li>Suppress();</li>
+		</ol>
+	 */
+	void Process();
 protected:
 	/**
 		Initialize States
