@@ -4,7 +4,13 @@
 #define	NUM_MODULES	7		//Moduleの数
 
 class SAModule;	//header内で変数を宣言するために，classを宣言
-
+/**
+	すべてのModuleの接続関係，Inhibition, Suppression関係を保持し，
+	それに応じた信号の決定を管理するクラス
+	1ClockごとにすべてのModuleを動かし，それぞれの出力を基に，
+	次の入力を決めている
+	@sa SAModule
+ */
 class SAServer{
 public:
 	/**
