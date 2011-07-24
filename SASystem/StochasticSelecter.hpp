@@ -6,8 +6,7 @@
 #include "Random.hpp"
 
 /**
-	@class StochasticSelector
-	@brief	確率的に2つのうちのどちらかを選択するオブジェクト.
+	確率的に2つのうちのどちらかを選択するオブジェクト.
 	get()メソッドはtrue/falseの値を
 	最初に指定したprobabilityの確率で返す
 	@author Kenichi Yorozu
