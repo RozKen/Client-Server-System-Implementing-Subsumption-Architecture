@@ -17,21 +17,29 @@
 class StochasticSelector{
 public:
 	/**
-		デフォルトコンストラクタ.
+		@brief デフォルトコンストラクタ.
 		確率0.5でtrueを返すようなオブジェクトを生成
 	 */
 	StochasticSelector();
 	/**
-		コンストラクタ
+		@brief コンストラクタ
 		確率probabilityでtrueを返すようなオブジェクトを生成
 	 */
 	StochasticSelector(float probability);
 	/**
-		確率的に選択された結果を返す
+		@brief 確率的に結果を返す.
+		<ul>
+			<li>true: 選択された場合：与えられた確率に基づいて出現するのはこちら</li>
+			<li>false: 選択されなかった場合</li>
+		</ul>
 	 */
 	bool get();
 	/**
-		get関数と同様，確率的に選択された結果を返す
+		@brief get関数と同様，確率的に選択された結果を返す
+		<ul>
+			<li>true: 選択された場合：与えられた確率に基づいて出現するのはこちら</li>
+			<li>false: 選択されなかった場合</li>
+		</ul>
 		@sa get()
 	 */
 	bool operator()();

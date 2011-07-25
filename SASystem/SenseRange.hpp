@@ -12,14 +12,14 @@
 class SenseRange :public SAModule{
 public:
 	/**
-		距離を測り，安全範囲を超えると，0.0以外の値を出力する
+		@brief 距離を測り，安全範囲を超えると，0.0以外の値を出力する
 		@param signal 入力信号
 		@return 信号出力
 	 */
 	float Run(float signal);
 protected:
 	/**
-		実際に距離を測っているモジュール．
+		@brief 実際に距離を測っているモジュール．
 		未実装：なにかしら近傍の物体との距離を測る手法を実装する必要がある
 		@return 最も近い物体との距離
 	 */

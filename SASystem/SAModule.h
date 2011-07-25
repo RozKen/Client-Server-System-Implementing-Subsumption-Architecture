@@ -9,11 +9,11 @@
 class SAModule {
 public:
 	/**
-		コンストラクタ
+		@brief コンストラクタ
 	*/
 	SAModule();
 	/**
-		モジュールを動作させる
+		@brief モジュールを動作させる
 		@param	signal 入力信号
 		@return 信号出力
 	*/

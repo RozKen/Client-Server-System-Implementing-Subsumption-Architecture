@@ -1,5 +1,6 @@
 #include "SAServer.h"
 #include "SAModule.h"
+#include "StochasticSelecter.hpp"
 
 SAServer::SAServer(){
 	Initialize();
@@ -17,6 +18,9 @@ void SAServer::Initialize(){
 		for(int j = 0; j < NUM_MODULES; j++){
 			probInhibition[i][j] = 0.0;
 			probSuppression[i][j] = 0.0;
+
+			timeInhibition[i][j] = 100;
+			timeSuppression[i][j] = 100;
 		}
 		inhibited[i] = 0;
 		suppressed[i] = 0;
@@ -41,12 +45,28 @@ void SAServer::Run(){
 }
 
 void SAServer::Inhibit(){
-	//TODO
-	//probInhibitionの確率に応じて，outboxの
-	//中身を選択し，inboxを生成
-	for(int i = 0; i < NUM_MODULES; i++){
-		//inbox[i] = outbox[i];
-
+	///Inhibitが正常に行われるよう，上層から処理を行う
+	for(int i = NUM_MODULES; i > 0; i--){
+		///基本的にはoutboxの中身がそのままconnectorに流れる
+		connector[i] = outbox[i];
+		for(int j = 0; j < NUM_MODULES; j++){
+			///inhibitがある場合は，connectorを上書き
+			if(probInhibition[j][i] != 0.0){
+				inhibited[i]--;
+				if(inhibited[i] <= 0){	//前のクロックでinhibitされていなかった場合
+					StochasticSelector ss(probInhibition[j][i]);
+					if(ss()){		//決められた時間inhibitする
+						inhibited[i] = timeInhibition[j][i];
+					}else{			//inhibitしない
+						inhibited[i] = 0;
+					}
+				}
+				///現クロックでinhibitすることになっている場合．connectorを上書き
+				if(inhibited[i] > 0){
+					connector[i] = outbox[j];
+				}
+			}
+		}
 	}
 }
 

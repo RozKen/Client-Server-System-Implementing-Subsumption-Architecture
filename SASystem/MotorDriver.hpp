@@ -14,12 +14,12 @@
 class MotorDriver : public SAModule{
 public:
 	/**
-		Constructor.
+		@brief Constructor.
 		@param left trueなら左用．falseなら右用
 	 */
 	MotorDriver(bool left);
 	/**
-		入力信号をエンコードして，対応するPWMを出力する．
+		@brief 入力信号をエンコードして，対応するPWMを出力する．
 		<ol>
 			<li>入力信号のエンコード：SignalDecoder</li>
 			<li>PWM信号を取得：GeneratePWM</li>
@@ -32,12 +32,12 @@ public:
 	float Run(float signal);
 protected:
 	/**
-		入力信号の値0.0 - 1.0を有効なPWM信号帯へMappingする
+		@brief 入力信号の値0.0 - 1.0を有効なPWM信号帯へMappingする
 		@param signal 入力信号
 		@return PWM信号：現状ではPWMではなくて，0.0 - 1.0で，ただのSA回路内信号と同じ
 	 */
 	float GeneratePWM(float signal);
-	/**左用のMotor Driverであるなら，true/右用ならfalse.その他は想定外*/
+	/**@brief 左用のMotor Driverであるなら，true/右用ならfalse.その他は想定外*/
 	bool left;
 };
 

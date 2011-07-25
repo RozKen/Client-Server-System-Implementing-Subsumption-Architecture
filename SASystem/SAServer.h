@@ -1,7 +1,7 @@
 #ifndef _SAServer_H_
 #define _SAServer_H_
 
-#define	NUM_MODULES	7		//Moduleの数
+#define	NUM_MODULES	8		//Moduleの数
 
 class SAModule;	//header内で変数を宣言するために，classを宣言
 /**
@@ -15,14 +15,14 @@ class SAModule;	//header内で変数を宣言するために，classを宣言
 class SAServer{
 public:
 	/**
-		Construct and Run SAServer
+		@brief Construct and Run SAServer
 		<ol>
 			<li>Initialize()</li>
 		</ol>
 	*/
 	SAServer();
 	/**
-		一クロック分制御を進める
+		@brief 一クロック分制御を進める
 		<ol>
 			<li>Run();</li>
 			<li>Inhibit();</li>
@@ -32,15 +32,15 @@ public:
 	void Process();
 protected:
 	/**
-		Initialize States
+		@brief Initialize States
 	*/
 	void Initialize();
 	/**
-		Serverに登録されているすべてのModuleをRunする
+		@brief Serverに登録されているすべてのModuleをRunする
 	*/
 	void Run();
 	/**
-		下層のModuleを抑制する.
+		@brief 下層のModuleからの出力を抑制する.
 		<ol>
 			<li>inhibited[]の各要素から1を引く</li>
 			<li>inhibited[]の値が-1であるものは，0に直し，</li>
@@ -52,7 +52,7 @@ protected:
 	*/
 	void Inhibit();
 	/**
-		下層のModuleを抑圧する.
+		@brief 下層のModuleへの入力を抑圧する.
 		<ol>
 			<li>suppressed[]の各要素から1を引く</li>
 			<li>suppressed[]の値が-1であるものは，0に直し，</li>
@@ -65,16 +65,29 @@ protected:
 	void Suppress();
 
 	/**
-		次にModuleに送られる信号
+		@brief 次にModuleに送られる信号
+		outbox ---[inhibit]-->connector---[suppress]--><b>inbox</b>-->Modules
+		@sa outbox
+		@sa connector
 	*/
 	float inbox[NUM_MODULES];
 	/**
-		Moduleから送られてきた信号
+		@brief Moduleから送られてきた信号
+		<b>outbox</b> ---[inhibit]-->connector---[suppress]-->inbox-->Modules
+		@sa inbox
+		@sa connector
 	*/
 	float outbox[NUM_MODULES];
+	/**
+		@brief Connectorを流れる信号.
+		outbox ---[inhibit]--><b>connector</b>---[suppress]-->inbox-->Modules
+		@sa outbox
+		@sa inbox
+	*/
+	float connector[NUM_MODULES];
 
 	/**
-		Inhibitionの確率行列
+		@brief Inhibitionの確率行列
 		<table width="200" border="1">
 		  <tr>
 			<td>&nbsp;</td>
@@ -106,7 +119,7 @@ protected:
 	*/
 	float probInhibition[NUM_MODULES][NUM_MODULES];
 	/**
-		Suppressionの確率行列
+		@brief Suppressionの確率行列
 		<table width="200" border="1">
 		  <tr>
 			<td>&nbsp;</td>
@@ -139,16 +152,25 @@ protected:
 	float probSuppression[NUM_MODULES][NUM_MODULES];
 
 	/**
-		Inhibitされたままでいる残時間
+		@brief Inhibitする時間を指定する行列．単位はクロック
+	*/
+	int	timeInhibition[NUM_MODULES][NUM_MODULES];
+	/**
+		@brief Suppressする時間を指定する行列．単位はクロック
+	*/
+	int timeSuppression[NUM_MODULES][NUM_MODULES];
+
+	/**
+		@brief Inhibitされたままでいる残時間
 	*/
 	int inhibited[NUM_MODULES];
 	/**
-		Suppressされたままでいる残時間
+		@brief Suppressされたままでいる残時間
 	*/
 	int suppressed[NUM_MODULES];
 
 	/**
-		管理されているModule
+		@brief 管理されているModule
 	*/
 	SAModule* modules[NUM_MODULES];
 };
