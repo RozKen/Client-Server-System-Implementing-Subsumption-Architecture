@@ -21,14 +21,17 @@ void SAServer::Initialize(){
 		inhibited[i] = 0;
 		suppressed[i] = 0;
 	}
+
 	//InhibitionÇÃämó¶Çê›íË
-	probInhibition[2][4] = 1.0;		//RangeSensor	-> avoid
-	probInhibition[4][0] = 1.0;		//avoid			-> LeftMotor
-	probInhibition[4][1] = 1.0;		//avoid			-> RightMotor
-	probInhibition[5][4] = 0.7;		//wander		-> avoid
-	probInhibition[6][5] = 0.2;		//return		-> wander
+	probInhibition[5][4] = 0.8;	//Wander to Avoid
+	probInhibition[6][5] = 0.4;	//Return to Wander
+
 	//SuppressionÇÃämó¶Çê›íË
-	//TODO Ç¢Ç‹ÇÕÇ»Ç…Ç‡ê›íËÇµÇ»Ç¢ÇÊÅI
+	probSuppression[2][0] = 1.0;		//LeftMotorDriver(LMD) to LeftMotor(LM)
+	probSuppression[3][1] = 1.0;		//RightMotorDriver)RMD) to RightMotor(RM)
+	probSuppression[4][2] = 1.0;		//Avoid to LMD
+	probSuppression[4][3] = 1.0;		//Avoid to RMD
+	probSuppression[7][4] = 1.0;		//RangeSensor(RS) to Avoid
 	
 }
 
