@@ -4,7 +4,8 @@
 #include <boost/Random.hpp>
 
 /**
-	Random生成クラス.
+	@class Random
+	@brief Random生成クラス.
 	オブジェクトを生成したら，"オブジェクト名()"でランダムな値をはき出す
 	ランダムの生成はboost::mt19937によるメルセンヌツイスタ．一様分布
 	@author n_shuyo
