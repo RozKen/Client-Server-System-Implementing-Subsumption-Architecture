@@ -32,7 +32,6 @@ void SAServer::Initialize(){
 	probSuppression[4][2] = 1.0;		//Avoid to LMD
 	probSuppression[4][3] = 1.0;		//Avoid to RMD
 	probSuppression[7][4] = 1.0;		//RangeSensor(RS) to Avoid
-	
 }
 
 void SAServer::Run(){
