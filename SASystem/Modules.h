@@ -5,6 +5,9 @@
 
 #include "ActMotor.hpp"
 #include "MotorDriver.hpp"
+#include "Avoid.hpp"
+
+
 #include "SenseRange.hpp"
 
 #endif  //_Modules_H_

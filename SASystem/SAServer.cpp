@@ -17,6 +17,7 @@ void SAServer::Initialize(){
 	modules[1] = new ActMotor();
 	modules[2] = new MotorDriver(true);
 	modules[3] = new MotorDriver(false);
+	modules[4] = new Avoid();
 	modules[7] = new SenseRange();
 
 	///ModuleˆÈŠO‚Ì‚·‚×‚Ä‚Ì’l‚ğ0‚Å‰Šú‰»

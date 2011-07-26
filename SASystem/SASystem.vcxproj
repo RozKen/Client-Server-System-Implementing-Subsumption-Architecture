@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActMotor.hpp" />
+    <ClInclude Include="Avoid.hpp" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="MotorDriver.hpp" />
     <ClInclude Include="Random.hpp" />

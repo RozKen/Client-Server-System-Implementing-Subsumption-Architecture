@@ -36,9 +36,15 @@ public:
 	*/
 	float getSpeed();
 protected:
-	///現在の回転数
+	/**
+		@brief 現在の回転数
+		(int)((signal - 0.5f) * (float)INT_MAX)
+	*/
 	int rpm;
-	///現在のスピード
+	/**
+		@brief 現在のスピード
+		6.0f * (signal - 0.5f)
+	*/
 	float speed;
 };
 
