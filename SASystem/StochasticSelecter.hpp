@@ -2,7 +2,6 @@
 #define _StochasticSelector_HPP_
 
 #include <ctime>
-#include <boost/random.hpp>
 #include "Random.hpp"
 
 /**

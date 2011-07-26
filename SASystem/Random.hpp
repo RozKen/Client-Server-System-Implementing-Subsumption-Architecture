@@ -1,7 +1,7 @@
 #ifndef _Random_HPP_
 #define _Random_HPP_
 
-#include <boost/Random.hpp>
+#include <boost/random.hpp>
 
 /**
 	@class Random
