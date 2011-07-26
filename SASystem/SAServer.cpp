@@ -61,7 +61,7 @@ void SAServer::Inhibit(){
 						inhibited[i] = 0;
 					}
 				}
-				///現クロックでinhibitすることになっている場合．connectorを上書き
+				///現クロックでinhibitすることになっている場合，connectorを上書き
 				if(inhibited[i] > 0){
 					connector[i] = outbox[j];
 				}
@@ -71,5 +71,27 @@ void SAServer::Inhibit(){
 }
 
 void SAServer::Suppress(){
-	//TODO いまはなにもしないよ！
+	///Suppressが正常に行われるよう，上層から処理を行う
+	for(int i = NUM_MODULES; i > 0; i --){
+		///基本的に，connectorの中身がそのままinboxに流れる
+		inbox[i] = connector[i];
+		for(int j = 0; j < NUM_MODULES; j++){
+			///suppressがある場合は，inboxを上書き
+			if(probSuppression[j][i] != 0.0){
+				suppressed[i]--;
+				if(inhibited[i] <= 0){	//前のクロックでsuppressされていなかった場合
+					StochasticSelector ss(probSuppression[j][i]);
+					if(ss()){			//決められた時間suppressする
+						suppressed[i] = timeSuppression[j][i];
+					}else{				//suppressしない
+						suppressed[i] = 0;
+					}
+				}
+				///現クロックでsuppressすることになっている場合，inboxを上書き
+				if(suppressed[i] > 0){
+					inbox[i] = connector[j];
+				}
+			}
+		}
+	}
 }

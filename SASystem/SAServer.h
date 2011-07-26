@@ -113,6 +113,8 @@ protected:
 			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.2</td><td>0.0</td>
 		  </tr>
 		</table>
+		probInhibition[A][B] -> A inhibits B
+
 		普通のSubsumption Architectureなら，行列である必要はない．
 		一つ下の階層をInhibitする確率を知ればよいから，配列で良いはず
 		けれど，同じ階層のものを作ったりするときに，行列が必要
@@ -145,6 +147,8 @@ protected:
 			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.2</td><td>0.0</td>
 		  </tr>
 		</table>
+		probSuppression[A][B] -> A suppresses B
+
 		普通のSubsumption Architectureなら，行列である必要はない．
 		一つ下の階層をSuppressionする確率を知ればよいから，配列で良いはず
 		けれど，同じ階層のものを作ったりするときに，行列が必要
