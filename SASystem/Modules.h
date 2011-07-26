@@ -7,7 +7,7 @@
 #include "MotorDriver.hpp"
 #include "Avoid.hpp"
 #include "Wander.hpp"
-
+#include "Return.hpp"
 #include "SenseRange.hpp"
 
 #endif  //_Modules_H_

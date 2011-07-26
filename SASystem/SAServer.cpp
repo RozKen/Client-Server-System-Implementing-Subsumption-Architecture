@@ -19,7 +19,7 @@ void SAServer::Initialize(){
 	modules[3] = new MotorDriver(false);
 	modules[4] = new Avoid();
 	modules[5] = new Wander();
-
+	modules[6] = new Return();
 	modules[7] = new SenseRange();
 
 	///ModuleˆÈŠO‚Ì‚·‚×‚Ä‚Ì’l‚ğ0‚Å‰Šú‰»
