@@ -9,15 +9,16 @@
 class SAModule {
 public:
 	/**
-		@brief コンストラクタ
+		@brief コンストラクタ.何もしないよ
 	*/
 	SAModule();
 	/**
 		@brief モジュールを動作させる
+		純粋仮想関数．継承した子クラスでの定義が必須
 		@param	signal 入力信号
 		@return 信号出力
 	*/
-	virtual float Run(float signal);
+	virtual float Run(float signal) = 0;
 protected:
 	/**
 	 * @fn SignalDecoder

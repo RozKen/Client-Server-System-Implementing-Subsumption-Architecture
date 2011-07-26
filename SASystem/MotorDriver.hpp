@@ -41,10 +41,10 @@ protected:
 	bool left;
 };
 
-MotorDriver::MotorDriver(bool left): left(left){
+inline MotorDriver::MotorDriver(bool left): left(left){
 }
 
-float MotorDriver::Run(float signal){
+inline float MotorDriver::Run(float signal){
 	//左用信号
 	float leftSignal;
 	//右用信号
@@ -64,7 +64,7 @@ float MotorDriver::Run(float signal){
 	return output;
 }
 
-float GeneratePWM(float signal){
+inline float MotorDriver::GeneratePWM(float signal){
 	//TODO PWMへのMappingを行うが，現在は0.0 - 1.0のまま
 	return signal;
 }

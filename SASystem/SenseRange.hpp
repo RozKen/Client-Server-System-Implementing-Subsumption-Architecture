@@ -12,6 +12,11 @@
 class SenseRange :public SAModule{
 public:
 	/**
+		@fn SenseRange()
+		@brief Constructor.メンバ変数を初期化する
+	*/
+	SenseRange();
+	/**
 		@brief 距離を測り，安全範囲を超えると，0.0以外の値を出力する
 		@param signal 入力信号
 		@return 信号出力
@@ -28,7 +33,7 @@ protected:
 	double range;
 };
 
-inline SenseRange(): range(100.0){
+inline SenseRange::SenseRange(): range(100.0){
 }
 
 inline float SenseRange::Run(float signal = 0.0){
@@ -45,7 +50,7 @@ inline float SenseRange::Run(float signal = 0.0){
 	return signal;
 }
 
-inline int SenseRange::getRange(){
+inline double SenseRange::getRange(){
 	//TODO なにかしら近傍の物体との距離を測る手法を実装する必要がある
 	return range;
 }

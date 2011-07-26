@@ -79,7 +79,8 @@
     <ClCompile Include="SAServer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActWheel.hpp" />
+    <ClInclude Include="ActMotor.hpp" />
+    <ClInclude Include="Modules.h" />
     <ClInclude Include="MotorDriver.hpp" />
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="SAModule.h" />

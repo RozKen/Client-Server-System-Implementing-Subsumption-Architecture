@@ -1,6 +1,9 @@
 #include "SAModule.h"
 #include <math.h>
 
+SAModule::SAModule(){
+}
+
 void SAModule::SignalDecoder(float input, float &output1, float &output2){
 	///ŠeˆÊ‚Ì’l‚ðŠi”[‚·‚é
 	int digits1[4], digits2[4];

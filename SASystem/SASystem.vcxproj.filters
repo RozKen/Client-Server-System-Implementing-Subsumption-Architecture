@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Modules">
+      <UniqueIdentifier>{17969f72-d7e8-42df-862f-434d83d145f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,20 +35,23 @@
     <ClInclude Include="SAModule.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ActWheel.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SenseRange.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MotorDriver.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="StochasticSelecter.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Random.hpp">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorDriver.hpp">
+      <Filter>ヘッダー ファイル\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="SenseRange.hpp">
+      <Filter>ヘッダー ファイル\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ActMotor.hpp">
+      <Filter>ヘッダー ファイル\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules.h">
+      <Filter>ヘッダー ファイル\Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
