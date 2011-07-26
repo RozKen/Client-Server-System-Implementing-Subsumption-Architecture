@@ -6,7 +6,7 @@
 #include "ActMotor.hpp"
 #include "MotorDriver.hpp"
 #include "Avoid.hpp"
-
+#include "Wander.hpp"
 
 #include "SenseRange.hpp"
 

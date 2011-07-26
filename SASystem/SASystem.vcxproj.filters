@@ -56,5 +56,8 @@
     <ClInclude Include="Avoid.hpp">
       <Filter>ヘッダー ファイル\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Wander.hpp">
+      <Filter>ヘッダー ファイル\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

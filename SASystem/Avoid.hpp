@@ -17,6 +17,8 @@ public:
 	/**
 		@brief RangeSensorから受け取った信号を基に，モーターへの回避命令を出す．
 		デフォルトでは，直進する
+		@param signal RangeSensorからの信号
+		@return output モーターへの信号
 	*/
 	float Run(float signal);
 };
@@ -35,7 +37,7 @@ inline float Avoid::Run(float signal){
 		leftSignal = 0.0f;
 	}
 
-	//両モーターの信号を一つにエンコード
+	///両モーターの信号を一つにエンコード
 	output = SignalEncoder(rightSignal, leftSignal);
 	return output;
 }
