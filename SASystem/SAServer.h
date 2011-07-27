@@ -4,6 +4,7 @@
 #define	NUM_MODULES	8		//Moduleの数
 
 class SAModule;	//header内で変数を宣言するために，classを宣言
+class EnvUpdater;
 /**
 	@class SAServer
 	@brief すべてのModuleの接続関係，Inhibition, Suppression関係を保持し，
@@ -37,6 +38,8 @@ protected:
 	void Initialize();
 	/**
 		@brief Serverに登録されているすべてのModuleをRunする
+		その他に，現在は両輪(LM, RM)のspeedを基に，位置と向きを算出し，
+		//それらをセンサーに送る．←未実装
 	*/
 	void Run();
 	/**
@@ -177,6 +180,11 @@ protected:
 		@brief 管理されているModule
 	*/
 	SAModule* modules[NUM_MODULES];
+
+	/**
+		@brief 暫定的に利用している環境
+	*/
+	EnvUpdater* env;
 };
 
 #endif //_SAServer_H_

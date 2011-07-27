@@ -1,6 +1,7 @@
 #include "StochasticSelecter.hpp"
 #include "Modules.h"
 #include "SAServer.h"
+#include "EnvUpdater.hpp"
 
 SAServer::SAServer(){
 	Initialize();
@@ -12,6 +13,9 @@ void SAServer::Process(){
 }
 void SAServer::Initialize(){
 
+	///ŠÂ‹«‚ğ\’z
+	env = new EnvUpdater();
+	
 	///Module‚ğ“o˜^
 	modules[0] = new ActMotor();
 	modules[1] = new ActMotor();
@@ -53,6 +57,7 @@ void SAServer::Run(){
 	for(int i = 0; i < NUM_MODULES; i++){
 		outbox[i] = modules[i]->Run(inbox[i]);
 	}
+	env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
 }
 
 void SAServer::Inhibit(){

@@ -81,9 +81,11 @@
   <ItemGroup>
     <ClInclude Include="ActMotor.hpp" />
     <ClInclude Include="Avoid.hpp" />
+    <ClInclude Include="EnvUpdater.hpp" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="MotorDriver.hpp" />
     <ClInclude Include="Random.hpp" />
+    <ClInclude Include="Return.hpp" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />
     <ClInclude Include="SenseRange.hpp" />
