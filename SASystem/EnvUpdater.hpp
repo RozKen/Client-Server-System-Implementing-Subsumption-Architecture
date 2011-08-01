@@ -1,9 +1,12 @@
-#ifndef _EnvUpdater_hpp_
-#define _EnvUpdater_hpp_
+#ifndef _EnvUpdater_HPP_
+#define _EnvUpdater_HPP_
 
 ///ゼロだとみなす最大値
 #define DELTA	0.0001
 #include <math.h>
+
+//for Debug
+#include <iostream>
 
 /**
 	@class EnvUpdater
@@ -28,6 +31,13 @@ public:
 		@sa updatePose
 	*/
 	void update(float lSpeed, float rSpeed);
+
+	float getPositionX();
+	float getPositionY();
+	float getOrientation();
+	float getWheelDistance();
+	int getMode();
+	
 protected:
 	/**
 		@brief 位置(position)と姿勢(orientation)の更新
@@ -57,9 +67,17 @@ protected:
 		円周率PI
 	*/
 	const double PI;
+	/**
+	 * どのモードとして判定されたか？
+	 * 0: ほとんど動かない
+	 * 1: 外分点
+	 * 2: 内分点
+	 */
+	int mode;
+	
 };
 
-inline EnvUpdater::EnvUpdater() : wheelDistance(1.0f), orientation(0.0f), PI(6.0 * asin(0.5) ){
+inline EnvUpdater::EnvUpdater() : orientation(0.0f), wheelDistance(1.0f), PI(6.0 * asinf(0.5) ), mode(0){
 	position[0] = 0.0f;
 	position[1] = 0.0f;
 }
@@ -86,9 +104,9 @@ inline void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 	double eta;
 
 	///どちらかのスピードの絶対値が0に近い時．
-	if(abs(lSpeed) < DELTA || abs(rSpeed) < DELTA){
+	if(fabs(lSpeed) < DELTA || fabs(rSpeed) < DELTA){
 		///どちらとも，スピードの絶対値が0に近い時
-		if( abs(lSpeed) < DELTA && abs(rSpeed) < DELTA){
+		if( fabs(lSpeed) < DELTA && fabs(rSpeed) < DELTA){
 			///動きを無視する
 			localPos[0] = 0.0;
 			localPos[0] = 0.0;
@@ -99,16 +117,24 @@ inline void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 			}else{
 				y_b = rSpeed;
 			}
-			//右曲りと左曲りで符号が変わるのでsignで対応
-			double sign = (lSpeed - rSpeed) / abs( lSpeed - rSpeed );
+			if( fabs(lSpeed - rSpeed) > DELTA){
+				//右曲りと左曲りで符号が変わるのでsignで対応
+				double sign = (lSpeed - rSpeed) / fabs( lSpeed - rSpeed );
 
-			eta = y_b / wheelDistance;
-			localPos[0] = (1 - cos(eta)) * wheelDistance / 2 * sign;
-			localPos[1] = -sin(eta) * wheelDistance / 2 * sign;
-			localOrient = PI / 2 - eta * sign;
+				eta = y_b / wheelDistance;
+				localPos[0] = (1.0 - cosf(eta)) * wheelDistance / 2.0 * sign;
+				localPos[1] = -sinf(eta) * wheelDistance / 2.0 * sign;
+				localOrient = PI / 2.0 - eta * sign;
+			}else{
+				eta = 0.0;
+				localOrient = 0.0;
+				localPos[0] = 0.0;
+				localPos[1] = (lSpeed + rSpeed) / 2.0;
+			}
 		}
+		mode = 0;
 	}else{
-		if( lSpeed > rSpeed){
+		if( fabs(lSpeed) > fabs(rSpeed)){
 			y_a = rSpeed;
 			y_b = lSpeed;
 		}else{
@@ -116,27 +142,83 @@ inline void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 			y_b = rSpeed;
 		}
 
+		///回転中心が車輪軸の外分点であるとき。
 		if(lSpeed * rSpeed > 0){
 			x_a = y_a * wheelDistance / (y_b - y_a);
 			x_b = x_a * y_b / y_a;
 			eta = y_a / x_a;
-			//右曲りと左曲りで符号が変わるのでsignで対応
-			double sign = (lSpeed - rSpeed) / abs( lSpeed - rSpeed );
-			localPos[0] = (1 - cos(eta)) * (x_a + x_b) / 2 * sign;
-			localPos[1] = -sin(eta) * (x_a + x_b) / 2 * sign;
-			localOrient = PI / 2 - eta * sign;
-		}else{
+			if ( fabs(lSpeed - rSpeed) > DELTA){
+				//右曲りと左曲りで符号が変わるのでsignで対応
+				double sign = (lSpeed - rSpeed) / fabs( lSpeed - rSpeed );
+				localPos[0] = (1.0 - cosf(eta)) * (x_a + x_b) / 2.0 * sign;
+				localPos[1] = -sinf(eta) * (x_a + x_b) / 2.0 * sign;
+				localOrient = PI / 2.0 - eta * sign;
+			}else{
+				eta = 0.0;
+				localOrient = 0.0;
+				localPos[0] = 0.0;
+				localPos[1] = (lSpeed + rSpeed) / 2.0;
+			}
+			mode = 1;
+		}else{	///回転中心が車輪軸の内分点であるとき.
+			//
+			y_a = rSpeed;
+			y_b = lSpeed;
 			x_a = y_a * wheelDistance / (y_a + y_b);
 			x_b = x_a * y_b / y_a;
-			eta = x_b / y_b;
-			//右曲りと左曲りで符号が変わるのでsignで対応
-			double sign = (lSpeed - rSpeed) / abs( lSpeed - rSpeed );
-			///////////////////////ここらへん怪しい．ホント？
-			localPos[0] = (1 - cos(eta)) * (x_b - x_a) / 2 * sign;
-			localPos[1] = -sin(eta) * (x_b - x_a) / 2 * sign;
-			localOrient = PI / 2 - eta * sign;
+			
+			if( fabs( fabs(lSpeed) - fabs(rSpeed)) > DELTA){
+				//右曲りと左曲りで符号が変わるのでsignで対応
+				double sign = (fabs(lSpeed) - fabs(rSpeed)) / fabs( fabs(lSpeed) - fabs(rSpeed) );
+				//左が大きいとき、eta = - y_b / x_bで、右が大きいとき、eta = y_b / x_b
+				eta = - sign * y_b / x_b;
+				///////////////////////ここらへん怪しい．ホント？
+				localPos[0] = (cosf(eta) - 1.0) * (x_b - x_a) / 2.0 * sign;
+				localPos[1] = sinf(eta) * (x_b - x_a) / 2.0 * sign;
+				localOrient = PI / 2.0 + eta;
+				
+			}else{
+				eta = 0.0;
+				localOrient = 0.0;
+				localPos[0] = 0.0;
+				localPos[1] = (lSpeed + rSpeed) / 2.0;
+			}
+			mode = 2;
 		}
 	}
+
+	//テスト用に、local座標系の値をそのままGlobal座標系であるとして代入
+/*	position[0] = localPos[0];
+	position[1] = localPos[1];
+	orientation = localOrient;
+*/
+	//異常値を検出
+/*	if(position[0] > 100.0 || position[1] > 100.0){
+		std::cout << lSpeed << ", " << rSpeed << ", " << position[0] << ", " << position[1] << ", " << orientation << ", " << mode << std::endl;
+	}
+*/
+
+	//ホントはこっち
+	position[0] += localPos[0];
+	position[1] += localPos[1];
+	orientation += localOrient;
+	
 }
 
-#endif //_EnvUpdater_hpp_
+inline float EnvUpdater::getPositionX(){
+	return position[0];
+}
+inline float EnvUpdater::getPositionY(){
+	return position[1];
+}
+inline float EnvUpdater::getOrientation(){
+	return orientation;
+}
+inline float EnvUpdater::getWheelDistance(){
+	return wheelDistance;
+}
+inline int EnvUpdater::getMode(){
+	return mode;
+}
+
+#endif //_EnvUpdater_HPP_
