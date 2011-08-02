@@ -88,6 +88,8 @@
     <ClInclude Include="Return.hpp" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />
+    <ClInclude Include="SenseOrientation.hpp" />
+    <ClInclude Include="SensePosition.hpp" />
     <ClInclude Include="SenseRange.hpp" />
     <ClInclude Include="StochasticSelecter.hpp" />
     <ClInclude Include="Wander.hpp" />

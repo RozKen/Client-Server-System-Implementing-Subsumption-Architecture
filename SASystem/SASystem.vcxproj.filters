@@ -65,5 +65,11 @@
     <ClInclude Include="EnvUpdater.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="SensePosition.hpp">
+      <Filter>ヘッダー ファイル\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="SenseOrientation.hpp">
+      <Filter>ヘッダー ファイル\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

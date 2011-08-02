@@ -1,7 +1,7 @@
 #ifndef _SAServer_H_
 #define _SAServer_H_
 
-#define	NUM_MODULES	8		//Module‚Ì”
+#define	NUM_MODULES	9		//Module‚Ì”
 
 class SAModule;	//header“à‚Å•Ï”‚ğéŒ¾‚·‚é‚½‚ß‚ÉCclass‚ğéŒ¾
 class EnvUpdater;

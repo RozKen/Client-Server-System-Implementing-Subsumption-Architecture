@@ -2,6 +2,7 @@
 #include "Modules.h"
 #include "SAServer.h"
 #include "EnvUpdater.hpp"
+#include "SensePosition.hpp"
 
 SAServer::SAServer(){
 	Initialize();
@@ -25,6 +26,7 @@ void SAServer::Initialize(){
 	modules[5] = new Wander();
 	modules[6] = new Return();
 	modules[7] = new SenseRange();
+	modules[8] = new SensePosition(env);
 
 	///ModuleˆÈŠO‚Ì‚·‚×‚Ä‚Ì’l‚ğ0‚Å‰Šú‰»
 	for(int i = 0; i < NUM_MODULES; i++){
