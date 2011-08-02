@@ -1,7 +1,7 @@
 #include "StochasticSelecter.hpp"
 #include "Modules.h"
 #include "SAServer.h"
-#include "EnvUpdater.hpp"
+#include "EnvUpdater.h"
 #include "SensePosition.hpp"
 #include "SenseOrientation.hpp"
 

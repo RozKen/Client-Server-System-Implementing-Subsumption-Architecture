@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnvUpdater.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SAModule.cpp" />
     <ClCompile Include="SAServer.cpp" />
@@ -81,7 +82,7 @@
   <ItemGroup>
     <ClInclude Include="ActMotor.hpp" />
     <ClInclude Include="Avoid.hpp" />
-    <ClInclude Include="EnvUpdater.hpp" />
+    <ClInclude Include="EnvUpdater.h" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="MotorDriver.hpp" />
     <ClInclude Include="Random.hpp" />
