@@ -24,21 +24,21 @@ void SAServer::Initialize(){
 	logFileName = "log.csv";
 	ofs.open(logFileName);
 	//一行目：タイトルを書き込む
-	ofs << "clock";
+	ofs << "clock,posX,posY,Orient,Range";
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",outbox[" << i << "]";
+		ofs << ",out[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",connector[" << i << "]";
+		ofs << ",cnctr[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",inbox[" << i << "]";
+		ofs << ",in[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",inhibited[" << i << "]";
+		ofs << ",inhbt[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",suppressed[" << i << "]";
+		ofs << ",suprs[" << i << "]";
 	}
 	ofs << std::endl;
 
@@ -148,6 +148,11 @@ void SAServer::Suppress(){
 
 void SAServer::Log(){
 	ofs << clock;
+	ofs << "," << env->getPositionX();
+	ofs << "," << env->getPositionY();
+	ofs << "," << env->getOrientation();
+	ofs << "," << env->getRange();
+
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << "," << outbox[i];
 	}

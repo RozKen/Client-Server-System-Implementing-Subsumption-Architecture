@@ -27,7 +27,7 @@ public:
 	/**
 		@brief 環境変数すべての更新.
 		順次update関数を呼ぶ.
-		<b>現状ではupdatePoseの呼び出しのみ</b>
+		<b>現状ではupdatePose, updateRangeの呼び出しのみ</b>
 		@param lSpeed Left Motorの速度値
 		@param rSpeed Right Motorの速度値
 		@sa updatePose
