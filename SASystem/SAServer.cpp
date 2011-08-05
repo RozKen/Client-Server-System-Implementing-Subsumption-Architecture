@@ -29,10 +29,10 @@ void SAServer::Initialize(){
 		ofs << ",inbox[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",connector[" << i << "]";
+		ofs << ",outbox[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",outbox[" << i << "]";
+		ofs << ",connector[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << ",inhibited[" << i << "]";
@@ -40,6 +40,7 @@ void SAServer::Initialize(){
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << ",suppressed[" << i << "]";
 	}
+	ofs << std::endl;
 
 	///Moduleを登録
 	modules[0] = new ActMotor();
@@ -68,8 +69,6 @@ void SAServer::Initialize(){
 		suppressed[i] = 0;
 	}
 
-	//単純化のため，暫定的にinhibitionとsuppressionを無効にする
-/*
 	///Inhibitionの確率を設定
 	probInhibition[5][4] = 0.8f;	//Wander to Avoid
 	probInhibition[6][5] = 0.4f;	//Return to Wander
@@ -80,7 +79,7 @@ void SAServer::Initialize(){
 	probSuppression[4][2] = 1.0f;		//Avoid to LMD
 	probSuppression[4][3] = 1.0f;		//Avoid to RMD
 	probSuppression[7][4] = 1.0f;		//RangeSensor(RS) to Avoid
-*/
+
 }
 
 void SAServer::Run(){
@@ -130,7 +129,7 @@ void SAServer::Suppress(){
 			///suppressがある場合は，inboxを上書き
 			if(probSuppression[j][i] != 0.0){
 				suppressed[i]--;
-				if(inhibited[i] <= 0){	//前のクロックでsuppressされていなかった場合
+				if(suppressed[i] <= 0){	//前のクロックでsuppressされていなかった場合
 					StochasticSelector ss(probSuppression[j][i]);
 					if(ss()){			//決められた時間suppressする
 						suppressed[i] = timeSuppression[j][i];
@@ -153,10 +152,10 @@ void SAServer::Log(){
 		ofs << "," << inbox[i];
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << "," << connector[i];
+		ofs << "," << outbox[i];
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << "," << outbox[i];
+		ofs << "," << connector[i];
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << "," << inhibited[i];
