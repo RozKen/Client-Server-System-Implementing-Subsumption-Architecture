@@ -19,7 +19,7 @@ public:
 		@return 信号出力
 	*/
 	virtual float Run(float signal) = 0;
-protected:
+
 	/**
 	 * @fn SignalDecoder
 	 * @brief 一つのfloat型の値から二つの信号を抽出する.
@@ -37,6 +37,7 @@ protected:
 	 * @return output 出力値
 	 */
 	float SignalEncoder(float input1, float input2);
+protected:
 };
 
 #endif //_SAModule_H_

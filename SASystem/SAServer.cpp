@@ -26,7 +26,7 @@ void SAServer::Initialize(){
 	modules[4] = new Avoid();
 	modules[5] = new Wander();
 	modules[6] = new Return();
-	modules[7] = new SenseRange();
+	modules[7] = new SenseRange(env);
 	modules[8] = new SensePosition(env);
 	modules[9] = new SenseOrientation(env);
 
@@ -45,6 +45,8 @@ void SAServer::Initialize(){
 		suppressed[i] = 0;
 	}
 
+	//単純化のため，暫定的にinhibitionとsuppressionを無効にする
+/*
 	///Inhibitionの確率を設定
 	probInhibition[5][4] = 0.8f;	//Wander to Avoid
 	probInhibition[6][5] = 0.4f;	//Return to Wander
@@ -55,10 +57,14 @@ void SAServer::Initialize(){
 	probSuppression[4][2] = 1.0f;		//Avoid to LMD
 	probSuppression[4][3] = 1.0f;		//Avoid to RMD
 	probSuppression[7][4] = 1.0f;		//RangeSensor(RS) to Avoid
+*/
 }
 
 void SAServer::Run(){
 	for(int i = 0; i < NUM_MODULES; i++){
+#ifdef _DEBUG
+		std::cout << "inbox[" << i << "] : " << inbox[i] << std::endl;
+#endif //_DEBUG
 		outbox[i] = modules[i]->Run(inbox[i]);
 	}
 	env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
@@ -66,9 +72,10 @@ void SAServer::Run(){
 
 void SAServer::Inhibit(){
 	///Inhibitが正常に行われるよう，上層から処理を行う
-	for(int i = NUM_MODULES; i > 0; i--){
+	for(int i = NUM_MODULES-1; i >= 0; i--){
 		///基本的にはoutboxの中身がそのままconnectorに流れる
 		connector[i] = outbox[i];
+		
 		for(int j = 0; j < NUM_MODULES; j++){
 			///inhibitがある場合は，connectorを上書き
 			if(probInhibition[j][i] != 0.0){
@@ -92,9 +99,10 @@ void SAServer::Inhibit(){
 
 void SAServer::Suppress(){
 	///Suppressが正常に行われるよう，上層から処理を行う
-	for(int i = NUM_MODULES; i > 0; i --){
+	for(int i = NUM_MODULES - 1; i >= 0; i --){
 		///基本的に，connectorの中身がそのままinboxに流れる
 		inbox[i] = connector[i];
+		
 		for(int j = 0; j < NUM_MODULES; j++){
 			///suppressがある場合は，inboxを上書き
 			if(probSuppression[j][i] != 0.0){

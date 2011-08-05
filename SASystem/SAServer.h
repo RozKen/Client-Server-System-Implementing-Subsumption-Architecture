@@ -31,11 +31,12 @@ public:
 		</ol>
 	 */
 	void Process();
-protected:
+
 	/**
 		@brief Initialize States
 	*/
 	void Initialize();
+	protected:
 	/**
 		@brief Serverに登録されているすべてのModuleをRunする
 		その他に，現在は両輪(LM, RM)のspeedを基に，位置と向きを算出し，

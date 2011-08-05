@@ -1,6 +1,6 @@
 #include "EnvUpdater.h"
 
-EnvUpdater::EnvUpdater() : orientation(0.0f), wheelDistance(1.0f), PI(6.0 * asinf(0.5) ), mode(0){
+EnvUpdater::EnvUpdater() : orientation(0.0f), wheelDistance(1.0f), PI(6.0 * asinf(0.5) ), mode(0), range(6.0){
 	position[0] = 0.0f;
 	position[1] = 0.0f;
 }

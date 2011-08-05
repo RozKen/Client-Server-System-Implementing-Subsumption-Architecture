@@ -3,6 +3,7 @@
 
 #include "SAModule.h"
 #include <iostream>
+#include "EnvUpdater.h"
 
 /**
 	@class SenseRange
@@ -15,7 +16,7 @@ public:
 		@fn SenseRange()
 		@brief Constructor.メンバ変数を初期化する
 	*/
-	SenseRange();
+	SenseRange(EnvUpdater* environment);
 	/**
 		@brief 距離を測り，安全範囲を超えると，0.0以外の値を出力する
 		@param signal 入力信号
@@ -31,9 +32,12 @@ protected:
 	double getRange();
 	///現在の距離
 	double range;
+	///環境
+	EnvUpdater* env;
+
 };
 
-inline SenseRange::SenseRange(): range(100.0){
+inline SenseRange::SenseRange(EnvUpdater* environment): range(100.0), env(environment){
 }
 
 inline float SenseRange::Run(float signal = 0.0){
@@ -41,17 +45,17 @@ inline float SenseRange::Run(float signal = 0.0){
 	getRange();
 	//大丈夫であれば，0.0
 	//そうでなければ徐々に値を1.0に近づけていく
-	if(range > 25.0){
+	if(range > 1.0){
 		signal = 0.0;
 	}else{
 		signal = 0.5;
-		//現在は暫定的に0.5で固定
+		//TODO 現在は暫定的に0.5で固定
 	}
 	return signal;
 }
 
 inline double SenseRange::getRange(){
-	//TODO なにかしら近傍の物体との距離を測る手法を実装する必要がある
+	range = env->getRange();
 	return range;
 }
 
