@@ -26,13 +26,13 @@ void SAServer::Initialize(){
 	//一行目：タイトルを書き込む
 	ofs << "clock";
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << ",inbox[" << i << "]";
-	}
-	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << ",outbox[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << ",connector[" << i << "]";
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << ",inbox[" << i << "]";
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << ",inhibited[" << i << "]";
@@ -149,13 +149,13 @@ void SAServer::Suppress(){
 void SAServer::Log(){
 	ofs << clock;
 	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << "," << inbox[i];
-	}
-	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << "," << outbox[i];
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << "," << connector[i];
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << "," << inbox[i];
 	}
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << "," << inhibited[i];

@@ -10,9 +10,9 @@ void main(){
 	std::string tmp;
 	
 	std::cout << "Created Server" << std::endl;
-
+	int count = 0;
 	while(true){
-		std::cin >> tmp;
+		/*std::cin >> tmp;
 		if(tmp.compare("q") == 0){
 			break;
 		}else{
@@ -23,7 +23,12 @@ void main(){
 			}else{
 			}
 		}
+		*/
+		if(count > 200){
+			break;
+		}
 		server.Process();
+		count++;
 	}
 
 	std::cout << "End" <<std::endl;
