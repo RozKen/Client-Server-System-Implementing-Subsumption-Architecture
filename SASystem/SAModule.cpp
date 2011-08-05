@@ -7,10 +7,12 @@ SAModule::SAModule(){
 void SAModule::SignalDecoder(float input, float &output1, float &output2){
 	///ŠeˆÊ‚Ì’l‚ğŠi”[‚·‚é
 	int digits1[4], digits2[4];
+	///‰Šú‰»
 	for(int i = 0; i < 4; i++){
 		digits1[i] = 0;
 		digits2[i] = 0;
 	}
+	///’l‚ÌŠi”[
 	for(int i = 0; i < 4; i++){
 		float power = pow(100.0f, i);
 		digits1[i] = (int)(input * 10.0f * power) % 10;

@@ -1,6 +1,8 @@
 #ifndef _SAServer_H_
 #define _SAServer_H_
 
+#include <fstream>
+
 #define	NUM_MODULES	10		//Moduleの数
 
 class SAModule;	//header内で変数を宣言するために，classを宣言
@@ -16,10 +18,11 @@ class EnvUpdater;
 class SAServer{
 public:
 	/**
-		@brief Construct and Run SAServer
+		@brief Construct SAServer. Initialize <b>clock</b> as 0
 		<ol>
 			<li>Initialize()</li>
 		</ol>
+		@sa clock
 	*/
 	SAServer();
 	/**
@@ -28,7 +31,12 @@ public:
 			<li>Run();</li>
 			<li>Inhibit();</li>
 			<li>Suppress();</li>
+			<li>Log();</li>
 		</ol>
+		@sa Run()
+		@sa Inhibit()
+		@sa Suppress()
+		@sa Log()
 	 */
 	void Process();
 
@@ -36,6 +44,7 @@ public:
 		@brief Initialize States
 	*/
 	void Initialize();
+
 	protected:
 	/**
 		@brief Serverに登録されているすべてのModuleをRunする
@@ -67,6 +76,11 @@ public:
 		@sa probSuppression[][]
 	*/
 	void Suppress();
+
+	/**
+		@brief Log Datas
+	*/
+	void Log();
 
 	/**
 		@brief 次にModuleに送られる信号
@@ -186,6 +200,20 @@ public:
 		@brief 暫定的に利用している環境
 	*/
 	EnvUpdater* env;
+
+	/**
+		@brief Logファイルの名前
+	*/
+	std::string logFileName;
+	/**
+		@brief Logファイル用，書き出しストリーム
+	*/
+	std::ofstream ofs;
+
+	/**
+		@brief 開始してからのclock数
+	*/
+	long int clock;
 };
 
 #endif //_SAServer_H_

@@ -5,19 +5,42 @@
 #include "SensePosition.hpp"
 #include "SenseOrientation.hpp"
 
-SAServer::SAServer(){
+SAServer::SAServer(): clock(0){
 	Initialize();
 }
 void SAServer::Process(){
 	Run();
 	Inhibit();
 	Suppress();
+	Log();
+	clock++;
 }
 void SAServer::Initialize(){
 
 	///環境を構築
 	env = new EnvUpdater();
-	
+
+	///Logを設定
+	logFileName = "log.csv";
+	ofs.open(logFileName);
+	//一行目：タイトルを書き込む
+	ofs << "clock";
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << ",inbox[" << i << "]";
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << ",connector[" << i << "]";
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << ",outbox[" << i << "]";
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << ",inhibited[" << i << "]";
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << ",suppressed[" << i << "]";
+	}
+
 	///Moduleを登録
 	modules[0] = new ActMotor();
 	modules[1] = new ActMotor();
@@ -122,4 +145,24 @@ void SAServer::Suppress(){
 			}
 		}
 	}
+}
+
+void SAServer::Log(){
+	ofs << clock;
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << "," << inbox[i];
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << "," << connector[i];
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << "," << outbox[i];
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << "," << inhibited[i];
+	}
+	for(int i = 0; i < NUM_MODULES; i++){
+		ofs << "," << suppressed[i];
+	}
+	ofs << std::endl;
 }
