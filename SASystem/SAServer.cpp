@@ -1,3 +1,6 @@
+#include <time.h>
+#include <iostream>
+
 #include "StochasticSelecter.hpp"
 #include "Modules.h"
 #include "SAServer.h"
@@ -19,10 +22,20 @@ void SAServer::Initialize(){
 
 	///環境を構築
 	env = new EnvUpdater();
-
+	//現在時刻
+	time_t now;
+	//現在時刻を取得
+	time(&now);
 	///Logを設定
-	logFileName = "log.csv";
-	ofs.open(logFileName);
+	logFileName = "log_";
+	logFileName.append(ctime(&now));
+	logFileName.erase(logFileName.size() - 12, 1);
+	logFileName.erase(logFileName.size() - 9, 1);
+	logFileName.erase(logFileName.size() - 1, 1);
+	//logFileName.append(now);
+	logFileName.append(".csv");
+	std::cout << logFileName.c_str() << std::endl;
+	ofs.open(logFileName.c_str());
 	//一行目：タイトルを書き込む
 	ofs << "clock,posX,posY,Orient,Range";
 	for(int i = 0; i < NUM_MODULES; i++){

@@ -4,8 +4,6 @@
 #include "SAServer.h"
 
 void main(){
-	std::cout << "Begin" << std::endl;
-	std::cout << "twotwo" << std::endl;
 	SAServer server;
 	std::string tmp;
 	
