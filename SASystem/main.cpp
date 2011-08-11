@@ -22,7 +22,7 @@ void main(){
 			}
 		}
 		*/
-		if(count > 200){
+		if(count > 1000){
 			break;
 		}
 		server.Process();

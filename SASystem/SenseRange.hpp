@@ -45,7 +45,7 @@ inline float SenseRange::Run(float signal = 0.0){
 	getRange();
 	//大丈夫であれば，0.0
 	//そうでなければ徐々に値を1.0に近づけていく
-	if(range > 1.0){
+	if(range > 60.0){
 		signal = 0.0;
 	}else{
 		signal = 0.5;

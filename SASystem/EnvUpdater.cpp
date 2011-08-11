@@ -125,7 +125,10 @@ void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 	//ƒzƒ“ƒg‚Í‚±‚Á‚¿
 	position[0] += localPos[0];
 	position[1] += localPos[1];
+	diffPos[0] = localPos[0];
+	diffPos[1] = localPos[1];
 	orientation += localOrient;
+	diffOrient = localOrient;
 	
 }
 
@@ -133,9 +136,9 @@ void EnvUpdater::updateRange(){
 	float tmpRange = MAX_RANGE;
 	float tmp[4];
 	tmp[0] = fabs(MAX_RANGE - position[0]);
-	tmp[1] = fabs(position[0] - MAX_RANGE);
+	tmp[1] = fabs(position[0] + MAX_RANGE);
 	tmp[2] = fabs(MAX_RANGE - position[1]);
-	tmp[3] = fabs(position[1] - MAX_RANGE);
+	tmp[3] = fabs(position[1] + MAX_RANGE);
 	for(int i = 0; i < 4; i++){
 		if( tmp[i] < tmpRange){
 			tmpRange = tmp[i];

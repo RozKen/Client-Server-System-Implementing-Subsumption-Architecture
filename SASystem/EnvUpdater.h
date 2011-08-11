@@ -1,10 +1,8 @@
 #ifndef _EnvUpdater_H_
 #define _EnvUpdater_H_
 
-///ゼロだとみなす最大値
-#define DELTA	0.0001
-///距離検出の最大値；単位なし
-#define MAX_RANGE 6.0
+#define DELTA	0.0001		/**ゼロだとみなす最大値*/
+#define MAX_RANGE 300.0		/**距離検出の最大値；単位なし*/
 #include <math.h>
 
 //for Debug
@@ -36,7 +34,10 @@ public:
 
 	float getPositionX();
 	float getPositionY();
+	float getDiffPosX();
+	float getDiffPosY();
 	float getOrientation();
+	float getDiffOrient();
 	float getRange();
 	float getWheelDistance();
 	int getMode();
@@ -61,11 +62,23 @@ protected:
 		y: 前方が正
 	*/
 	float position[2];
+
+	/**
+		@brief ロボットの直近の位置変化: 2-Dimensional
+		x: 右方向が正
+		y: 前方が正
+	*/
+	float diffPos[2];
 	/**
 		@brief ロボットのLocal座標系がWorld座標系に対して回転している量.
 		theta [radian]
 	*/
 	float orientation;
+
+	/**
+		@brief ロボットの直近の向き変化
+	*/
+	float diffOrient;
 	/**
 		@brief ロボットに最も近い壁の座標．
 		現在壁は6.0四方の正方形
@@ -98,6 +111,15 @@ inline float EnvUpdater::getPositionX(){
 }
 inline float EnvUpdater::getPositionY(){
 	return position[1];
+}
+inline float EnvUpdater::getDiffPosX(){
+	return diffPos[0];
+}
+inline float EnvUpdater::getDiffPosY(){
+	return diffPos[1];
+}
+inline float EnvUpdater::getDiffOrient(){
+	return diffOrient;
 }
 inline float EnvUpdater::getOrientation(){
 	return orientation;
