@@ -27,28 +27,32 @@ void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 	///車体の回転中心における回転角: eta[rad]
 	double eta;
 
-	///どちらかのスピードの絶対値が0に近い時．
+	///どちらかのスピードの絶対値が0に近い時．: =====mode 0=====-
 	if(fabs(lSpeed) < DELTA || fabs(rSpeed) < DELTA){
 		///どちらとも，スピードの絶対値が0に近い時
 		if( fabs(lSpeed) < DELTA && fabs(rSpeed) < DELTA){
-			///動きを無視する
+			///動きをすべて無視する
 			localPos[0] = 0.0;
 			localPos[0] = 0.0;
 			localOrient = 0.0;
-		}else{	///一方のみのスピードの絶対値が0に近い時
-			if(lSpeed > rSpeed){
-				y_b = lSpeed;
-			}else{
-				y_b = rSpeed;
-			}
+		}else{	///一方のスピードのみ絶対値が0に近い時
 			if( fabs(lSpeed - rSpeed) > DELTA){
-				//右曲りと左曲りで符号が変わるのでsignで対応
-				double sign = (lSpeed - rSpeed) / fabs( lSpeed - rSpeed );
+				eta = (lSpeed - rSpeed) / wheelDistance;		//既に符号付
 
-				eta = y_b / wheelDistance;
+				if(eta > PI){
+					eta - PI * 2.0;
+				}else if(eta < PI){
+					eta + PI * 2.0;
+				}
+				//右曲りと左曲りで回転中心の位置がが異なるので、符号で対応
+				double sign = 1;
+				if(fabs(rSpeed) > fabs(lSpeed)){
+					sign = -1;
+				}
+				
 				localPos[0] = (1.0 - cosf(eta)) * wheelDistance / 2.0 * sign;
-				localPos[1] = -sinf(eta) * wheelDistance / 2.0 * sign;
-				localOrient = PI / 2.0 - eta * sign;
+				localPos[1] = sinf(eta) * wheelDistance / 2.0 * sign;
+				localOrient = eta;
 			}else{
 				eta = 0.0;
 				localOrient = 0.0;
@@ -66,17 +70,22 @@ void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 			y_b = rSpeed;
 		}
 
-		///回転中心が車輪軸の外分点であるとき。
+		///回転中心が車輪軸の外分点であるとき。=====Mode 1====
 		if(lSpeed * rSpeed > 0){
-			x_a = y_a * wheelDistance / (y_b - y_a);
-			x_b = x_a * y_b / y_a;
-			eta = y_a / x_a;
 			if ( fabs(lSpeed - rSpeed) > DELTA){
 				//右曲りと左曲りで符号が変わるのでsignで対応
 				double sign = (lSpeed - rSpeed) / fabs( lSpeed - rSpeed );
-				localPos[0] = (1.0 - cosf(eta)) * (x_a + x_b) / 2.0 * sign;
-				localPos[1] = -sinf(eta) * (x_a + x_b) / 2.0 * sign;
-				localOrient = PI / 2.0 - eta * sign;
+				double a = sign * wheelDistance * rSpeed / (lSpeed - rSpeed);
+				double b = a + sign * wheelDistance;
+				eta = lSpeed / fabs(lSpeed) * sign * (fabs(lSpeed) / b + fabs(rSpeed) / a) / 2.0;	//符号がついていなかったので，符号をつける
+				if(eta > PI){
+					eta - PI * 2.0;
+				}else if(eta < PI){
+					eta + PI * 2.0;
+				}
+				localPos[0] = (1.0 - cosf(eta)) * (a + b) / 2.0 * sign;
+				localPos[1] = sinf(eta) * (a + b) / 2.0 * sign;
+				localOrient = eta;
 			}else{
 				eta = 0.0;
 				localOrient = 0.0;
@@ -84,22 +93,24 @@ void EnvUpdater::updatePose(float lSpeed, float rSpeed){
 				localPos[1] = (lSpeed + rSpeed) / 2.0;
 			}
 			mode = 1;
-		}else{	///回転中心が車輪軸の内分点であるとき.
-			//
-			y_a = rSpeed;
-			y_b = lSpeed;
-			x_a = y_a * wheelDistance / (y_a + y_b);
-			x_b = x_a * y_b / y_a;
-			
+		}else{	///回転中心が車輪軸の内分点であるとき.	======Mode 2=====
 			if( fabs( fabs(lSpeed) - fabs(rSpeed)) > DELTA){
-				//右曲りと左曲りで符号が変わるのでsignで対応
-				double sign = (fabs(lSpeed) - fabs(rSpeed)) / fabs( fabs(lSpeed) - fabs(rSpeed) );
-				//左が大きいとき、eta = - y_b / x_bで、右が大きいとき、eta = y_b / x_b
-				eta = - sign * y_b / x_b;
-				///////////////////////ここらへん怪しい．ホント？
-				localPos[0] = (cosf(eta) - 1.0) * (x_b - x_a) / 2.0 * sign;
-				localPos[1] = sinf(eta) * (x_b - x_a) / 2.0 * sign;
-				localOrient = PI / 2.0 + eta;
+				/*
+					lSpeed > 0 => eta > 0
+				*/
+				double a = - wheelDistance * rSpeed / (lSpeed - rSpeed);
+				double b = wheelDistance - a;
+				eta = lSpeed / fabs(lSpeed) * ( fabs(rSpeed) / a + fabs(lSpeed) / b ) / 2.0;
+				if(eta > PI){
+					eta - PI * 2.0;
+				}else if(eta < PI){
+					eta + PI * 2.0;
+				}
+				//右曲りと左曲りで回転中心の位置が異なるが
+				//b - aの符号でカバー可能
+				localPos[0] = (1.0 - cosf(eta)) * (b - a) / 2.0;// * sign;
+				localPos[1] = sinf(eta) * (b - a) / 2.0;// * sign;
+				localOrient = eta;
 				
 			}else{
 				eta = 0.0;

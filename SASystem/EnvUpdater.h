@@ -3,6 +3,7 @@
 
 #define DELTA	0.0001		/**ゼロだとみなす最大値*/
 #define MAX_RANGE 300.0		/**距離検出の最大値；単位なし*/
+#define WHEEL_DISTANCE 1.0f	/**車輪間の距離*/
 #include <math.h>
 
 //for Debug
@@ -70,8 +71,9 @@ protected:
 	*/
 	float diffPos[2];
 	/**
-		@brief ロボットのLocal座標系がWorld座標系に対して回転している量.
-		theta [radian]
+		@brief ロボットの前方が0.0 左方が負，右方が正の値
+		ロボットのLocal座標系がWorld座標系に対して回転している量.
+		theta [radian] from -PI to PI
 	*/
 	float orientation;
 
