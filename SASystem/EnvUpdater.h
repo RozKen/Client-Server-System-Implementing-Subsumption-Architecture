@@ -1,8 +1,8 @@
 #ifndef _EnvUpdater_H_
 #define _EnvUpdater_H_
 
-#define DELTA	0.0001		/**ゼロだとみなす最大値*/
-#define MAX_RANGE 300.0		/**距離検出の最大値；単位なし*/
+#define DELTA	0.01		/**ゼロだとみなす最大値*/
+#define MAX_RANGE 300.0		/**中心から壁までの距離；単位なし*/
 #define WHEEL_DISTANCE 1.0f	/**車輪間の距離*/
 #include <math.h>
 
@@ -58,6 +58,13 @@ protected:
 	void updateRange();
 
 	/**
+		@brief 角度を[-PI, PI]の間に正規化する
+		@param radian 正規化したい角度
+		@return 正規化された角度
+	*/
+	float regurateRadian(float radian);
+
+	/**
 		@brief ロボットの現在位置: 2-Dimensional
 		x: 右方向が正
 		y: 前方が正
@@ -105,7 +112,6 @@ protected:
 	 * 2: 内分点
 	 */
 	int mode;
-	
 };
 
 inline float EnvUpdater::getPositionX(){
@@ -134,6 +140,16 @@ inline float EnvUpdater::getWheelDistance(){
 }
 inline int EnvUpdater::getMode(){
 	return mode;
+}
+
+inline float EnvUpdater::regurateRadian(float radian){
+	while(radian > PI){
+		radian = radian - PI * 2.0;
+	}
+	while(radian < -PI){
+		radian = radian + PI * 2.0;
+	}
+	return radian;
 }
 
 #endif //_EnvUpdater_H_

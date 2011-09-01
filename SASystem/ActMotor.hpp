@@ -43,7 +43,7 @@ protected:
 	int rpm;
 	/**
 		@brief 現在のスピード
-		6.0f * (signal - 0.5f)
+		1.0f * (signal - 0.5f)
 	*/
 	float speed;
 };
@@ -55,7 +55,7 @@ inline float ActMotor::Run(float signal){
 	//rpmを更新
 	this->rpm = (int)((signal - 0.5f) * 2.0 *(float)RPM_MAX);
 	//speedを更新
-	this->speed = 6.0f * (signal - 0.5f);
+	this->speed = 2.0f * (signal - 0.5f);
 	return signal;
 }
 

@@ -48,7 +48,7 @@ inline float SenseRange::Run(float signal = 0.0){
 	if(range > 60.0){
 		signal = 0.0;
 	}else{
-		signal = 0.5;
+		signal = 0.6;
 		//TODO Œ»İ‚Íb’è“I‚É0.5‚ÅŒÅ’è
 	}
 	return signal;

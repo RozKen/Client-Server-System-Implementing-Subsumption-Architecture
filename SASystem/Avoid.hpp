@@ -29,16 +29,16 @@ inline Avoid::Avoid(){
 inline float Avoid::Run(float signal){
 	float output = 0.0f;
 	///基本的に直進する
-	float rightSignal = 1.0f;
-	float leftSignal = 1.0f;
+	float rightSignal = 0.9f;
+	float leftSignal = 0.9f;
 
-	if(signal >= 0.5){	///近づきすぎの時．右に回転する
-		rightSignal = 1.0f;
-		leftSignal = 0.0f;
+	if(signal >= 0.5){	///近づきすぎの時．左に回転する
+		rightSignal = 0.8f;
+		leftSignal = 0.6f;
 	}
 
 	///両モーターの信号を一つにエンコード
-	output = SignalEncoder(rightSignal, leftSignal);
+	output = SignalEncoder(leftSignal, rightSignal);
 	return output;
 }
 

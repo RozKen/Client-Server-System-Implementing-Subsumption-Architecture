@@ -26,8 +26,8 @@ void SAModule::SignalDecoder(float input, float &output1, float &output2){
 		output1 += (float)digits1[0] * power;
 		output2 += (float)digits2[0] * power;
 	}
-	output1 = (float)digits1[0] * 0.1f + (float)digits1[1] * 0.01f + (float)digits1[2] * 0.001f + (float)digits1[3] * 0.0001f;
-	output2 = (float)digits2[0] * 0.1f + (float)digits2[1] * 0.01f + (float)digits2[2] * 0.001f + (float)digits2[3] * 0.0001f;
+	//output1 = (float)digits1[0] * 0.1f + (float)digits1[1] * 0.01f + (float)digits1[2] * 0.001f + (float)digits1[3] * 0.0001f;
+	//output2 = (float)digits2[0] * 0.1f + (float)digits2[1] * 0.01f + (float)digits2[2] * 0.001f + (float)digits2[3] * 0.0001f;
 }
 
 float SAModule::SignalEncoder(float input1, float input2){
@@ -41,6 +41,7 @@ float SAModule::SignalEncoder(float input1, float input2){
 	for(int i = 0; i < 4; i++){
 		float power = pow(0.01f, i);
 		output += ((float)digits1[i] * 0.1f + (float)digits2[i] * 0.01f) * power;
+
 	}
 	return output;
 }

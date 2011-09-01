@@ -56,12 +56,12 @@ inline SenseOrientation::SenseOrientation(EnvUpdater* environment):orientation(0
 
 inline float SenseOrientation::Run(float signal = 0.0){
 	updateOrientation();
-	orientation = PI / 2.0 - orientation;
+	/*orientation = PI / 2.0 - orientation;
 	if(orientation < - PI){
 		orientation += 2.0 * PI;
 	}else if(orientation > PI){
 		orientation -= 2.0 * PI;
-	}
+	}*/
 	return (float)orientation;
 }
 

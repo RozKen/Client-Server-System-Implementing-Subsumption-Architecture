@@ -37,7 +37,7 @@ void SAServer::Initialize(){
 	std::cout << logFileName.c_str() << std::endl;
 	ofs.open(logFileName.c_str());
 	//一行目：タイトルを書き込む
-	ofs << "clock,posX,posY,Orient,Range";
+	ofs << "clock,posX,posY,Orient,Range,DiffX,DiffY,DiffOrient";
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << ",out[" << i << "]";
 	}
@@ -83,8 +83,8 @@ void SAServer::Initialize(){
 	}
 
 	///Inhibitionの確率を設定
-	probInhibition[5][4] = 0.8f;	//Wander to Avoid
-	probInhibition[6][5] = 0.4f;	//Return to Wander
+	//probInhibition[5][4] = 0.8f;	//Wander to Avoid
+	//probInhibition[6][5] = 0.4f;	//Return to Wander
 
 	///Suppressionの確率を設定
 	probSuppression[2][0] = 1.0f;		//LeftMotorDriver(LMD) to LeftMotor(LM)
@@ -98,7 +98,7 @@ void SAServer::Initialize(){
 void SAServer::Run(){
 	for(int i = 0; i < NUM_MODULES; i++){
 #ifdef _DEBUG
-		std::cout << "inbox[" << i << "] : " << inbox[i] << std::endl;
+		//std::cout << "inbox[" << i << "] : " << inbox[i] << std::endl;
 #endif //_DEBUG
 		outbox[i] = modules[i]->Run(inbox[i]);
 	}
@@ -165,6 +165,9 @@ void SAServer::Log(){
 	ofs << "," << env->getPositionY();
 	ofs << "," << env->getOrientation();
 	ofs << "," << env->getRange();
+	ofs << "," << env->getDiffPosX();
+	ofs << "," << env->getDiffPosY();
+	ofs << "," << env->getDiffOrient();
 
 	for(int i = 0; i < NUM_MODULES; i++){
 		ofs << "," << outbox[i];
