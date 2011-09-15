@@ -2,10 +2,12 @@
 #define _SAServer_H_
 
 #include <fstream>
+#include <vector>
 
-#define	NUM_MODULES	10		//Moduleの数
+//#define	NUM_MODULES	10		//Moduleの数
 
 class SAModule;	//header内で変数を宣言するために，classを宣言
+class SAConnector;
 class EnvUpdater;
 /**
 	@class SAServer
@@ -17,6 +19,7 @@ class EnvUpdater;
  */
 class SAServer{
 public:
+
 	/**
 		@brief Construct SAServer. Initialize <b>clock</b> as 0
 		<ol>
@@ -28,174 +31,85 @@ public:
 	/**
 		@brief 一クロック分制御を進める
 		<ol>
-			<li>Run();</li>
-			<li>Inhibit();</li>
-			<li>Suppress();</li>
+			<li>RunModules();</li>
+			<li>ProcessConnections();</li>
 			<li>Log();</li>
+			<li>clock++</li>
 		</ol>
-		@sa Run()
-		@sa Inhibit()
-		@sa Suppress()
+		@sa RunModules()
+		@sa ProcessConnections()
 		@sa Log()
 	 */
 	void Process();
 
 	/**
 		@brief Initialize States
+		環境の構築,ログの初期化
+		@sa EnvUpdater
+		@sa Log();
 	*/
 	void Initialize();
+
+	/**
+		@brief モジュールを登録する
+		@sa SAModule
+	 */
+	void addModule(SAModule *module);
+	/**
+		@brief コネクターを登録する
+		@sa SAConnector
+	 */
+	void addConnector(SAConnector *connector);
 
 	protected:
 	/**
 		@brief Serverに登録されているすべてのModuleをRunする
 		その他に，現在は両輪(LM, RM)のspeedを基に，位置と向きを算出し，
 		それらをセンサーに送る．
+		@sa SAModules
 	*/
-	void Run();
-	/**
-		@brief 下層のModuleからの出力を抑制する.
-		<ol>
-			<li>inhibited[]の各要素から1を引く</li>
-			<li>inhibited[]の値が-1であるものは，0に直し，</li>
-			<li>probInhibition[][]に基づいてinhibited[]を更新する</li>
-			<li>inhibited[]の値が正である要素をinhibitする</li>
-		</ol>
-		@sa inhibited[]
-		@sa probInhibition[][]
-	*/
-	void Inhibit();
-	/**
-		@brief 下層のModuleへの入力を抑圧する.
-		<ol>
-			<li>suppressed[]の各要素から1を引く</li>
-			<li>suppressed[]の値が-1であるものは，0に直し，</li>
-			<li>probSuppression[][]に基づいてsuppressed[]を更新する</li>
-			<li>suppressed[]の値が正である要素をsuppressする</li>
-		</ol>
-		@sa suppressed[]
-		@sa probSuppression[][]
-	*/
-	void Suppress();
+	void RunModules();
 
+	/**
+		@brief Serverに設定されている全てのWire, Inhibitor, Suppressorを処理する
+		@sa SAConnector
+	 */
+	void ProcessConnectors();
+
+	
 	/**
 		@brief Log Datas
 	*/
 	void Log();
 
 	/**
-		@brief 次にModuleに送られる信号
-		outbox ---[inhibit]-->connector---[suppress]--><b>inbox</b>-->Modules
-		@sa outbox
-		@sa connector
-	*/
-	float inbox[NUM_MODULES];
-	/**
-		@brief Moduleから送られてきた信号
-		<b>outbox</b> ---[inhibit]-->connector---[suppress]-->inbox-->Modules
-		@sa inbox
-		@sa connector
-	*/
-	float outbox[NUM_MODULES];
-	/**
-		@brief Connectorを流れる信号.
-		outbox ---[inhibit]--><b>connector</b>---[suppress]-->inbox-->Modules
-		@sa outbox
-		@sa inbox
-	*/
-	float connector[NUM_MODULES];
-
-	/**
-		@brief Inhibitionの確率行列
-		<table width="200" border="1">
-		  <tr>
-			<td>&nbsp;</td>
-			<td colspan="6">Inferior Layer</td>
-		  </tr>
-		  <tr>
-			<td rowspan="6">Superior Layer</td>
-		<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.2</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.3</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.0</td><td>0.5</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.7</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.2</td><td>0.0</td>
-		  </tr>
-		</table>
-		probInhibition[A][B] -> A inhibits B
-
-		普通のSubsumption Architectureなら，行列である必要はない．
-		一つ下の階層をInhibitする確率を知ればよいから，配列で良いはず
-		けれど，同じ階層のものを作ったりするときに，行列が必要
-	*/
-	float probInhibition[NUM_MODULES][NUM_MODULES];
-	/**
-		@brief Suppressionの確率行列
-		<table width="200" border="1">
-		  <tr>
-			<td>&nbsp;</td>
-			<td colspan="6">Inferior Layer</td>
-		  </tr>
-		  <tr>
-			<td rowspan="6">Superior Layer</td>
-		<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.2</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.3</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.0</td><td>0.5</td><td>0.0</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.7</td><td>0.0</td><td>0.0</td>
-		  </tr>
-		  <tr>
-			<td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.2</td><td>0.0</td>
-		  </tr>
-		</table>
-		probSuppression[A][B] -> A suppresses B
-
-		普通のSubsumption Architectureなら，行列である必要はない．
-		一つ下の階層をSuppressionする確率を知ればよいから，配列で良いはず
-		けれど，同じ階層のものを作ったりするときに，行列が必要
-	*/
-	float probSuppression[NUM_MODULES][NUM_MODULES];
-
-	/**
-		@brief Inhibitする時間を指定する行列．単位はクロック
-	*/
-	int	timeInhibition[NUM_MODULES][NUM_MODULES];
-	/**
-		@brief Suppressする時間を指定する行列．単位はクロック
-	*/
-	int timeSuppression[NUM_MODULES][NUM_MODULES];
-
-	/**
-		@brief Inhibitされたままでいる残時間
-	*/
-	int inhibited[NUM_MODULES];
-	/**
-		@brief Suppressされたままでいる残時間
-	*/
-	int suppressed[NUM_MODULES];
-
-	/**
 		@brief 管理されているModule
+		Moduleの登録された順に格納されている.
 	*/
-	SAModule* modules[NUM_MODULES];
+	std::vector<SAModule*> modules;
 
+	/**
+		@brief 登録されているModifiers
+		Modifierの登録された順に格納されている.
+	 */
+	std::vector<SAConnector*> connectors;
+
+	/**
+		@brief Moduleが出力した信号＝Inhibit前の出力信号
+	 */
+	std::vector<float> outputs;
+	/**
+		@brief Inhibit後の出力信号
+	 */
+	std::vector<float> inhibited;
+	/**
+		@brief Suppress前の入力信号
+	 */
+	std::vector<float> preSuppress;
+	/**
+		@brief Moduleに入力される信号＝Suppress後の入力信号
+	 */
+	std::vector<float> inputs;
 	/**
 		@brief 暫定的に利用している環境
 	*/
