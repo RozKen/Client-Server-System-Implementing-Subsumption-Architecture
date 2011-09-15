@@ -1,5 +1,8 @@
 #ifndef SAConnector_H_
 #define SAConnector_H_
+
+///無信号状態
+#define NO_SIGNAL	-12345.67f
 /**
 	@brief 
  */
@@ -43,21 +46,20 @@ protected:
 	int timeToModify;
 	///Modifyするかしないかを決めたりする確率．nullの場合もある
 	float probModify;
+	///残りModify時間.
+	int timeLeftModified;
 };
 
 inline SAConnector::SAConnector(float* source, float* destination, int type)
-	:source(source), destination(destination), type(type) {
+	:source(source), destination(destination), type(type), timeToModify(0), timeLeftModified(0) {
 }
 
 inline SAConnector::SAConnector(float* source, float* destination, int type, int timeToModify)
-	:source(source), destination(destination), type(type), timeToModify(timeToModify) {
+	:source(source), destination(destination), type(type), timeToModify(timeToModify), timeLeftModified(0) {
 }
 
 inline SAConnector::SAConnector(float* source, float* destination, int type, int timeToModify, float probModify)
-	:source(source), destination(destination), type(type), timeToModify(timeToModify), probModify(probModify) {
+	:source(source), destination(destination), type(type), timeToModify(timeToModify), probModify(probModify), timeLeftModified(0) {
 }
 
-inline SAConnector::Process(){
-	*destination = *source;
-}
 #endif //SAConnector_H_
