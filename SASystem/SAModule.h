@@ -75,19 +75,33 @@ public:
 		@return outputs
 	 */
 	float getOutput(int index);
-
+	/**
+		@brief 入力信号ポート数を返す
+		@return 入力信号ポート数
+	 */
+	int getNumOfInputPorts();
+	/**
+		@brief 出力信号ポート数を返す
+		@return 出力信号ポート数
+	 */
+	int getNumOfOutputPorts();
 	
 protected:
 	///入力信号Buffer
 	float* inputs;
 	///出力信号Nuffer
 	float* outputs;
+	///入力信号ポート数
+	int numOfInputPorts;
+	///出力信号ポート数
+	int numOfOutputPorts;
 };
 
-inline SAModule::SAModule(){
+inline SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 }
 
-inline SAModule::SAModule(int numberOfInputPorts, int numberOfOutputPorts){
+inline SAModule::SAModule(int numberOfInputPorts, int numberOfOutputPorts)
+	:numOfInputPorts(numberOfInputPorts), numOfOutputPorts(numberOfOutputPorts){
 	//信号Bufferを初期化
 	inputs = new float[numberOfInputPorts];
 	outputs = new float[numberOfOutputPorts];
@@ -96,11 +110,13 @@ inline SAModule::SAModule(int numberOfInputPorts, int numberOfOutputPorts){
 inline void SAModule::createInputPort(int numberOfPorts){
 	//入力信号Bufferを初期化
 	inputs = new float[numberOfPorts];
+	numOfInputPorts = numberOfPorts;
 }
 
 inline void SAModule::createOutputPort(int numberOfPorts){
 	//入力信号Bufferを初期化
 	outputs = new float[numberOfPorts];
+	numOfOutputPorts = numberOfPorts;
 }
 
 inline float* SAModule::getInputsPtr(){
@@ -125,5 +141,13 @@ inline void SAModule::setOutput(float outputSignal, int index){
 
 inline float SAModule::getOutput(int index){
 	return outputs[index];
+}
+
+inline int SAModule::getNumOfInputPorts(){
+	return numOfInputPorts;
+}
+
+inline int SAModule::getNumOfOutputPorts(){
+	return numOfOutputPorts;
 }
 #endif //_SAModule_H_
