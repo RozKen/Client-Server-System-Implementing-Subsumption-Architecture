@@ -27,6 +27,11 @@ public:
 		@brief Transfer/Modify Signal
 	 */
 	void Process();
+
+	/**
+		@brief getter of type
+	 */
+	int getType() const;
 protected:
 	///接続元の要素へのポインタ
 	float* source;
@@ -60,6 +65,10 @@ inline SAConnector::SAConnector(float* source, float* destination, int type, int
 
 inline SAConnector::SAConnector(float* source, float* destination, int type, int timeToModify, float probModify)
 	:source(source), destination(destination), type(type), timeToModify(timeToModify), probModify(probModify), timeLeftModified(0) {
+}
+
+inline int SAConnector::getType() const{
+	return type;
 }
 
 #endif //SAConnector_H_
