@@ -1,5 +1,11 @@
 #ifndef _SAModule_H_
 #define _SAModule_H_
+
+///無信号状態
+#ifndef NO_SIGNAL	//先にSAConnector.hで定義されているかも知れない
+#define NO_SIGNAL	-12345.67f
+#endif //NO_SIGNAL
+
 /**
 	@class SAModule
 	@brief ModuleのInterfaceクラス
@@ -103,20 +109,38 @@ inline SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 inline SAModule::SAModule(int numberOfInputPorts, int numberOfOutputPorts)
 	:numOfInputPorts(numberOfInputPorts), numOfOutputPorts(numberOfOutputPorts){
 	//信号Bufferを初期化
+	//メモリの初期化
 	inputs = new float[numberOfInputPorts];
 	outputs = new float[numberOfOutputPorts];
+	//値の初期化
+	for(int i = 0; i < numberOfInputPorts; i++){
+		inputs[i] = NO_SIGNAL;
+	}
+	for(int i = 0; i < numberOfOutputPorts; i++){
+		outputs[i] = NO_SIGNAL;
+	}
 }
 
 inline void SAModule::createInputPort(int numberOfPorts){
 	//入力信号Bufferを初期化
+	//メモリの初期化
 	inputs = new float[numberOfPorts];
 	numOfInputPorts = numberOfPorts;
+	//値の初期化
+	for(int i = 0; i < numOfInputPorts; i++){
+		inputs[i] = NO_SIGNAL;
+	}
 }
 
 inline void SAModule::createOutputPort(int numberOfPorts){
 	//入力信号Bufferを初期化
+	//メモリの初期化
 	outputs = new float[numberOfPorts];
 	numOfOutputPorts = numberOfPorts;
+	//値の初期化
+	for(int i = 0; i < numOfOutputPorts; i++){
+		outputs[i] = NO_SIGNAL;
+	}
 }
 
 inline float* SAModule::getInputsPtr(){

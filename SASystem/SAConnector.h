@@ -2,7 +2,9 @@
 #define SAConnector_H_
 
 ///–³M†ó‘Ô
+#ifndef NO_SIGNAL	//æ‚ÉSAModule.h‚Å’è‹`‚³‚ê‚Ä‚¢‚é‚©‚à’m‚ê‚È‚¢
 #define NO_SIGNAL	-12345.67f
+#endif //NO_SIGNAL
 /**
 	@brief 
  */
