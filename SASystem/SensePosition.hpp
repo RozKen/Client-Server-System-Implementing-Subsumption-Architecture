@@ -16,14 +16,14 @@ public:
 		@fn SensePosition()
 		@param environment: 環境を更新する主体，これから，位置情報を取得する
 		@brief Constructor.メンバ変数を初期化する
+		outputs[0] : position[0] : x-pos
+		outputs[1] : position[1] : y-pos
 	*/
 	SensePosition(EnvUpdater* environment);
 	/**
 		@brief 位置を検出し，2次元座標をEncodeして出力する
-		@param signal 入力信号：Senserには無いはず．
-		@return 信号出力：2次元座標をエンコードしたもの
 	 */
-	float Run(float signal);
+	void Run();
 	/*
 		@brief X座標を返す
 		@return 現在のX座標
@@ -47,15 +47,16 @@ protected:
 	EnvUpdater* env;
 };
 
-inline SensePosition::SensePosition(EnvUpdater* environment): env(environment){
+inline SensePosition::SensePosition(EnvUpdater* environment): SAModule(0, 2), env(environment){
 	position[0] = 0.0;
 	position[1] = 0.0;
 }
 
-inline float SensePosition::Run(float signal = 0.0){
+inline void SensePosition::Run(){
 	updatePosition();
-	SignalEncoder(position[0], position[1]);
-	return signal;
+	outputs[0] = position[0];
+	outputs[1] = position[1];
+	return;
 }
 
 inline void SensePosition::updatePosition(){
