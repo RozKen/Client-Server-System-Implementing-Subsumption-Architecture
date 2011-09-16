@@ -61,6 +61,11 @@ public:
 	 */
 	void addConnector(SAConnector *connector);
 
+	/**
+		@brief EnvUpdater‚ÌGetter
+	 */
+	EnvUpdater* getEnv();
+
 	protected:
 	/**
 		@brief Server‚É“o˜^‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌModule‚ðRun‚·‚é
