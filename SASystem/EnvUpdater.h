@@ -144,10 +144,10 @@ inline int EnvUpdater::getMode(){
 
 inline float EnvUpdater::regurateRadian(float radian){
 	while(radian > PI){
-		radian = radian - PI * 2.0;
+		radian = radian - PI * 2.0f;
 	}
 	while(radian < -PI){
-		radian = radian + PI * 2.0;
+		radian = radian + PI * 2.0f;
 	}
 	return radian;
 }

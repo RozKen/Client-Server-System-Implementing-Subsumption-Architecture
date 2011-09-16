@@ -135,4 +135,8 @@ public:
 	long int clock;
 };
 
+inline EnvUpdater* SAServer::getEnv(){
+	return env;
+}
+
 #endif //_SAServer_H_

@@ -26,7 +26,7 @@ public:
 inline Return::Return(): SAModule(0, 2){
 }
 
-inline float Return::Run(float signal){
+inline void Return::Run(){
 	///時計回りに回転する
 	float leftSignal = 1.0f;
 	float rightSignal = 0.0f;
@@ -34,7 +34,7 @@ inline float Return::Run(float signal){
 	///両モーターの信号を一つにエンコード
 	outputs[0] = leftSignal;
 	outputs[1] = rightSignal;
-	return output;
+	return;
 }
 
 #endif //_Return_HPP_
