@@ -15,15 +15,9 @@ public:
 	/**
 		@fn ActMotor();
 		@brief Constructor.パラメータを初期化する．
+		input[0] : MotorDriver
 	*/
 	ActMotor();
-	/**
-		@fn Run(float signal)
-		@brief PWM信号をうけて，位置を更新する
-		@param signal PWM信号
-		@return PWM信号をそのまま出力
-	*/
-	//float Run(float signal);
 
 	/**
 		@brief PWM信号に応じて，速度を変化させる
@@ -60,7 +54,7 @@ inline ActMotor::ActMotor(): SAModule(1, 0), rpm(0), speed(0.0){
 
 inline void ActMotor::Run(){
 	//rpmを更新
-	this->rpm = (int)((inputs[0] - 0.5f) * 2.0 *(float)RPM_MAX);
+	this->rpm = (int)((inputs[0]) *(float)RPM_MAX);
 	
 	//speedを更新
 	this->speed = (float)this->rpm / (float)RPM_MAX * SPEED_MAX;

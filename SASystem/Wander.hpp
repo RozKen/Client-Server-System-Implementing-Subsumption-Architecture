@@ -12,15 +12,15 @@ class Wander : public SAModule{
 public:
 	/**
 		@brief Constructor
+		outputs[0] : 左のモータードライバー
+		outputs[1] : 右のモータードライバー
 	*/
 	Wander();
 
 	/**
-		@brief うろつく信号を出す
-		@param signal 現状では入力信号を考えていない
-		@return output モーターへの信号
+		@brief うろ　つく信号を出す.
 	*/
-	float Run(float signal);
+	void Run();
 	/**
 		@brief 直進するか，ランダムに動くかを，一定の確率で選択する
 		@sa StochasitcSelector
@@ -33,24 +33,24 @@ public:
 	Random<boost::uniform_real<> >* random;
 };
 
-inline Wander::Wander(){
+inline Wander::Wander(): SAModule(0,2) {
 	ss = new StochasticSelector(0.1);
 	random = new Random<boost::uniform_real<> >(0, 1);
 }
 
-inline float Wander::Run(float signal){
-	float output = 0.0f;
+inline void Wander::Run(){
 	///9割の確率で直進する
-	float rightSignal = 1.0f;
 	float leftSignal = 1.0f;
+	float rightSignal = 1.0f;
 	if( ss->get() ){	///残りの1割の確率で，ランダムに動く
-		rightSignal = random->operator()();
 		leftSignal = random->operator()();
+		rightSignal = random->operator()();
 	}
 
 	///両モーターの信号を一つにエンコード
-	output = SignalEncoder(rightSignal, leftSignal);
-	return output;
+	outputs[0] = leftSignal;
+	outputs[1] = rightSignal;
+	return;
 }
 
 #endif //_Wander_HPP_

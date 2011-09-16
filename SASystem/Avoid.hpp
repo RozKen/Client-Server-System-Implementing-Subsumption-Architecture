@@ -11,6 +11,9 @@ class Avoid : public SAModule{
 public:
 	/**
 		@brief Constructor
+		inputs[0] : RangeSensorからの入力
+		outputs[0] : 左のモータードライバー
+		outputs[1] : 右のモータードライバー
 	*/
 	Avoid();
 
@@ -39,23 +42,23 @@ inline void Avoid::Run(){
 		switch(phase){
 		case 0:
 		case 1:
-			rightSignal = 0.9f;
-			leftSignal = 0.5f;
+			leftSignal = 0.0f;
+			rightSignal = 0.8f;
 			phase++;
 			break;
 		case 2:
-			rightSignal = 0.9f;
-			leftSignal = 0.5f;
+			leftSignal = 0.0f;
+			rightSignal = 0.8f;
 			phase++;
 			break;
 		case 15:
-			rightSignal = 0.9f;
-			leftSignal = 0.9f;
+			leftSignal = 1.0f;
+			rightSignal = 1.0f;
 			phase = 0;
 			break;
 		default:
-			rightSignal = 0.9f;
-			leftSignal = 0.9f;
+			leftSignal = 1.0f;
+			rightSignal = 1.0f;
 			phase++;
 		}
 	}

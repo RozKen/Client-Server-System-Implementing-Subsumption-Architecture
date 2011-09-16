@@ -15,9 +15,10 @@ class MotorDriver : public SAModule{
 public:
 	/**
 		@brief Constructor.
-		@param left trueなら左用．falseなら右用
+		inputs[0] : 入力信号
+		output[0] : モーターへ送るPWM信号
 	 */
-	MotorDriver(bool left);
+	MotorDriver();
 	/**
 		@brief 入力信号をエンコードして，対応するPWMを出力する．
 		<ol>
@@ -29,43 +30,30 @@ public:
 		@sa SignalDecoder
 		@sa GeneratePWM
 	 */
-	float Run(float signal);
+	void Run();
 protected:
 	/**
-		@brief 入力信号の値0.0 - 1.0を有効なPWM信号帯へMappingする
+		@brief 入力信号の値を有効なPWM信号帯へMappingする
 		@param signal 入力信号
-		@return PWM信号：現状ではPWMではなくて，0.0 - 1.0で，ただのSA回路内信号と同じ
+		@return PWM信号：現状ではPWMではなくて，入力信号そのままで，ただのSA回路内信号と同じ
 	 */
 	float GeneratePWM(float signal);
-	/**@brief 左用のMotor Driverであるなら，true/右用ならfalse.その他は想定外*/
-	bool left;
 };
 
-inline MotorDriver::MotorDriver(bool left): left(left){
+inline MotorDriver::MotorDriver(): SAModule(1, 1){
 }
 
-inline float MotorDriver::Run(float signal){
-	//左用信号
-	float leftSignal;
-	//右用信号
-	float rightSignal;
-	//信号の解読
-	SignalDecoder(signal, leftSignal, rightSignal);
-	//出力信号
-	float output;
-
-	if(left == true){
-		output = leftSignal;
-	}else{
-		output = rightSignal;
-	}
+inline void MotorDriver::Run(){
 	//PWM信号の取得
-	output = GeneratePWM(output);
-	return output;
+	outputs[0] = GeneratePWM(inputs[0]);
+	return;
 }
 
 inline float MotorDriver::GeneratePWM(float signal){
 	//TODO PWMへのMappingを行うが，現在は0.0 - 1.0のまま
+	if(signal == NO_SIGNAL){
+		signal == NO_SIGNAL;
+	}
 	return signal;
 }
 #endif //_MotorDriver_HPP_

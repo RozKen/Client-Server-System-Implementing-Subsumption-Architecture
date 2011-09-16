@@ -12,29 +12,28 @@ class Return : public SAModule{
 public:
 	/**
 		@brief Constructor
+		outputs[0] : 左のモータードライバー
+		outputs[1] : 右のモータードライバー
 	*/
 	Return();
 
 	/**
 		@brief 向きを変える信号を出す．
-		@param signal 現状では入力信号を考えていない．本当は地球磁気センサー的なのが欲しい
-		@return output モーターへの信号
 	*/
-	float Run(float signal);
+	void Run();
 };
 
-inline Return::Return(){
+inline Return::Return(): SAModule(0, 2){
 }
 
 inline float Return::Run(float signal){
-	float output = 0.0f;
 	///時計回りに回転する
-	float rightSignal = 1.0f;
-	float leftSignal = 0.0f;
-	
+	float leftSignal = 1.0f;
+	float rightSignal = 0.0f;
 
 	///両モーターの信号を一つにエンコード
-	output = SignalEncoder(rightSignal, leftSignal);
+	outputs[0] = leftSignal;
+	outputs[1] = rightSignal;
 	return output;
 }
 
