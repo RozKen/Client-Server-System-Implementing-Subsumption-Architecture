@@ -15,14 +15,13 @@ public:
 	/**
 		@fn SenseRange()
 		@brief Constructor.メンバ変数を初期化する
+		outputs[0] : 最も近い物体との距離
 	*/
 	SenseRange(EnvUpdater* environment);
 	/**
 		@brief 距離を測り，安全範囲を超えると，0.0以外の値を出力する
-		@param signal 入力信号
-		@return 信号出力
 	 */
-	float Run(float signal);
+	void Run();
 protected:
 	/**
 		@brief 実際に距離を測っているモジュール．
@@ -37,10 +36,11 @@ protected:
 
 };
 
-inline SenseRange::SenseRange(EnvUpdater* environment): range(100.0), env(environment){
+inline SenseRange::SenseRange(EnvUpdater* environment): SAModule(0, 1), range(100.0), env(environment){
 }
 
-inline float SenseRange::Run(float signal = 0.0){
+inline void SenseRange::Run(){
+	float signal;
 	//センサーで距離を感知
 	getRange();
 	//大丈夫であれば，0.0
@@ -51,7 +51,9 @@ inline float SenseRange::Run(float signal = 0.0){
 		signal = 0.6;
 		//TODO 現在は暫定的に0.5で固定
 	}
-	return signal;
+
+	outputs[0] = signal;
+	return;
 }
 
 inline double SenseRange::getRange(){
