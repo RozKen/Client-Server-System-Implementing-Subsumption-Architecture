@@ -4,6 +4,7 @@
 #include "SAModule.h"
 #include <iostream>
 #define RPM_MAX	10000
+#define SPEED_MAX 3.0f
 /**
 	@class ActMotor
 	@brief ActMotorDriverからのPWMを受けて，実際に移動速度を更新するモジュール
@@ -22,7 +23,13 @@ public:
 		@param signal PWM信号
 		@return PWM信号をそのまま出力
 	*/
-	float Run(float signal);
+	//float Run(float signal);
+
+	/**
+		@brief PWM信号に応じて，速度を変化させる
+	 */
+	void Run();
+
 	/**
 		@fn getRPM()
 		@brief 現在の回転数(Rotation per Minute)を取得
@@ -48,15 +55,17 @@ protected:
 	float speed;
 };
 
-inline ActMotor::ActMotor(): rpm(0), speed(0.0){
+inline ActMotor::ActMotor(): SAModule(1, 0), rpm(0), speed(0.0){
 }
 
-inline float ActMotor::Run(float signal){
+inline void ActMotor::Run(){
 	//rpmを更新
-	this->rpm = (int)((signal - 0.5f) * 2.0 *(float)RPM_MAX);
+	this->rpm = (int)((inputs[0] - 0.5f) * 2.0 *(float)RPM_MAX);
+	
 	//speedを更新
-	this->speed = 2.0f * (signal - 0.5f);
-	return signal;
+	this->speed = (float)this->rpm / (float)RPM_MAX * SPEED_MAX;
+	
+	return;
 }
 
 inline int ActMotor::getRPM(){
