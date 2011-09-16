@@ -16,30 +16,54 @@ public:
 
 	/**
 		@brief RangeSensorから受け取った信号を基に，モーターへの回避命令を出す．
-		デフォルトでは，直進する
-		@param signal RangeSensorからの信号
-		@return output モーターへの信号
+		デフォルトでは，信号を出さない( NO_SIGNAL ).
+		回避は，phaseに応じて，異なる信号を出すことによって，ロボットの向きを
+		変えることで実施される
 	*/
-	float Run(float signal);
+	void Run();
+protected:
+	///衝突回避におけるフェーズ
+	int phase;
 };
 
-inline Avoid::Avoid(){
+inline Avoid::Avoid() : SAModule(1, 2), phase(0){
 }
 
-inline float Avoid::Run(float signal){
+inline void Avoid::Run(){
 	float output = 0.0f;
-	///基本的に直進する
-	float rightSignal = 0.9f;
-	float leftSignal = 0.9f;
-
-	if(signal >= 0.5){	///近づきすぎの時．左に回転する
-		rightSignal = 0.8f;
-		leftSignal = 0.6f;
+	///基本的に信号を出さない
+	float rightSignal = NO_SIGNAL;
+	float leftSignal = NO_SIGNAL;
+	phase = 0;
+	if(inputs[0] >= 0.5){	///近づきすぎの時．左に回転する
+		switch(phase){
+		case 0:
+		case 1:
+			rightSignal = 0.9f;
+			leftSignal = 0.5f;
+			phase++;
+			break;
+		case 2:
+			rightSignal = 0.9f;
+			leftSignal = 0.5f;
+			phase++;
+			break;
+		case 15:
+			rightSignal = 0.9f;
+			leftSignal = 0.9f;
+			phase = 0;
+			break;
+		default:
+			rightSignal = 0.9f;
+			leftSignal = 0.9f;
+			phase++;
+		}
 	}
 
-	///両モーターの信号を一つにエンコード
-	output = SignalEncoder(leftSignal, rightSignal);
-	return output;
+	///両モーターの信号をアウトプットへ出力
+	outputs[0] = leftSignal;
+	outputs[1] = rightSignal;
+	return;
 }
 
 #endif //_Avoid_HPP_

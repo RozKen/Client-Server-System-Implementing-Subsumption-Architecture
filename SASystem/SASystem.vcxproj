@@ -76,7 +76,7 @@
   <ItemGroup>
     <ClCompile Include="EnvUpdater.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SAModule.cpp" />
+    <ClCompile Include="SAConnector.cpp" />
     <ClCompile Include="SAServer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +87,7 @@
     <ClInclude Include="MotorDriver.hpp" />
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="Return.hpp" />
+    <ClInclude Include="SAConnector.h" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />
     <ClInclude Include="SenseOrientation.hpp" />

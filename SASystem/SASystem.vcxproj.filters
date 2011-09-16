@@ -24,10 +24,10 @@
     <ClCompile Include="SAServer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SAModule.cpp">
+    <ClCompile Include="EnvUpdater.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="EnvUpdater.cpp">
+    <ClCompile Include="SAConnector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,6 +72,9 @@
       <Filter>ヘッダー ファイル\Modules</Filter>
     </ClInclude>
     <ClInclude Include="EnvUpdater.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SAConnector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,7 +25,7 @@ public:
 		@param	signal 入力信号
 		@return 信号出力
 	*/
-	virtual float Run(float signal) = 0;
+	//virtual float Run(float signal) = 0;
 	//現在の所，一応残しておく
 
 	/**
