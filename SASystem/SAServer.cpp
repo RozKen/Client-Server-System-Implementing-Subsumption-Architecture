@@ -93,9 +93,7 @@ void SAServer::RunModules(){
 	for(int i = 0; i < modules.size(); i++){
 		modules[i]->Run();
 	}
-	/*
-	env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
-	*/
+	//env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
 }
 
 void SAServer::ProcessConnectors(){
@@ -124,7 +122,7 @@ void SAServer::ProcessConnectors(){
 		}
 	}
 	//Wireを実行
-	for(int i = 0; i < modules.size(); i++){
+	for(int i = 0; i < connectors.size(); i++){
 		//type == WireのときProcessを実行
 		if(connectors[i]->getType() == 0){
 			connectors[i]->Process();
@@ -139,8 +137,8 @@ void SAServer::ProcessConnectors(){
 			preSuppress.push_back(modules[i]->getInput(j));
 		}
 	}
-	//Wireを実行
-	for(int i = 0; i < modules.size(); i++){
+	//Suppressを実行
+	for(int i = 0; i < connectors.size(); i++){
 		//type == SuppressのときProcessを実行
 		if(connectors[i]->getType() == 2){
 			connectors[i]->Process();

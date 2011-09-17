@@ -72,6 +72,7 @@ void main(){
 	}
 
 	std::cout << "End" <<std::endl;
+	std::cout << "Enter any character and Enter Key" << std::endl;
 	
 	std::cin >> tmp;
 	return;
