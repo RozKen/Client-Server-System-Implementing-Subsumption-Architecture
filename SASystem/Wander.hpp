@@ -47,7 +47,7 @@ inline void Wander::Run(){
 		rightSignal = random->operator()();
 	}
 
-	///両モーターの信号を一つにエンコード
+	///信号を出力
 	outputs[0] = leftSignal;
 	outputs[1] = rightSignal;
 	return;
