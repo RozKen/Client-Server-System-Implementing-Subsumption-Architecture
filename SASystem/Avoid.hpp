@@ -36,7 +36,6 @@ inline void Avoid::Run(){
 	///基本的に信号を出さない
 	float leftSignal = NO_SIGNAL;
 	float rightSignal = NO_SIGNAL;
-	phase = 0;
 	if(inputs[0] >= 0.5){	///近づきすぎの時．左に回転する
 		switch(phase){
 		case 0:
@@ -53,6 +52,7 @@ inline void Avoid::Run(){
 		case 15:
 			leftSignal = 1.0f;
 			rightSignal = 1.0f;
+			//phaseを初期化
 			phase = 0;
 			break;
 		default:
