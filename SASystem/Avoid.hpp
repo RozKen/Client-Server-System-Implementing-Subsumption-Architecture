@@ -33,10 +33,9 @@ inline Avoid::Avoid() : SAModule(1, 2), phase(0){
 }
 
 inline void Avoid::Run(){
-	float output = 0.0f;
 	///基本的に信号を出さない
-	float rightSignal = NO_SIGNAL;
 	float leftSignal = NO_SIGNAL;
+	float rightSignal = NO_SIGNAL;
 	phase = 0;
 	if(inputs[0] >= 0.5){	///近づきすぎの時．左に回転する
 		switch(phase){

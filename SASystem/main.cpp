@@ -38,7 +38,7 @@ void main(){
 	connectors.push_back( new SAConnector(&(rightMD->getOutputsPtr()[0]), &(rightMotor->getInputsPtr()[0]), 0) );
 	connectors.push_back( new SAConnector(&(senseRange->getOutputsPtr()[0]), &(avoid->getInputsPtr()[0]), 0) );
 	connectors.push_back( new SAConnector(&(avoid->getOutputsPtr()[0]), &(leftMD->getInputsPtr()[0]), 0) );
-	connectors.push_back( new SAConnector(&(avoid->getInputsPtr()[1]), &(rightMD->getInputsPtr()[0]), 0) );
+	connectors.push_back( new SAConnector(&(avoid->getOutputsPtr()[1]), &(rightMD->getInputsPtr()[0]), 0) );
 	//Inhibitor‚Ì’è‹`
 
 	//Suppressor‚Ì’è‹`
