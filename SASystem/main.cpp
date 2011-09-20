@@ -64,7 +64,7 @@ void main(){
 			}
 		}
 		*/
-		if(count > 1000){
+		if(count > 10000){
 			break;
 		}
 		server.Process();

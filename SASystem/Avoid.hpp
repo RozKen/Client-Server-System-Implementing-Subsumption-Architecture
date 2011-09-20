@@ -39,16 +39,19 @@ inline void Avoid::Run(){
 	if(inputs[0] >= 0.5){	///ãﬂÇ√Ç´Ç∑Ç¨ÇÃéûÅDç∂Ç…âÒì]Ç∑ÇÈ
 		switch(phase){
 		case 0:
+			leftSignal = 0.5f;
+			rightSignal = 0.9f;
+			phase++;
+			break;
 		case 1:
-			leftSignal = 0.0f;
-			rightSignal = 0.8f;
+			leftSignal = 0.5f;
+			rightSignal = 0.9f;
 			phase++;
 			break;
-		case 2:
-			leftSignal = 0.0f;
-			rightSignal = 0.8f;
-			phase++;
-			break;
+		//case 2:
+			
+		//case 3:
+			
 		case 15:
 			leftSignal = 1.0f;
 			rightSignal = 1.0f;

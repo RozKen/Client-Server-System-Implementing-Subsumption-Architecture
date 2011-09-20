@@ -79,7 +79,7 @@ protected:
 	float diffPos[2];
 	/**
 		@brief ロボットの前方が0.0 左方が負，右方が正の値
-		ロボットのLocal座標系がWorld座標系に対して回転している量.
+		ロボットのLocal座標系がWorld座標系(y向きが0.0)に対して回転している量.
 		theta [radian] from -PI to PI
 	*/
 	float orientation;
