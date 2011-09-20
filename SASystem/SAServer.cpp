@@ -5,6 +5,7 @@
 //#include "Modules.h"
 #include "SAServer.h"
 #include "EnvUpdater.h"
+#include "ActMotor.hpp"	//EnvUpdater‚Ö’l‚ğ“n‚·Û‚É•K—v
 #include "SensePosition.hpp"
 #include "SenseOrientation.hpp"
 #include "SAConnector.h"
@@ -93,7 +94,7 @@ void SAServer::RunModules(){
 	for(int i = 0; i < modules.size(); i++){
 		modules[i]->Run();
 	}
-	//env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
+	env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
 }
 
 void SAServer::ProcessConnectors(){

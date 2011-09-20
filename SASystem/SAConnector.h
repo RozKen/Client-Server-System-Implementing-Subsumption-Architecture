@@ -6,7 +6,7 @@
 #define NO_SIGNAL	-12345.67f
 #endif //NO_SIGNAL
 /**
-	@brief 
+	@brief Wire, Inhibitor, Suppressor‚È‚Ç‚Ì”züD
  */
 class SAConnector
 {
