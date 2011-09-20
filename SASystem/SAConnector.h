@@ -3,7 +3,7 @@
 
 ///無信号状態
 #ifndef NO_SIGNAL	//先にSAModule.hで定義されているかも知れない
-#define NO_SIGNAL	-12345.67f
+#define NO_SIGNAL	0.0f
 #endif //NO_SIGNAL
 /**
 	@brief Wire, Inhibitor, Suppressorなどの配線．
