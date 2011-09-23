@@ -13,9 +13,13 @@ void SAConnector::Process(){
 		}
 		break;
 	case 2:		//type = Suppressor
-		if(*destination == NO_SIGNAL){
+		if(*source != NO_SIGNAL){
 			*destination = *source;
 		}
+		/*	//Suppression‚ðŠÔˆá‚¦‚Ä”FŽ¯‚µ‚Ä‚¢‚½
+		if(*destination == NO_SIGNAL){
+			*destination = *source;
+		}*/
 		timeLeftModified--;
 		if(timeLeftModified < 0){
 			timeLeftModified = 0;
