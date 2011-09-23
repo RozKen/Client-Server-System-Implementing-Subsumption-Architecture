@@ -24,6 +24,7 @@ public:
 	void update(int progress);
 
 	int getPosition();
+	int getBattery();
 	int* getField();
 
 protected:
@@ -33,19 +34,32 @@ protected:
 		@sa PositionUpdater
 	*/
 	void updatePosition(int progress);
+	/**
+		@brief バッテリーの状態の更新
+		@param progress どのくらい進んだか(戻ったか)．PositionUpdaterの出力を入れる．
+		@param onCharger 現在Battery Chargerのマスにいるか．
+		@sa PositionUpdater
+	*/
+	void updateBatteryStatus(int progress, bool onCharger);
 
-	///現在位置
-	int position;
 	///Field配列
 	int* field;
+	///現在位置
+	int position;
+	///現在バッテリー状態.単位は[%]
+	int battery;
 };
+
+inline int* EnvUpdater::getField(){
+	return field;
+}
 
 inline int EnvUpdater::getPosition(){
 	return position;
 }
 
-inline int* EnvUpdater::getField(){
-	return field;
+inline int EnvUpdater::getBattery(){
+	return battery;
 }
 
 #endif //_EnvUpdater_H_
