@@ -21,17 +21,30 @@ public:
 		@brief バッテリー状態を取得して出力する
 	 */
 	void Run();
-
+	/**
+		@brief getter of status
+		@sa status
+		@return status
+	 */
+	int getStatus();
 protected:
+	///環境へのポインタ
 	EnvUpdater* env;
+	///Battery Status (残量 [%])
+	int status;
 };
 
 inline BatteryStatus::BatteryStatus(EnvUpdater* environment)
-	: SAModule(0, 1), env(environment){
+	: SAModule(0, 1), env(environment), status(100){
 }
 
 inline void BatteryStatus::Run(){
-	outputs[0] = env->getBattery();
+	status = env->getBattery();
+	outputs[0] = status;
 	return;
+}
+
+inline int BatteryStatus::getStatus(){
+	return status;
 }
 #endif //BatteryStatus_HPP_

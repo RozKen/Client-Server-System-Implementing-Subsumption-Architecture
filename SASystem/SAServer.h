@@ -73,6 +73,11 @@ public:
 	 */
 	EnvUpdater* getEnv();
 
+	/**
+		@brief getter of logFileName
+	 */
+	std::string getLogFileName();
+
 	protected:
 	/**
 		@brief Server‚É“o˜^‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌModule‚ðRun‚·‚é
@@ -150,6 +155,10 @@ public:
 
 inline EnvUpdater* SAServer::getEnv(){
 	return env;
+}
+
+inline std::string SAServer::getLogFileName(){
+	return logFileName;
 }
 
 #endif //_SAServer_H_

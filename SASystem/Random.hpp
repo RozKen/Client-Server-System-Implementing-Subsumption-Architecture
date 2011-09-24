@@ -2,7 +2,7 @@
 #define _Random_HPP_
 
 #include <boost/random.hpp>
-
+#include <ctime>
 /**
 	@class Random
 	@brief Random¶¬ƒNƒ‰ƒX.
