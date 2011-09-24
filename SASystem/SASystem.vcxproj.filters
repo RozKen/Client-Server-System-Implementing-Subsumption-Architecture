@@ -16,6 +16,15 @@
     <Filter Include="ヘッダー ファイル\Modules">
       <UniqueIdentifier>{17969f72-d7e8-42df-862f-434d83d145f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Modules\Sensors">
+      <UniqueIdentifier>{8e526179-c8ca-4947-a357-8868c1f3fb14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Modules\Controllers">
+      <UniqueIdentifier>{27fbe0bb-5581-416f-b050-c8f66af1e8c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Modules\Actuators">
+      <UniqueIdentifier>{19799d22-c656-4d6b-8db7-55adede57d5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,6 +84,30 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SAConnector.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Alive.hpp">
+      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
+    </ClInclude>
+    <ClInclude Include="BatteryStatus.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressCounter.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="StepCounter.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionScope.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="Progress.hpp">
+      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionUpdater.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

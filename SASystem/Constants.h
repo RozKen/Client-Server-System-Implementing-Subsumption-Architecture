@@ -9,4 +9,6 @@
 #define ONGOAL			2
 #define ONCHARGER		3
 
+#define RANGEVISION		11
+
 #endif //Constants_H_
