@@ -87,12 +87,15 @@ void main(){
 		if(count > 100){
 			break;
 		}
+		if(server.getEnv()->getBattery() == 0){
+			break;
+		}
 		server.Process();
 		count++;
 	}
 
 	std::cout << "End" <<std::endl;
-	std::cout << "Enter any character and Enter Key" << std::endl;
+	std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
 	
 	std::cin >> tmp;
 	return;

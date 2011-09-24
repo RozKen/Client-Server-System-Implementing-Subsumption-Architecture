@@ -53,10 +53,12 @@ protected:
 	int vision[RANGEVISION];
 	///進みたがる性質の強さ[0.0 - 1.0]
 	float threshold;
+	///発火制御Counter
+	int count;
 };
 
 inline Progress::Progress() 
-	: SAModule(RANGEVISION + 2, 1), stepCount(0), progressCount(0), threshold(0.3){
+	: SAModule(RANGEVISION + 2, 1), stepCount(0), progressCount(0), threshold(0.3), count(0){
 	for(int i = 0; i < RANGEVISION; i++){
 		vision[i] = 0;
 		inputs[i] = 0;
@@ -66,23 +68,28 @@ inline Progress::Progress()
 }
 
 inline void Progress::Run(){
-	//Update Local Variables
-	for(int i = 0; i < RANGEVISION; i++){
-		vision[i] = inputs[i];
-	}
-	stepCount = inputs[RANGEVISION];
-	progressCount = inputs[RANGEVISION + 1];
+	if(count % 3 == 0){
+		//Update Local Variables
+		for(int i = 0; i < RANGEVISION; i++){
+			vision[i] = inputs[i];
+		}
+		stepCount = inputs[RANGEVISION];
+		progressCount = inputs[RANGEVISION + 1];
 
-	if(isSeeGoal()){
-		outputs[0] = stepToGoal();
-	}else if(stepCount < 3){
-		outputs[0] = 0;
-	}else if(progressCount / stepCount < threshold){
-		//TODO 本当は[1-10]のランダムにする予定
-		outputs[0] = 5;
+		if(isSeeGoal()){
+			outputs[0] = stepToGoal();
+		}else if(stepCount < 3){
+			outputs[0] = 0;
+		}else if(progressCount / stepCount < threshold){
+			//TODO 本当は[1-10]のランダムにする予定
+			outputs[0] = 5;
+		}else{
+			outputs[0] = 0;
+		}
 	}else{
 		outputs[0] = 0;
 	}
+	count++;
 }
 
 inline bool Progress::isSeeGoal(){
