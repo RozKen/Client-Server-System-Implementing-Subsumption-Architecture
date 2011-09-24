@@ -4,6 +4,14 @@
 #include "SAModule.h"
 #include "Constants.h"
 
+/**
+	@brief Mission: バッテリーをゼロにしない
+	<ol>
+		<li>現在バッテリー上で，Battery Status < 100%のとき，出力=0</li>
+		<li>視界内にBattery Chargerがあるとき，そこまで進むよう出力</li>
+		<li>その他の時，出力=0</li>
+	</ol>
+ */
 class Alive : public SAModule {
 public:
 	/**
@@ -46,11 +54,14 @@ protected:
 };
 
 inline Alive::Alive()
-	: SAModule(RANGEVISION + 1, 1), battery(0), CURRENT((RANGEVISION - 1) / 2{
+	: SAModule(RANGEVISION + 1, 1), battery(0), CURRENT((RANGEVISION - 1) / 2){
 	for(int i = 0; i < RANGEVISION; i++){
 		vision[i] = 0;
+		inputs[i] = 0;
 	}
 	vision[CURRENT] = ONSTART;
+	inputs[CURRENT] = ONSTART;
+	inputs[RANGEVISION] = 100;
 }
 inline void Alive::Run(){
 	//Inputeからの情報で内部変数を更新
@@ -59,7 +70,7 @@ inline void Alive::Run(){
 	}
 	battery = inputs[RANGEVISION];
 
-	if(vision[CURRENT] == ONCHARGER&& battery < 100){
+	if(vision[CURRENT] == ONCHARGER && battery < 100){
 		outputs[0] = 0;
 	}else if(isChargerExist()){
 		outputs[0] = findNearestCharger();

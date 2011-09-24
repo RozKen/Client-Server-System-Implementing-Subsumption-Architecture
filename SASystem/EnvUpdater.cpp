@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-EnvUpdater::EnvUpdater(int* field) : field(field), position(0), battery(100){
+EnvUpdater::EnvUpdater(int* field) : field(field), position(0), battery(100), progress(0){
 }
 
 void EnvUpdater::update(int progress){
@@ -17,6 +17,7 @@ void EnvUpdater::update(int progress){
 }
 
 void EnvUpdater::updatePosition(int progress){
+	this->progress = progress;
 	position += progress;
 }
 

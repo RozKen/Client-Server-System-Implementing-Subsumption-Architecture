@@ -26,6 +26,7 @@ public:
 	int getPosition();
 	int getBattery();
 	int* getField();
+	int getProgress();
 
 protected:
 	/**
@@ -48,6 +49,8 @@ protected:
 	int position;
 	///現在バッテリー状態.単位は[%]
 	int battery;
+	///進んだ量
+	int progress;
 };
 
 inline int* EnvUpdater::getField(){
@@ -60,6 +63,9 @@ inline int EnvUpdater::getPosition(){
 
 inline int EnvUpdater::getBattery(){
 	return battery;
+}
+inline int EnvUpdater::getProgress(){
+	return progress;
 }
 
 #endif //_EnvUpdater_H_

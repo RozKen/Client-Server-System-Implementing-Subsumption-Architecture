@@ -11,6 +11,7 @@
 	@class PositionUpdater
 	@brief Controllerの信号をもとに現在位置を算出するモジュール
 	inputs[0] : progress
+	inputs[1] : battery
  */
 class PositionUpdater : public SAModule{
 public:
@@ -54,7 +55,9 @@ protected:
 	int progress;
 };
 
-inline PositionUpdater::PositionUpdater() : SAModule(1, 0), position(0){
+inline PositionUpdater::PositionUpdater() : SAModule(2, 0), position(0), battery(100), progress(0){
+	inputs[0] = 0;
+	inputs[1] = 100;
 }
 
 inline void PositionUpdater::Run(){
@@ -64,7 +67,9 @@ inline void PositionUpdater::Run(){
 	if(battery >= abs(inputs[0]) * 10){	//Battery残量が十分の場合
 		progress = inputs[0];
 	}else{								//Battery残量が少ない場合
-		progress = inputs[0] / abs(inputs[0]) * (battery / 10);
+		//この場合のinputs[0]は0でないことが保証されている
+		int sign = inputs[0] / abs(inputs[0]);
+		progress = sign * (battery / 10);
 	}
 	//positionを更新
 	position += progress;

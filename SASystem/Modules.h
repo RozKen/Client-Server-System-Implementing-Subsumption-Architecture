@@ -3,13 +3,14 @@
 
 //#include "SAModule.h"
 
+//Actuators
 #include "PositionUpdater.hpp"
-
+//Sensors
 #include "BatteryStatus.hpp"
 #include "VisionScope.hpp"
 #include "ProgressCounter.hpp"
 #include "StepCounter.hpp"
-
+//Controllers
 #include "Alive.hpp"
 #include "Progress.hpp"
 

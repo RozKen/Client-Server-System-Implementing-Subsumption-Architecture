@@ -1,9 +1,16 @@
-#ifndef Progress_HPP_
-#define Progress_HPP_
+#ifndef ProgressController_HPP_
+#define ProgressController_HPP_
 
 #include "SAModule.h"
 #include "Constants.h"
-
+/**
+	@brief Mission : ゴールの方向へ進む
+	<ol>
+		<li>視界内にゴールがある時，そこへ移動</li>
+		<li>position / step < thresholdの時，5マス進む</li>
+		<li>その他の時，出力0</li>
+	</ol>
+	*/
 class Progress : public SAModule {
 public:
 	/**
@@ -52,7 +59,10 @@ inline Progress::Progress()
 	: SAModule(RANGEVISION + 2, 1), stepCount(0), progressCount(0), threshold(0.3){
 	for(int i = 0; i < RANGEVISION; i++){
 		vision[i] = 0;
+		inputs[i] = 0;
 	}
+	inputs[RANGEVISION] = 0;
+	inputs[RANGEVISION + 1] = 0;
 }
 
 inline void Progress::Run(){
@@ -65,6 +75,8 @@ inline void Progress::Run(){
 
 	if(isSeeGoal()){
 		outputs[0] = stepToGoal();
+	}else if(stepCount < 3){
+		outputs[0] = 0;
 	}else if(progressCount / stepCount < threshold){
 		//TODO 本当は[1-10]のランダムにする予定
 		outputs[0] = 5;

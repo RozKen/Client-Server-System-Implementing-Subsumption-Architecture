@@ -80,29 +80,21 @@
     <ClCompile Include="SAServer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActMotor.hpp" />
     <ClInclude Include="Alive.hpp" />
-    <ClInclude Include="Avoid.hpp" />
     <ClInclude Include="BatteryStatus.hpp" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="EnvUpdater.h" />
     <ClInclude Include="Modules.h" />
-    <ClInclude Include="MotorDriver.hpp" />
     <ClInclude Include="PositionUpdater.hpp" />
     <ClInclude Include="Progress.hpp" />
     <ClInclude Include="ProgressCounter.hpp" />
     <ClInclude Include="Random.hpp" />
-    <ClInclude Include="Return.hpp" />
     <ClInclude Include="SAConnector.h" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />
-    <ClInclude Include="SenseOrientation.hpp" />
-    <ClInclude Include="SensePosition.hpp" />
-    <ClInclude Include="SenseRange.hpp" />
     <ClInclude Include="StepCounter.hpp" />
     <ClInclude Include="StochasticSelecter.hpp" />
     <ClInclude Include="VisionScope.hpp" />
-    <ClInclude Include="Wander.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

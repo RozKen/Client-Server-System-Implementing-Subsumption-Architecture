@@ -53,31 +53,7 @@
     <ClInclude Include="Random.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MotorDriver.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="SenseRange.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ActMotor.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Modules.h">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Avoid.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Wander.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Return.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="SensePosition.hpp">
-      <Filter>ヘッダー ファイル\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="SenseOrientation.hpp">
       <Filter>ヘッダー ファイル\Modules</Filter>
     </ClInclude>
     <ClInclude Include="EnvUpdater.h">
@@ -85,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="SAConnector.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Alive.hpp">
-      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
     </ClInclude>
     <ClInclude Include="BatteryStatus.hpp">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
@@ -101,14 +74,17 @@
     <ClInclude Include="VisionScope.hpp">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
     </ClInclude>
-    <ClInclude Include="Progress.hpp">
-      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionUpdater.hpp">
-      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionUpdater.hpp">
+      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
+    </ClInclude>
+    <ClInclude Include="Alive.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Progress.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

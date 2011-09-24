@@ -6,9 +6,15 @@
 
 //#define	NUM_MODULES	10		//Module‚Ì”
 
+#ifndef _SAModule_H_
 class SAModule;	//header“à‚Å•Ï”‚ğéŒ¾‚·‚é‚½‚ß‚ÉCclass‚ğéŒ¾
+#endif
+#ifndef SAConnector_H_
 class SAConnector;
+#endif
+#ifndef _EnvUpdater_H_
 class EnvUpdater;
+#endif
 /**
 	@class SAServer
 	@brief ‚·‚×‚Ä‚ÌModule‚ÌÚ‘±ŠÖŒWCInhibition, SuppressionŠÖŒW‚ğ•Û‚µC

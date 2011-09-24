@@ -3,7 +3,7 @@
 
 ///–³M†ó‘Ô
 #ifndef NO_SIGNAL	//æ‚ÉSAConnector.h‚Å’è‹`‚³‚ê‚Ä‚¢‚é‚©‚à’m‚ê‚È‚¢
-#define NO_SIGNAL	0.0f
+#define NO_SIGNAL	0
 #endif //NO_SIGNAL
 
 /**

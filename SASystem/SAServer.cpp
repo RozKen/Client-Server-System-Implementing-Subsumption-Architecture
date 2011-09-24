@@ -36,47 +36,6 @@ void SAServer::Initialize(){
 	logFileName.append(".csv");
 	std::cout << logFileName.c_str() << std::endl;
 	ofs.open(logFileName.c_str());
-
-	///Moduleを登録
-	/*modules[0] = new ActMotor();
-	modules[1] = new ActMotor();
-	modules[2] = new MotorDriver(true);
-	modules[3] = new MotorDriver(false);
-	modules[4] = new Avoid();
-	modules[5] = new Wander();
-	modules[6] = new Return();
-	modules[7] = new SenseRange(env);
-	modules[8] = new SensePosition(env);
-	modules[9] = new SenseOrientation(env);
-	*/
-
-	///Module以外のすべての値を0で初期化
-	/*for(int i = 0; i < NUM_MODULES; i++){
-		inbox[i] = 0.0;
-		outbox[i] = 0.0;
-		for(int j = 0; j < NUM_MODULES; j++){
-			probInhibition[i][j] = 0.0f;
-			probSuppression[i][j] = 0.0f;
-
-			timeInhibition[i][j] = 100;
-			timeSuppression[i][j] = 100;
-		}
-		inhibited[i] = 0;
-		suppressed[i] = 0;
-	}
-	*/
-	///Inhibitionの確率を設定
-	//probInhibition[5][4] = 0.8f;	//Wander to Avoid
-	//probInhibition[6][5] = 0.4f;	//Return to Wander
-
-	///Suppressionの確率を設定
-	/*
-	probSuppression[2][0] = 1.0f;		//LeftMotorDriver(LMD) to LeftMotor(LM)
-	probSuppression[3][1] = 1.0f;		//RightMotorDriver)RMD) to RightMotor(RM)
-	probSuppression[4][2] = 1.0f;		//Avoid to LMD
-	probSuppression[4][3] = 1.0f;		//Avoid to RMD
-	probSuppression[7][4] = 1.0f;		//RangeSensor(RS) to Avoid
-	*/
 }
 
 void SAServer::addModule(SAModule *module){
@@ -91,7 +50,7 @@ void SAServer::RunModules(){
 	for(int i = 0; i < modules.size(); i++){
 		modules[i]->Run();
 	}
-	env->update((PositionUpdater*)modules[0]->getProgress());
+	env->update(((PositionUpdater*)modules[0])->getProgress());
 }
 
 void SAServer::ProcessConnectors(){
@@ -156,7 +115,7 @@ void SAServer::ProcessConnectors(){
 void SAServer::Log(){
 	if(clock == 0){
 		//一行目：タイトルを書き込む
-		ofs << "clock,posX,posY,Orient,Range,DiffX,DiffY,DiffOrient";
+		ofs << "clock,pos,battery,progress";
 		
 		for(int i = 0; i < outputs.size(); i++){
 			ofs << ",out[" << i << "]";
@@ -181,13 +140,9 @@ void SAServer::Log(){
 	}
 
 	ofs << clock;
-	ofs << "," << env->getPositionX();
-	ofs << "," << env->getPositionY();
-	ofs << "," << env->getOrientation();
-	ofs << "," << env->getRange();
-	ofs << "," << env->getDiffPosX();
-	ofs << "," << env->getDiffPosY();
-	ofs << "," << env->getDiffOrient();
+	ofs << "," << env->getPosition();
+	ofs << "," << env->getBattery();
+	ofs << "," << env->getProgress();
 
 	for(int i = 0; i < outputs.size(); i++){
 		ofs << "," << outputs[i];
