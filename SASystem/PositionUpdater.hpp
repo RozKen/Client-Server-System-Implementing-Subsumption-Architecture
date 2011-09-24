@@ -34,6 +34,11 @@ public:
 		@sa battery
 	 */
 	int getBattery();
+	/**
+		@brief getter of progress
+		@sa progress
+	 */
+	int getProgress();
 protected:
 	/**
 		@brief 現在位置
@@ -43,18 +48,26 @@ protected:
 		@brief 現在のバッテリー残量 [%]
 	 */
 	int battery;
+	/**
+		@brief 現在の進んだ距離
+	 */
+	int progress;
 };
 
 inline PositionUpdater::PositionUpdater() : SAModule(1, 0), position(0){
 }
 
 inline void PositionUpdater::Run(){
+	//batteryを更新
 	battery = inputs[1];
+	//progressを更新
 	if(battery >= abs(inputs[0]) * 10){	//Battery残量が十分の場合
-		position += inputs[0];
+		progress = inputs[0];
 	}else{								//Battery残量が少ない場合
-		position += inputs[0] / abs(inputs[0]) * (battery / 10);
+		progress = inputs[0] / abs(inputs[0]) * (battery / 10);
 	}
+	//positionを更新
+	position += progress;
 }
 
 inline int PositionUpdater::getPosition(){
@@ -65,4 +78,7 @@ inline int PositionUpdater::getBattery(){
 	return battery;
 }
 
+inline int PositionUpdater::getProgress(){
+	return progress;
+}
 #endif //PositionUpdater_HPP_

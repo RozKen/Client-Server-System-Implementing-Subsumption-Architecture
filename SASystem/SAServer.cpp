@@ -2,15 +2,12 @@
 #include <iostream>
 
 //#include "StochasticSelecter.hpp"
-//#include "Modules.h"
+#include "Modules.h"
 #include "SAServer.h"
 #include "EnvUpdater.h"
-#include "ActMotor.hpp"	//EnvUpdaterへ値を渡す際に必要
-#include "SensePosition.hpp"
-#include "SenseOrientation.hpp"
 #include "SAConnector.h"
 
-SAServer::SAServer(): clock(0){
+SAServer::SAServer(int* field): clock(0), field(field){
 	Initialize();
 }
 void SAServer::Process(){
@@ -23,7 +20,7 @@ void SAServer::Process(){
 void SAServer::Initialize(){
 
 	///環境を構築
-	env = new EnvUpdater();
+	env = new EnvUpdater(field);
 
 	//現在時刻
 	time_t now;
@@ -94,7 +91,7 @@ void SAServer::RunModules(){
 	for(int i = 0; i < modules.size(); i++){
 		modules[i]->Run();
 	}
-	env->update(((ActMotor*)modules[0])->getSpeed(), ((ActMotor*)modules[1])->getSpeed());
+	env->update((PositionUpdater*)modules[0]->getProgress());
 }
 
 void SAServer::ProcessConnectors(){

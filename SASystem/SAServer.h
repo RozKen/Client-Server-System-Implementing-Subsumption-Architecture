@@ -25,9 +25,10 @@ public:
 		<ol>
 			<li>Initialize()</li>
 		</ol>
+		@param field タスクフィールド
 		@sa clock
 	*/
-	SAServer();
+	SAServer(int* field);
 	/**
 		@brief 一クロック分制御を進める
 		<ol>
@@ -119,6 +120,12 @@ public:
 		@brief 暫定的に利用している環境
 	*/
 	EnvUpdater* env;
+
+	/**
+		@brief タスクフィールド
+		0-99までの長さの配列へのポインタのはず
+	 */
+	int* field;
 
 	/**
 		@brief Logファイルの名前
