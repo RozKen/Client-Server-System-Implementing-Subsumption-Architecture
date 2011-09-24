@@ -71,8 +71,17 @@ inline void PositionUpdater::Run(){
 		int sign = inputs[0] / abs(inputs[0]);
 		progress = sign * (battery / 10);
 	}
+	//
+	int tmp = position;
 	//positionÇçXêV
 	position += progress;
+	if(position < 0){
+		position = 0;
+		progress = position - tmp;
+	}else if(position >= LENGTH){
+		position = LENGTH - 1;
+		progress = position - tmp;
+	}
 }
 
 inline int PositionUpdater::getPosition(){

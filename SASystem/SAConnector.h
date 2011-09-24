@@ -1,10 +1,16 @@
 #ifndef SAConnector_H_
 #define SAConnector_H_
 
+#include "Random.hpp"
+
 ///無信号状態
 #ifndef NO_SIGNAL	//先にSAModule.hで定義されているかも知れない
 #define NO_SIGNAL	0.0f
 #endif //NO_SIGNAL
+
+#ifndef _StochasticSelector_HPP_
+	class StochasticSelector;
+#endif
 /**
 	@brief Wire, Inhibitor, Suppressorなどの配線．
  */
@@ -24,6 +30,10 @@ public:
 		@brief Constructor for Original Modifiers
 	 */
 	SAConnector(float* source, float* destination, int type, int timeToModify, float probModify);
+	/**
+		@brief Constructor for Original Modifiers 2
+	 */
+	SAConnector(float* source, float* destination, int type, float probModify);
 
 	/**
 		@brief Transfer/Modify Signal
@@ -55,19 +65,11 @@ protected:
 	float probModify;
 	///残りModify時間.
 	int timeLeftModified;
+	///
+	StochasticSelector* ss;
+	///
+	Random<boost::uniform_real<> > _rand;
 };
-
-inline SAConnector::SAConnector(float* source, float* destination, int type)
-	:source(source), destination(destination), type(type), timeToModify(0), timeLeftModified(0) {
-}
-
-inline SAConnector::SAConnector(float* source, float* destination, int type, int timeToModify)
-	:source(source), destination(destination), type(type), timeToModify(timeToModify), timeLeftModified(0) {
-}
-
-inline SAConnector::SAConnector(float* source, float* destination, int type, int timeToModify, float probModify)
-	:source(source), destination(destination), type(type), timeToModify(timeToModify), probModify(probModify), timeLeftModified(0) {
-}
 
 inline int SAConnector::getType() const{
 	return type;

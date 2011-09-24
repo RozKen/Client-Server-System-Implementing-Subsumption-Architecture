@@ -64,7 +64,7 @@ void main(){
 	std::cout << testLogFileName.c_str() << std::endl;
 	ofs.open(testLogFileName.c_str());
 
-	ofs << "battery,progress,step,logFileName";
+	ofs << "battery,progress,step,logFileName,numOfBat";
 	for(int i = 0; i < LENGTH; i++){
 		ofs << ",field[" << i << "]";
 	}
@@ -111,7 +111,12 @@ void main(){
 		///Inhibitor‚Ì’è‹`
 
 		///Suppressor‚Ì’è‹`
-		connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 2) );
+		//Suppressor
+		//connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 2) );
+		//Probability-based Selector
+		//connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 3, 1.0f) );
+		//Probability-based Superposer
+		connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4) );
 
 		///Server‚Ö“o˜^
 		for(int i = 0; i < connectors.size(); i++){
@@ -120,20 +125,6 @@ void main(){
 
 		int count = 0;
 		while(true){
-			/*
-			std::string tmp;
-			std::cin >> tmp;
-			if(tmp.compare("q") == 0){
-				break;
-			}else{
-				if(tmp.compare("4") == 0){
-				}else if(tmp.compare("8") == 0){
-				}else if(tmp.compare("6") == 0){
-				}else if(tmp.compare("2") == 0){
-				}else{
-				}
-			}
-			*/
 			if(count > 1000){
 				break;
 			}
@@ -152,9 +143,10 @@ void main(){
 		std::cout << "Battery: " << battery << std::endl;
 		std::cout << "Progress: " << progress << std::endl;
 		std::cout << "Step: " << step << std::endl;
-		std::cout << "logFileName: " << step << std::endl;
+		std::cout << "logFileName: " << logFileName << std::endl;
+		std::cout << "numOfBatteries: " << numberOfBatteries << std::endl;
 
-		ofs << battery << "," << progress << "," << step << "," << logFileName;
+		ofs << battery << "," << progress << "," << step << "," << logFileName << "," << numberOfBatteries;
 		for(int i = 0; i < LENGTH; i++){
 			ofs << "," << field[i];
 		}

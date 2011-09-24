@@ -97,7 +97,7 @@ void SAServer::ProcessConnectors(){
 	//Suppress‚ğÀs
 	for(int i = 0; i < connectors.size(); i++){
 		//type == Suppress‚Ì‚Æ‚«Process‚ğÀs
-		if(connectors[i]->getType() == 2){
+		if(connectors[i]->getType() >= 2){
 			connectors[i]->Process();
 		}
 	}
