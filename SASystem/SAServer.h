@@ -78,6 +78,14 @@ public:
 	 */
 	std::string getLogFileName();
 
+	int getStepForward();
+
+	int getStepStop();
+	
+	int getStepBackward();
+
+	int getStepSwitchDirection();
+
 	protected:
 	/**
 		@brief Serverに登録されているすべてのModuleをRunする
@@ -151,6 +159,23 @@ public:
 		@brief 開始してからのclock数
 	*/
 	long int clock;
+
+	///前進している回数
+	int stepForward;
+	///停止している回数
+	int stepStop;
+	///後進している回数
+	int stepBackward;
+	///前後進が切り替わった回数
+	int stepSwitchDirection;
+	///前回のポジション
+	int prevPos;
+	/**
+		@brief 前回の進行方向
+		true : Forward
+		false : Backward
+	 */
+	bool prevDirection;
 };
 
 inline EnvUpdater* SAServer::getEnv(){
@@ -161,4 +186,19 @@ inline std::string SAServer::getLogFileName(){
 	return logFileName;
 }
 
+inline int SAServer::getStepForward(){
+	return stepForward;
+}
+
+inline int SAServer::getStepStop(){
+	return stepStop;
+}
+	
+inline int SAServer::getStepBackward(){
+	return stepBackward;
+}
+
+inline int SAServer::getStepSwitchDirection(){
+	return stepSwitchDirection;
+}
 #endif //_SAServer_H_

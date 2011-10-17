@@ -7,7 +7,9 @@
 #include "EnvUpdater.h"
 #include "SAConnector.h"
 
-SAServer::SAServer(int* field): clock(0), field(field){
+SAServer::SAServer(int* field): clock(0), field(field), stepForward(0),
+	stepStop(0), stepBackward(0), stepSwitchDirection(0), prevPos(-1), prevDirection(true)
+{
 	Initialize();
 }
 void SAServer::Process(){
@@ -137,6 +139,32 @@ void SAServer::Log(){
 		}
 		*/
 		ofs << std::endl;
+
+		prevPos = 0;
+	}else{
+		if(clock % 3 == 0){
+			int currentPos = env->getPosition();
+			bool currentDirection;
+			if((currentPos - prevPos) > 0){
+				stepForward++;
+				prevPos = currentPos;
+				currentDirection = true;
+				if(currentDirection != prevDirection){
+					stepSwitchDirection++;
+					prevDirection = currentDirection;
+				}
+			}else if((currentPos - prevPos) == 0){
+				stepStop ++;
+			}else if((currentPos - prevPos) < 0){
+				stepBackward ++;
+				prevPos = currentPos;
+				currentDirection = false;
+				if(currentDirection != prevDirection){
+					stepSwitchDirection++;
+					prevDirection = currentDirection;
+				}
+			}
+		}
 	}
 
 	ofs << clock;
@@ -156,12 +184,6 @@ void SAServer::Log(){
 	for(int i = 0; i < inputs.size(); i++){
 		ofs << "," << inputs[i];
 	}
-	/*for(int i = 0; i < NUM_MODULES; i++){
-		ofs << "," << inhibited[i];
-	}
-	for(int i = 0; i < NUM_MODULES; i++){
-		ofs << "," << suppressed[i];
-	}
-	*/
+
 	ofs << std::endl;
 }

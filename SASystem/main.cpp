@@ -126,7 +126,7 @@ void main(){
 	std::cout << testLogFileName.c_str() << std::endl;
 	ofs.open(testLogFileName.c_str());
 
-	ofs << "battery,progress,step,numOfBat,maxBatD,minBatD,aveBatD,logFileName";
+	ofs << "battery,progress,step,numOfBat,maxBatD,minBatD,aveBatD,stepFor,stepStop,stepBack,dirChange,logFileName";
 	for(int i = 0; i < LENGTH; i++){
 		ofs << ",field[" << i << "]";
 	}
@@ -191,7 +191,7 @@ void main(){
 
 		int count = 0;
 		while(true){
-			if(count > 70 * 3){
+			if(count >= 70 * 3){
 				break;
 			}
 			if(server.getEnv()->getBattery() == 0 || server.getEnv()->getPosition() == LENGTH - 1){
@@ -204,6 +204,15 @@ void main(){
 		int battery = ((BatteryStatus *)modules[1])->getStatus();
 		int progress = ((ProgressCounter *)modules[3])->getPosition();
 		int step = ((StepCounter *)modules[4])->getStep();
+		///前進している回数
+		int stepForward = server.getStepForward();
+		///停止している回数
+		int stepStop = server.getStepStop();
+		///後進している回数
+		int stepBackward = server.getStepBackward();
+		///前後進が切り替わった回数
+		int stepSwitchDirection = server.getStepSwitchDirection();
+
 		std::string logFileName = server.getLogFileName();
 	
 		/*std::cout << "Battery: " << battery << std::endl;
@@ -214,7 +223,9 @@ void main(){
 		*/
 
 		ofs << battery << "," << progress << "," << step << "," << numberOfBatteries << ",";
-		ofs << maxBatD << "," << minBatD << "," << aveBatD << "," << logFileName;
+		ofs << maxBatD << "," << minBatD << "," << aveBatD << "," ;
+		ofs << stepForward << "," << stepStop << "," << stepBackward << "," << stepSwitchDirection << ",";
+		ofs << logFileName;
 		for(int i = 0; i < LENGTH; i++){
 			ofs << "," << field[i];
 		}
