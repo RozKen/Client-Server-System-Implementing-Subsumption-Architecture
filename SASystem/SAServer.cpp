@@ -7,8 +7,8 @@
 #include "EnvUpdater.h"
 #include "SAConnector.h"
 
-SAServer::SAServer(int* field): clock(0), field(field), stepForward(0),
-	stepStop(0), stepBackward(0), stepSwitchDirection(0), prevPos(-1), prevDirection(true)
+SAServer::SAServer(int* field, std::string logDirectoryPath): clock(0), field(field), stepForward(0),
+	stepStop(0), stepBackward(0), stepSwitchDirection(0), prevPos(-1), prevDirection(true), logDirectoryPath(logDirectoryPath)
 {
 	Initialize();
 }
@@ -29,7 +29,8 @@ void SAServer::Initialize(){
 	//åªç›éûçèÇéÊìæ
 	time(&now);
 	///LogÇê›íË
-	logFileName = "log_";
+	logFileName = logDirectoryPath;
+	logFileName.append("/log_");
 	logFileName.append(ctime(&now));
 	logFileName.erase(logFileName.size() - 12, 1);
 	logFileName.erase(logFileName.size() - 9, 1);

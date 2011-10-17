@@ -32,9 +32,10 @@ public:
 			<li>Initialize()</li>
 		</ol>
 		@param field タスクフィールド
+		@param logDirectoryPath ログを保存するディレクトリ
 		@sa clock
 	*/
-	SAServer(int* field);
+	SAServer(int* field, std::string logDirectoryPath);
 	/**
 		@brief 一クロック分制御を進める
 		<ol>
@@ -145,6 +146,11 @@ public:
 		0-99までの長さの配列へのポインタのはず
 	 */
 	int* field;
+
+	/**
+		@brief Logファイルを保存するディレクトリへのパス
+	 */
+	std::string logDirectoryPath;
 
 	/**
 		@brief Logファイルの名前

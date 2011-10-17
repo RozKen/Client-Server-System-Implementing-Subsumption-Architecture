@@ -13,6 +13,8 @@
 
 //for wait
 #include <Windows.h>
+//for _mkdir
+#include <direct.h>
 
 Random<boost::uniform_int<> > _numBatGen(5, 25);
 int numberOfBatteries;
@@ -121,11 +123,14 @@ void main(){
 	//現在時刻を取得
 	time(&now);
 	///Logを設定
-	testLogFileName = "testLog_";
-	testLogFileName.append(ctime(&now));
-	testLogFileName.erase(testLogFileName.size() - 12, 1);
-	testLogFileName.erase(testLogFileName.size() - 9, 1);
-	testLogFileName.erase(testLogFileName.size() - 1, 1);
+	std::string testLogDirectory = "../../../../analysis/";
+	testLogDirectory.append(ctime(&now));
+	testLogDirectory.erase(testLogDirectory.size() - 12, 1);
+	testLogDirectory.erase(testLogDirectory.size() - 9, 1);
+	testLogDirectory.erase(testLogDirectory.size() - 1, 1);
+	_mkdir(testLogDirectory.c_str());	//ディレクトリを作成(Windows)
+	testLogFileName = testLogDirectory;
+	testLogFileName.append("testLog_");
 	testLogFileName.append(".csv");
 	std::cout << testLogFileName.c_str() << std::endl;
 	ofs.open(testLogFileName.c_str());
@@ -144,7 +149,7 @@ void main(){
 		int minBatD = minBatteryDistance(field);
 		double aveBatD = averageBatteryDistance(field);
 
-		SAServer server(field);
+		SAServer server(field, testLogDirectory);
 	
 		std::cout << "Created Server" << std::endl;
 
