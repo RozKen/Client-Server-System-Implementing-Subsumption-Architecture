@@ -58,7 +58,7 @@ protected:
 };
 
 inline Progress::Progress() 
-	: SAModule(RANGEVISION + 2, 1), stepCount(0), progressCount(0), threshold(0.3), count(0){
+	: SAModule(RANGEVISION + 2, 1), stepCount(0), progressCount(0), threshold(0.7), count(0){
 	for(int i = 0; i < RANGEVISION; i++){
 		vision[i] = 0;
 		inputs[i] = 0;

@@ -48,6 +48,68 @@ void fieldGenerator(int* field){
 	std::cout << std::endl;
 	*/
 }
+/**
+	@brief Battery間の最大の距離を計測
+	@param field フィールド
+	@return Battery間の最大の距離
+ */
+int maxBatteryDistance(const int* field){
+	///現在の最大距離
+	int maxD = 0;
+	///一つ前のバッテリーの位置
+	int prevBattery = 0;
+	///現在探索中の位置
+	int current = 0;
+	//探索と最大距離の更新
+	for(current = 0; current < LENGTH; current++){
+		if(field[current] == ONCHARGER){
+			if((current - prevBattery) > maxD){
+				maxD = current - prevBattery;
+			}
+			prevBattery = current;
+		}
+	}
+	return maxD;
+}
+/**
+	@brief Battery間の最小の距離を計測
+	@param field フィールド
+	@return Battery間の最小の距離
+ */
+int minBatteryDistance(const int* field){
+	///現在の最小距離
+	int minD = 100;
+	///一つ前のバッテリーの位置
+	int prevBattery = 0;
+	///現在探索中の位置
+	int current = 0;
+	//探索と最大距離の更新
+	for(current = 0; current < LENGTH; current++){
+		if(field[current] == ONCHARGER){
+			if((current - prevBattery) < minD){
+				minD = current - prevBattery;
+			}
+			prevBattery = current;
+		}
+	}
+	return minD;
+}
+
+/**
+	@brief Battery間の平均の距離を計測
+	@param field フィールド
+	@return Battery間の平均距離
+ */
+double averageBatteryDistance(const int* field){
+	int batteryCount = 0;
+	for(int i = 0; i < LENGTH; i++){
+		if(field[i] == ONCHARGER){
+			batteryCount++;
+		}
+	}
+	double average = (double)batteryCount / (double)LENGTH;
+	return average;
+}
 
 void main(){
 	//現在時刻
@@ -64,7 +126,7 @@ void main(){
 	std::cout << testLogFileName.c_str() << std::endl;
 	ofs.open(testLogFileName.c_str());
 
-	ofs << "battery,progress,step,logFileName,numOfBat";
+	ofs << "battery,progress,step,numOfBat,maxBatD,minBatD,aveBatD,logFileName";
 	for(int i = 0; i < LENGTH; i++){
 		ofs << ",field[" << i << "]";
 	}
@@ -72,8 +134,12 @@ void main(){
 
 	for(int time = 0; time < 100; time++){
 		int field[LENGTH];
+		///フィールドをランダムに生成
 		fieldGenerator(field);
-		
+		int maxBatD = maxBatteryDistance(field);
+		int minBatD = minBatteryDistance(field);
+		double aveBatD = averageBatteryDistance(field);
+
 		SAServer server(field);
 	
 		std::cout << "Created Server" << std::endl;
@@ -114,9 +180,9 @@ void main(){
 		//Suppressor
 		//connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 2) );
 		//Probability-based Selector
-		//connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 3, 1.0f) );
+		connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 3, 0.6f) );
 		//Probability-based Superposer
-		connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4) );
+		//connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4) );
 
 		///Serverへ登録
 		for(int i = 0; i < connectors.size(); i++){
@@ -125,7 +191,7 @@ void main(){
 
 		int count = 0;
 		while(true){
-			if(count > 1000){
+			if(count > 70 * 3){
 				break;
 			}
 			if(server.getEnv()->getBattery() == 0 || server.getEnv()->getPosition() == LENGTH - 1){
@@ -140,13 +206,15 @@ void main(){
 		int step = ((StepCounter *)modules[4])->getStep();
 		std::string logFileName = server.getLogFileName();
 	
-		std::cout << "Battery: " << battery << std::endl;
+		/*std::cout << "Battery: " << battery << std::endl;
 		std::cout << "Progress: " << progress << std::endl;
 		std::cout << "Step: " << step << std::endl;
-		std::cout << "logFileName: " << logFileName << std::endl;
 		std::cout << "numOfBatteries: " << numberOfBatteries << std::endl;
+		std::cout << "logFileName: " << logFileName << std::endl;
+		*/
 
-		ofs << battery << "," << progress << "," << step << "," << logFileName << "," << numberOfBatteries;
+		ofs << battery << "," << progress << "," << step << "," << numberOfBatteries << ",";
+		ofs << maxBatD << "," << minBatD << "," << aveBatD << "," << logFileName;
 		for(int i = 0; i < LENGTH; i++){
 			ofs << "," << field[i];
 		}
