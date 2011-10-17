@@ -19,6 +19,10 @@ int numberOfBatteries;
 Random<boost::uniform_int<> > _batPos(1, LENGTH);
 std::string testLogFileName;
 std::ofstream ofs;
+int count = 0;
+int numOfSuccess = 0;
+double aveSuccessClock = 0;
+double aveDistance = 0;
 
 void fieldGenerator(int* field){
 	numberOfBatteries = _numBatGen();
@@ -189,7 +193,7 @@ void main(){
 			server.addConnector(connectors[i]);
 		}
 
-		int count = 0;
+		count = 0;
 		while(true){
 			if(count >= 70 * 3){
 				break;
@@ -222,6 +226,12 @@ void main(){
 		std::cout << "logFileName: " << logFileName << std::endl;
 		*/
 
+		if(progress == LENGTH - 1){
+			numOfSuccess ++;
+			aveSuccessClock += (double)step;
+		}
+		aveDistance += (double)progress;
+
 		ofs << battery << "," << progress << "," << step << "," << numberOfBatteries << ",";
 		ofs << maxBatD << "," << minBatD << "," << aveBatD << "," ;
 		ofs << stepForward << "," << stepStop << "," << stepBackward << "," << stepSwitchDirection << ",";
@@ -235,6 +245,14 @@ void main(){
 		//0.5•bSleep
 		Sleep(1000);
 	}
+
+	aveSuccessClock /= (double)numOfSuccess;
+	aveDistance /= (double)count;
+
+	ofs << std::endl;
+	ofs << "numOfSuccess," << numOfSuccess << std::endl;
+	ofs << "aveSuccessClock," << aveSuccessClock << std::endl;
+	ofs << "aveDistance," << aveDistance << std::endl;
 
 	ofs.close();
 
