@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-EnvUpdater::EnvUpdater(int* field) : field(field), position(0), battery(100), progress(0){
+EnvUpdater::EnvUpdater(const int* field) : field(field), position(0), battery(100), progress(0){
 }
 
 void EnvUpdater::update(int progress){

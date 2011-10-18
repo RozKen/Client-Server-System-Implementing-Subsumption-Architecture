@@ -42,7 +42,7 @@ protected:
 inline VisionScope::VisionScope(EnvUpdater* environment) : SAModule(0, RANGEVISION), env(environment){
 }
 inline void VisionScope::Run(){
-	int* field = env->getField();
+	const int* field = env->getField();
 	int pos = env->getPosition();
 	//Vision’Tõƒ|ƒCƒ“ƒg
 	int point;

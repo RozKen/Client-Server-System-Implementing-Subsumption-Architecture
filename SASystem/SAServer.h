@@ -35,7 +35,18 @@ public:
 		@param logDirectoryPath ログを保存するディレクトリ
 		@sa clock
 	*/
-	SAServer(int* field, std::string logDirectoryPath);
+	SAServer(const int* field, std::string logDirectoryPath);
+	/**
+		@brief Construct SAServer. Initialize <b>clock</b> as 0
+		<ol>
+			<li>Initialize()</li>
+		</ol>
+		@param field タスクフィールド
+		@param logDirectoryPath ログを保存するディレクトリ
+		@param index ログに連番を付けるためのindex
+		@sa clock
+	*/
+	SAServer(const int* field, std::string logDirectoryPath, int index);
 	/**
 		@brief 一クロック分制御を進める
 		<ol>
@@ -88,6 +99,11 @@ public:
 	int getStepSwitchDirection();
 
 	protected:
+	/**
+		@brief int型のnumberを4ケタの文字列にする
+		@param number 元の数字
+	 */
+	std::string intToString(int number);
 	/**
 		@brief Serverに登録されているすべてのModuleをRunする
 		その他に，現在は両輪(LM, RM)のspeedを基に，位置と向きを算出し，
@@ -145,7 +161,7 @@ public:
 		@brief タスクフィールド
 		0-99までの長さの配列へのポインタのはず
 	 */
-	int* field;
+	const int* field;
 
 	/**
 		@brief Logファイルを保存するディレクトリへのパス
@@ -182,6 +198,8 @@ public:
 		false : Backward
 	 */
 	bool prevDirection;
+	///ファイルに連番を付けるための値
+	int index;
 };
 
 inline EnvUpdater* SAServer::getEnv(){

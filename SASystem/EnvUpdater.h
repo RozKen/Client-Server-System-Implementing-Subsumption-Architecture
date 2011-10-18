@@ -15,7 +15,7 @@ public:
 		@brief Constructor
 		@param field Task Field
 	*/
-	EnvUpdater(int* field);
+	EnvUpdater(const int* field);
 	/**
 		@brief 環境変数の更新.
 		@param progress どのくらい進んだか(戻ったか)．PositionUpdaterの出力を入れる．
@@ -25,7 +25,7 @@ public:
 
 	int getPosition();
 	int getBattery();
-	int* getField();
+	const int* getField();
 	int getProgress();
 
 protected:
@@ -44,7 +44,7 @@ protected:
 	void updateBatteryStatus(int progress, bool onCharger);
 
 	///Field配列
-	int* field;
+	const int* field;
 	///現在位置
 	int position;
 	///現在バッテリー状態.単位は[%]
@@ -53,7 +53,7 @@ protected:
 	int progress;
 };
 
-inline int* EnvUpdater::getField(){
+inline const int* EnvUpdater::getField(){
 	return field;
 }
 

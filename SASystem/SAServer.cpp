@@ -1,5 +1,6 @@
 #include <time.h>
 #include <iostream>
+#include <sstream>
 
 //#include "StochasticSelecter.hpp"
 #include "Modules.h"
@@ -7,7 +8,12 @@
 #include "EnvUpdater.h"
 #include "SAConnector.h"
 
-SAServer::SAServer(int* field, std::string logDirectoryPath): clock(0), field(field), stepForward(0),
+SAServer::SAServer(const int* field, std::string logDirectoryPath): clock(0), field(field), index(0), stepForward(0),
+	stepStop(0), stepBackward(0), stepSwitchDirection(0), prevPos(-1), prevDirection(true), logDirectoryPath(logDirectoryPath)
+{
+	Initialize();
+}
+SAServer::SAServer(const int* field, std::string logDirectoryPath, int index): clock(0), field(field), index(index), stepForward(0),
 	stepStop(0), stepBackward(0), stepSwitchDirection(0), prevPos(-1), prevDirection(true), logDirectoryPath(logDirectoryPath)
 {
 	Initialize();
@@ -18,7 +24,24 @@ void SAServer::Process(){
 	Log();
 	clock++;
 }
-
+std::string SAServer::intToString(int number){
+	std::string str = "";
+	std::stringstream ss;
+	ss << number;
+	if(number / 1000 > 0){
+		str = ss.str();
+	}else if(number / 100 > 0){
+		str = "0";
+		str.append(ss.str());
+	}else if(number / 10 > 0){
+		str = "00";
+		str.append(ss.str());
+	}else{
+		str = "000";
+		str.append(ss.str());
+	}
+	return str;
+}
 void SAServer::Initialize(){
 
 	///ä¬ã´Çç\íz
@@ -30,12 +53,10 @@ void SAServer::Initialize(){
 	time(&now);
 	///LogÇê›íË
 	logFileName = logDirectoryPath;
-	logFileName.append("/log_");
-	logFileName.append(ctime(&now));
-	logFileName.erase(logFileName.size() - 12, 1);
-	logFileName.erase(logFileName.size() - 9, 1);
-	logFileName.erase(logFileName.size() - 1, 1);
-	//logFileName.append(now);
+	logFileName.append("/");
+	logFileName.append(intToString(index));
+	logFileName.append("_log");
+	
 	logFileName.append(".csv");
 	std::cout << logFileName.c_str() << std::endl;
 	ofs.open(logFileName.c_str());

@@ -39,6 +39,9 @@
     <ClCompile Include="SAConnector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Tester.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SAServer.h">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="Progress.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Tester.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
