@@ -78,7 +78,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SAConnector.cpp" />
     <ClCompile Include="SAServer.cpp" />
-    <ClCompile Include="Tester.cpp" />
+    <ClCompile Include="FieldConnectorTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alive.hpp" />
@@ -95,7 +95,7 @@
     <ClInclude Include="SAServer.h" />
     <ClInclude Include="StepCounter.hpp" />
     <ClInclude Include="StochasticSelecter.hpp" />
-    <ClInclude Include="Tester.h" />
+    <ClInclude Include="FieldConnectorTester.h" />
     <ClInclude Include="VisionScope.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
