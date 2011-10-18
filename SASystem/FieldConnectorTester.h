@@ -7,6 +7,8 @@
 	@class FieldConnectorTester
 	@brief 与えられたfieldを用いてテストをするクラス
 	Testを呼ぶ際に，試行回数，一回の試行のclock数などを指定する
+	@date 18th October 2011
+	@author Kenichi Yorozu
  */
 class FieldConnectorTester{
 public:

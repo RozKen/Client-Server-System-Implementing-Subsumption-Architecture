@@ -112,7 +112,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 	testLogFileName = testLogDirectoryPath;
 	testLogFileName.append("_testLog_");
 	testLogFileName.append(".csv");
-	std::cout << testLogFileName.c_str() << std::endl;
+	std::cout << "LogFileName : " << testLogFileName.c_str() << std::endl;
 
 	std::ofstream ofs;
 	ofs.open(testLogFileName.c_str());
@@ -126,7 +126,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 	for(int time = 0; time < maxTime; time++){
 		SAServer server(this->field, testLogDirectoryPath, time);
 	
-		std::cout << "Created Server" << std::endl;
+		//std::cout << "Created Server" << std::endl;
 
 		std::vector<SAModule *> modules;
 
@@ -235,7 +235,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 		}
 		ofs << std::endl;
 		
-		std::cout << "End" <<std::endl;
+		//std::cout << "End" <<std::endl;
 		//0.5•bSleep
 		//Sleep(1000);
 	}

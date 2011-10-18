@@ -85,6 +85,7 @@
     <ClInclude Include="BatteryStatus.hpp" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="EnvUpdater.h" />
+    <ClInclude Include="FieldTester.hpp" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="PositionUpdater.hpp" />
     <ClInclude Include="Progress.hpp" />

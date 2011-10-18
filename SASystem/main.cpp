@@ -2,7 +2,7 @@
 
 #include "Constants.h"
 #include "Random.hpp"
-#include "FieldConnectorTester.h"
+#include "FieldTester.hpp"
 #include <time.h>
 #include <iostream>
 
@@ -54,10 +54,8 @@ void main(){
 	int field[LENGTH];
 	fieldGenerator(field);
 
-	for(int i = 0; i < 5; i++){
-		FieldConnectorTester test = FieldConnectorTester((const int *)field, i);
-		test.Test();
-	}
+	FieldTester ft = FieldTester((const int *)field);
+	ft.Test();
 
 	std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
 	
