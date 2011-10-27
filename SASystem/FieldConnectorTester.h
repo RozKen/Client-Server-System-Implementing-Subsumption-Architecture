@@ -2,6 +2,7 @@
 #define _FieldConnectorTester_H_
 
 #include <string>
+#include "Constants.h"
 
 /**
 	@class FieldConnectorTester

@@ -1,4 +1,3 @@
-#include "Constants.h"
 #include "FieldConnectorTester.h"
 
 #include "EnvUpdater.h"
@@ -112,7 +111,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 	testLogFileName = testLogDirectoryPath;
 	testLogFileName.append("_testLog_");
 	testLogFileName.append(".csv");
-	std::cout << "LogFileName : " << testLogFileName.c_str() << std::endl;
+	std::cout << "testLogFileLocation : " << testLogFileName.c_str() << std::endl;
 
 	std::ofstream ofs;
 	ofs.open(testLogFileName.c_str());

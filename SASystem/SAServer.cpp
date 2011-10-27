@@ -58,7 +58,7 @@ void SAServer::Initialize(){
 	logFileName.append("_log");
 	
 	logFileName.append(".csv");
-	std::cout << logFileName.c_str() << std::endl;
+	std::cout << "logFileLocation" << logFileName.c_str() << std::endl;
 	ofs.open(logFileName.c_str());
 }
 

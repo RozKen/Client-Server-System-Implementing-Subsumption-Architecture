@@ -37,7 +37,8 @@ void fieldGenerator(int* field){
 	field[LENGTH - 1] = ONGOAL;
 	for(int i = 0; i < numberOfBatteries; ){
 		int index = _batPos();
-		if(field[index] != ONCHARGER){
+		if(field[index] != ONCHARGER && field[index] != ONSTART
+			&& field[index] != ONGOAL){
 			field[index] = ONCHARGER;
 			i++;
 		}
@@ -51,11 +52,17 @@ void fieldGenerator(int* field){
 }
 
 void main(){
-	int field[LENGTH];
-	fieldGenerator(field);
-
-	FieldTester ft = FieldTester((const int *)field);
-	ft.Test();
+	int* field = new int[LENGTH];
+	int numberOfFields = 1;
+	for(int i = 0; i < numberOfFields; i++){
+		//Field‚Ìì¬
+		fieldGenerator(field);
+		//FieldTester‚Ìì¬
+		FieldTester ft = FieldTester((const int *)field);
+		//FieldTest‚ÌŽÀs
+		ft.Test();
+	}
+	delete(field);
 
 	std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
 	
