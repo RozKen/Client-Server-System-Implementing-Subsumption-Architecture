@@ -22,7 +22,7 @@ void EnvUpdater::updatePosition(int progress){
 }
 
 void EnvUpdater::updateBatteryStatus(int progress, bool onCharger){
-	battery -= 3 * abs(progress);
+	battery -= BATTLOSS * abs(progress);
 	if(onCharger){
 		battery += 5;
 		if(battery > 100){

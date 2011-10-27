@@ -11,4 +11,6 @@
 
 #define RANGEVISION		11
 
+#define BATTLOSS		3
+
 #endif //Constants_H_

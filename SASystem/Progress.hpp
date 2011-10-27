@@ -82,10 +82,10 @@ inline void Progress::Run(){
 		}else if(stepCount < 10){
 			outputs[0] = 0;
 		}else if((double)progressCount / (double)stepCount < threshold){
-			std::cout << "progressCount: " << progressCount << std::endl;
-			std::cout << "stepCount: " << stepCount << std::endl;
-			std::cout << "ratio: " << (double)progressCount / (double)stepCount << std::endl;
-			std::cout << "threshold: " << threshold << std::endl;
+	//		std::cout << "progressCount: " << progressCount << std::endl;
+	//		std::cout << "stepCount: " << stepCount << std::endl;
+	//		std::cout << "ratio: " << (double)progressCount / (double)stepCount << std::endl;
+	//		std::cout << "threshold: " << threshold << std::endl;
 			//TODO –{“–‚Í[1-10]‚Ìƒ‰ƒ“ƒ_ƒ€‚É‚·‚é—\’è
 			outputs[0] = 5;
 		}else{
