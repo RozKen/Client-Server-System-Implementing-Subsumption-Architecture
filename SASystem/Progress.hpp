@@ -3,6 +3,7 @@
 
 #include "SAModule.h"
 #include "Constants.h"
+#include <iostream>
 /**
 	@brief Mission : ゴールの方向へ進む
 	<ol>
@@ -78,9 +79,13 @@ inline void Progress::Run(){
 
 		if(isSeeGoal()){
 			outputs[0] = stepToGoal();
-		}else if(stepCount < 3){
+		}else if(stepCount < 10){
 			outputs[0] = 0;
-		}else if(progressCount / stepCount < threshold){
+		}else if((double)progressCount / (double)stepCount < threshold){
+			std::cout << "progressCount: " << progressCount << std::endl;
+			std::cout << "stepCount: " << stepCount << std::endl;
+			std::cout << "ratio: " << (double)progressCount / (double)stepCount << std::endl;
+			std::cout << "threshold: " << threshold << std::endl;
 			//TODO 本当は[1-10]のランダムにする予定
 			outputs[0] = 5;
 		}else{
