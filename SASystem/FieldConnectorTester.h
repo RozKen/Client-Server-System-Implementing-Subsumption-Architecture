@@ -25,7 +25,8 @@ public:
 		</ol>
 		default: Wire
 	 */
-	FieldConnectorTester(const int* field, int mode);
+	//FieldConnectorTester(const int* field, int mode);
+	FieldConnectorTester(const int* field, int mode, double prob = 0.6);
 	/**
 		@brief Battery間の最大の距離を計測
 		@param field フィールド
@@ -87,6 +88,8 @@ protected:
 	int minBatD;
 	///平均バッテリー間距離
 	double aveBatD;
+	///prob-Selectやprob-Superposeで用いられる確率
+	double prob;
 };
 
 #endif	//_FieldConnectorTester_H_

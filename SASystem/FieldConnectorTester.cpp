@@ -9,8 +9,9 @@
 #include <iostream>
 #include <Windows.h>	//for wait
 #include <direct.h>		//for _mkdir
+#include <sstream>
 
-FieldConnectorTester::FieldConnectorTester(const int* field, int mode) : mode(mode), count(0), numOfSuccess(0), aveSuccessClock(0.0),
+FieldConnectorTester::FieldConnectorTester(const int* field, int mode, double prob) : mode(mode), prob(prob), count(0), numOfSuccess(0), aveSuccessClock(0.0),
 	aveDistance(0.0)
 {
 	this->field = field;
@@ -29,6 +30,8 @@ FieldConnectorTester::FieldConnectorTester(const int* field, int mode) : mode(mo
 	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 12, 1);
 	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 9, 1);
 	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 1, 1);
+	std::ostringstream oss;
+	oss << this->prob;
 	switch(mode){
 	case 1:
 		testLogDirectoryPath.append("_Inhibit");
@@ -37,16 +40,27 @@ FieldConnectorTester::FieldConnectorTester(const int* field, int mode) : mode(mo
 		testLogDirectoryPath.append("_Suppress");
 		break;
 	case 3:
-		testLogDirectoryPath.append("_probSelect");
+		testLogDirectoryPath.append("_probSelect_").append(oss.str());
 		break;
 	case 4:
-		testLogDirectoryPath.append("_probSuperpose");
+		testLogDirectoryPath.append("_probSuperpose_").append(oss.str());
 		break;
 	default:
 		testLogDirectoryPath.append("_Wire");
 	}
 	_mkdir(testLogDirectoryPath.c_str());	//ディレクトリを作成(Windows)
 }
+/*
+FieldConnectorTester::FieldConnectorTester(const int* field, int mode) : mode(mode), prob(0.6), count(0), numOfSuccess(0), aveSuccessClock(0.0),
+	aveDistance(0.0)
+{
+	FieldConnectorTester(field, mode, 0.6);
+	this->field = field;
+	numOfBattery = countNumOfBatteries();
+	maxBatD = maxBatteryDistance();
+	minBatD = minBatteryDistance();
+	aveBatD = averageBatteryDistance();
+}*/
 
 int FieldConnectorTester::maxBatteryDistance(){
 	///現在の最大距離
@@ -171,11 +185,11 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 			break;
 		case 3:
 			//Probability-based Selector
-			connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 3, 0.6f) );
+			connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 3, (float)prob) );
 			break;
 		case 4:
 			//Probability-based Superposer
-			connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4) );
+			connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4, (float)prob) );
 			break;
 		default:
 			//Wire

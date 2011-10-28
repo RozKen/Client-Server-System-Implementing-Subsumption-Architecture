@@ -27,6 +27,12 @@ void FieldTester::Test(){
 		FieldConnectorTester test = FieldConnectorTester((const int *)field, i);
 		if(i <= 2){
 			test.Test(1, 70 * 3);
+		}else if(i == 3 || i == 4){
+			for(int j = 0; j <= 10; j++){
+				double prob = (double)j * 0.1;
+				test = FieldConnectorTester((const int *)field, i, prob);
+				test.Test();
+			}
 		}else{
 			test.Test();
 		}
