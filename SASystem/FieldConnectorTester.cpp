@@ -4,6 +4,7 @@
 #include "SAServer.h"
 #include "Modules.h"
 #include "SAConnector.h"
+#include "DataInDirectoryInvestigator.h"
 
 #include <time.h>
 #include <iostream>
@@ -247,7 +248,12 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 			ofs << "," << field[i];
 		}
 		ofs << std::endl;
-		
+
+		//For Analysis CSV Data Output
+		std::string investigationFileName = testLogDirectoryPath;
+		investigationFileName.append("\\");
+		DataInDirectoryInvestigator dind = DataInDirectoryInvestigator(investigationFileName);
+		dind.Run();
 		//std::cout << "End" <<std::endl;
 		//0.5•bSleep
 		//Sleep(1000);

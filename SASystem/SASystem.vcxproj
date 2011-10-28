@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="EnvUpdater.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SAConnector.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Alive.hpp" />
     <ClInclude Include="BatteryStatus.hpp" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="EnvUpdater.h" />
     <ClInclude Include="FieldTester.hpp" />
     <ClInclude Include="Modules.h" />
