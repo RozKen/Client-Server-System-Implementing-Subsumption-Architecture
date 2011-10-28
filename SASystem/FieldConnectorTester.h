@@ -78,6 +78,8 @@ protected:
 	int count;
 	///ゴールにたどり着いた試行の数
 	int numOfSuccess;
+	/// バッテリー切れになった試行の数
+	int numOfBatteryFail;
 	///ゴール到達までの平均clock数
 	double aveSuccessClock;
 	///平均の進んだ距離

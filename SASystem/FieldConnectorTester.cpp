@@ -12,8 +12,8 @@
 #include <direct.h>		//for _mkdir
 #include <sstream>
 
-FieldConnectorTester::FieldConnectorTester(const int* field, int mode, double prob) : mode(mode), prob(prob), count(0), numOfSuccess(0), aveSuccessClock(0.0),
-	aveDistance(0.0)
+FieldConnectorTester::FieldConnectorTester(const int* field, int mode, double prob) 
+	: mode(mode), prob(prob), count(0), numOfSuccess(0), numOfBatteryFail(0), aveSuccessClock(0.0), aveDistance(0.0)
 {
 	this->field = field;
 	numOfBattery = countNumOfBatteries();
@@ -206,7 +206,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 			if(count >= maxCount){
 				break;
 			}
-			if(server.getEnv()->getBattery() == 0 || server.getEnv()->getPosition() == LENGTH - 1){
+			if(((BatteryStatus *)modules[1])->getStatus() < BATTLOSS || server.getEnv()->getPosition() == LENGTH - 1){
 				break;
 			}
 			server.Process();
@@ -238,6 +238,9 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 			numOfSuccess ++;
 			aveSuccessClock += (double)step;
 		}
+		if(battery < BATTLOSS){
+			numOfBatteryFail++;
+		}
 		aveDistance += (double)progress;
 
 		ofs << battery << "," << progress << "," << step << "," << numOfBattery << ",";
@@ -249,11 +252,6 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 		}
 		ofs << std::endl;
 
-		//For Analysis CSV Data Output
-		std::string investigationFileName = testLogDirectoryPath;
-		investigationFileName.append("\\");
-		DataInDirectoryInvestigator dind = DataInDirectoryInvestigator(investigationFileName);
-		dind.Run();
 		//std::cout << "End" <<std::endl;
 		//0.5•bSleep
 		//Sleep(1000);
@@ -270,6 +268,13 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 	ofs << "numOfSuccess," << numOfSuccess << std::endl;
 	ofs << "aveSuccessClock," << aveSuccessClock << std::endl;
 	ofs << "aveDistance," << aveDistance << std::endl;
+	ofs << "numOfBatteryFile," << numOfBatteryFail << std::endl;
+
+	//For Analysis CSV Data Output
+	std::string investigationFileName = testLogDirectoryPath;
+	investigationFileName.append("\\");
+	DataInDirectoryInvestigator dind = DataInDirectoryInvestigator(investigationFileName);
+	dind.Run();
 
 	ofs.close();
 }
