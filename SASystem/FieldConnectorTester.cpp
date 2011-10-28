@@ -44,7 +44,7 @@ FieldConnectorTester::FieldConnectorTester(const int* field, int mode, double pr
 		testLogDirectoryPath.append("_probSelect_").append(oss.str());
 		break;
 	case 4:
-		testLogDirectoryPath.append("_probSuperpose_").append(oss.str());
+		testLogDirectoryPath.append("_probSuperpose_");
 		break;
 	default:
 		testLogDirectoryPath.append("_Wire");
@@ -190,7 +190,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 			break;
 		case 4:
 			//Probability-based Superposer
-			connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4, (float)prob) );
+			connectors.push_back( new SAConnector(&(modules[6]->getOutputsPtr()[0]), &(modules[0]->getInputsPtr()[0]), 4) );
 			break;
 		default:
 			//Wire

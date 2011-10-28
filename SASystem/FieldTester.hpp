@@ -24,16 +24,17 @@ FieldTester::FieldTester(const int* field){
 
 void FieldTester::Test(){
 	for(int i = 0; i < 5; i++){
-		FieldConnectorTester test = FieldConnectorTester((const int *)field, i);
 		if(i <= 2){
+			FieldConnectorTester test = FieldConnectorTester((const int *)field, i);
 			test.Test(1, 70 * 3);
-		}else if(i == 3 || i == 4){
+		}else if(i == 3){
 			for(int j = 0; j <= 10; j++){
 				double prob = (double)j * 0.1;
-				test = FieldConnectorTester((const int *)field, i, prob);
+				FieldConnectorTester test = FieldConnectorTester((const int *)field, i, prob);
 				test.Test();
 			}
 		}else{
+			FieldConnectorTester test = FieldConnectorTester((const int *)field, i);
 			test.Test();
 		}
 	}
