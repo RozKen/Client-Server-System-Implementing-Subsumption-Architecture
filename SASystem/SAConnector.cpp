@@ -49,7 +49,7 @@ void SAConnector::Process(){
 		}
 		break;
 	case 3:		//type = Probability-based Selector
-		if(*source != NO_SIGNAL || ss->get()){
+		if(*source != NO_SIGNAL && ss->get()){
 			*destination = *source;
 		}
 		/*
