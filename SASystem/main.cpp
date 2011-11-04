@@ -57,6 +57,19 @@ void main(){
 	for(int i = 0; i < numberOfFields; i++){
 		//Field‚Ìì¬
 		fieldGenerator(field);
+		
+		//“Á’è‚ÌField‚Ìì¬
+		/*
+		int field2[] = {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,
+					3,0,0,0,0,0,0,0,0,3,0,0,0,3,3,
+					0,0,0,3,0,0,0,0,3,0,3,0,3,0,0,
+					3,3,0,3,0,3,0,0,0,0,0,0,3,0,0,
+					0,0,0,0,0,3,0,3,0,0,3,3,0,0,0,
+					3,0,0,0,0,0,0,3,0,2};
+		field = field2;
+		*/
+
 		//FieldTester‚Ìì¬
 		FieldTester ft = FieldTester((const int *)field);
 		//FieldTest‚ÌŽÀs
