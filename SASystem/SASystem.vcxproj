@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Alive.hpp" />
     <ClInclude Include="BatteryStatus.hpp" />
+    <ClInclude Include="Blackboard.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="EnvUpdater.h" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Progress.hpp" />
     <ClInclude Include="ProgressCounter.hpp" />
     <ClInclude Include="Random.hpp" />
+    <ClInclude Include="Robot.h" />
     <ClInclude Include="SAConnector.h" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SAServer.h" />

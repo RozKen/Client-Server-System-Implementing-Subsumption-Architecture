@@ -1,10 +1,8 @@
 #ifndef _SAModule_H_
 #define _SAModule_H_
 
-///無信号状態
-#ifndef NO_SIGNAL	//先にSAConnector.hで定義されているかも知れない
-#define NO_SIGNAL	0
-#endif //NO_SIGNAL
+//無信号状態	NO_SIGNALをinclude
+#include "Constants.h"
 
 /**
 	@class SAModule

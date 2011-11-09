@@ -3,10 +3,8 @@
 
 #include "Random.hpp"
 
-///無信号状態
-#ifndef NO_SIGNAL	//先にSAModule.hで定義されているかも知れない
-#define NO_SIGNAL	0.0f
-#endif //NO_SIGNAL
+///無信号状態	NO_SIGNALをinclude
+#include "Constants.h"
 
 #ifndef _StochasticSelector_HPP_
 	class StochasticSelector;
