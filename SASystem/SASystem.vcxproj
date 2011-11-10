@@ -74,10 +74,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Blackboard.cpp" />
+    <ClCompile Include="Arbiter.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="EnvUpdater.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Robot.cpp" />
     <ClCompile Include="SAConnector.cpp" />
+    <ClCompile Include="SAModule.cpp" />
     <ClCompile Include="SAServer.cpp" />
     <ClCompile Include="FieldConnectorTester.cpp" />
   </ItemGroup>
@@ -85,6 +89,7 @@
     <ClInclude Include="Alive.hpp" />
     <ClInclude Include="BatteryStatus.hpp" />
     <ClInclude Include="Blackboard.h" />
+    <ClInclude Include="Arbiter.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="EnvUpdater.h" />

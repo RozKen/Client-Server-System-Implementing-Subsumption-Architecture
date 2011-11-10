@@ -22,6 +22,8 @@ public:
 	*/
 	Blackboard();
 
+	Blackboard::Blackboard(int inputPortNum, int outputPortNum);
+
 	/**
 		@brief Update Internal World from inputs and set outputs according to the World
 	*/
@@ -31,6 +33,10 @@ public:
 		@brief Log Datas on Blackboard.
 	 */
 	void Log();
+
+	void createInputPort(int numberOfPorts);
+
+	void createOutputPort(int numberOfPorts);
 
 	/* Accessしやすいようにpublicにしちゃった */
 	///入力信号Buffer
@@ -42,10 +48,6 @@ public:
 	///出力信号ポート数
 	int numOfOutputPorts;
 protected:
-
-	void createInputPort(int numberOfPorts);
-
-	void createOutputPort(int numberOfPorts);
 };
 
 inline Blackboard::Blackboard(): numOfInputPorts(0), numOfOutputPorts(0){
@@ -53,29 +55,10 @@ inline Blackboard::Blackboard(): numOfInputPorts(0), numOfOutputPorts(0){
 	createOutputPort(numOfOutputPorts);
 }
 
-inline void Blackboard::createInputPort(int numberOfPorts){
-	//入力信号Bufferを初期化
-	//メモリの初期化
-	inputs = new float[numberOfPorts];
-	numOfInputPorts = numberOfPorts;
-	//値の初期化
-	for(int i = 0; i < numOfInputPorts; i++){
-		inputs[i] = NO_SIGNAL;
-	}
-}
-
-inline Blackboard::Blackboard(){
-}
-
-inline void Blackboard::createOutputPort(int numberOfPorts){
-	//入力信号Bufferを初期化
-	//メモリの初期化
-	outputs = new float[numberOfPorts];
-	numOfOutputPorts = numberOfPorts;
-	//値の初期化
-	for(int i = 0; i < numOfOutputPorts; i++){
-		outputs[i] = NO_SIGNAL;
-	}
+inline Blackboard::Blackboard(int inputPortNum, int outputPortNum)
+	:numOfInputPorts(inputPortNum), numOfOutputPorts(outputPortNum){
+	createInputPort(numOfInputPorts);
+	createOutputPort(numOfOutputPorts);
 }
 
 #endif //_Blackboard_H_

@@ -36,13 +36,13 @@ public:
 		@brief モジュールに入力ポートを作成する
 		@param numberOfPorts 作成する入力ポートの数
 	 */
-	void createInputPort(int numberOfPorts);
+	virtual void createInputPort(int numberOfPorts);
 
 	/**
 		@brief モジュールに出力ポートを作成する.指定した個数を一回だけ作成する
 		@param numberOfPorts 作成する出力ポートの数
 	 */
-	void createOutputPort(int numberOfPorts);
+	virtual void createOutputPort(int numberOfPorts);
 	/**
 		@brief inputsへのポインタを与える.SAConnectorの接続へ利用する.
 		@return *inputs
@@ -83,12 +83,12 @@ public:
 		@brief 入力信号ポート数を返す
 		@return 入力信号ポート数
 	 */
-	int getNumOfInputPorts();
+	virtual int getNumOfInputPorts();
 	/**
 		@brief 出力信号ポート数を返す
 		@return 出力信号ポート数
 	 */
-	int getNumOfOutputPorts();
+	virtual int getNumOfOutputPorts();
 	
 protected:
 	///入力信号Buffer
@@ -101,75 +101,4 @@ protected:
 	int numOfOutputPorts;
 };
 
-inline SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
-}
-
-inline SAModule::SAModule(int numberOfInputPorts, int numberOfOutputPorts)
-	:numOfInputPorts(numberOfInputPorts), numOfOutputPorts(numberOfOutputPorts){
-	//信号Bufferを初期化
-	//メモリの初期化
-	inputs = new float[numberOfInputPorts];
-	outputs = new float[numberOfOutputPorts];
-	//値の初期化
-	for(int i = 0; i < numberOfInputPorts; i++){
-		inputs[i] = NO_SIGNAL;
-	}
-	for(int i = 0; i < numberOfOutputPorts; i++){
-		outputs[i] = NO_SIGNAL;
-	}
-}
-
-inline void SAModule::createInputPort(int numberOfPorts){
-	//入力信号Bufferを初期化
-	//メモリの初期化
-	inputs = new float[numberOfPorts];
-	numOfInputPorts = numberOfPorts;
-	//値の初期化
-	for(int i = 0; i < numOfInputPorts; i++){
-		inputs[i] = NO_SIGNAL;
-	}
-}
-
-inline void SAModule::createOutputPort(int numberOfPorts){
-	//入力信号Bufferを初期化
-	//メモリの初期化
-	outputs = new float[numberOfPorts];
-	numOfOutputPorts = numberOfPorts;
-	//値の初期化
-	for(int i = 0; i < numOfOutputPorts; i++){
-		outputs[i] = NO_SIGNAL;
-	}
-}
-
-inline float* SAModule::getInputsPtr(){
-	return inputs;
-}
-
-inline float* SAModule::getOutputsPtr(){
-	return outputs;
-}
-
-inline void SAModule::setInput(float inputSignal, int index){
-	inputs[index] = inputSignal;
-}
-
-inline float SAModule::getInput(int index){
-	return inputs[index];
-}
-
-inline void SAModule::setOutput(float outputSignal, int index){
-	outputs[index] = outputSignal;
-}
-
-inline float SAModule::getOutput(int index){
-	return outputs[index];
-}
-
-inline int SAModule::getNumOfInputPorts(){
-	return numOfInputPorts;
-}
-
-inline int SAModule::getNumOfOutputPorts(){
-	return numOfOutputPorts;
-}
 #endif //_SAModule_H_
