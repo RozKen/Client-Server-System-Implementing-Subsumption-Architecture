@@ -31,20 +31,33 @@ public:
 	 */
 	Arbiter(float* source, float* destination, 
 		float factor_min, float factor_max);
-
+	/**
+		@brief set Source
+	 */
 	void setSource(float* source);
+	/**
+		@brief set Destination
+	 */
 	void setDestination(float* destination);
 	/**
 		@brief Transfer/Modify/Arbit Signal
+		@sa generateSignal
 	 */
 	void Run();
 
 	/**
 		@brief Getter of factor
 		@sa factor
+		@return factor
 	 */
 	float getFactor() const;
 protected:
+	/**
+		@brief Gnerate Signal
+		@return signal
+	 */
+	double generateSignal();
+
 	///接続元の要素へのポインタ
 	float* source;
 	///接続先の要素へのポインタ

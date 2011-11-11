@@ -1,8 +1,10 @@
 #ifndef Constants_H_
 #define Constants_H_
 
-#define LENGTH 100
+///Fieldの長さ
+#define LENGTH			100
 
+///Field上の属性とその対応値(Hash)
 #define OUTOFAREA		-1
 #define NORMAL			0
 #define ONSTART			1
@@ -15,6 +17,9 @@
 #define BATTLOSS		3
 
 ///無信号状態
-#define NO_SIGNAL	0.0f
+#define NO_SIGNAL		0.0f
+
+///円周率π : 1.15桁まで (double の有効数字は10進数で16桁未満)
+#define PI				3.141592653589793
 
 #endif //Constants_H_
