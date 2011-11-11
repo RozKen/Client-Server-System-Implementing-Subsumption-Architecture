@@ -7,7 +7,8 @@ Robot::Robot(){
 
 Robot::Robot(int inputPorts, int outputPorts){
 	memory = new Blackboard();
-
+	createInputPort(inputPorts);
+	createOutputPort(outputPorts);
 }
 
 void Robot::Initialize(){

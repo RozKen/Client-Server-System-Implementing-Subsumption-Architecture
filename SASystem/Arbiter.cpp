@@ -46,13 +46,13 @@ double Arbiter::generateSignal(){
 	double magnitude;	///M†‘S‘Ì‚Ì‹­‚³‚ÌŒW”
 
 	if(factor >= 0){
-		destRatio = 0.5 * ( cos(0.5 * PI * cos(currentFactor * PI) + 1.0) + 1.0 );
+		destRatio = (float)0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
 		sourceRatio = 1.0 - destRatio;
 		magnitude = 0.0;
 	}else{
 		destRatio = 1.0;
 		sourceRatio = 0.0;
-		magnitude = 0.5 * ( cos( 0.5 * PI * ( cos( (currentFactor + 1) * PI ) + 1.0 ) ) + 1.0 );
+		magnitude = 0.5 * ( cos( 0.5 * PI * ( cos( (double)(currentFactor + 1.0) * PI ) + 1.0 ) ) + 1.0 );
 	}
 
 	double signal = magnitude * (destRatio * (double)(*destination) + sourceRatio * (double)(*source));

@@ -30,15 +30,21 @@ public:
 	void Update();
 
 	/**
-		@brief Log Datas on Blackboard.
+		@brief Log Blackboard Data into a File.
 	 */
 	void Log();
-
+	/**
+		@brief 入力Portを作成
+		@param numberOfPorts 入力ポート数
+	 */
 	void createInputPort(int numberOfPorts);
-
+	/**
+		@brief 出力Portを作成
+		@param bumberOfPorts 出力ポート数
+	 */
 	void createOutputPort(int numberOfPorts);
 
-	/* Accessしやすいようにpublicにしちゃった */
+	/**** Accessしやすいようにpublicにしちゃった ****/
 	///入力信号Buffer
 	float* inputs;
 	///出力信号Buffer

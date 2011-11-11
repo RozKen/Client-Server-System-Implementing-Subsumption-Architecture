@@ -11,6 +11,16 @@
 //for _mkdir
 #include <direct.h>
 
+#define TEST_LOGGER
+
+#ifdef TEST_LOGGER
+#include "Logger.h"
+#include <math.h>
+
+void LoggerTest();
+
+#endif	//TEST_LOGGER
+
 Random<boost::uniform_int<> > _numBatGen(15, 25);
 int numberOfBatteries;
 Random<boost::uniform_int<> > _batPos(1, LENGTH);
@@ -52,23 +62,26 @@ void fieldGenerator(int* field){
 }
 
 void main(){
-	int* field = new int[LENGTH];
+	
+	LoggerTest();
+
+	/*int* field = new int[LENGTH];
 	int numberOfFields = 1;
 	for(int i = 0; i < numberOfFields; i++){
 		//Field‚Ìì¬
 		fieldGenerator(field);
 		
 		//“Á’è‚ÌField‚Ìì¬
-		/*
-		int field2[] = {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,
-					0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,
-					3,0,0,0,0,0,0,0,0,3,0,0,0,3,3,
-					0,0,0,3,0,0,0,0,3,0,3,0,3,0,0,
-					3,3,0,3,0,3,0,0,0,0,0,0,3,0,0,
-					0,0,0,0,0,3,0,3,0,0,3,3,0,0,0,
-					3,0,0,0,0,0,0,3,0,2};
-		field = field2;
-		*/
+		
+		//int field2[] = {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,
+		//			0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,
+		//			3,0,0,0,0,0,0,0,0,3,0,0,0,3,3,
+		//			0,0,0,3,0,0,0,0,3,0,3,0,3,0,0,
+		//			3,3,0,3,0,3,0,0,0,0,0,0,3,0,0,
+		//			0,0,0,0,0,3,0,3,0,0,3,3,0,0,0,
+		//			3,0,0,0,0,0,0,3,0,2};
+		//field = field2;
+		
 
 		//FieldTester‚Ìì¬
 		FieldTester ft = FieldTester((const int *)field);
@@ -76,10 +89,50 @@ void main(){
 		ft.Test();
 	}
 	delete(field);
-
+	*/
 	std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
 	
 	std::string input;
 	std::cin >> input;
 	return;
 }
+#ifdef TEST_LOGGER
+void LoggerTest(){
+	std::cout << "Logger Test Started" << std::endl;
+	//Œ»ÝŽž
+	time_t now;
+	///Œ»ÝŽž‚ðŽæ“¾
+	time(&now);
+	///LogDirectoryPath‚ðÝ’è
+	std::string testLogDirectoryPath = "../../../../analysis/";
+	testLogDirectoryPath.append(ctime(&now));
+	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 12, 1);
+	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 9, 1);
+	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 1, 1);
+	std::string testLogFileName = "_logTest.csv";
+	std::cout << "Log File Path: " << testLogDirectoryPath << testLogFileName << std::endl;
+
+	Logger logger(testLogDirectoryPath, testLogFileName);
+	int step = 0;
+	float factor = 0.0f;
+	float magnitude = 1.0f;
+	float signal = 0.0f;
+	logger.add("step", &step);
+	logger.add("factor", &factor);
+	logger.add("magnitude", &magnitude);
+	logger.add("signal", &signal);
+
+	std::cout << "Logger has set up." << std::endl;
+
+	int MAX_STEP = 100;
+	double delta = 1.0 / (double)MAX_STEP;
+	for(int i = 0; i < MAX_STEP; i++){
+		step = i;
+		factor = delta * (double)i;
+		signal = (float)0.5 * ( cos(0.5 * PI * (cos((double)factor * PI) + 1.0)) + 1.0 );
+		logger.Log();
+	}
+
+	std::cout << "Logger test has done!" << std::endl;
+}
+#endif	//TEST_LOGGER
