@@ -4,7 +4,7 @@
 #include "FieldConnectorTester.h"
 
 /**
-	@class FieldTeste
+	@class FieldTester
 	@brief —^‚¦‚ç‚ê‚½Fieldã‚ÅAWire, Inhibitor, Supress, probSelecter, probSuperposer
 	‚Ì5í‚Ì“®‚«‚É‚Â‚¢‚ÄTest‚·‚éƒNƒ‰ƒX
 	@date 18th October 2011
