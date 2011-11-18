@@ -55,6 +55,13 @@ public:
 	 */
 	void add(std::string title, float* pointer_to_float_variable);
 	/**
+		@brief float型のvectorに含まれている値を記録するよう登録する
+		@param title 変数を説明するタイトル
+		@param vector 値が含まれているvector
+		@param index vectorにおける，index
+	 */
+	void add(std::string title, std::vector<float>* vector, int index);
+	/**
 		@brief logFilePathを設定する
 		@param filePath logFilePath
 		@sa logFilePath
@@ -84,11 +91,14 @@ protected:
 		<ul>
 			<li>0 : int型</li>
 			<li>1 : float型</li>
+			<li>2 : std::vector<float*> 型配列中の
+				logArrayIndexに書いてあるindexの要素</li>
 		</ul>
 	 */
 	std::vector<int>	logTypes;
 	///記録する変数へのポインタ
 	std::vector<void *> logContents;
+	std::vector<int>	logArrayIndex;
 	///Logした回数のカウンタ
 	int count;
 	/**

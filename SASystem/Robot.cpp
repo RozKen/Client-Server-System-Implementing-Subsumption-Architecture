@@ -45,12 +45,8 @@ void Robot::addArbiter(Arbiter *arbiter){
 
 void Robot::createInputPort(int numberOfPorts){
 	SAModule::createInputPort(numberOfPorts);
-
-	memory->createInputPort(numberOfPorts);
 }
 
 void Robot::createOutputPort(int numberOfPorts){
 	SAModule::createOutputPort(numberOfPorts);
-
-	memory->createOutputPort(numberOfPorts);
 }

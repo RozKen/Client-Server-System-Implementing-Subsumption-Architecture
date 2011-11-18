@@ -11,7 +11,7 @@
 //for _mkdir
 #include <direct.h>
 
-#define TEST_LOGGER
+//#define TEST_LOGGER
 
 #ifdef TEST_LOGGER
 #include "Logger.h"
@@ -63,7 +63,9 @@ void fieldGenerator(int* field){
 
 void main(){
 	
+#ifdef TEST_LOGGER
 	LoggerTest();
+#endif	//TEST_LOGGER
 
 	/*int* field = new int[LENGTH];
 	int numberOfFields = 1;
@@ -121,6 +123,13 @@ void LoggerTest(){
 	logger.add("factor", &factor);
 	logger.add("magnitude", &magnitude);
 	logger.add("signal", &signal);
+	std::vector<float>* data = new std::vector<float>();
+	
+	for(int i = 0; i < 10; i++){
+		data->push_back(0.0f);
+		std::string title = "data";
+		logger.add(title, data, i);
+	}
 
 	std::cout << "Logger has set up." << std::endl;
 
@@ -130,6 +139,9 @@ void LoggerTest(){
 		step = i;
 		factor = delta * (double)i;
 		signal = (float)0.5 * ( cos(0.5 * PI * (cos((double)factor * PI) + 1.0)) + 1.0 );
+		for(int j = 0; j < 10; j++){
+			data->at(j) = (float)pow(signal, j);
+		}
 		logger.Log();
 	}
 

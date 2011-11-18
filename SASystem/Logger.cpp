@@ -38,6 +38,9 @@ void Logger::Log(){
 		case 1:
 			ofs << *((float *)(logContents[i])) << ",";
 			break;
+		case 2:
+			ofs << ((std::vector<float> *)logContents.at(i))->at(logArrayIndex.at(i)) << ",";
+			break;
 		default:
 			ofs << "Invalid Type Value,";
 		}
@@ -63,12 +66,23 @@ void Logger::add(std::string title, int* pointer_to_integer_variable){
 	logTitles.push_back(title);
 	logTypes.push_back(0);
 	logContents.push_back((void*) pointer_to_integer_variable);
+	logArrayIndex.push_back(-1);
 }
 
 void Logger::add(std::string title, float* pointer_to_float_variable){
 	logTitles.push_back(title);
 	logTypes.push_back(1);
 	logContents.push_back((void*) pointer_to_float_variable);
+	logArrayIndex.push_back(-1);
+}
+
+void Logger::add(std::string title, std::vector<float>* vector, int index){
+	logTitles.push_back(title);
+	logTypes.push_back(2);
+	//logContentsには配列全体を入れておく
+	logContents.push_back((void *) vector);
+	//pushはしないけど，なにかしたいよね…
+	logArrayIndex.push_back(index);
 }
 
 std::string Logger::intToString(int number){

@@ -2,6 +2,7 @@
 #define _Blackboard_H_
 
 #include "Constants.h"
+#include "Logger.h"
 
 /**
 	@class Blackboard
@@ -21,50 +22,103 @@ public:
 		@brief Constructor
 	*/
 	Blackboard();
-
-	Blackboard::Blackboard(int inputPortNum, int outputPortNum);
-
+	/**
+		@brief Constructor
+		@param logFilePath ログファイルへのpath
+	 */
+	Blackboard(std::string logFilePath);
+	/**
+		@brief Destructor
+		Delete pointers of std::vectors
+	 */
+	virtual ~Blackboard();
 	/**
 		@brief Update Internal World from inputs and set outputs according to the World
 	*/
-	void Update();
+	virtual void Update();
 
 	/**
 		@brief Log Blackboard Data into a File.
 	 */
 	void Log();
+	
 	/**
-		@brief 入力Portを作成
-		@param numberOfPorts 入力ポート数
+		@brief 入力Portを追加
+		@param title Portの名前
 	 */
-	void createInputPort(int numberOfPorts);
+	int addInputPort(std::string title);
 	/**
-		@brief 出力Portを作成
-		@param bumberOfPorts 出力ポート数
+		@brief 出力Portを追加
+		@param title Portの名前
 	 */
-	void createOutputPort(int numberOfPorts);
+	int addOutputPort(std::string title);
 
-	/**** Accessしやすいようにpublicにしちゃった ****/
-	///入力信号Buffer
-	float* inputs;
-	///出力信号Buffer
-	float* outputs;
+	//Setters and Getters
+	/**
+		@brief このBlackboardで利用するログファイルへのPathを設定
+		@sa logger
+	 */
+	void setLogFilePath(std::string logFilePath);
+	float getInput(int index) const;
+	float getOutput(int index) const;
+	void setInput(int index, float signal);
+	void setOutput(int index, float signal);
+	int getNumOfOutputs() const;
+	int getNumOfInputs() const;
+
+protected:
+	std::vector<float> *inputs;
+	std::vector<float> *outputs;
 	///入力信号ポート数
 	int numOfInputPorts;
 	///出力信号ポート数
 	int numOfOutputPorts;
-protected:
+
+	/**
+		@brief 記録をとるモジュール
+		@sa Logger
+	 */
+	Logger* logger;
 };
 
 inline Blackboard::Blackboard(): numOfInputPorts(0), numOfOutputPorts(0){
-	createInputPort(numOfInputPorts);
-	createOutputPort(numOfOutputPorts);
+	inputs = new std::vector<float>();
+	outputs = new std::vector<float>();
 }
 
-inline Blackboard::Blackboard(int inputPortNum, int outputPortNum)
-	:numOfInputPorts(inputPortNum), numOfOutputPorts(outputPortNum){
-	createInputPort(numOfInputPorts);
-	createOutputPort(numOfOutputPorts);
+inline Blackboard::Blackboard(std::string logFilePath)
+	:numOfInputPorts(0), numOfOutputPorts(0){
+	setLogFilePath(logFilePath);
+	inputs = new std::vector<float>();
+	outputs = new std::vector<float>();
+}
+
+inline Blackboard::~Blackboard(){
+	delete(inputs);
+	delete(outputs);
+}
+
+inline void Blackboard::setLogFilePath(std::string logFilePath){
+	this->logger->setFilePath(logFilePath);
+}
+
+inline float Blackboard::getInput(int index) const{
+	return inputs->at(index);
+}
+inline float Blackboard::getOutput(int index) const{
+	return outputs->at(index);
+}
+inline void Blackboard::setInput(int index, float signal){
+	inputs->at(index) = signal;
+}
+inline void Blackboard::setOutput(int index, float signal){
+	outputs->at(index) = signal;
+}
+inline int Blackboard::getNumOfOutputs() const{
+	return numOfOutputPorts;
+}
+inline int Blackboard::getNumOfInputs() const{
+	return numOfInputPorts;
 }
 
 #endif //_Blackboard_H_
