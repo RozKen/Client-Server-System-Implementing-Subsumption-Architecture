@@ -4,8 +4,7 @@
 #include <vector>
 #include "SAModule.h"
 #include "Blackboard.h"
-
-class Arbiter;
+#include "Arbiter.h"
 
 /**
 	@class Robot

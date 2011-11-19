@@ -9,17 +9,29 @@ Arbiter::Arbiter()
 Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort)
 	:_rand(0, 1), source(src), srcPort(srcPort), destination(dest), destPort(destPort),
 	timeToModify(0), timeLeftModified(0), factor(-100.0f){
+		addInput(src->getOutputTitles()->at(srcPort));
+		addInputIndex(src->getOutputIndex(srcPort));
+		addOutput(dest->getInputTitles()->at(destPort));
+		addOutputIndex(dest->getInputIndex(destPort));
 }
 
 Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, float factor)
 	:_rand(0, 1),  source(src), srcPort(srcPort), destination(dest), destPort(destPort),
 	timeToModify(0), timeLeftModified(0), factor(factor){
+		addInput(src->getOutputTitles()->at(srcPort));
+		addInputIndex(src->getOutputIndex(srcPort));
+		addOutput(dest->getInputTitles()->at(destPort));
+		addOutputIndex(dest->getInputIndex(destPort));
 }
 
 Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, 
 		float factor_min, float factor_max)
 	: source(src), srcPort(srcPort), destination(dest), destPort(destPort), 
 	_rand(factor_min, factor_max), timeToModify(0), timeLeftModified(0), factor(-100.0f){
+		addInput(src->getOutputTitles()->at(srcPort));
+		addInputIndex(src->getOutputIndex(srcPort));
+		addOutput(dest->getInputTitles()->at(destPort));
+		addOutputIndex(dest->getInputIndex(destPort));
 }
 
 void Arbiter::Run(){

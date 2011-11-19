@@ -98,7 +98,7 @@
     <ClInclude Include="FieldTester.hpp" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Modules.h" />
-    <ClInclude Include="Mod_Multiple.hpp" />
+    <ClInclude Include="ModMultiple.hpp" />
     <ClInclude Include="PositionUpdater.hpp" />
     <ClInclude Include="Progress.hpp" />
     <ClInclude Include="ProgressCounter.hpp" />

@@ -1,5 +1,4 @@
 #include "Robot.h"
-#include "Arbiter.h"
 
 Robot::Robot(){
 	this->modules = new std::vector<SAModule*>();
