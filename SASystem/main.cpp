@@ -57,6 +57,10 @@ void main(){
 	mod.push_back(f);
 	mod.push_back(g);
 
+	for(int i = 0; i < mod.size(); i++){
+		robo->addModule(mod.at(i));
+	}
+
 	//Wire
 	Arbiter* ae = new Arbiter(a, 0, e, 0, 0.0);
 	//Inhibitor
@@ -77,9 +81,6 @@ void main(){
 	arb.push_back(eg);
 	arb.push_back(fg);
 
-	for(int i = 0; i < mod.size(); i++){
-		robo->addModule(mod.at(i));
-	}
 	for(int i = 0; i < arb.size(); i++){
 		robo->addArbiter(arb.at(i));
 	}
