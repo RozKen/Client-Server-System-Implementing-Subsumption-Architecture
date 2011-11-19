@@ -31,22 +31,22 @@ public:
 		@brief 入力ポートを追加する
 		@param title 入力ポートの名前
 	 */
-	void addInput(std::string title);
+	virtual void addInput(std::string title);
 	/**
 		@brief 出力ポートを追加する
 		@param title 出力ポートの名前
 	 */
-	void addOutput(std::string title);
+	virtual void addOutput(std::string title);
 	/**
 		@brief memoryにおけるポート番号を追加する
 		@param index 入力ポート番号
 	 */
-	void addInputIndex(int index);
+	virtual void addInputIndex(int index);
 	/**
 		@brief memoryにおけるポート番号を追加する
 		@param index 出力ポート番号
 	 */
-	void addOutputIndex(int index);
+	virtual void addOutputIndex(int index);
 
 	///////////////Setters and Getters///////////////
 	/**
@@ -55,22 +55,43 @@ public:
 		@sa Blackboard
 	 */
 	virtual void setParent(SAModule* parent);
-
-	std::vector<std::string>* getInputTitles() const;
-	std::vector<std::string>* getOutputTitles() const;
+	/**
+		@brief このモジュールの入力ポート名の配列を返す
+		@return 入力ポート名の配列へのポインタ
+	 */
+	virtual std::vector<std::string>* getInputTitles() const;
+	/**
+		@brief このモジュールの出力ポート名の配列を返す
+		@return 出力ポート名の配列へのポインタ
+	 */
+	virtual std::vector<std::string>* getOutputTitles() const;
+	/**
+		@brief このモジュールのindexOnModule番目の入力ポートが，
+		memory上のどの出力ポートと繋がっているか？を返す
+		@param indexOnModule モジュールの入力ポート番号
+		@return memory上の出力ポート番号
+	 */
+	virtual int	getInputIndex(int indexOnModule) const;
+	/**
+		@brief このモジュールのindexOnModule番目の出力ポートが，
+		memory上のどの入力ポートと繋がっているか？を返す
+		@param indexOnModule モジュールの出力ポート番号
+		@return memory上の入力ポート番号
+	 */
+	virtual int getOutputIndex(int indexOnModule) const;
 
 	/**
 		@brief input信号を渡す．
 		@param index 得る配列要素のindex
 		@return input 入力信号の配列要素の値
 	 */
-	float getInput(int index) const;
+	virtual float getInput(int index) const;
 	/**
 		@brief outputを信号設定する
 		@param output 出力信号の配列要素へ代入する値
 		@param index 設定する配列要素のindex
 	 */
-	void setOutput(int index, float signal);
+	virtual void setOutput(int index, float signal);
 	/**
 		@brief 入力信号ポート数を返す
 		@return 入力信号ポート数

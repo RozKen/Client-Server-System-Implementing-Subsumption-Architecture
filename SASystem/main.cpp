@@ -28,7 +28,7 @@ std::string logPathGenerator();
 
 void main(){
 	std::string logPath;
-	std::string option = "test";
+	std::string option = "test.csv";
 	logPath = logPathGenerator();
 
 	Robot* robo;
