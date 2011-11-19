@@ -17,7 +17,7 @@
 #define BATTLOSS		3
 
 ///–³M†ó‘Ô
-#define NO_SIGNAL		0.0f
+#define NO_SIGNAL		2.0f
 
 ///‰~ü—¦ƒÎ : 1.15Œ…‚Ü‚Å (double ‚Ì—LŒø”š‚Í10i”‚Å16Œ…–¢–)
 #define PI				3.141592653589793
