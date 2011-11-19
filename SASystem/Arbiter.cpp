@@ -23,7 +23,7 @@ Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort,
 }
 
 void Arbiter::Run(){
-	*destination = (float)generateSignal();
+	this->setOutput((float)generateSignal());
 }
 
 void Arbiter::setSource(SAModule* src, int srcPort){
@@ -40,15 +40,29 @@ void Arbiter::setDestination(SAModule* dest, int destPort){
 	addOutputIndex(dest->getInputIndex(destPort));
 }
 
-float Arbiter::getInput(int index) const{
-	///Arbiterへの入力はmemoryの入力から入手※Moduleと異なる
-	int result = memory->getInput(this->inputIndex->at(index));
+float Arbiter::getInput() const{
+		///Arbiterへの入力はmemoryの入力から入手※Moduleと異なる
+	int result = memory->getInput(this->inputIndex->at(0));
 	return result;
 }
+float Arbiter::getInput(int index) const{
+	return getInput();
+}
 
-void Arbiter::setOutput(int index, float signal){
+void Arbiter::setOutput(float signal){
 	///Arbiterからの出力は，memoryの出力へ送信※Moduleと異なる
-	memory->setOutput(this->outputIndex->at(index), signal);
+	memory->setOutput(this->outputIndex->at(0), signal);
+}
+void Arbiter::setOutput(int index, float signal){
+	setOutput(signal);
+}
+
+float Arbiter::getDest() const{
+	return memory->getOutput(this->outputIndex->at(0));
+}
+
+float Arbiter::getSrc() const{
+	return memory->getInput(this->inputIndex->at(0));
 }
 
 double Arbiter::generateSignal(){
@@ -75,6 +89,6 @@ double Arbiter::generateSignal(){
 		magnitude = 0.5 * ( cos( 0.5 * PI * ( cos( (double)(currentFactor + 1.0) * PI ) + 1.0 ) ) + 1.0 );
 	}
 
-	double signal = magnitude * (destRatio * (double)(*destination) + sourceRatio * (double)(*source));
+	double signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
 	return signal;
 }

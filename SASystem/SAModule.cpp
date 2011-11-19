@@ -70,3 +70,11 @@ int SAModule::getNumOfOutputPorts() const{
 Blackboard* SAModule::getMemory() const{
 	return this->memory;
 }
+
+int SAModule::getInputIndex(int indexOnModule) const{
+	return this->inputIndex->at(indexOnModule);
+}
+
+int SAModule::getOutputIndex(int indexOnModule) const{
+	return this->outputIndex->at(indexOnModule);
+}

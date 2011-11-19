@@ -49,10 +49,28 @@ public:
 		@param srcPort 接続先Module上の入力ポート番号
 	 */
 	void setDestination(SAModule* dest, int destPort);
+	
+	/**
+		@brief 接続先が元々持っている信号を得る
+		@return 接続先が保持する信号
+	 */
+	float getDest() const;
+	/**
+		@brief 接続元が持っている信号を得る
+		@return 接続元が保持する信号
+	 */
+	float getSrc() const;
 
 	/**
-		@brief 入力信号を渡す．
-		@param index 得る配列要素のモジュール上の入力ポート番号
+		@brief 入力信号を得る．
+		@return input 入力信号の配列要素の値
+		@override SAModule::getInput
+		@sa SAModule::getInput
+	 */
+	float getInput() const;
+	/**
+		@brief 入力信号を得る．
+		@param index [disabled]得る配列要素のモジュール上の入力ポート番号
 		@return input 入力信号の配列要素の値
 		@override SAModule::getInput
 		@sa SAModule::getInput
@@ -61,7 +79,14 @@ public:
 	/**
 		@brief 出力信号を設定する
 		@param output 出力信号の配列要素へ代入する値
-		@param index 設定する配列要素のモジュール上の出力ポート番号
+		@override SAModule::setOutput
+		@sa SAModule::setOutput
+	 */
+	void setOutput(float signal);
+	/**
+		@brief 出力信号を設定する
+		@param output 出力信号の配列要素へ代入する値
+		@param index [disabled]設定する配列要素のモジュール上の出力ポート番号
 		@override SAModule::setOutput
 		@sa SAModule::setOutput
 	 */
