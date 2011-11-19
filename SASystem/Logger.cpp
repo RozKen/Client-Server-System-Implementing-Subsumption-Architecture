@@ -2,6 +2,7 @@
 #include <time.h>
 #include <sstream>
 #include <iostream>
+#include <direct.h>
 
 Logger::Logger(): count(0), logFilePath(""), logDirectoryPath("")
 	, logFileName(""){
@@ -13,10 +14,11 @@ Logger::Logger(std::string filePath)
 	Initialize();
 }
 Logger::Logger(std::string directoryPath, std::string fileName)
-	:count(0), logFilePath(directoryPath.append(fileName))
+	:count(0), logFilePath(directoryPath.append("/").append(fileName))
 	, logDirectoryPath(directoryPath), logFileName(fileName){
-
-	Initialize();
+	
+		_mkdir(directoryPath.c_str());
+		Initialize();
 }
 
 Logger::~Logger(){
@@ -53,9 +55,6 @@ void Logger::Initialize(){
 	if(logFilePath.length() == 0){
 		std::cerr << "Error:ログファイルの保存先(logFilePath)を指定して下さい" << std::endl;
 	}else{
-		//現在時刻
-		time_t now;
-		time(&now);
 		///記録ファイルを設定
 		ofs.open(logFilePath);
 		this->add("count", &count);
@@ -106,6 +105,17 @@ std::string Logger::intToString(int number){
 
 void Logger::setFilePath(std::string filePath){
 	logFilePath = filePath;
+	Initialize();
+}
+
+void Logger::setFilePath(std::string fileDirectoryPath, std::string fileName){
+	logDirectoryPath = fileDirectoryPath;
+	logFileName = fileName;
+	logFilePath = logDirectoryPath;
+	logFilePath.append("/");
+	logFilePath.append(fileName);
+	_mkdir(logDirectoryPath.c_str());
+	Initialize();
 }
 
 std::string Logger::getFilePath() const{

@@ -56,17 +56,18 @@ protected:
 };
 
 inline Alive::Alive()
-	: SAModule(RANGEVISION + 1, 1), battery(0), CURRENT((RANGEVISION - 1) / 2), count(0){
-	for(int i = 0; i < RANGEVISION; i++){
+	: battery(0), CURRENT((RANGEVISION - 1) / 2), count(0){
+	/*for(int i = 0; i < RANGEVISION; i++){
 		vision[i] = 0;
 		inputs[i] = 0;
 	}
 	vision[CURRENT] = ONSTART;
 	inputs[CURRENT] = ONSTART;
 	inputs[RANGEVISION] = 100;
+	*/
 }
 inline void Alive::Run(){
-	if(count % 3 == 0){
+	/*if(count % 3 == 0){
 		//Inputeからの情報で内部変数を更新
 		for(int i = 0; i < RANGEVISION; i++){
 			vision[i] = inputs[i];
@@ -84,27 +85,30 @@ inline void Alive::Run(){
 		outputs[0] = 0;
 	}
 	count++;
+	*/
 }
 
 inline bool Alive::isChargerExist(){
-	for(int i = 0; i < RANGEVISION; i++){
+	/*for(int i = 0; i < RANGEVISION; i++){
 		if(i != CURRENT){
 			if(vision[i] == ONCHARGER){
 				return true;
 			}
 		}
 	}
+	*/
 	return false;
 }
 
 inline int Alive::findNearestCharger(){
-	for(int i = 1; i < (RANGEVISION + 1) / 2; i++){
+	/*for(int i = 1; i < (RANGEVISION + 1) / 2; i++){
 		if(vision[CURRENT + i] == ONCHARGER){
 			return i;
 		}else if(vision[CURRENT - i] == ONCHARGER){
 			return -i;
 		}
 	}
+	*/
 	//見つからない場面でのこの関数の利用は想定外.
 	return -100;
 }

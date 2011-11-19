@@ -39,7 +39,7 @@ public:
 protected:
 	EnvUpdater* env;
 };
-inline VisionScope::VisionScope(EnvUpdater* environment) : SAModule(0, RANGEVISION), env(environment){
+inline VisionScope::VisionScope(EnvUpdater* environment) : env(environment){
 }
 inline void VisionScope::Run(){
 	const int* field = env->getField();
@@ -50,9 +50,9 @@ inline void VisionScope::Run(){
 		point = pos - 5 + i;
 		//AreaŠO‚ÌŽž
 		if(point < 0 || point > LENGTH - 1){
-			outputs[i] = OUTOFAREA;
+			//outputs[i] = OUTOFAREA;
 		}else{	//Area“à‚ÌŽž
-			outputs[i] = field[point];
+			//outputs[i] = field[point];
 		//	std::cout << outputs[i] << std::endl;
 		}
 	}

@@ -138,7 +138,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 	ofs << std::endl;
 
 	for(int time = 0; time < maxTime; time++){
-		SAServer server(this->field, testLogDirectoryPath, time);
+		/*SAServer server(this->field, testLogDirectoryPath, time);
 	
 		//std::cout << "Created Server" << std::endl;
 
@@ -227,12 +227,12 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 
 		std::string logFileName = server.getLogFileName();
 	
-		/*std::cout << "Battery: " << battery << std::endl;
-		std::cout << "Progress: " << progress << std::endl;
-		std::cout << "Step: " << step << std::endl;
-		std::cout << "numOfBatteries: " << numberOfBatteries << std::endl;
-		std::cout << "logFileName: " << logFileName << std::endl;
-		*/
+		//std::cout << "Battery: " << battery << std::endl;
+		//std::cout << "Progress: " << progress << std::endl;
+		//std::cout << "Step: " << step << std::endl;
+		//std::cout << "numOfBatteries: " << numberOfBatteries << std::endl;
+		//std::cout << "logFileName: " << logFileName << std::endl;
+		
 
 		if(progress == LENGTH - 1){
 			numOfSuccess ++;
@@ -255,6 +255,7 @@ void FieldConnectorTester::Test(int maxTime, int maxCount){
 		//std::cout << "End" <<std::endl;
 		//0.5•bSleep
 		//Sleep(1000);
+		*/
 	}
 
 	if(numOfSuccess == 0){

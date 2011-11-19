@@ -27,6 +27,7 @@ public:
 		@param logFilePath ログファイルへのpath
 	 */
 	Blackboard(std::string logFilePath);
+	Blackboard(std::string directoryPath, std::string fileName);
 	/**
 		@brief Destructor
 		Delete pointers of std::vectors
@@ -59,6 +60,7 @@ public:
 		@sa logger
 	 */
 	void setLogFilePath(std::string logFilePath);
+	void setLogFilePath(std::string fileDirectoryPath, std::string fileName);
 	float getInput(int index) const;
 	float getOutput(int index) const;
 	void setInput(int index, float signal);
@@ -84,6 +86,7 @@ protected:
 inline Blackboard::Blackboard(): numOfInputPorts(0), numOfOutputPorts(0){
 	inputs = new std::vector<float>();
 	outputs = new std::vector<float>();
+	logger = new Logger();
 }
 
 inline Blackboard::Blackboard(std::string logFilePath)
@@ -91,6 +94,13 @@ inline Blackboard::Blackboard(std::string logFilePath)
 	setLogFilePath(logFilePath);
 	inputs = new std::vector<float>();
 	outputs = new std::vector<float>();
+	logger = new Logger(logFilePath);
+}
+
+inline Blackboard::Blackboard(std::string directoryPath, std::string fileName){
+	inputs = new std::vector<float>();
+	outputs = new std::vector<float>();
+	logger = new Logger(directoryPath, fileName);
 }
 
 inline Blackboard::~Blackboard(){
@@ -100,6 +110,10 @@ inline Blackboard::~Blackboard(){
 
 inline void Blackboard::setLogFilePath(std::string logFilePath){
 	this->logger->setFilePath(logFilePath);
+}
+
+inline void Blackboard::setLogFilePath(std::string fileDirectoryPath, std::string fileName){
+	this->logger->setFilePath(fileDirectoryPath, fileName);
 }
 
 inline float Blackboard::getInput(int index) const{

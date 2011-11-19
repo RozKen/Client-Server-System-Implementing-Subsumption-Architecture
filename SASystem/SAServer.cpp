@@ -78,7 +78,7 @@ void SAServer::RunModules(){
 }
 
 void SAServer::ProcessConnectors(){
-	//outputs‚ğ‰Šú‰»
+	/*//outputs‚ğ‰Šú‰»
 	outputs = std::vector<float>();
 	//Module‚©‚çoutput‚ğæ“¾
 	for(int i = 0; i < modules.size(); i++){
@@ -134,6 +134,7 @@ void SAServer::ProcessConnectors(){
 			inputs.push_back(modules[i]->getInput(j));
 		}
 	}
+	*/
 }
 
 void SAServer::Log(){

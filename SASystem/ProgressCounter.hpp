@@ -30,12 +30,12 @@ protected:
 };
 
 inline ProgressCounter::ProgressCounter(EnvUpdater* environment)
-	: SAModule(0, 1), env(environment){
+	: env(environment){
 }
 
 inline void ProgressCounter::Run(){
 	int pos = env->getPosition();
-	outputs[0] = pos;
+	//outputs[0] = pos;
 	return;
 }
 

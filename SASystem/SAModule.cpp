@@ -1,73 +1,72 @@
 #include "SAModule.h"
 
 SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
+	this->inputIndex = new std::vector<int>();
+	this->outputIndex = new std::vector<int>();
+	this->inputTitles = new std::vector<std::string>();
+	this->outputTitles = new std::vector<std::string>();
+	this->memory = new Blackboard();
 }
 
-SAModule::SAModule(int numberOfInputPorts, int numberOfOutputPorts)
-	:numOfInputPorts(numberOfInputPorts), numOfOutputPorts(numberOfOutputPorts){
-	//信号Bufferを初期化
-	//メモリの初期化
-	inputs = new float[numberOfInputPorts];
-	outputs = new float[numberOfOutputPorts];
-	//値の初期化
-	for(int i = 0; i < numberOfInputPorts; i++){
-		inputs[i] = NO_SIGNAL;
-	}
-	for(int i = 0; i < numberOfOutputPorts; i++){
-		outputs[i] = NO_SIGNAL;
-	}
+SAModule::~SAModule(){
+	delete(inputIndex);
+	delete(outputIndex);
+	delete(inputTitles);
+	delete(outputTitles);
+	delete(memory);
 }
 
-void SAModule::createInputPort(int numberOfPorts){
-	//入力信号Bufferを初期化
-	//メモリの初期化
-	inputs = new float[numberOfPorts];
-	numOfInputPorts = numberOfPorts;
-	//値の初期化
-	for(int i = 0; i < numOfInputPorts; i++){
-		inputs[i] = NO_SIGNAL;
-	}
+void SAModule::addInput(std::string title){
+	this->inputTitles->push_back(title);
+	this->numOfInputPorts = this->inputTitles->size();
 }
 
-void SAModule::createOutputPort(int numberOfPorts){
-	//入力信号Bufferを初期化
-	//メモリの初期化
-	outputs = new float[numberOfPorts];
-	numOfOutputPorts = numberOfPorts;
-	//値の初期化
-	for(int i = 0; i < numOfOutputPorts; i++){
-		outputs[i] = NO_SIGNAL;
-	}
+void SAModule::addOutput(std::string title){
+	this->outputTitles->push_back(title);
+	this->numOfOutputPorts = this->outputTitles->size();
 }
 
-float* SAModule::getInputsPtr(){
-	return inputs;
+void SAModule::addInputIndex(int index){
+	this->inputIndex->push_back(index);
 }
 
-float* SAModule::getOutputsPtr(){
-	return outputs;
+void SAModule::addOutputIndex(int index){
+	this->outputIndex->push_back(index);
 }
 
-void SAModule::setInput(float inputSignal, int index){
-	inputs[index] = inputSignal;
+void SAModule::setParent(SAModule* parent){
+	this->parent = parent;
+	this->memory = parent->getMemory();
 }
 
-float SAModule::getInput(int index){
-	return inputs[index];
+std::vector<std::string>* SAModule::getInputTitles() const{
+	return inputTitles;
 }
 
-void SAModule::setOutput(float outputSignal, int index){
-	outputs[index] = outputSignal;
+std::vector<std::string>* SAModule::getOutputTitles() const{
+	return outputTitles;
 }
 
-float SAModule::getOutput(int index){
-	return outputs[index];
+float SAModule::getInput(int index) const{
+	//moduleへの入力はmemoryの出力から入手
+	int result = memory->getOutput(index);
+	return result;
 }
 
-int SAModule::getNumOfInputPorts(){
-	return numOfInputPorts;
+void SAModule::setOutput(int index, float signal){
+	//moduleからの出力は、memoryの入力へ送信
+	memory->setInput(index, signal);
 }
 
-int SAModule::getNumOfOutputPorts(){
-	return numOfOutputPorts;
+
+int SAModule::getNumOfInputPorts() const{
+	return this->numOfInputPorts;
+}
+
+int SAModule::getNumOfOutputPorts() const{
+	return this->numOfOutputPorts;
+}
+
+Blackboard* SAModule::getMemory() const{
+	return this->memory;
 }

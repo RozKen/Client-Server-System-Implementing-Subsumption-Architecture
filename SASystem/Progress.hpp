@@ -59,17 +59,18 @@ protected:
 };
 
 inline Progress::Progress() 
-	: SAModule(RANGEVISION + 2, 1), stepCount(0), progressCount(0), threshold(0.7), count(0){
-	for(int i = 0; i < RANGEVISION; i++){
+	: stepCount(0), progressCount(0), threshold(0.7), count(0){
+	/*for(int i = 0; i < RANGEVISION; i++){
 		vision[i] = 0;
 		inputs[i] = 0;
 	}
 	inputs[RANGEVISION] = 0;
 	inputs[RANGEVISION + 1] = 0;
+	*/
 }
 
 inline void Progress::Run(){
-	if(count % 3 == 0){
+	/*if(count % 3 == 0){
 		//Update Local Variables
 		for(int i = 0; i < RANGEVISION; i++){
 			vision[i] = inputs[i];
@@ -95,25 +96,28 @@ inline void Progress::Run(){
 		outputs[0] = 0;
 	}
 	count++;
+	*/
 }
 
 inline bool Progress::isSeeGoal(){
-	for(int i = 0; i < RANGEVISION; i++){
+	/*for(int i = 0; i < RANGEVISION; i++){
 		if(vision[i] == ONGOAL){
 			return true;
 		}
 	}
+	*/
 	return false;
 }
 
 inline int Progress::stepToGoal(){
 	int index = -100;
-	for(int i = 0; i < RANGEVISION; i++){
+	/*for(int i = 0; i < RANGEVISION; i++){
 		if(vision[i] == ONGOAL){
 			index = i - ((RANGEVISION - 1) / 2);
 			break;
 		}
 	}
+	*/
 	return index;
 }
 

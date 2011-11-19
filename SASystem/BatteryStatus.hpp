@@ -35,12 +35,12 @@ protected:
 };
 
 inline BatteryStatus::BatteryStatus(EnvUpdater* environment)
-	: SAModule(0, 1), env(environment), status(100){
+	: env(environment), status(100){
 }
 
 inline void BatteryStatus::Run(){
 	status = env->getBattery();
-	outputs[0] = status;
+	//outputs[0] = status;
 	return;
 }
 

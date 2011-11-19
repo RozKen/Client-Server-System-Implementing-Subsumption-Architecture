@@ -55,13 +55,14 @@ protected:
 	int progress;
 };
 
-inline PositionUpdater::PositionUpdater() : SAModule(2, 0), position(0), battery(100), progress(0){
-	inputs[0] = 0;
+inline PositionUpdater::PositionUpdater() : position(0), battery(100), progress(0){
+	/*inputs[0] = 0;
 	inputs[1] = 100;
+	*/
 }
 
 inline void PositionUpdater::Run(){
-	//batteryを更新
+	/*//batteryを更新
 	battery = inputs[1];
 	//progressを更新
 	if(battery >= abs(inputs[0]) * BATTLOSS){	//Battery残量が十分の場合
@@ -82,6 +83,7 @@ inline void PositionUpdater::Run(){
 		position = LENGTH - 1;
 		progress = position - tmp;
 	}
+	*/
 }
 
 inline int PositionUpdater::getPosition(){

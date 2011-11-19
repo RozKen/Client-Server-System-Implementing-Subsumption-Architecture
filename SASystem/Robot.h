@@ -19,44 +19,38 @@ class Arbiter;
 class Robot : public SAModule{
 public:
 	/**
-		@brief Constructor
+		@brief Default Constructor
 	 */
 	Robot();
+	/**
+		@brief Constructor with Log File Path
+		@param directoryPath	ログを保存するディレクトリへのパス
+		@param fileName			ログファイル名
+	 */
+	Robot(std::string directoryPath, std::string fileName);
 
 	/**
-		@brief Constructor
-		@param inputPorts センサへの入力の数
-		@param outputPorts アクチュエータによる出力の数
+		@brief Destructor. delete vectors
 	 */
-	Robot(int inputPorts, int outputPorts);
-
+	~Robot();
+	virtual void Run();
 	/**
-		@brief Mission: Operate a Robot
-		<ol>
-			<li>RunModules</li>
-			<li>ProcessArbiters</li>
-			<li>Log</li>
-		</ol>
+		@brief モジュールを登録する
+		@sa SAModule
 	 */
-	void Run();
-
+	void addModule(SAModule *module);
 	/**
-		@brief モジュールに入力ポートを作成する. 指定した個数を一回だけ作成する
-		SAModuleのものを上書き
-		@param numberOfPorts 作成する入力ポートの数
+		@brief コネクターを登録する
+		@sa Arbiter
 	 */
-	virtual void createInputPort(int numberOfPorts);
+	void addArbiter(Arbiter *arbiter);
 	/**
-		@brief モジュールに出力ポートを作成する.指定した個数を一回だけ作成する
-		SAModuleのものを上書き
-		@param numberOfPorts 作成する出力ポートの数
+		@brief	ログを保存する場所を設定する
+		@param directoryPath	ログを保存するディレクトリへのパス
+		@param fileName			ログファイル名
 	 */
-	virtual void createOutputPort(int numberOfPorts);
+	void setLogDirectoryPath(std::string directoryPath, std::string fileName);
 protected:
-	/**
-		@brief このRobot個体が持つ記憶領域 Internal Blackboard
-	 */
-	Blackboard* memory;
 	/**
 		@brief ロボット内のModuleをすべて実行する
 	 */
@@ -77,27 +71,16 @@ protected:
 	*/
 	void Initialize();
 	/**
-		@brief モジュールを登録する
-		@sa SAModule
-	 */
-	void addModule(SAModule *module);
-	/**
-		@brief コネクターを登録する
-		@sa Arbiter
-	 */
-	void addArbiter(Arbiter *arbiter);
-
-	/**
 		@brief 管理されているModule
 		Moduleの登録された順に格納されている.
 	*/
-	std::vector<SAModule*> modules;
+	std::vector<SAModule*> *modules;
 
 	/**
 		@brief 登録されているArbiter
 		Modifierの登録された順に格納されている.
 	 */
-	std::vector<Arbiter*> arbiters;
+	std::vector<Arbiter*> *arbiters;
 
 };
 

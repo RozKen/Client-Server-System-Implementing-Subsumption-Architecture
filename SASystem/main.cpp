@@ -2,7 +2,7 @@
 
 #include "Constants.h"
 #include "Random.hpp"
-#include "FieldTester.hpp"
+//#include "FieldTester.hpp"
 #include <time.h>
 #include <iostream>
 
@@ -10,6 +10,8 @@
 #include <Windows.h>
 //for _mkdir
 #include <direct.h>
+
+#include "Robot.h"
 
 //#define TEST_LOGGER
 
@@ -21,48 +23,19 @@ void LoggerTest();
 
 #endif	//TEST_LOGGER
 
-Random<boost::uniform_int<> > _numBatGen(15, 25);
-int numberOfBatteries;
-Random<boost::uniform_int<> > _batPos(1, LENGTH);
-//std::string testLogFileName;
-//std::ofstream ofs;
-//int count = 0;
-//int numOfSuccess = 0;
-//double aveSuccessClock = 0;
-//double aveDistance = 0;
-
-void fieldGenerator(int* field){
-	numberOfBatteries = _numBatGen();
-	for(int i = 0; i < LENGTH; i++){
-		field[i] = NORMAL;
-		/**
-		if(i % 10 == 3){
-			field[i] = ONCHARGER;
-		}else{
-			field[i] = NORMAL;
-		}
-		*/
-	}
-	field[0] = ONSTART;
-	field[LENGTH - 1] = ONGOAL;
-	for(int i = 0; i < numberOfBatteries; ){
-		int index = _batPos();
-		if(field[index] != ONCHARGER && field[index] != ONSTART
-			&& field[index] != ONGOAL){
-			field[index] = ONCHARGER;
-			i++;
-		}
-	}
-	/*
-	for(int i = 0; i < LENGTH; i++){
-		std::cout << field[i] << "\t";
-	}
-	std::cout << std::endl;
-	*/
-}
+void fieldGenerator(int* field);
+std::string logPathGenerator();
 
 void main(){
-	
+	std::string logPath;
+	std::string option = "test";
+	logPath = logPathGenerator();
+
+	Robot* robo;
+	robo = new Robot();
+	std::cout << logPath << "," << option << std::endl;
+	robo->setLogDirectoryPath(logPath, option);
+
 #ifdef TEST_LOGGER
 	LoggerTest();
 #endif	//TEST_LOGGER
@@ -98,6 +71,21 @@ void main(){
 	std::cin >> input;
 	return;
 }
+
+std::string logPathGenerator(){
+	time_t now;
+	///åªç›éûçèÇéÊìæ
+	time(&now);
+	///LogDirectoryPathÇê›íË
+	std::string testLogDirectoryPath = "../../../../analysis/";
+	testLogDirectoryPath.append(ctime(&now));
+	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 12, 1);
+	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 9, 1);
+	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 1, 1);
+	std::string logPath = testLogDirectoryPath;
+	return logPath;
+}
+
 #ifdef TEST_LOGGER
 void LoggerTest(){
 	std::cout << "Logger Test Started" << std::endl;
@@ -148,3 +136,43 @@ void LoggerTest(){
 	std::cout << "Logger test has done!" << std::endl;
 }
 #endif	//TEST_LOGGER
+
+Random<boost::uniform_int<> > _numBatGen(15, 25);
+int numberOfBatteries;
+Random<boost::uniform_int<> > _batPos(1, LENGTH);
+//std::string testLogFileName;
+//std::ofstream ofs;
+//int count = 0;
+//int numOfSuccess = 0;
+//double aveSuccessClock = 0;
+//double aveDistance = 0;
+
+void fieldGenerator(int* field){
+	numberOfBatteries = _numBatGen();
+	for(int i = 0; i < LENGTH; i++){
+		field[i] = NORMAL;
+		/**
+		if(i % 10 == 3){
+			field[i] = ONCHARGER;
+		}else{
+			field[i] = NORMAL;
+		}
+		*/
+	}
+	field[0] = ONSTART;
+	field[LENGTH - 1] = ONGOAL;
+	for(int i = 0; i < numberOfBatteries; ){
+		int index = _batPos();
+		if(field[index] != ONCHARGER && field[index] != ONSTART
+			&& field[index] != ONGOAL){
+			field[index] = ONCHARGER;
+			i++;
+		}
+	}
+	/*
+	for(int i = 0; i < LENGTH; i++){
+		std::cout << field[i] << "\t";
+	}
+	std::cout << std::endl;
+	*/
+}

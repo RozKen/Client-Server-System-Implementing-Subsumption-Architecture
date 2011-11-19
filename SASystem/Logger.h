@@ -68,6 +68,15 @@ public:
 	 */
 	void setFilePath(std::string filePath);
 	/**
+		@brief logFilePathを設定する
+		@param fileDirectoryPath ログファイルを保存するフォルダへのパス
+		@param fileName ログファイル名
+		@sa logFilePath
+		@sa logDirectoryPath
+		@sa logFileName
+	 */
+	void setFilePath(std::string fileDirectoryPath, std::string fileName);
+	/**
 		@brief logFilePathを与える
 		@return logFilePath
 		@sa logFilePath

@@ -32,11 +32,11 @@ protected:
 	int step;
 };
 
-inline StepCounter::StepCounter() : SAModule(0, 1), step(0){
+inline StepCounter::StepCounter() : step(0){
 }
 
 inline void StepCounter::Run(){
-	outputs[0] = step;
+	//outputs[0] = step;
 	step++;
 }
 
