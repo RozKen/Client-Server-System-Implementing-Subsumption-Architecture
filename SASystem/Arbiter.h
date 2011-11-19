@@ -21,29 +21,51 @@ public:
 	/**
 		@brief factor = 0.0 - 1.0のランダムのArbiter
 	 */
-	Arbiter(float* source, float* destination);
+	Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort);
 	/**
 		@brief factor固定のArbiter
 	 */
-	Arbiter(float* source, float* destination, float factor);
+	Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, float factor);
 	/**
 		@brief 指定範囲内factor固定のArbiter
 	 */
-	Arbiter(float* source, float* destination, 
+	Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, 
 		float factor_min, float factor_max);
-	/**
-		@brief set Source
-	 */
-	void setSource(float* source);
-	/**
-		@brief set Destination
-	 */
-	void setDestination(float* destination);
 	/**
 		@brief Transfer/Modify/Arbit Signal
 		@sa generateSignal
 	 */
 	void Run();
+
+	/**
+		@brief set Source. addInputの代わりに利用
+		@param src 接続元Module
+		@param srcPort 接続元Module上の出力ポート番号
+	 */
+	void setSource(SAModule* src, int srcPort);
+	/**
+		@brief set Destination. addOutputの代わりに利用
+		@param src 接続先Module
+		@param srcPort 接続先Module上の入力ポート番号
+	 */
+	void setDestination(SAModule* dest, int destPort);
+
+	/**
+		@brief 入力信号を渡す．
+		@param index 得る配列要素のモジュール上の入力ポート番号
+		@return input 入力信号の配列要素の値
+		@override SAModule::getInput
+		@sa SAModule::getInput
+	 */
+	float getInput(int index) const;
+	/**
+		@brief 出力信号を設定する
+		@param output 出力信号の配列要素へ代入する値
+		@param index 設定する配列要素のモジュール上の出力ポート番号
+		@override SAModule::setOutput
+		@sa SAModule::setOutput
+	 */
+	void setOutput(int index, float signal);
 
 	/**
 		@brief Getter of factor
@@ -53,15 +75,19 @@ public:
 	float getFactor() const;
 protected:
 	/**
-		@brief Gnerate Signal
+		@brief Generate Signal
 		@return signal
 	 */
 	double generateSignal();
 
-	///接続元の要素へのポインタ
-	float* source;
-	///接続先の要素へのポインタ
-	float* destination;
+	///接続元のModuleへのポインタ
+	SAModule* source;
+	///接続先のModuleへのポインタ
+	SAModule* destination;
+	///接続元のModuleの出力ポート番号
+	int srcPort;
+	///接続先のModuleの入力ポート番号
+	int destPort;
 	///一回のModifyが有効な時間．単位はclock. nullの場合もある
 	int timeToModify;
 	///Modifyするかしないかを決めたりする確率

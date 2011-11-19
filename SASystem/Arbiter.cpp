@@ -6,29 +6,49 @@ Arbiter::Arbiter()
 	, factor(-100.0f){
 }
 
-Arbiter::Arbiter(float* source, float* destination)
-	:source(source), destination(destination), _rand(0, 1), 
+Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort)
+	:_rand(0, 1), source(src), srcPort(srcPort), destination(dest), destPort(destPort),
 	timeToModify(0), timeLeftModified(0), factor(-100.0f){
 }
 
-Arbiter::Arbiter(float* source, float* destination, float factor)
-	:source(source), destination(destination), _rand(0, 1), 
-	timeToModify(0), timeLeftModified(0), factor(-100.0f){
-		this->factor = factor;
+Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, float factor)
+	:_rand(0, 1),  source(src), srcPort(srcPort), destination(dest), destPort(destPort),
+	timeToModify(0), timeLeftModified(0), factor(factor){
 }
 
-Arbiter::Arbiter(float* source, float* destination, 
+Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, 
 		float factor_min, float factor_max)
-	:source(source), destination(destination), _rand(factor_min, factor_max), 
-	timeToModify(0), timeLeftModified(0), factor(-100.0f){
+	: source(src), srcPort(srcPort), destination(dest), destPort(destPort), 
+	_rand(factor_min, factor_max), timeToModify(0), timeLeftModified(0), factor(-100.0f){
 }
 
-void Arbiter::setSource(float* source){
-	this->source = source;
+void Arbiter::Run(){
+	*destination = (float)generateSignal();
 }
 
-void Arbiter::setDestination(float* destination){
-	this->destination = destination;
+void Arbiter::setSource(SAModule* src, int srcPort){
+	this->source = src;
+	this->srcPort = srcPort;
+	addInput(src->getOutputTitles()->at(srcPort));
+	addInputIndex(src->getOutputIndex(srcPort));
+}
+
+void Arbiter::setDestination(SAModule* dest, int destPort){
+	this->destination = dest;
+	this->destPort = destPort;
+	addOutput(dest->getInputTitles()->at(destPort));
+	addOutputIndex(dest->getInputIndex(destPort));
+}
+
+float Arbiter::getInput(int index) const{
+	///Arbiterへの入力はmemoryの入力から入手※Moduleと異なる
+	int result = memory->getInput(this->inputIndex->at(index));
+	return result;
+}
+
+void Arbiter::setOutput(int index, float signal){
+	///Arbiterからの出力は，memoryの出力へ送信※Moduleと異なる
+	memory->setOutput(this->outputIndex->at(index), signal);
 }
 
 double Arbiter::generateSignal(){
@@ -57,8 +77,4 @@ double Arbiter::generateSignal(){
 
 	double signal = magnitude * (destRatio * (double)(*destination) + sourceRatio * (double)(*source));
 	return signal;
-}
-
-void Arbiter::Run(){
-	*destination = (float)generateSignal();
 }

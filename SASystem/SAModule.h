@@ -81,15 +81,15 @@ public:
 	virtual int getOutputIndex(int indexOnModule) const;
 
 	/**
-		@brief input信号を渡す．
-		@param index 得る配列要素のindex
+		@brief 入力信号を渡す．
+		@param index 得る配列要素のモジュール上の入力ポート番号
 		@return input 入力信号の配列要素の値
 	 */
 	virtual float getInput(int index) const;
 	/**
-		@brief outputを信号設定する
+		@brief 出力信号を設定する
 		@param output 出力信号の配列要素へ代入する値
-		@param index 設定する配列要素のindex
+		@param index 設定する配列要素のモジュール上の出力ポート番号
 	 */
 	virtual void setOutput(int index, float signal);
 	/**

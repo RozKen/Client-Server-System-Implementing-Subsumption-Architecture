@@ -49,13 +49,13 @@ std::vector<std::string>* SAModule::getOutputTitles() const{
 
 float SAModule::getInput(int index) const{
 	//moduleへの入力はmemoryの出力から入手
-	int result = memory->getOutput(index);
+	int result = memory->getOutput(this->inputIndex->at(index));
 	return result;
 }
 
 void SAModule::setOutput(int index, float signal){
 	//moduleからの出力は、memoryの入力へ送信
-	memory->setInput(index, signal);
+	memory->setInput(this->outputIndex->at(index), signal);
 }
 
 

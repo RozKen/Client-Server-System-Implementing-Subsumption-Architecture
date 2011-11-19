@@ -66,7 +66,11 @@ void Robot::addArbiter(Arbiter *arbiter){
 	//arbiterの親として，robot自身を登録
 	arbiter->setParent(this);
 	int index;
-	///////////////////Arbiterの扱いは，また今度/////////////
+	///Arbiterにはmemoryの割り当て不要
+	/**
+		Arbiterには，setSource, setDestinationの時点で，
+		inputIndex, outputIndexが構築されている
+		*/
 }
 
 void Robot::setLogDirectoryPath(std::string directoryPath, std::string fileName){
