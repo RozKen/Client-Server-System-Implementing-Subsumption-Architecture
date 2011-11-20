@@ -70,7 +70,7 @@ void Robot::addArbiter(Arbiter *arbiter){
 	/**
 		Arbiterには，setSource, setDestinationの時点で，
 		inputIndex, outputIndexが構築されている
-		*/
+	 */
 }
 
 void Robot::setLogDirectoryPath(std::string directoryPath, std::string fileName){

@@ -17,7 +17,7 @@
 #define BATTLOSS		3
 
 ///無信号状態	テストのため，暫定的に0.0fとしている．
-#define NO_SIGNAL		2.0f
+#define NO_SIGNAL		0.0f
 
 ///円周率π : 1.15桁まで (double の有効数字は10進数で16桁未満)
 #define PI				3.141592653589793

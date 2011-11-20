@@ -103,6 +103,7 @@
     <ClInclude Include="Progress.hpp" />
     <ClInclude Include="ProgressCounter.hpp" />
     <ClInclude Include="Random.hpp" />
+    <ClInclude Include="Resetter.hpp" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SAConnector.h" />
     <ClInclude Include="SAModule.h" />

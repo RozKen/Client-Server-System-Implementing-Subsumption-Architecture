@@ -93,22 +93,35 @@ double Arbiter::generateSignal(){
 
 	double magnitude;	///M†‘S‘Ì‚Ì‹­‚³‚ÌŒW”
 
-	if(factor >= 0){
-		sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
-		destRatio = 1.0 - sourceRatio;
+	if(currentFactor >= 0.0 && currentFactor <= 1.0){
+		//Act like Suppressor, Selecter or Superposer
 		magnitude = 1.0;
-	}else{
-		destRatio = 1.0;
+		if(getSrc() != 0.0){
+			sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
+			destRatio = 1.0 - sourceRatio;
+		}else{
+			destRatio = 1.0;
+			sourceRatio = 0.0;
+		}
+	}else if(currentFactor < 0.0 && currentFactor >= -1.0){
+		//Act like Inhibitor
 		sourceRatio = 0.0;
+		destRatio = 1.0;
 		magnitude = 0.5 * ( cos( 0.5 * PI * ( cos( (double)(currentFactor + 1.0) * PI ) + 1.0 ) ) + 1.0 );
+	}else{	//Act as Wire
+		sourceRatio = 1.0;
+		destRatio = 0.0;
+		magnitude = 1.0;
 	}
 
 	double signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
 #ifdef _DEBUG
+	
 	std::cout << "magnitude: " << magnitude << std::endl;
 	std::cout << "dest: " << getDest() << std::endl;
 	std::cout << "src: " << getSrc() << std::endl;
 	std::cout << "signal: " << signal << std::endl;
+	
 #endif
 	return signal;
 }

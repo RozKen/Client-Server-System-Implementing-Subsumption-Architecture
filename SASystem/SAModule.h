@@ -88,8 +88,8 @@ public:
 	virtual float getInput(int index) const;
 	/**
 		@brief 出力信号を設定する
-		@param output 出力信号の配列要素へ代入する値
 		@param index 設定する配列要素のモジュール上の出力ポート番号
+		@param output 出力信号の配列要素へ代入する値
 	 */
 	virtual void setOutput(int index, float signal);
 	/**
