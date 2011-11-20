@@ -80,9 +80,11 @@ float Arbiter::getSrc() const{
 double Arbiter::generateSignal(){
 	///現Stepにおける，Arbiterの挙動を決める因子
 	double currentFactor;
+	///factorが指定されていなければ，乱数で生成
 	if(factor == -100.0f){
 		currentFactor = _rand();
 	}else{
+		///factorが指定されていれば，その値を利用
 		currentFactor = (double)factor;
 	}
 
@@ -92,9 +94,9 @@ double Arbiter::generateSignal(){
 	double magnitude;	///信号全体の強さの係数
 
 	if(factor >= 0){
-		destRatio = (float)0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
-		sourceRatio = 1.0 - destRatio;
-		magnitude = 0.0;
+		sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
+		destRatio = 1.0 - sourceRatio;
+		magnitude = 1.0;
 	}else{
 		destRatio = 1.0;
 		sourceRatio = 0.0;
@@ -102,5 +104,11 @@ double Arbiter::generateSignal(){
 	}
 
 	double signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
+#ifdef _DEBUG
+	std::cout << "magnitude: " << magnitude << std::endl;
+	std::cout << "dest: " << getDest() << std::endl;
+	std::cout << "src: " << getSrc() << std::endl;
+	std::cout << "signal: " << signal << std::endl;
+#endif
 	return signal;
 }

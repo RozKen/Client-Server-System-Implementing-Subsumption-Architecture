@@ -21,6 +21,7 @@ void Robot::Initialize(){
 
 void Robot::Run(){
 	RunModules();
+	Log();				//Arbiterの挙動を調べるため，ダブログ
 	ProcessArbiters();
 	Log();
 }
