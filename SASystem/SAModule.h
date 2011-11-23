@@ -1,6 +1,8 @@
 #ifndef _SAModule_H_
 #define _SAModule_H_
 
+#include <sstream>
+#include <string>
 //無信号状態	NO_SIGNALをinclude
 #include "Constants.h"
 #include "Blackboard.h"
@@ -126,6 +128,18 @@ protected:
 	SAModule* parent;
 	///値の入出力に当たり，利用する記憶領域
 	Blackboard* memory;
+	/**
+		@brief int型の変数をstring型に変換して変えす関数
+		@param num 変換したい数値
+		@return string型になった数値
+	 */
+	std::string intToString(int num);
 };
+
+inline std::string SAModule::intToString(int num){
+	stringstream ss;
+	ss << num;
+	return ss.str();
+}
 
 #endif //_SAModule_H_
