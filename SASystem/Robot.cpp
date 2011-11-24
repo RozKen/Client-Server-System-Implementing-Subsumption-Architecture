@@ -58,6 +58,18 @@ void Robot::addModule(SAModule *module){
 		index = this->memory->addInputPort(module->getOutputTitles()->at(i));
 		module->addOutputIndex(index);
 	}
+	//moduleのint入出力を、このロボットのmemoryのiBoardと接続
+	std::vector<std::string>* titles = module->getIBoardTitles();
+	for(int i = 0; i < titles->size(); i++){
+		index = this->memory->addIntPort(titles->at(i));
+		module->addIBoardIndex(index);
+	}
+	//moduleのfloat入出力を、このロボットのmemoryのfBoardと接続
+	titles = (module->getFBoardTitles());
+	for(int i = 0; i < titles->size(); i++){
+		index = this->memory->addFloatPort(titles->at(i));
+		module->addFBoardIndex(index);
+	}
 }
 
 void Robot::addArbiter(Arbiter *arbiter){

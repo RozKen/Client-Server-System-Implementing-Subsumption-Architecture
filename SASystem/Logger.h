@@ -5,6 +5,22 @@
 #include <vector>
 #include <fstream>
 
+/**
+	@class Logger
+	@brief 変数値をファイルに記録するオブジェクト．
+	扱える変数は
+	<ul>
+		<li>int型</li>
+		<li>float型</li>
+		<li>std::vector<int>*型の内部の要素(int)</li>
+		<li>std::vector<float>*型の内部の要素(float)</li>
+	</ul>
+	Blackboard に保管されている変数にアクセスして、その時々の値を記録する．
+	@author Kenichi Yorozu
+	@date 11th November 2011
+	@sa Blackboard
+ */
+
 class Logger{
 public:
 	/**
@@ -30,7 +46,7 @@ public:
 	 */
 	~Logger();
 	/**
-		@brief 現在の状態(変数)を記録
+		@brief <b>現在の状態(変数)を記録</b>
 	 */
 	void Log();
 
@@ -55,12 +71,20 @@ public:
 	 */
 	void add(std::string title, float* pointer_to_float_variable);
 	/**
+		@brief int型のvectorに含まれている値を記録するよう登録する
+		@param title 変数を説明するタイトル
+		@param vector 値が含まれているvector
+		@param index vectorにおける，index
+	 */
+	void add(std::string title, std::vector<int>* vector, int index);
+	/**
 		@brief float型のvectorに含まれている値を記録するよう登録する
 		@param title 変数を説明するタイトル
 		@param vector 値が含まれているvector
 		@param index vectorにおける，index
 	 */
 	void add(std::string title, std::vector<float>* vector, int index);
+	
 	/**
 		@brief logFilePathを設定する
 		@param filePath logFilePath
@@ -89,7 +113,9 @@ public:
 	 */
 	std::string intToString(int number);
 protected:
+	///ログファイルを保存するディレクトリへのPath
 	std::string logDirectoryPath;
+	///ログファイル名前
 	std::string logFileName;
 	///ログファイルを書き出す場所へのpath
 	std::string logFilePath;
@@ -101,6 +127,8 @@ protected:
 			<li>0 : int型</li>
 			<li>1 : float型</li>
 			<li>2 : std::vector<float*> 型配列中の
+				logArrayIndexに書いてあるindexの要素</li>
+			<li>3 : std::vector<int*> 型配列中の
 				logArrayIndexに書いてあるindexの要素</li>
 		</ul>
 	 */

@@ -32,3 +32,16 @@ int Blackboard::addOutputPort(std::string title){
 	return index;
 }
 
+int Blackboard::addIntPort(std::string title){
+	iBoard->push_back(NO_SIGNAL);
+	int index = iBoard->size() - 1;
+	logger->add(title, iBoard, index);
+	return index;
+}
+
+int Blackboard::addFloatPort(std::string title){
+	fBoard->push_back(NO_SIGNAL);
+	int index = fBoard->size() - 1;
+	logger->add(title, fBoard, index);
+	return index;
+}

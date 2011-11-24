@@ -1,8 +1,6 @@
 #ifndef _SAModule_H_
 #define _SAModule_H_
 
-#include <sstream>
-#include <string>
 //無信号状態	NO_SIGNALをinclude
 #include "Constants.h"
 #include "Blackboard.h"
@@ -39,6 +37,8 @@ public:
 		@param title 出力ポートの名前
 	 */
 	virtual void addOutput(std::string title);
+	virtual void addIBoard(std::string title);
+	virtual void addFBoard(std::string title);
 	/**
 		@brief memoryにおけるポート番号を追加する
 		@param index 入力ポート番号
@@ -50,6 +50,9 @@ public:
 	 */
 	virtual void addOutputIndex(int index);
 
+	virtual void addIBoardIndex(int index);
+	virtual void addFBoardIndex(int index);
+
 	///////////////Setters and Getters///////////////
 	/**
 		@brief 制御上，このModuleの親となるModuleを指定する
@@ -57,6 +60,10 @@ public:
 		@sa Blackboard
 	 */
 	virtual void setParent(SAModule* parent);
+	/**
+		@brief 親モジュールを得る
+	 */
+	virtual void getParent(SAModule* parent);
 	/**
 		@brief このモジュールの入力ポート名の配列を返す
 		@return 入力ポート名の配列へのポインタ
@@ -73,6 +80,9 @@ public:
 		@param indexOnModule モジュールの入力ポート番号
 		@return memory上の出力ポート番号
 	 */
+	virtual std::vector<std::string>* getIBoardTitles() const;
+	virtual std::vector<std::string>* getFBoardTitles() const;
+
 	virtual int	getInputIndex(int indexOnModule) const;
 	/**
 		@brief このモジュールのindexOnModule番目の出力ポートが，
@@ -81,7 +91,8 @@ public:
 		@return memory上の入力ポート番号
 	 */
 	virtual int getOutputIndex(int indexOnModule) const;
-
+	virtual int getIBoardIndex(int indexOnModule) const;
+	virtual int getFBoardIndex(int indexOnModule) const;
 	/**
 		@brief 入力信号を渡す．
 		@param index 得る配列要素のモジュール上の入力ポート番号
@@ -94,6 +105,12 @@ public:
 		@param output 出力信号の配列要素へ代入する値
 	 */
 	virtual void setOutput(int index, float signal);
+	///getter and setter for iBoard and fBoard and implement it.
+	virtual int getIBoard(int index) const;
+	virtual float getFBoard(int index) const;
+	virtual void setIBoard(int index, int signal);
+	virtual void setFBoard(int index, float signal);
+
 	/**
 		@brief 入力信号ポート数を返す
 		@return 入力信号ポート数
@@ -116,10 +133,14 @@ protected:
 	std::vector<int> *inputIndex;
 	///SAModuleの出力値が格納されているmemory上のIndex
 	std::vector<int> *outputIndex;
+	std::vector<int> *iBoardIndex;
+	std::vector<int> *fBoardIndex;
 	///Logにあたり，入力値を説明する名前
 	std::vector<std::string> *inputTitles;
 	///Logにあたり，出力値を説明する名前
 	std::vector<std::string> *outputTitles;
+	std::vector<std::string> *iBoardTitles;
+	std::vector<std::string> *fBoardTitles;
 	///入力信号ポート数
 	int numOfInputPorts;
 	///出力信号ポート数
@@ -135,11 +156,5 @@ protected:
 	 */
 	std::string intToString(int num);
 };
-
-inline std::string SAModule::intToString(int num){
-	stringstream ss;
-	ss << num;
-	return ss.str();
-}
 
 #endif //_SAModule_H_

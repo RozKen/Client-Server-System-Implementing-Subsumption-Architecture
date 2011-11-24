@@ -41,6 +41,9 @@ void Logger::Log(){
 			ofs << *((float *)(logContents[i])) << ",";
 			break;
 		case 2:
+			ofs << ((std::vector<int> *)logContents.at(i))->at(logArrayIndex.at(i)) << ",";
+			break;
+		case 3:
 			ofs << ((std::vector<float> *)logContents.at(i))->at(logArrayIndex.at(i)) << ",";
 			break;
 		default:
@@ -75,9 +78,16 @@ void Logger::add(std::string title, float* pointer_to_float_variable){
 	logArrayIndex.push_back(-1);
 }
 
-void Logger::add(std::string title, std::vector<float>* vector, int index){
+void Logger::add(std::string title, std::vector<int>* vector, int index){
 	logTitles.push_back(title);
 	logTypes.push_back(2);
+	logContents.push_back((void*) vector);
+	logArrayIndex.push_back(index);
+}
+
+void Logger::add(std::string title, std::vector<float>* vector, int index){
+	logTitles.push_back(title);
+	logTypes.push_back(3);
 	//logContentsには配列全体を入れておく
 	logContents.push_back((void *) vector);
 	//pushはしないけど，なにかしたいよね…
