@@ -11,10 +11,13 @@
 //for _mkdir
 #include <direct.h>
 
-#include "Robot.h"
-#include "Arbiter.h"
+//#include "Robot.h"
+//#include "Arbiter.h"
 
-#define TEST_ROBOT
+#include "World.h"
+#include "RobotMAV.hpp"
+
+//#define TEST_ROBOT
 
 #ifdef TEST_ROBOT
 #include "ModMultiple.hpp"
@@ -46,6 +49,16 @@ void main(){
 	LoggerTest();
 #endif	//TEST_LOGGER
 
+	World world;
+	std::string directory = logPathGenerator();
+	world.setLogDirectoryPath(directory, "world");
+	RobotMAV* mav = new RobotMAV();
+	world.addRobot(mav);
+	mav->setLogDirectoryPath(directory, "robot");
+	
+	for(int i = 0; i < 10; i++){
+		world.Run();
+	}
 	/*int* field = new int[LENGTH];
 	int numberOfFields = 1;
 	for(int i = 0; i < numberOfFields; i++){

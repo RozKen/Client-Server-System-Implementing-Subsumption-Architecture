@@ -122,6 +122,7 @@ void Robot::addModule(SAModule *module){
 		module->addIBoardIndex(index);
 		if(flag != 2){
 			this->addInput(titles->at(i));
+			this->addIBoard(titles->at(i));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(0);
 			this->innerWireSrcIndex->push_back(this->inputTitles->size() - 1);
@@ -130,6 +131,7 @@ void Robot::addModule(SAModule *module){
 		}
 		if(flag != 1){
 			this->addOutput(titles->at(i));
+			this->addIBoard(titles->at(i));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(2);
 			this->innerWireSrcIndex->push_back(index);
@@ -144,6 +146,7 @@ void Robot::addModule(SAModule *module){
 		module->addFBoardIndex(index);
 		if(flag != 2){
 			this->addInput(titles->at(i));
+			this->addFBoard(titles->at(i));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(0);
 			this->innerWireSrcIndex->push_back(this->inputTitles->size() - 1);
@@ -152,6 +155,7 @@ void Robot::addModule(SAModule *module){
 		}
 		if(flag != 1){
 			this->addOutput(titles->at(i));
+			this->addFBoard(titles->at(i));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(3);
 			this->innerWireSrcIndex->push_back(index);
