@@ -128,9 +128,6 @@
     <ClInclude Include="World.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MAV_Robot.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Sensors.h">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
     </ClInclude>
@@ -139,6 +136,18 @@
     </ClInclude>
     <ClInclude Include="SensePos.hpp">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotMAV.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ActPos.hpp">
+      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
+    </ClInclude>
+    <ClInclude Include="Actuators.h">
+      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers.h">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -57,13 +57,15 @@ public:
 	/**
 		@brief 制御上，このModuleの親となるModuleを指定する
 		基本的に，Blackboardは，親のものを利用する
+		@param parent 親モジュール
 		@sa Blackboard
 	 */
 	virtual void setParent(SAModule* parent);
 	/**
 		@brief 親モジュールを得る
+		@return 親モジュール
 	 */
-	virtual void getParent(SAModule* parent);
+	virtual SAModule* getParent() const;
 	/**
 		@brief このモジュールの入力ポート名の配列を返す
 		@return 入力ポート名の配列へのポインタ

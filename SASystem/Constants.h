@@ -1,6 +1,8 @@
 #ifndef Constants_H_
 #define Constants_H_
 
+//削除予定
+#define LENGTH				100
 ///Fieldの一辺(Fieldは正方形)
 #define FIELD_SIZE			100
 ///Sensorの有効な範囲のCell数: マンハッタン距離で3
@@ -25,13 +27,5 @@
 
 ///円周率π : 1.15桁まで (double の有効数字は10進数で16桁未満)
 #define PI				3.141592653589793
-
-/**
-	@brief indexが指し示すx, y座標を得るためのhash[x/y][index]
- */
-int hash[2][HASH_MAX] = {
-	{0,0,1,0,-1,0,1,2,1,0,-1,-2,-1,0,1,2,3,2,1,0,-1,-2,-3,-2,-1},
-	{0,1,0,-1,0,2,1,0,-1,-2,-1,0,1,3,2,1,0,-1,-2,-3,-2,-1,0,1,2}
-};
 
 #endif //Constants_H_

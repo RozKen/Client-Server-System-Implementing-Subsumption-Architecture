@@ -65,6 +65,10 @@ void SAModule::setParent(SAModule* parent){
 	this->memory = parent->getMemory();
 }
 
+SAModule* SAModule::getParent() const{
+	return this->parent;
+}
+
 std::vector<std::string>* SAModule::getInputTitles() const{
 	return inputTitles;
 }

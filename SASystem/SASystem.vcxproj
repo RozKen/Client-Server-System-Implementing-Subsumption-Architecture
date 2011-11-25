@@ -86,16 +86,19 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActPos.hpp" />
+    <ClInclude Include="Actuators.h" />
     <ClInclude Include="Alive.hpp" />
     <ClInclude Include="BatteryStatus.hpp" />
     <ClInclude Include="Blackboard.h" />
     <ClInclude Include="Arbiter.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Controllers.h" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="EnvUpdater.h" />
     <ClInclude Include="FieldTester.hpp" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="MAV_Robot.hpp" />
+    <ClInclude Include="RobotMAV.hpp" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="ModMultiple.hpp" />
     <ClInclude Include="PositionUpdater.hpp" />
