@@ -155,6 +155,12 @@ protected:
 		@return string型になった数値
 	 */
 	std::string intToString(int num);
+	/**
+		@brief float型の値を四捨五入してint型にする
+		@param value 四捨五入したい値
+		@return 四捨五入された値
+	 */
+	int round(float value);
 };
 
 #endif //_SAModule_H_

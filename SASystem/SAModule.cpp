@@ -141,3 +141,7 @@ std::string SAModule::intToString(int num){
 	ss << num;
 	return ss.str();
 }
+
+int SAModule::round(float value){
+	return (int)(value + 0.5);
+}
