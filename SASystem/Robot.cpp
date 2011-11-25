@@ -3,6 +3,10 @@
 Robot::Robot(){
 	this->modules = new std::vector<SAModule*>();
 	this->arbiters = new std::vector<Arbiter*>();
+	this->innerWireSrcType = new std::vector<int>();
+	this->innerWireSrcIndex = new std::vector<int>();
+	this->innerWireDestType = new std::vector<int>();
+	this->innerWireDestIndex = new std::vector<int>();
 }
 
 Robot::Robot(std::string directoryPath, std::string fileName){
@@ -20,9 +24,11 @@ void Robot::Initialize(){
 }
 
 void Robot::Run(){
+	ProcessInputs();
 	RunModules();
 	Log();				//Arbiterの挙動を調べるため，ダブログ
 	ProcessArbiters();
+	ProcessOutputs();
 	Log();
 }
 
@@ -42,6 +48,42 @@ void Robot::Log(){
 	memory->Log();
 }
 
+void Robot::ProcessInputs(){
+	for(int i = 0; i < this->innerWireSrcType->size(); i++){
+		//Source が inputs
+		if(this->innerWireSrcType->at(i) == 0){
+			//Destination が iBoard
+			if(this->innerWireDestType->at(i) == 2){
+				memory->setIBoard(this->innerWireDestIndex->at(i)
+					, (int)(this->getInput(this->innerWireSrcIndex->at(i))));
+			}
+			//Destination が fBoard
+			else if(this->innerWireDestType->at(i) == 3){
+				memory->setFBoard(this->innerWireDestIndex->at(i)
+					, this->getInput(this->innerWireSrcIndex->at(i)));
+			}
+		}
+	}
+}
+
+void Robot::ProcessOutputs(){
+	for(int i = 0; i < this->innerWireDestType->size(); i++){
+		//Destination が outputs
+		if(this->innerWireDestType->at(i) == 1){
+			//SourceがiBoard
+			if(this->innerWireSrcType->at(i) == 2){
+				memory->setOutput(this->innerWireDestIndex->at(i)
+					, (float)(this->getIBoard(this->innerWireSrcIndex->at(i))));
+			}
+			//SourceがfBoard
+			else if(this->innerWireSrcType->at(i) == 3){
+				memory->setOutput(this->innerWireDestIndex->at(i)
+					, this->getFBoard(this->innerWireSrcIndex->at(i)));
+			}
+		}
+	}
+}
+
 void Robot::addModule(SAModule *module){
 	//moduleをrobotに登録
 	modules->push_back(module);
@@ -53,22 +95,69 @@ void Robot::addModule(SAModule *module){
 		index = this->memory->addOutputPort(module->getInputTitles()->at(i));
 		module->addInputIndex(index);
 	}
+
 	//moduleの出力を，このロボットのmemoryの入力と接続
 	for(int i = 0; i < module->getNumOfOutputPorts(); i++){
 		index = this->memory->addInputPort(module->getOutputTitles()->at(i));
 		module->addOutputIndex(index);
 	}
+	
+	//ModuleはController(Robotのように単体で入力も出力も扱う場合もある)
+	int flag = 0;
+	//Sensorの時
+	if(module->getNumOfInputPorts() == 0
+		&& module->getNumOfOutputPorts() > 0){
+		flag = 1;		//ModuleはSensor
+	}
+	//Actuatorの時
+	if(module->getNumOfInputPorts() > 0 
+		&& module->getNumOfOutputPorts() == 0){
+		flag = 2;		//ModuleはActuator
+	}
+
 	//moduleのint入出力を、このロボットのmemoryのiBoardと接続
 	std::vector<std::string>* titles = module->getIBoardTitles();
 	for(int i = 0; i < titles->size(); i++){
 		index = this->memory->addIntPort(titles->at(i));
 		module->addIBoardIndex(index);
+		if(flag != 2){
+			this->addInput(titles->at(i));
+			//InnerWireの接続を定義
+			this->innerWireSrcType->push_back(0);
+			this->innerWireSrcIndex->push_back(this->inputTitles->size() - 1);
+			this->innerWireDestType->push_back(2);
+			this->innerWireDestIndex->push_back(index);
+		}
+		if(flag != 1){
+			this->addOutput(titles->at(i));
+			//InnerWireの接続を定義
+			this->innerWireSrcType->push_back(2);
+			this->innerWireSrcIndex->push_back(index);
+			this->innerWireDestType->push_back(1);
+			this->innerWireDestIndex->push_back(this->outputTitles->size() - 1);
+		}
 	}
 	//moduleのfloat入出力を、このロボットのmemoryのfBoardと接続
 	titles = (module->getFBoardTitles());
 	for(int i = 0; i < titles->size(); i++){
 		index = this->memory->addFloatPort(titles->at(i));
 		module->addFBoardIndex(index);
+		if(flag != 2){
+			this->addInput(titles->at(i));
+			//InnerWireの接続を定義
+			this->innerWireSrcType->push_back(0);
+			this->innerWireSrcIndex->push_back(this->inputTitles->size() - 1);
+			this->innerWireDestType->push_back(3);
+			this->innerWireDestIndex->push_back(index);
+		}
+		if(flag != 1){
+			this->addOutput(titles->at(i));
+			//InnerWireの接続を定義
+			this->innerWireSrcType->push_back(3);
+			this->innerWireSrcIndex->push_back(index);
+			this->innerWireDestType->push_back(1);
+			this->innerWireDestIndex->push_back(this->outputTitles->size() - 1);
+		}
 	}
 }
 

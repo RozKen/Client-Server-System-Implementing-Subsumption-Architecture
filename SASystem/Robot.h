@@ -63,6 +63,14 @@ protected:
 	 */
 	void Log();
 	/**
+		@brief Inner Wireの入力に関わる部分を処理
+	 */
+	void ProcessInputs();
+	/**
+		@brief Inner Wireの出力に関わる部分を処理
+	 */
+	void ProcessOutputs();
+	/**
 		@brief Initialize States
 		環境の構築,ログの初期化
 		@sa Blackboard
@@ -81,6 +89,24 @@ protected:
 	 */
 	std::vector<Arbiter*> *arbiters;
 
+	/*
+		iBoard/fBoardとRobotのinput/outputを結ぶ
+		Inner Wireの定義
+	 */
+	/**
+		@brief
+		Source Type
+		<ul>
+			<li>0: input</li>
+			<li>1: output</li>
+			<li>2: iBoard</li>
+			<li>3: fBoard</li>
+		</ul>
+	 */
+	std::vector<int> *innerWireSrcType;
+	std::vector<int> *innerWireSrcIndex;
+	std::vector<int> *innerWireDestType;
+	std::vector<int> *innerWireDestIndex;
 };
 
 #endif _Robot_H_
