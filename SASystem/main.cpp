@@ -15,7 +15,7 @@
 //#include "Arbiter.h"
 
 #include "World.h"
-#include "RobotMAV.hpp"
+#include "RobotMAV.h"
 
 //#define TEST_ROBOT
 
@@ -49,15 +49,17 @@ void main(){
 	LoggerTest();
 #endif	//TEST_LOGGER
 
-	World world;
+	World* world = new World();
 	std::string directory = logPathGenerator();
-	world.setLogDirectoryPath(directory, "world");
-	RobotMAV* mav = new RobotMAV();
-	world.addRobot(mav);
-	mav->setLogDirectoryPath(directory, "robot");
-	
+
+	world->setLogDirectoryPath(directory, "world.csv");
+	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
+	RobotMAV* mav1 = new RobotMAV(directory, "mav1.csv");
+	RobotMAV* mav2 = new RobotMAV(directory, "mav2.csv");
+	world->addRobot(mav1);
+	world->addRobot(mav2);
 	for(int i = 0; i < 10; i++){
-		world.Run();
+		world->Run();
 	}
 	/*int* field = new int[LENGTH];
 	int numberOfFields = 1;

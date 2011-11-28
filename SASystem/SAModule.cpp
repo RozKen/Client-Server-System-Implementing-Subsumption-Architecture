@@ -12,6 +12,7 @@ SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 	this->iBoardTitles = new std::vector<std::string>();
 	this->fBoardTitles = new std::vector<std::string>();
 	this->memory = new Blackboard();
+	this->innerMemory = new Blackboard();
 }
 
 SAModule::~SAModule(){
@@ -24,6 +25,11 @@ SAModule::~SAModule(){
 	delete(iBoardTitles);
 	delete(fBoardTitles);
 	delete(memory);
+	delete(innerMemory);
+}
+
+void SAModule::Log(){
+	this->innerMemory->Log();
 }
 
 void SAModule::addInput(std::string title){
@@ -62,7 +68,7 @@ void SAModule::addFBoardIndex(int index){
 
 void SAModule::setParent(SAModule* parent){
 	this->parent = parent;
-	this->memory = parent->getMemory();
+	this->memory = parent->getInnerMemory();
 }
 
 SAModule* SAModule::getParent() const{
@@ -118,6 +124,10 @@ int SAModule::getNumOfInputPorts() const{
 
 int SAModule::getNumOfOutputPorts() const{
 	return this->numOfOutputPorts;
+}
+
+Blackboard* SAModule::getInnerMemory() const{
+	return this->innerMemory;
 }
 
 Blackboard* SAModule::getMemory() const{

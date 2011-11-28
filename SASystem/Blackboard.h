@@ -90,6 +90,8 @@ public:
 		@sa logger
 	 */
 	void setLogFilePath(std::string fileDirectoryPath, std::string fileName);
+	
+	std::string getLogFilePath() const;
 	/////////On Data/////////
 	/**
 		@brief Blackboard‚Ì“ü—ÍM†‚ð“üŽè‚·‚é
@@ -213,6 +215,10 @@ inline void Blackboard::setLogFilePath(std::string logFilePath){
 
 inline void Blackboard::setLogFilePath(std::string fileDirectoryPath, std::string fileName){
 	this->logger->setFilePath(fileDirectoryPath, fileName);
+}
+
+inline std::string Blackboard::getLogFilePath() const{
+	return this->logger->getFilePath();
 }
 
 inline float Blackboard::getInput(int index) const{

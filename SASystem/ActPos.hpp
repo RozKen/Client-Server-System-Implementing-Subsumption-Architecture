@@ -19,8 +19,8 @@ public:
 inline ActPos::ActPos(){
 	this->addInput("controlX");
 	this->addInput("controlY");
-	this->addIBoard("deltaX");
-	this->addIBoard("deltaY");
+	this->addIBoard("iDeltaX");
+	this->addIBoard("iDeltaY");
 }
 
 inline void ActPos::Run(){
@@ -30,6 +30,7 @@ inline void ActPos::Run(){
 	//Robot‚Ì“à•”‚Éo—ÍM†‚ðŠi”[
 	this->setIBoard(0, dX);
 	this->setIBoard(1, dY);
+	//Log();
 }
 
 #endif	//_Act_Pos_HPP_

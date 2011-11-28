@@ -2,7 +2,9 @@
 #include <time.h>
 #include <sstream>
 #include <iostream>
-#include <direct.h>
+#include <direct.h>	//_mkdirに必要
+#include <Shlwapi.h>	//PathIsDirectoryに必要
+#pragma comment(lib, "Shlwapi.lib")
 
 Logger::Logger(): count(0), logFilePath(""), logDirectoryPath("")
 	, logFileName(""){
@@ -16,8 +18,11 @@ Logger::Logger(std::string filePath)
 Logger::Logger(std::string directoryPath, std::string fileName)
 	:count(0), logFilePath(directoryPath.append("/").append(fileName))
 	, logDirectoryPath(directoryPath), logFileName(fileName){
-	
-		_mkdir(directoryPath.c_str());
+		if(!PathIsDirectory(s2ws(logDirectoryPath).c_str())){
+			_mkdir(directoryPath.c_str());
+		}else{
+			std::cout << logDirectoryPath << " already exists." << std::endl;
+		}
 		Initialize();
 }
 
@@ -59,7 +64,7 @@ void Logger::Initialize(){
 		std::cerr << "Error:ログファイルの保存先(logFilePath)を指定して下さい" << std::endl;
 	}else{
 		///記録ファイルを設定
-		ofs.open(logFilePath);
+		this->ofs.open(logFilePath);
 		this->add("count", &count);
 	}
 }
@@ -124,10 +129,26 @@ void Logger::setFilePath(std::string fileDirectoryPath, std::string fileName){
 	logFilePath = logDirectoryPath;
 	logFilePath.append("/");
 	logFilePath.append(fileName);
-	_mkdir(logDirectoryPath.c_str());
+	if(!PathIsDirectory(s2ws(logDirectoryPath).c_str())){
+		_mkdir(logDirectoryPath.c_str());
+	}else{
+		std::cout << logDirectoryPath << " already exists." << std::endl;
+	}
 	Initialize();
 }
 
 std::string Logger::getFilePath() const{
 	return logFilePath;
+}
+
+std::wstring Logger::s2ws(const std::string& s){
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	//std::cout << "Length: " << len << std::endl;
+	wchar_t * buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring result(buf);
+	delete[] buf;
+	return result;
 }

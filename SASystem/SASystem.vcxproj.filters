@@ -57,6 +57,9 @@
     <ClCompile Include="World.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="RobotMAV.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SAModule.h">
@@ -74,29 +77,8 @@
     <ClInclude Include="EnvUpdater.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BatteryStatus.hpp">
-      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgressCounter.hpp">
-      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="StepCounter.hpp">
-      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
-    </ClInclude>
-    <ClInclude Include="VisionScope.hpp">
-      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionUpdater.hpp">
-      <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
-    </ClInclude>
-    <ClInclude Include="Alive.hpp">
-      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="Progress.hpp">
-      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
     <ClInclude Include="FieldConnectorTester.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -137,9 +119,6 @@
     <ClInclude Include="SensePos.hpp">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
     </ClInclude>
-    <ClInclude Include="RobotMAV.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ActPos.hpp">
       <Filter>ヘッダー ファイル\Modules\Actuators</Filter>
     </ClInclude>
@@ -148,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="Controllers.h">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="ContMove.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotMAV.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

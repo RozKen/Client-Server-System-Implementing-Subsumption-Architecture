@@ -11,6 +11,7 @@
 #include <Windows.h>	//for wait
 #include <direct.h>		//for _mkdir
 #include <sstream>
+#include <fstream>
 
 FieldConnectorTester::FieldConnectorTester(const int* field, int mode, double prob) 
 	: mode(mode), prob(prob), count(0), numOfSuccess(0), numOfBatteryFail(0), aveSuccessClock(0.0), aveDistance(0.0)

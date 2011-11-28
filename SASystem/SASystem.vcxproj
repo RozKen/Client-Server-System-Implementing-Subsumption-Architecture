@@ -81,6 +81,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Robot.cpp" />
+    <ClCompile Include="RobotMAV.cpp" />
     <ClCompile Include="SAModule.cpp" />
     <ClCompile Include="FieldConnectorTester.cpp" />
     <ClCompile Include="World.cpp" />
@@ -88,22 +89,18 @@
   <ItemGroup>
     <ClInclude Include="ActPos.hpp" />
     <ClInclude Include="Actuators.h" />
-    <ClInclude Include="Alive.hpp" />
-    <ClInclude Include="BatteryStatus.hpp" />
     <ClInclude Include="Blackboard.h" />
     <ClInclude Include="Arbiter.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="ContMove.hpp" />
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="EnvUpdater.h" />
     <ClInclude Include="FieldTester.hpp" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="RobotMAV.hpp" />
+    <ClInclude Include="RobotMAV.h" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="ModMultiple.hpp" />
-    <ClInclude Include="PositionUpdater.hpp" />
-    <ClInclude Include="Progress.hpp" />
-    <ClInclude Include="ProgressCounter.hpp" />
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="Resetter.hpp" />
     <ClInclude Include="Robot.h" />
@@ -111,10 +108,8 @@
     <ClInclude Include="SensePos.hpp" />
     <ClInclude Include="SenseRadiation.hpp" />
     <ClInclude Include="Sensors.h" />
-    <ClInclude Include="StepCounter.hpp" />
     <ClInclude Include="StochasticSelecter.hpp" />
     <ClInclude Include="FieldConnectorTester.h" />
-    <ClInclude Include="VisionScope.hpp" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

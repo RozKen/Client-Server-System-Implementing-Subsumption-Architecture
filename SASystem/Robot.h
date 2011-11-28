@@ -49,6 +49,7 @@ public:
 		@param fileName			ログファイル名
 	 */
 	void setLogDirectoryPath(std::string directoryPath, std::string fileName);
+	std::string getLogFilePath() const;
 protected:
 	/**
 		@brief ロボット内のModuleをすべて実行する
@@ -58,10 +59,6 @@ protected:
 		@brief すべてのArbiterを実行する
 	 */
 	void ProcessArbiters();
-	/**
-		@brief ログをとる
-	 */
-	void Log();
 	/**
 		@brief Inner Wireの入力に関わる部分を処理
 	 */

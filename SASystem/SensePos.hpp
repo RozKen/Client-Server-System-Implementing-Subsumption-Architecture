@@ -19,8 +19,8 @@ public:
 };
 
 inline SensePos::SensePos(){
-	this->addIBoard("posX");
-	this->addIBoard("posY");
+	this->addIBoard("iPosX");
+	this->addIBoard("iPosY");
 	this->addOutput("posX");
 	this->addOutput("posY");
 }

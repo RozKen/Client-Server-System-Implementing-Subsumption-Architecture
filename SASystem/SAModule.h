@@ -26,7 +26,10 @@ public:
 		純粋仮想関数．継承した子クラスでの定義が必須
 	 */
 	virtual void Run() = 0;
-
+	/**
+		@brief ログをとる
+	 */
+	virtual void Log();
 	/**
 		@brief 入力ポートを追加する
 		@param title 入力ポートの名前
@@ -107,7 +110,7 @@ public:
 		@param output 出力信号の配列要素へ代入する値
 	 */
 	virtual void setOutput(int index, float signal);
-	///getter and setter for iBoard and fBoard and implement it.
+	///iBoardとfBoardは，innerMemoryのものにアクセスする
 	virtual int getIBoard(int index) const;
 	virtual float getFBoard(int index) const;
 	virtual void setIBoard(int index, int signal);
@@ -124,11 +127,17 @@ public:
 	 */
 	int getNumOfOutputPorts() const;
 	/**
+		@brief 親の持つ記憶領域へのポインタを返す
+		@return 親の持つ記憶領域へのポインタ
+		@sa Blackbaord
+	 */
+	Blackboard* getMemory() const;
+	/**
 		@brief 内部に持つ記憶領域へのポインタを返す
 		@return 内部に持つ記憶領域
 		@sa Blackboard
 	 */
-	Blackboard* getMemory() const;
+	Blackboard* getInnerMemory() const;
 	
 protected:
 	///SAModuleの入力値が格納されているmemory上のIndex
@@ -149,8 +158,10 @@ protected:
 	int numOfOutputPorts;
 	///制御上，親に当たるモジュール
 	SAModule* parent;
-	///値の入出力に当たり，利用する記憶領域
+	///自分の保持する値を格納するための，親の記憶領域
 	Blackboard* memory;
+	///値の入出力に当たり，利用する記憶領域
+	Blackboard* innerMemory;
 	/**
 		@brief int型の変数をstring型に変換して変えす関数
 		@param num 変換したい数値

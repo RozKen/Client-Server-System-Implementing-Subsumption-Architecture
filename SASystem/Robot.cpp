@@ -12,7 +12,11 @@ Robot::Robot(){
 Robot::Robot(std::string directoryPath, std::string fileName){
 	this->modules = new std::vector<SAModule*>();
 	this->arbiters = new std::vector<Arbiter*>();
-	this->memory->setLogFilePath(directoryPath, fileName);
+	this->innerWireSrcType = new std::vector<int>();
+	this->innerWireSrcIndex = new std::vector<int>();
+	this->innerWireDestType = new std::vector<int>();
+	this->innerWireDestIndex = new std::vector<int>();
+	this->innerMemory->setLogFilePath(directoryPath, fileName);
 }
 
 Robot::~Robot(){
@@ -26,7 +30,7 @@ void Robot::Initialize(){
 void Robot::Run(){
 	ProcessInputs();
 	RunModules();
-	Log();				//Arbiterの挙動を調べるため，ダブログ
+	//Log();				//Arbiterの挙動を調べるため，ダブログ
 	ProcessArbiters();
 	ProcessOutputs();
 	Log();
@@ -44,22 +48,21 @@ void Robot::ProcessArbiters(){
 	}
 }
 
-void Robot::Log(){
-	memory->Log();
-}
-
 void Robot::ProcessInputs(){
 	for(int i = 0; i < this->innerWireSrcType->size(); i++){
 		//Source が inputs
 		if(this->innerWireSrcType->at(i) == 0){
 			//Destination が iBoard
 			if(this->innerWireDestType->at(i) == 2){
-				memory->setIBoard(this->innerWireDestIndex->at(i)
+				innerMemory->setIBoard(this->innerWireDestIndex->at(i)
 					, (int)(this->getInput(this->innerWireSrcIndex->at(i))));
 			}
+
+///////ここでおかしい。getInputあたり
+			////memory/innerMemoryを変えたかららしい。
 			//Destination が fBoard
 			else if(this->innerWireDestType->at(i) == 3){
-				memory->setFBoard(this->innerWireDestIndex->at(i)
+				innerMemory->setFBoard(this->innerWireDestIndex->at(i)
 					, this->getInput(this->innerWireSrcIndex->at(i)));
 			}
 		}
@@ -73,12 +76,12 @@ void Robot::ProcessOutputs(){
 			//SourceがiBoard
 			if(this->innerWireSrcType->at(i) == 2){
 				memory->setOutput(this->innerWireDestIndex->at(i)
-					, (float)(this->getIBoard(this->innerWireSrcIndex->at(i))));
+					, (float)(innerMemory->getIBoard(this->innerWireSrcIndex->at(i))));
 			}
 			//SourceがfBoard
 			else if(this->innerWireSrcType->at(i) == 3){
 				memory->setOutput(this->innerWireDestIndex->at(i)
-					, this->getFBoard(this->innerWireSrcIndex->at(i)));
+					, innerMemory->getFBoard(this->innerWireSrcIndex->at(i)));
 			}
 		}
 	}
@@ -90,15 +93,15 @@ void Robot::addModule(SAModule *module){
 	//moduleの親として，robot自身を登録
 	module->setParent(this);
 	int index;
-	//moduleの入力を，このロボットのmemoryの出力と接続
+	//moduleの入力を，このロボットのinnerMemoryの出力と接続
 	for(int i = 0; i < module->getNumOfInputPorts(); i++){
-		index = this->memory->addOutputPort(module->getInputTitles()->at(i));
+		index = this->innerMemory->addOutputPort(module->getInputTitles()->at(i));
 		module->addInputIndex(index);
 	}
 
-	//moduleの出力を，このロボットのmemoryの入力と接続
+	//moduleの出力を，このロボットのinnerMemoryの入力と接続
 	for(int i = 0; i < module->getNumOfOutputPorts(); i++){
-		index = this->memory->addInputPort(module->getOutputTitles()->at(i));
+		index = this->innerMemory->addInputPort(module->getOutputTitles()->at(i));
 		module->addOutputIndex(index);
 	}
 	
@@ -115,10 +118,10 @@ void Robot::addModule(SAModule *module){
 		flag = 2;		//ModuleはActuator
 	}
 
-	//moduleのint入出力を、このロボットのmemoryのiBoardと接続
+	//moduleのint入出力を、このロボットのinnerMemoryのiBoardと接続
 	std::vector<std::string>* titles = module->getIBoardTitles();
 	for(int i = 0; i < titles->size(); i++){
-		index = this->memory->addIntPort(titles->at(i));
+		index = this->innerMemory->addIntPort(titles->at(i));
 		module->addIBoardIndex(index);
 		if(flag != 2){
 			this->addInput(titles->at(i));
@@ -139,10 +142,10 @@ void Robot::addModule(SAModule *module){
 			this->innerWireDestIndex->push_back(this->outputTitles->size() - 1);
 		}
 	}
-	//moduleのfloat入出力を、このロボットのmemoryのfBoardと接続
+	//moduleのfloat入出力を、このロボットのinnerMemoryのfBoardと接続
 	titles = (module->getFBoardTitles());
 	for(int i = 0; i < titles->size(); i++){
-		index = this->memory->addFloatPort(titles->at(i));
+		index = this->innerMemory->addFloatPort(titles->at(i));
 		module->addFBoardIndex(index);
 		if(flag != 2){
 			this->addInput(titles->at(i));
@@ -170,7 +173,7 @@ void Robot::addArbiter(Arbiter *arbiter){
 	arbiters->push_back(arbiter);
 	//arbiterの親として，robot自身を登録
 	arbiter->setParent(this);
-	int index;
+	//int index;
 	///Arbiterにはmemoryの割り当て不要
 	/**
 		Arbiterには，setSource, setDestinationの時点で，
@@ -179,5 +182,9 @@ void Robot::addArbiter(Arbiter *arbiter){
 }
 
 void Robot::setLogDirectoryPath(std::string directoryPath, std::string fileName){
-	this->memory->setLogFilePath(directoryPath, fileName);
+	this->innerMemory->setLogFilePath(directoryPath, fileName);
+}
+
+std::string Robot::getLogFilePath() const{
+	return this->innerMemory->getLogFilePath();
 }

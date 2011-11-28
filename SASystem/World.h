@@ -1,7 +1,7 @@
 #ifndef _World_H_
 #define _World_H_
 
-#include "Robot.h"
+#include "RobotMAV.h"
 
 /**
 	@brief 位置を表す構造体
@@ -26,12 +26,13 @@ public:
 		</ol>
 	 */
 	virtual void Run();
+	virtual void RunRobots();
 	/**
 		@brief WorldにRobotを追加する
 	 */
-	virtual void addRobot(Robot* robot);
-	void moveRobot(int deltaX, int deltaY);
-	std::vector<int>* getRobotMap(int x, int y);
+	virtual void addRobot(RobotMAV* robot);
+	//void moveRobot(int deltaX, int deltaY);
+	//std::vector<int>* getRobotMap(int x, int y);
 	/**
 		@brief 放射線量Mapに値を記入する
 		@param x Robotのx座標
@@ -78,9 +79,9 @@ inline World::World(){
 	}
 }
 
-inline void World::addRobot(Robot* robot){
+inline void World::addRobot(RobotMAV* robot){
 	//Robotで定義されているaddModuleを実行
-	Robot::addModule(robot);
+	this->addModule(robot);
 }
 /*
 inline void World::setRadiationMap(int x, int y, std::vector<float>* data){

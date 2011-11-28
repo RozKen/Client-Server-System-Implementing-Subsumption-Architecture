@@ -142,6 +142,11 @@ protected:
 		@brief File Output Stream
 	 */
 	std::ofstream ofs;
+
+	/**
+		@brief String to Wide String
+	 */
+	std::wstring s2ws(const std::string& s);
 };
 
 #endif	//_Logger_H_
