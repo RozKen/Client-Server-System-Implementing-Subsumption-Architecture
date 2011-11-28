@@ -29,7 +29,7 @@ inline void ActPos::Run(){
 	int dX = this->round(this->getInput(0));
 	std::cout << "getInput0: " << this->getInput(0) << ": dX : " << dX << std::endl;
 	int dY = this->round(this->getInput(1));
-	std::cout << "getInput0: " << this->getInput(1) << ": dX : " << dY << std::endl;
+	std::cout << "getInput0: " << this->getInput(1) << ": dY : " << dY << std::endl;
 	//Robot‚Ì“à•”‚Éo—ÍM†‚ğŠi”[
 	this->setIBoard(0, dX);
 	this->setIBoard(1, dY);

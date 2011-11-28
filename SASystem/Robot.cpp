@@ -50,15 +50,15 @@ void Robot::ProcessArbiters(){
 
 void Robot::ProcessInputs(){
 	for(int i = 0; i < this->innerWireSrcType->size(); i++){
-		//Source ‚ª inputs
+		//Source ‚ª inputs:inputs‚Ímemoryã
 		if(this->innerWireSrcType->at(i) == 0){
 			float signal = this->getInput(this->innerWireSrcIndex->at(i));
-			//Destination ‚ª iBoard
+			//Destination ‚ª iBoard: iBoard‚ÍinnerMemoryã
 			if(this->innerWireDestType->at(i) == 2){
 				innerMemory->setIBoard(this->innerWireDestIndex->at(i)
 					, (int)(signal));
 			}
-			//Destination ‚ª fBoard
+			//Destination ‚ª fBoard: fBoard‚ÍinnerMemoryã
 			else if(this->innerWireDestType->at(i) == 3){
 				innerMemory->setFBoard(this->innerWireDestIndex->at(i)
 					, signal);
@@ -69,16 +69,16 @@ void Robot::ProcessInputs(){
 
 void Robot::ProcessOutputs(){
 	for(int i = 0; i < this->innerWireDestType->size(); i++){
-		//Destination ‚ª outputs
+		//Destination ‚ª outputs: outputs‚Ímemoryã
 		if(this->innerWireDestType->at(i) == 1){
-			//Source‚ªiBoard
+			//Source‚ªiBoard: iBoard‚ÍinnerMemoryã
 			if(this->innerWireSrcType->at(i) == 2){
-				innerMemory->setOutput(this->innerWireDestIndex->at(i)
+				this->setOutput(this->innerWireDestIndex->at(i)
 					, (float)(innerMemory->getIBoard(this->innerWireSrcIndex->at(i))));
 			}
-			//Source‚ªfBoard
+			//Source‚ªfBoard: fBoard‚ÍinnerMemoryã
 			else if(this->innerWireSrcType->at(i) == 3){
-				innerMemory->setOutput(this->innerWireDestIndex->at(i)
+				this->setOutput(this->innerWireDestIndex->at(i)
 					, innerMemory->getFBoard(this->innerWireSrcIndex->at(i)));
 			}
 		}

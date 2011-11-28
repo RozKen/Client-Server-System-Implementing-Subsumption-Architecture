@@ -133,8 +133,8 @@ double Arbiter::generateSignal(){
 #ifdef _DEBUG
 	
 	std::cout << "magnitude: " << magnitude << std::endl;
-	std::cout << "dest: " << getDest() << std::endl;
-	std::cout << "src: " << getSrc() << std::endl;
+	std::cout << "dest: " << this->outputTitles->at(0) << ":" << getDest() << std::endl;
+	std::cout << "src: " << this->inputTitles->at(0) << ":" << getSrc() << std::endl;
 	std::cout << "signal: " << signal << std::endl;
 	
 #endif

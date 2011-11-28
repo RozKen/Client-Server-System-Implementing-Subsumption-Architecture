@@ -18,9 +18,9 @@ RobotMAV::RobotMAV(){
 
 	/////Arbiterを追加
 	//移動コントローラ->位置Actuator
-	Arbiter* cMaPX = new Arbiter(cM, 0, aP, 0, 1.0f);
+	Arbiter* cMaPX = new Arbiter(cM, 0, aP, 0, 2.0f);
 	this->addArbiter(cMaPX);
-	Arbiter* cMaPY = new Arbiter(cM, 1, aP, 1, 1.0f);
+	Arbiter* cMaPY = new Arbiter(cM, 1, aP, 1, 2.0f);
 	this->addArbiter(cMaPY);
 }
 
@@ -59,6 +59,5 @@ void RobotMAV::Run(){
 	//RobotからのOutputを処理する
 	ProcessOutputs();
 	//Logを取る
-	//this->memory->Log();
 	Log();
 }
