@@ -18,9 +18,9 @@ RobotMAV::RobotMAV(){
 
 	/////Arbiterを追加
 	//移動コントローラ->位置Actuator
-	Arbiter* cMaPX = new Arbiter(cM, 0, aP, 0);
+	Arbiter* cMaPX = new Arbiter(cM, 0, aP, 0, 1.0f);
 	this->addArbiter(cMaPX);
-	Arbiter* cMaPY = new Arbiter(cM, 1, aP, 1);
+	Arbiter* cMaPY = new Arbiter(cM, 1, aP, 1, 1.0f);
 	this->addArbiter(cMaPY);
 }
 
@@ -43,9 +43,9 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 
 	/////Arbiterを追加
 	//移動コントローラ->位置Actuator
-	Arbiter* cMaPX = new Arbiter(cM, 0, aP, 0);
+	Arbiter* cMaPX = new Arbiter(cM, 0, aP, 0, 1.0f);
 	this->addArbiter(cMaPX);
-	Arbiter* cMaPY = new Arbiter(cM, 1, aP, 1);
+	Arbiter* cMaPY = new Arbiter(cM, 1, aP, 1, 1.0f);
 	this->addArbiter(cMaPY);
 }
 
