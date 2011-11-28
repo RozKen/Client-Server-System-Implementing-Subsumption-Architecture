@@ -2,6 +2,7 @@
 #define _Act_Pos_HPP_
 
 #include "SAModule.h"
+#include <iostream>
 /**
 	@class ActPos
 	@brief
@@ -26,7 +27,9 @@ inline ActPos::ActPos(){
 inline void ActPos::Run(){
 	//M†‚ð“üŽè
 	int dX = this->round(this->getInput(0));
+	std::cout << "getInput0: " << this->getInput(0) << ": dX : " << dX << std::endl;
 	int dY = this->round(this->getInput(1));
+	std::cout << "getInput0: " << this->getInput(1) << ": dX : " << dY << std::endl;
 	//Robot‚Ì“à•”‚Éo—ÍM†‚ðŠi”[
 	this->setIBoard(0, dX);
 	this->setIBoard(1, dY);

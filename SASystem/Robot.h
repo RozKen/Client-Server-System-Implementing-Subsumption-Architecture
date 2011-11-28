@@ -61,10 +61,12 @@ protected:
 	void ProcessArbiters();
 	/**
 		@brief Inner Wireの入力に関わる部分を処理
+		Robotへの入力(inputs)を，RobotのinnerMemoryのiBoard/fBoardへコピーする
 	 */
 	void ProcessInputs();
 	/**
 		@brief Inner Wireの出力に関わる部分を処理
+		Robotからの出力(outputs)を，RobotのinnerMemoryのiBoard/fBoardからコピーする
 	 */
 	void ProcessOutputs();
 	/**

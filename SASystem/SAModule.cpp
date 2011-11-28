@@ -94,6 +94,16 @@ float SAModule::getInput(int index) const{
 	float result = memory->getOutput(this->inputIndex->at(index));
 	return result;
 }
+void SAModule::setInput(int index, float signal){
+	//moduleへの入力memoryの出力へ設定する
+	memory->setOutput(this->inputIndex->at(index), signal);
+}
+
+float SAModule::getOutput(int index) const{
+	//moduleからの出力は，memoryの入力から得る
+	float result = memory->getInput(this->outputIndex->at(index));
+	return result;
+}
 
 void SAModule::setOutput(int index, float signal){
 	//moduleからの出力は、memoryの入力へ送信

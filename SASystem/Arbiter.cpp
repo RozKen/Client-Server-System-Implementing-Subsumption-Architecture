@@ -61,6 +61,21 @@ float Arbiter::getInput(int index) const{
 	return getInput();
 }
 
+void Arbiter::setInput(float signal){
+	memory->setInput(this->inputIndex->at(0), signal);
+}
+void Arbiter::setInput(int index, float signal){
+	return setInput(signal);
+}
+
+float Arbiter::getOutput() const{
+	int result = memory->getOutput(this->outputIndex->at(0));
+	return result;
+}
+float Arbiter::getOutput(int index) const{
+	return getOutput();
+}
+
 void Arbiter::setOutput(float signal){
 	///Arbiterからの出力は，memoryの出力へ送信※Moduleと異なる
 	memory->setOutput(this->outputIndex->at(0), signal);

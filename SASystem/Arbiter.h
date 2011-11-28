@@ -76,6 +76,8 @@ public:
 		@sa SAModule::getInput
 	 */
 	float getInput(int index) const;
+	void setInput(int index, float signal);
+	void setInput(float signal);
 	/**
 		@brief 出力信号を設定する
 		@param output 出力信号の配列要素へ代入する値
@@ -91,7 +93,8 @@ public:
 		@sa SAModule::setOutput
 	 */
 	void setOutput(int index, float signal);
-
+	float getOutput(int index) const;
+	float getOutput() const;
 	/**
 		@brief Getter of factor
 		@sa factor

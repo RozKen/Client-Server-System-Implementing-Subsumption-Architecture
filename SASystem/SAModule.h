@@ -104,12 +104,15 @@ public:
 		@return input 入力信号の配列要素の値
 	 */
 	virtual float getInput(int index) const;
+	virtual void setInput(int index, float signal);
+	virtual float getOutput(int index) const; 
 	/**
 		@brief 出力信号を設定する
 		@param index 設定する配列要素のモジュール上の出力ポート番号
 		@param output 出力信号の配列要素へ代入する値
 	 */
 	virtual void setOutput(int index, float signal);
+	
 	///iBoardとfBoardは，innerMemoryのものにアクセスする
 	virtual int getIBoard(int index) const;
 	virtual float getFBoard(int index) const;

@@ -52,18 +52,16 @@ void Robot::ProcessInputs(){
 	for(int i = 0; i < this->innerWireSrcType->size(); i++){
 		//Source が inputs
 		if(this->innerWireSrcType->at(i) == 0){
+			float signal = this->getInput(this->innerWireSrcIndex->at(i));
 			//Destination が iBoard
 			if(this->innerWireDestType->at(i) == 2){
 				innerMemory->setIBoard(this->innerWireDestIndex->at(i)
-					, (int)(this->getInput(this->innerWireSrcIndex->at(i))));
+					, (int)(signal));
 			}
-
-///////ここでおかしい。getInputあたり
-			////memory/innerMemoryを変えたかららしい。
 			//Destination が fBoard
 			else if(this->innerWireDestType->at(i) == 3){
 				innerMemory->setFBoard(this->innerWireDestIndex->at(i)
-					, this->getInput(this->innerWireSrcIndex->at(i)));
+					, signal);
 			}
 		}
 	}
@@ -75,12 +73,12 @@ void Robot::ProcessOutputs(){
 		if(this->innerWireDestType->at(i) == 1){
 			//SourceがiBoard
 			if(this->innerWireSrcType->at(i) == 2){
-				memory->setOutput(this->innerWireDestIndex->at(i)
+				innerMemory->setOutput(this->innerWireDestIndex->at(i)
 					, (float)(innerMemory->getIBoard(this->innerWireSrcIndex->at(i))));
 			}
 			//SourceがfBoard
 			else if(this->innerWireSrcType->at(i) == 3){
-				memory->setOutput(this->innerWireDestIndex->at(i)
+				innerMemory->setOutput(this->innerWireDestIndex->at(i)
 					, innerMemory->getFBoard(this->innerWireSrcIndex->at(i)));
 			}
 		}
@@ -124,8 +122,9 @@ void Robot::addModule(SAModule *module){
 		index = this->innerMemory->addIntPort(titles->at(i));
 		module->addIBoardIndex(index);
 		if(flag != 2){
-			this->addInput(titles->at(i));
-			this->addIBoard(titles->at(i));
+			std::string title = titles->at(i);
+			this->addInput(title);
+			//this->addIBoard(title.append("_i"));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(0);
 			this->innerWireSrcIndex->push_back(this->inputTitles->size() - 1);
@@ -133,8 +132,9 @@ void Robot::addModule(SAModule *module){
 			this->innerWireDestIndex->push_back(index);
 		}
 		if(flag != 1){
-			this->addOutput(titles->at(i));
-			this->addIBoard(titles->at(i));
+			std::string title = titles->at(i);
+			this->addOutput(title);
+			//this->addIBoard(title.append("_i"));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(2);
 			this->innerWireSrcIndex->push_back(index);
@@ -148,8 +148,9 @@ void Robot::addModule(SAModule *module){
 		index = this->innerMemory->addFloatPort(titles->at(i));
 		module->addFBoardIndex(index);
 		if(flag != 2){
-			this->addInput(titles->at(i));
-			this->addFBoard(titles->at(i));
+			std::string title = titles->at(i);
+			this->addInput(title);
+			//this->addFBoard(title.append("_i"));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(0);
 			this->innerWireSrcIndex->push_back(this->inputTitles->size() - 1);
@@ -157,8 +158,9 @@ void Robot::addModule(SAModule *module){
 			this->innerWireDestIndex->push_back(index);
 		}
 		if(flag != 1){
-			this->addOutput(titles->at(i));
-			this->addFBoard(titles->at(i));
+			std::string title = titles->at(i);
+			this->addOutput(title);
+			//this->addFBoard(title.append("_i"));
 			//InnerWireの接続を定義
 			this->innerWireSrcType->push_back(3);
 			this->innerWireSrcIndex->push_back(index);
