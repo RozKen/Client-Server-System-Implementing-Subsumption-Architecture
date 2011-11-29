@@ -4,6 +4,9 @@
 //–³M†ó‘Ô	NO_SIGNAL‚ğinclude
 #include "Constants.h"
 #include "Blackboard.h"
+#ifdef _DEBUG
+#include <iostream>	//Debug‚É•\¦‚·‚é‚½‚ß
+#endif	//_DEBUG
 
 /**
 	@class SAModule

@@ -6,6 +6,32 @@
 /**
 	@class SenseNet
 	@brief ネットワーク接続を検知し，近傍五つのロボットの位置を出力
+	<h1>FBoard</h1>
+	<ul>
+		<li>fRobot0X : Robot[0]->posX</li>
+		<li>fRobot0Y : Robot[0]->posY</li>
+		<li>fRobot1X : Robot[1]->posX</li>
+		<li>fRobot1Y : Robot[1]->posY</li>
+		<li>fRobot2X : Robot[2]->posX</li>
+		<li>fRobot2Y : Robot[2]->posY</li>
+		<li>fRobot3X : Robot[3]->posX</li>
+		<li>fRobot3Y : Robot[3]->posY</li>
+		<li>fRobot4X : Robot[4]->posX</li>
+		<li>fRobot4Y : Robot[4]->posY</li>
+	</ul>
+	<h1>Outputs</h1>
+	<ul>
+		<li>Robot0X : Robot[0]->posX</li>
+		<li>Robot0Y : Robot[0]->posY</li>
+		<li>Robot1X : Robot[1]->posX</li>
+		<li>Robot1Y : Robot[1]->posY</li>
+		<li>Robot2X : Robot[2]->posX</li>
+		<li>Robot2Y : Robot[2]->posY</li>
+		<li>Robot3X : Robot[3]->posX</li>
+		<li>Robot3Y : Robot[3]->posY</li>
+		<li>Robot4X : Robot[4]->posX</li>
+		<li>Robot4Y : Robot[4]->posY</li>
+	</ul>
 	@author Kenichi Yorozu
 	@date 29th November 2011
  */
@@ -17,6 +43,11 @@ public:
 		Sensorなので，Inputはない．
 	 */
 	SenseNet();
+	/**
+		@brief 実行時の動作.
+		近くの繋がっているRobotを5体まで検知し，出力
+		@sa SAModule::Run()
+	 */
 	virtual void Run();
 };
 

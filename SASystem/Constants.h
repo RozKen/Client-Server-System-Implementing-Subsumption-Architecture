@@ -16,8 +16,15 @@
 #define ONSTART			1
 #define ONGOAL			2
 #define ONCHARGER		3
-///視野の長さ (自分との相対位置-5から5まで)
-#define RANGEVISION		11
+/*	
+	視野の奥行き:自分から2以上離れていれば，一度に1しか
+	動かないロボット同士はぶつからない
+*/
+#define RANGE_DANGER	3.0f
+///RangeSensorの走査する方角は30度刻み
+#define RANGE_DEG		30.0
+///RangeSensorの走査する方角は12 (360 / RANGE_DEG) 方向
+#define RANGE_DIV		12
 
 ///バッテリーの消耗率 point/step
 #define BATTLOSS		3.0

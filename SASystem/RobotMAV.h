@@ -1,6 +1,7 @@
 #ifndef _Robot_MAV_H_
 #define _Robot_MAV_H_
 
+#include "Constants.h"
 #include "Sensors.h"
 #include "Controllers.h"
 #include "Actuators.h"
@@ -34,9 +35,10 @@ public:
 		@brief Robot‚ÌYÀ•W‚ğBlackboard‚©‚ç“¾‚é
 	 */
 	//int getPosY();
+	
 protected:
 	//internalRadiationMap
-
+	float internalRadiationMap[FIELD_SIZE][FIELD_SIZE];
 	//connectingRobotDirections[Robot”][2]
 };
 

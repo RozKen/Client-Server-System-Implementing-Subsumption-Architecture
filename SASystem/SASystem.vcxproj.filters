@@ -143,5 +143,11 @@
     <ClInclude Include="ContAlive.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="SenseRange.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="ContAvoid.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

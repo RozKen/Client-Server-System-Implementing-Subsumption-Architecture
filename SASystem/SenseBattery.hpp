@@ -6,6 +6,10 @@
 /**
 	@class SenseBattery
 	@brief バッテリー残量を検知し，出力する
+	<h1>Output</h1>
+	<ul><li>Output0: battery : バッテリーレベル</li></ul>
+	<h1>FBoard</h1>
+	<ul><li>fBoard0: fBattery : バッテリーレベル</li></ul>
 	@author Kenichi Yorozu
 	@date 29th November 2011
  */
@@ -28,7 +32,8 @@ inline SenseBattery::SenseBattery(){
 	this->addFBoard("fBattery");
 	this->addOutput("battery");
 }
-inline SenseBattery::Run(){
+
+inline void SenseBattery::Run(){
 	float batteryLevel = this->getFBoard(0);
 #ifdef _DEBUG
 	std::cout << "batteryLevel: " << batteryLevel << std::endl;
