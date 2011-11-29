@@ -92,6 +92,7 @@
     <ClInclude Include="Blackboard.h" />
     <ClInclude Include="Arbiter.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="ContAlive.hpp" />
     <ClInclude Include="ContMove.hpp" />
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
@@ -105,6 +106,8 @@
     <ClInclude Include="Resetter.hpp" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SAModule.h" />
+    <ClInclude Include="SenseBattery.hpp" />
+    <ClInclude Include="SenseNet.hpp" />
     <ClInclude Include="SensePos.hpp" />
     <ClInclude Include="SenseRadiation.hpp" />
     <ClInclude Include="Sensors.h" />

@@ -11,7 +11,16 @@
  */
 class SenseBattery : public SAModule{
 public:
+	/**
+		@brief Default Constructor
+		Output‚È‚Ç‚ğ’Ç‰Á‚µ‚Ä‚¢‚­.
+		Sensor‚È‚Ì‚ÅCInput‚Í‚È‚¢D
+	 */
 	SenseBattery();
+	/**
+		@brief Às‚Ì“®ì
+		@sa SAModule::Run()
+	 */
 	virtual void Run();
 };
 

@@ -20,12 +20,20 @@
 #define RANGEVISION		11
 
 ///バッテリーの消耗率 point/step
-#define BATTLOSS		3
+#define BATTLOSS		3.0
+#define MAX_BAT			100.0
 
 ///無信号状態	テストのため，暫定的に0.0fとしている．
 #define NO_SIGNAL		0.0f
 
 ///円周率π : 1.15桁まで (double の有効数字は10進数で16桁未満)
 #define PI				3.141592653589793
+
+///Start地点の座標
+#define START_X			50.0f
+#define START_Y			0.0f
+
+///一度の動ける距離
+#define MAX_DRIVE		1.0f
 
 #endif //Constants_H_

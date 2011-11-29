@@ -134,5 +134,14 @@
     <ClInclude Include="RobotMAV.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="SenseBattery.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="SenseNet.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="ContAlive.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
