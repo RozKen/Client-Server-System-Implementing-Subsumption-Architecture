@@ -35,6 +35,9 @@ public:
 	 */
 	//int getPosY();
 protected:
+	//internalRadiationMap
+
+	//connectingRobotDirections[Robotêî][2]
 };
 
 #endif	//_Robot_MAV_H_
