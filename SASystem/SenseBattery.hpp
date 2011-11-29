@@ -3,6 +3,12 @@
 
 #include "SAModule.h"
 
+/**
+	@class SenseBattery
+	@brief バッテリー残量を検知し，出力する
+	@author Kenichi Yorozu
+	@date 29th November 2011
+ */
 class SenseBattery : public SAModule{
 public:
 	SenseBattery();
@@ -13,7 +19,6 @@ inline SenseBattery::SenseBattery(){
 	this->addFBoard("fBattery");
 	this->addOutput("battery");
 }
-
 inline SenseBattery::Run(){
 	float batteryLevel = this->getFBoard(0);
 #ifdef _DEBUG

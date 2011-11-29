@@ -3,6 +3,12 @@
 
 #include "SAModule.h"
 
+/**
+	@class SensePos
+	@brief 現在位置を検知し，出力する(GPS)
+	@author Kenichi Yorozu
+	@date 29th November 2011
+ */
 class SensePos : public SAModule{
 public:
 	/**
@@ -19,19 +25,19 @@ public:
 };
 
 inline SensePos::SensePos(){
-	this->addIBoard("iPosX");
-	this->addIBoard("iPosY");
+	this->addFBoard("fPosX");
+	this->addFBoard("fPosY");
 	this->addOutput("posX");
 	this->addOutput("posY");
 }
 
 inline void SensePos::Run(){
 	//Sensor情報を入手
-	int posX = this->getIBoard(0);
-	int posY = this->getIBoard(1);
+	float posX = this->getFBoard(0);
+	float posY = this->getFBoard(1);
 	//Sensor情報を出力
-	this->setOutput(0, (float) posX);
-	this->setOutput(1, (float) posY);
+	this->setOutput(0, posX);
+	this->setOutput(1, posY);
 }
 
 #endif	//_Sense_Pos_HPP_
