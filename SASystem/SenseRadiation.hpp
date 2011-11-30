@@ -3,7 +3,7 @@
 
 #include "SAModule.h"
 #include "World.h"
-#include "MAV_Robot.hpp"
+#include "RobotMAV.hpp"
 
 class SenseRadiation : public SAModule{
 public:
@@ -20,10 +20,10 @@ inline SenseRadiation::SenseRadiation(){
 
 inline void SenseRadiation::Run(){
 	//World* world = ;
-	std::vector<float>* radMap = ((World *) (this->getParent()->getParent()))->getRadiationMap(
-		(MAV_Robot *)(this->getParent())->getPosX(), (MAV_Robot *)(this->getParent())->getPosY());
+	//std::vector<float>* radMap = ((World *) (this->getParent()->getParent()))->getRadiationMap(
+		//(RobotMAV *)(this->getParent())->getPosX(), (RobotMAV *)(this->getParent())->getPosY());
 	for(int i = 0; i < MAX_AREA; i++){
-		setOutput(i, radMap->at(i));
+		//setOutput(i, radMap->at(i));
 	}
 }
 

@@ -6,5 +6,6 @@
 
 #include "ContAlive.hpp"
 #include "ContAvoid.hpp"
+#include "ContWander.hpp"
 
 #endif	//_Controllers_H_

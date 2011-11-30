@@ -149,5 +149,8 @@
     <ClInclude Include="ContAvoid.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="ContWander.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

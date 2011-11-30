@@ -34,8 +34,7 @@ class ContAvoid : public SAModule{
 public:
 	/**
 		@brief Default Constructor
-		Output‚È‚Ç‚ğ’Ç‰Á‚µ‚Ä‚¢‚­.
-		Sensor‚È‚Ì‚ÅCInput‚Í‚È‚¢D
+		Input, Output‚È‚Ç‚ğ’Ç‰Á‚µ‚Ä‚¢‚­.
 	 */
 	ContAvoid();
 	/**

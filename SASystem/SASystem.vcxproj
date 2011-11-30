@@ -96,6 +96,7 @@
     <ClInclude Include="ContAvoid.hpp" />
     <ClInclude Include="ContMove.hpp" />
     <ClInclude Include="Controllers.h" />
+    <ClInclude Include="ContWander.hpp" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="EnvUpdater.h" />
     <ClInclude Include="FieldTester.hpp" />
