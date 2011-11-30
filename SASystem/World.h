@@ -7,10 +7,12 @@
 	@brief ˆÊ’u‚ğ•\‚·\‘¢‘Ì
 	x, y‚Ì2ŸŒ³
  */
+/*
 typedef struct {
 	int x;
 	int y;
 } position;
+*/
 
 class World : public Robot{
 public:

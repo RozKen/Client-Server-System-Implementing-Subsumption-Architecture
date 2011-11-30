@@ -6,6 +6,16 @@
 /**
 	@class SensePos
 	@brief 現在位置を検知し，出力する(GPS)
+	<h1>Outputs</h1>
+	<ul>
+		<li>Output0 : posX - X Position</li>
+		<li>Output1 : posY - Y Position</li>
+	</ul>
+	<h1>FBoard</h1>
+	<ul>
+		<li>fBoard0 : fPosX - X Position</li>
+		<li>fBoard1 : fPosY - Y Position</li>
+	</ul>
 	@author Kenichi Yorozu
 	@date 29th November 2011
  */

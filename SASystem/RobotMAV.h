@@ -38,7 +38,7 @@ public:
 	
 protected:
 	//internalRadiationMap
-	float internalRadiationMap[FIELD_SIZE][FIELD_SIZE];
+	//float internalRadiationMap[FIELD_SIZE][FIELD_SIZE];
 	//connectingRobotDirections[Robotêî][2]
 };
 

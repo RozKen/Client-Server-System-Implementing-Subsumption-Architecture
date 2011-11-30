@@ -9,18 +9,18 @@
 	@brief ëºÇÃÇ‡ÇÃÇ…Ç‘Ç¬Ç©ÇÁÇ»Ç¢ÇÊÇ§Ç…ÇµÇÊÇ§Ç∆Ç∑ÇÈêßå‰äÌ
 	<h1>Inputs</h1>
 	<ul>
-		<li>RangeCAv0 : 0</li>
-		<li>RangeCAv1 : 30</li>
-		<li>RangeCAv2 : 60</li>
-		<li>RangeCAv3 : 90</li>
-		<li>RangeCAv4 : 120</li>
-		<li>RangeCAv5 : 150</li>
-		<li>RangeCAv6 : 180</li>
-		<li>RangeCAv7 : 210</li>
-		<li>RangeCAv8 : 240</li>
-		<li>RangeCAv9 : 270</li>
-		<li>RangeCAv10 : 300</li>
-		<li>RangeCAv11 : 330</li>
+		<li>Input0: RangeCAv0 : 0</li>
+		<li>Input0: RangeCAv1 : 30</li>
+		<li>Input0: RangeCAv2 : 60</li>
+		<li>Input0: RangeCAv3 : 90</li>
+		<li>Input0: RangeCAv4 : 120</li>
+		<li>Input0: RangeCAv5 : 150</li>
+		<li>Input0: RangeCAv6 : 180</li>
+		<li>Input0: RangeCAv7 : 210</li>
+		<li>Input0: RangeCAv8 : 240</li>
+		<li>Input0: RangeCAv9 : 270</li>
+		<li>Input0: RangeCAv10 : 300</li>
+		<li>Input0: RangeCAv11 : 330</li>
 	</ul>
 	<h1>Outputs</h1>
 	<ul>
