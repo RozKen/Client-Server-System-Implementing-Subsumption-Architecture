@@ -27,8 +27,8 @@ public:
 inline ActPos::ActPos(){
 	this->addInput("controlX");
 	this->addInput("controlY");
-	this->addFBoard("iDeltaX");
-	this->addFBoard("iDeltaY");
+	this->addFBoard("fDeltaX");
+	this->addFBoard("fDeltaY");
 }
 
 inline void ActPos::Run(){

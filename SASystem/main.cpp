@@ -58,7 +58,7 @@ void main(){
 	RobotMAV* mav2 = new RobotMAV(directory, "mav2.csv");
 	world->addRobot(mav1);
 	world->addRobot(mav2);
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 100; i++){
 		world->Run();
 	}
 	/*int* field = new int[LENGTH];
