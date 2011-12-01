@@ -2,14 +2,22 @@
 
 RobotMAV::RobotMAV(){
 	/////Sensorを追加
+	///////Sensorには初期値も与える必要がある.
 	//Batteryセンサを追加
 	SenseBattery* sB = new SenseBattery();
+	sB->setFBoard(0, 100.0f);
 	this->addModule(sB);
 	//位置センサを追加
 	SensePos* sP = new SensePos();
+	sP->setFBoard(0, START_X);
+	sP->setFBoard(1, START_Y);
 	this->addModule(sP);
+
 	//距離センサを追加
 	SenseRange* sR = new SenseRange();
+	for(int i = 0; i < sR->getFBoardTitles()->size(); i++){
+		sR->setFBoard(i, 4.0f);
+	}
 	this->addModule(sR);
 
 	/////Controllerを追加
@@ -74,15 +82,23 @@ RobotMAV::RobotMAV(){
 RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 	:Robot(directoryPath, fileName){
 	/////Sensorを追加
+	///////Sensorには初期値も与える必要がある.
 	//Batteryセンサを追加
 	SenseBattery* sB = new SenseBattery();
 	this->addModule(sB);
+	//sB->setFBoard(0, 100.0f);
 	//位置センサを追加
 	SensePos* sP = new SensePos();
 	this->addModule(sP);
+	//sP->setFBoard(0, START_X);
+	//sP->setFBoard(1, START_Y);
+
 	//距離センサを追加
 	SenseRange* sR = new SenseRange();
 	this->addModule(sR);
+	//for(int i = 0; i < sR->getFBoardTitles()->size(); i++){
+	//	sR->setFBoard(i, 4.0f);
+	//}
 
 	/////Controllerを追加
 	//Alive

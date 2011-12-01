@@ -16,6 +16,9 @@
 #define ONSTART			1
 #define ONGOAL			2
 #define ONCHARGER		3
+///全体における障害物の存在確率
+#define P_BARRIER		0.3
+
 /*	
 	視野の奥行き:自分から2以上離れていれば，一度に1しか
 	動かないロボット同士はぶつからない
@@ -27,7 +30,8 @@
 #define RANGE_DIV		12
 
 ///バッテリーの消耗率 point/step
-#define BATTLOSS		3.0
+#define BAT_LOSS		3.0
+#define BAT_GAIN		2.0
 #define MAX_BAT			100.0
 
 ///無信号状態	テストのため，暫定的に0.0fとしている．
@@ -37,8 +41,16 @@
 #define PI				3.141592653589793
 
 ///Start地点の座標
-#define START_X			50.0f
-#define START_Y			0.0f
+#define START_X			50.0
+#define START_Y			0.0
+/*
+	Start地点の近傍と見なすところ．
+	<ul>
+		<li>BatteryがChargeされる</li>
+		<li>指令からの無線が届く</li>
+	</ul>
+ */
+#define START_R			20.0
 
 ///一度の動ける距離
 #define MAX_DRIVE		1.0f
