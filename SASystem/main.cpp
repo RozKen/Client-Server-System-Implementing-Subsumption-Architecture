@@ -59,12 +59,14 @@ void main(){
 	world->addRobot(mav1);
 	world->addRobot(mav2);
 	//‰Šú’l‚ðÝ’è
-	mav1->setInput(0, 100.0f);
-	mav1->setInput(1, START_X + 1.0f);
-	mav1->setInput(2, START_Y + 1.0f);
-	mav2->setInput(0, 100.0f);
-	mav2->setInput(1, START_X - 1.0f);
-	mav2->setInput(2, START_Y + 1.0f);
+	RobotMAV* tmp;
+	for(int i = 0; i < world->getNumOfModules(); i++){
+		tmp = world->getRobot(i);
+		tmp->setInput(0, 100.0f);
+		tmp->setInput(1, START_X + 1.0f);
+		tmp->setInput(2, START_Y + 1.0f);
+	}
+
 	for(int i = 0; i < 100; i++){
 		world->Run();
 	}

@@ -50,6 +50,16 @@ public:
 	 */
 	void setLogDirectoryPath(std::string directoryPath, std::string fileName);
 	std::string getLogFilePath() const;
+	/**
+		@brief get number of Modules
+		@return number of Registered Modules
+	 */
+	int getNumOfModules() const;
+	/**
+		@brief get number of Arbiters
+		@return number of Registered Arbiters
+	 */
+	int getNumOfArbiters() const;
 protected:
 	/**
 		@brief ロボット内のModuleをすべて実行する
@@ -106,6 +116,8 @@ protected:
 	std::vector<int> *innerWireSrcIndex;
 	std::vector<int> *innerWireDestType;
 	std::vector<int> *innerWireDestIndex;
+	int numOfModules;
+	int numOfArbiters;
 };
 
 #endif _Robot_H_

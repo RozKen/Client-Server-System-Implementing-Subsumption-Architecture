@@ -1,6 +1,6 @@
 #include "Robot.h"
 
-Robot::Robot(){
+Robot::Robot(): numOfModules(0), numOfArbiters(0){
 	this->modules = new std::vector<SAModule*>();
 	this->arbiters = new std::vector<Arbiter*>();
 	this->innerWireSrcType = new std::vector<int>();
@@ -9,7 +9,9 @@ Robot::Robot(){
 	this->innerWireDestIndex = new std::vector<int>();
 }
 
-Robot::Robot(std::string directoryPath, std::string fileName){
+Robot::Robot(std::string directoryPath, std::string fileName)
+	: numOfModules(0), numOfArbiters(0)
+{
 	this->modules = new std::vector<SAModule*>();
 	this->arbiters = new std::vector<Arbiter*>();
 	this->innerWireSrcType = new std::vector<int>();
@@ -88,6 +90,7 @@ void Robot::ProcessOutputs(){
 void Robot::addModule(SAModule *module){
 	//module‚ðrobot‚É“o˜^
 	modules->push_back(module);
+	numOfModules = modules->size();
 	//module‚Ìe‚Æ‚µ‚ÄCrobotŽ©g‚ð“o˜^
 	module->setParent(this);
 	int index;
@@ -173,6 +176,7 @@ void Robot::addModule(SAModule *module){
 void Robot::addArbiter(Arbiter *arbiter){
 	//arbiter‚ðrobot‚É“o˜^
 	arbiters->push_back(arbiter);
+	numOfArbiters = arbiters->size();
 	//arbiter‚Ìe‚Æ‚µ‚ÄCrobotŽ©g‚ð“o˜^
 	arbiter->setParent(this);
 	//int index;
@@ -189,4 +193,12 @@ void Robot::setLogDirectoryPath(std::string directoryPath, std::string fileName)
 
 std::string Robot::getLogFilePath() const{
 	return this->innerMemory->getLogFilePath();
+}
+
+int Robot::getNumOfModules() const{
+	return numOfModules;
+}
+
+int Robot::getNumOfArbiters() const{
+	return numOfArbiters;
 }
