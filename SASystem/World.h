@@ -59,6 +59,12 @@ public:
 		@brief indexが指し示すx, y座標を得るためのhash[x/y][index]
 	 */
 	int hash[2][HASH_MAX];
+	/**
+		@brief Robotへのポインタを返す
+		@param index Robotのindex
+		@return Robotへのポインタ
+	 */
+	RobotMAV* getRobot(const int index);
 protected:
 	/**
 		@brief 新しくなった世界の状況をRobotに伝達する.
@@ -76,6 +82,14 @@ protected:
 		@return Batteryが切れていないか？
 	 */
 	bool isAlive(const RobotMAV* robot);
+	/**
+		@brief 各ロボットの近接センサへの入力を更新
+		近くかどうかは，RANGE_DANGER (現在は3.0f)で決まる
+		@param robot robotへのpointer
+		@sa RANGE_DANGER
+		@sa Constants.h
+	 */
+	void updateRange(RobotMAV* robot);
 	/**
 		@brief フィールドの地形情報を情報として保持．
 		<ul>
@@ -143,6 +157,10 @@ inline void World::addRobot(RobotMAV* robot){
 
 inline float World::norm(const float dx, const float dy){
 	return sqrt(pow(dx, 2) + pow(dy, 2));
+}
+
+inline RobotMAV* World::getRobot(const int index){
+	return ((RobotMAV*)this->modules->at(index));
 }
 /*
 inline void World::setRadiationMap(int x, int y, std::vector<float>* data){
