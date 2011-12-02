@@ -29,11 +29,23 @@ void World::Update(){
 			//fPosX = fPosX + fDeltaX
 			float posX = robot->getInput(1);
 			float dX = robot->getOutput(0);
-			robot->setInput(1, posX + dX);
+			float newX = posX + dX;
+			if(newX < 0.0f){
+				newX = 0.0f;
+			}else if(newX > FIELD_SIZE){
+				newX = FIELD_SIZE;
+			}
+			robot->setInput(1, newX);
 			//fPosY = fPosY + fDeltaY
 			float posY = robot->getInput(2);
 			float dY = robot->getOutput(1);
-			robot->setInput(2, posY + dY);
+			float newY = posY + dY;
+			if(newY < 0.0f){
+				newY = 0.0f;
+			}else if(newY > FIELD_SIZE){
+				newY = FIELD_SIZE;
+			}
+			robot->setInput(2, newY);
 			//Positionに応じてBatteryを減らす
 			if(sqrt(dX) > 0 || sqrt(dY) > 0){
 				battery -= (float)BAT_LOSS;
@@ -110,16 +122,15 @@ bool World::isAlive(const RobotMAV* robot){
 }
 
 void World::updateRange(RobotMAV* robot){
-	//robotの座標
-	float x = robot->getInput(1);
-	float y = robot->getInput(2);
+	//robotの座標 (int)
+	int x = round(robot->getInput(1));
+	int y = round(robot->getInput(2));
 	/**
 		@brief value[x][y] 
-		x,yは左上が0
-		(0,0),(1,0)
-		(0,1),(1,1)
+		x,yは左下が原点
 	 */
 	int value[RANGE * 2 + 1][RANGE * 2 + 1];
+	//int value[7][7];
 
 	for(int i = 0; i < RANGE * 2 + 1; i++){
 		for(int j = 0; j < RANGE * 2 + 1; j++){
@@ -138,29 +149,29 @@ void World::updateRange(RobotMAV* robot){
 	//west
 	boundary[3] = x;
 	for(int i = 0; i < 4; i++){
-		if(boundary[i] > RANGE_DANGER){
-			boundary[i] = RANGE_DANGER;
+		if(boundary[i] > RANGE){
+			boundary[i] = RANGE;
 		}else{
 			for(int j = boundary[i]; j < RANGE; j++){
 				switch(i){
 				case 0:		//North Boundary
 					for(int x = 0; x < RANGE * 2; x++){
-						value[x][j - boundary[i]] = OUTOFAREA;
+						value[x][RANGE + 1 + j] = OUTOFAREA;
 					}
 					break;
 				case 1:		//East Boundary
 					for(int y = 0; y < RANGE * 2; y++){
-						value[j][y] = OUTOFAREA;
+						value[RANGE + 1 + j][y] = OUTOFAREA;
 					}
 					break;
 				case 2:		//South Boundary
 					for(int x = 0; x < RANGE * 2; x++){
-						value[x][j] = OUTOFAREA;
+						value[x][RANGE - 1 - j] = OUTOFAREA;
 					}
 					break;
 				case 3:		//West Boundary
 					for(int y = 0; y < RANGE * 2; y++){
-						value[j - boundary[i]][y] = OUTOFAREA;
+						value[RANGE - 1 - j][y] = OUTOFAREA;
 					}
 					break;
 				default:	//想定外
@@ -171,7 +182,22 @@ void World::updateRange(RobotMAV* robot){
 	}
 
 	////////近隣の障害物情報////////
-
+	int searchX;	//現在Searchしている位置X
+	int searchY;	//現在Searchしている位置Y
+	for(int i = -RANGE; i <= RANGE; i++){
+		for(int j = -RANGE; j <= RANGE; j++){
+			searchX = x + i;
+			searchY = y + j;
+			//Robotの近傍がField内の時
+			if( searchX > 0 && searchX < FIELD_SIZE
+				&& searchY > 0 && searchY < FIELD_SIZE){
+					//地形情報が普通じゃないとき
+					if(geoField[searchX][searchY] != NORMAL){
+						value[i + RANGE][j + RANGE] = geoField[searchX][searchY];
+					}
+			}
+		}
+	}
 	////////近隣のrobotを探す////////
 
 	////////RANGEへinput////////
@@ -197,7 +223,15 @@ void World::updateRange(RobotMAV* robot){
 	int orientation[RANGE * 2 + 1][RANGE * 2 + 1];
 	for(int i = 0; i < RANGE * 2 + 1; i++){
 		for(int j = 0; j < RANGE * 2 + 1; j++){
-			double theta = atan( ((double)i - (double)RANGE) / ((double)RANGE - (double)j) );
+			//単位pi : [-PI/2, PI/2]
+			double phi = atan( ((double)j - (double)RANGE) / ((double)i - (double)RANGE) );
+			double theta = phi * 180.0 / PI;
+			
+			//象限ごとに追加の処理を行なう
+			if(i - RANGE < 0){
+				theta += 180.0;
+			}
+
 			if( (theta >= 345 && theta < 360) || ( theta >= 0 && theta < 15) ){
 				orientation[i][j] = 0;
 			}else if ( theta >= 15 && theta < 45){
@@ -223,8 +257,8 @@ void World::updateRange(RobotMAV* robot){
 			}else if ( theta >= 315 && theta < 345){
 				orientation[i][j] = 11;
 			}else{
-				//Errorを引き起こす
-				orientation[i][j] = -1;
+				//orientation[RANGE][RANGE]のみ
+				orientation[i][j] = 0;
 			}
 		}
 	}
@@ -241,7 +275,7 @@ void World::updateRange(RobotMAV* robot){
 	for(int i = 0; i < RANGE * 2 + 1; i++){
 		for(int j = 0; j < RANGE * 2 + 1; j++){
 			if(value[i][j] != NORMAL){
-				float distance = norm((i - RANGE), (RANGE - j));
+				float distance = norm(((double)(i - RANGE)), ((double)(RANGE - j)));
 
 				if( distance < signal[orientation[i][j]] ){
 					signal[orientation[i][j]] = distance;

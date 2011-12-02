@@ -92,6 +92,7 @@ protected:
 	void updateRange(RobotMAV* robot);
 	/**
 		@brief フィールドの地形情報を情報として保持．
+		geoField[x][y]
 		<ul>
 			<li>障害物: OUTOFAREA</li>
 		</ul>
@@ -104,6 +105,7 @@ protected:
 	void generateGeoField();
 	/**
 		@brief Fieldの固定的な意味情報(semantics)を保持
+		semField[x][y];
 		<ul>
 			<li>ONSTART : 司令部</li>
 			<li>ONCHARGER : 充電器(司令部近傍)</li>
