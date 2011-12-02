@@ -92,6 +92,9 @@ public:
 	void setLogFilePath(std::string fileDirectoryPath, std::string fileName);
 	
 	std::string getLogFilePath() const;
+
+	std::string getLogFileName() const;
+	std::string getLogDirectoryPath() const;
 	/////////On Data/////////
 	/**
 		@brief Blackboard‚Ì“ü—ÍM†‚ð“üŽè‚·‚é
@@ -219,6 +222,13 @@ inline void Blackboard::setLogFilePath(std::string fileDirectoryPath, std::strin
 
 inline std::string Blackboard::getLogFilePath() const{
 	return this->logger->getFilePath();
+}
+
+inline std::string Blackboard::getLogFileName() const{
+	return this->logger->getFileName();
+}
+inline std::string Blackboard::getLogDirectoryPath() const{
+	return this->logger->getDirectoryPath();
 }
 
 inline float Blackboard::getInput(int index) const{

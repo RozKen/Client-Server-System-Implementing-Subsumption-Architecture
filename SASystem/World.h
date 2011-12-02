@@ -16,8 +16,15 @@ typedef struct {
 
 class World : public Robot{
 public:
+	/**
+		@brief Default Constructor.
+		logFilePathを指定した後，Initalizeする必要がある.
+	 */
 	World();
-
+	/**
+		@brief Constructor
+	 */
+	World(std::string directoryPath, std::string fileName);
 	/**
 		@brief 世界を1clock進める
 		<ol>
@@ -59,6 +66,10 @@ public:
 		@brief indexが指し示すx, y座標を得るためのhash[x/y][index]
 	 */
 	int hash[2][HASH_MAX];
+	/**
+		@brief Initialize Fields
+	 */
+	void Initialize();
 	/**
 		@brief Robotへのポインタを返す
 		@param index Robotのindex
@@ -136,21 +147,6 @@ protected:
 	 */
 	float norm(const float dx, const float dy);
 };
-
-inline World::World(){
-	//robotPos = new std::vector<position>();
-	int tmp[2][HASH_MAX] = {
-		{0,0,1,0,-1,0,1,2,1,0,-1,-2,-1,0,1,2,3,2,1,0,-1,-2,-3,-2,-1},
-		{0,1,0,-1,0,2,1,0,-1,-2,-1,0,1,3,2,1,0,-1,-2,-3,-2,-1,0,1,2}
-	};
-	for(int i = 0; i < 2; i++){
-		for(int j = 0; j < HASH_MAX; j++){
-			hash[i][j] = tmp[i][j];
-		}
-	}
-	generateGeoField();
-	generateSemField();
-}
 
 inline void World::addRobot(RobotMAV* robot){
 	//Robotで定義されているaddModuleを実行

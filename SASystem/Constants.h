@@ -16,8 +16,9 @@
 #define ONSTART			1
 #define ONGOAL			2
 #define ONCHARGER		3
+#define ROBOTEXIST		4
 ///全体における障害物の存在確率
-#define P_BARRIER		0.3
+#define P_BARRIER		0.1
 
 /*	
 	視野の奥行き:自分から2以上離れていれば，一度に1しか

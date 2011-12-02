@@ -49,10 +49,8 @@ void main(){
 	LoggerTest();
 #endif	//TEST_LOGGER
 
-	World* world = new World();
 	std::string directory = logPathGenerator();
-
-	world->setLogDirectoryPath(directory, "world.csv");
+	World* world = new World(directory, "world.csv");
 	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
 	RobotMAV* mav1 = new RobotMAV(directory, "mav1.csv");
 	RobotMAV* mav2 = new RobotMAV(directory, "mav2.csv");

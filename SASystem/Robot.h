@@ -49,6 +49,8 @@ public:
 		@param fileName			ログファイル名
 	 */
 	void setLogDirectoryPath(std::string directoryPath, std::string fileName);
+	std::string getLogDirectoryPath() const;
+	std::string getLogFileName() const;
 	std::string getLogFilePath() const;
 	/**
 		@brief get number of Modules

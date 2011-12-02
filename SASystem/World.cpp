@@ -1,5 +1,37 @@
 #include "World.h"
 #include "RobotMAV.h"
+World::World(){
+	//robotPos = new std::vector<position>();
+	int tmp[2][HASH_MAX] = {
+		{0,0,1,0,-1,0,1,2,1,0,-1,-2,-1,0,1,2,3,2,1,0,-1,-2,-3,-2,-1},
+		{0,1,0,-1,0,2,1,0,-1,-2,-1,0,1,3,2,1,0,-1,-2,-3,-2,-1,0,1,2}
+	};
+	for(int i = 0; i < 2; i++){
+		for(int j = 0; j < HASH_MAX; j++){
+			hash[i][j] = tmp[i][j];
+		}
+	}
+}
+
+World::World(std::string directoryPath, std::string fileName)
+	:Robot(directoryPath, fileName){
+	int tmp[2][HASH_MAX] = {
+		{0,0,1,0,-1,0,1,2,1,0,-1,-2,-1,0,1,2,3,2,1,0,-1,-2,-3,-2,-1},
+		{0,1,0,-1,0,2,1,0,-1,-2,-1,0,1,3,2,1,0,-1,-2,-3,-2,-1,0,1,2}
+	};
+	for(int i = 0; i < 2; i++){
+		for(int j = 0; j < HASH_MAX; j++){
+			hash[i][j] = tmp[i][j];
+		}
+	}
+	this->Initialize();
+}
+
+void World::Initialize(){
+	generateGeoField();
+	generateSemField();
+}
+
 
 void World::Run(){
 	this->RunRobots();
@@ -18,7 +50,7 @@ void World::Update(){
 	RobotMAV* robot;
 	for(int i = 0; i < this->modules->size(); i++){
 		robot = (RobotMAV*)(modules->at(i));
-		////////Battery//////// - Need to be Updated ///////////////////////////
+		////////Battery////////
 		float battery = robot->getInput(0);
 		if(onBatteryCharger(robot)){
 			battery += (float)BAT_GAIN;
@@ -81,6 +113,17 @@ void World::generateGeoField(){
 			}
 		}
 	}
+	////File Output
+	std::string fileName = this->getLogDirectoryPath();
+	fileName.append("/geoField.csv");
+	std::ofstream ofsGeoField(fileName);
+	for(int i = FIELD_SIZE - 1; i >= 0; i--){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			ofsGeoField << geoField[j][i] << ",";
+		}
+		ofsGeoField << std::endl;
+	}
+	ofsGeoField.close();
 }
 
 void World::generateSemField(){
@@ -101,6 +144,19 @@ void World::generateSemField(){
 			}
 		}
 	}
+
+	////File Output
+	std::ofstream ofsSemField;
+	std::string fileName = this->getLogDirectoryPath();
+	fileName.append("/semField.csv");
+	ofsSemField.open(fileName);
+	for(int i = FIELD_SIZE - 1; i >= 0; i--){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			ofsSemField << semField[j][i] << ",";
+		}
+		ofsSemField << std::endl;
+	}
+	ofsSemField.close();
 }
 
 bool World::onBatteryCharger(const RobotMAV* robot){
@@ -155,22 +211,22 @@ void World::updateRange(RobotMAV* robot){
 			for(int j = boundary[i]; j < RANGE; j++){
 				switch(i){
 				case 0:		//North Boundary
-					for(int x = 0; x < RANGE * 2; x++){
+					for(int x = 0; x < RANGE * 2 + 1; x++){
 						value[x][RANGE + 1 + j] = OUTOFAREA;
 					}
 					break;
 				case 1:		//East Boundary
-					for(int y = 0; y < RANGE * 2; y++){
+					for(int y = 0; y < RANGE * 2 + 1; y++){
 						value[RANGE + 1 + j][y] = OUTOFAREA;
 					}
 					break;
 				case 2:		//South Boundary
-					for(int x = 0; x < RANGE * 2; x++){
+					for(int x = 0; x < RANGE * 2 + 1; x++){
 						value[x][RANGE - 1 - j] = OUTOFAREA;
 					}
 					break;
 				case 3:		//West Boundary
-					for(int y = 0; y < RANGE * 2; y++){
+					for(int y = 0; y < RANGE * 2 + 1; y++){
 						value[RANGE - 1 - j][y] = OUTOFAREA;
 					}
 					break;
@@ -199,7 +255,15 @@ void World::updateRange(RobotMAV* robot){
 		}
 	}
 	////////ãﬂó◊ÇÃrobotÇíTÇ∑////////
-
+	float robotX, robotY;
+	for(int i = 0; i < this->numOfModules; i++){
+		robotX = this->getRobot(i)->getInput(1);
+		robotY = this->getRobot(i)->getInput(2);
+		if( robotX < x + RANGE && robotX > x - RANGE
+			&& robotY < y + RANGE && robotY > y - RANGE){
+				value[(int)robotX - x + RANGE][(int)robotY - y + RANGE] = ROBOTEXIST;
+		}
+	}
 	////////RANGEÇ÷input////////
 	////Ç«ÇÃRangeÇ÷èoóÕÇ∑ÇÈÇ©ÇåàíËÇ∑ÇÈ
 	/**
@@ -230,6 +294,8 @@ void World::updateRange(RobotMAV* robot){
 			//è€å¿Ç≤Ç∆Ç…í«â¡ÇÃèàóùÇçsÇ»Ç§
 			if(i - RANGE < 0){
 				theta += 180.0;
+			}else if(j - RANGE < 0){	//ëÊélè€å¿
+				theta += 360.0f;
 			}
 
 			if( (theta >= 345 && theta < 360) || ( theta >= 0 && theta < 15) ){

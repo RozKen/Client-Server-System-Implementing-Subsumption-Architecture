@@ -140,7 +140,12 @@ void Logger::setFilePath(std::string fileDirectoryPath, std::string fileName){
 std::string Logger::getFilePath() const{
 	return logFilePath;
 }
-
+std::string Logger::getDirectoryPath() const{
+	return this->logDirectoryPath;
+}
+std::string Logger::getFileName() const{
+	return this->logFileName;
+}
 std::wstring Logger::s2ws(const std::string& s){
 	int len;
 	int slength = (int)s.length() + 1;

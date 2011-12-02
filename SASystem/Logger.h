@@ -106,6 +106,8 @@ public:
 		@sa logFilePath
 	 */
 	std::string getFilePath() const;
+	std::string getDirectoryPath() const;
+	std::string getFileName() const;
 	/**
 		@brief ®”Œ^‚Ì”‚ğClŒ…‚Ì”š‚Ì•¶š—ñ‚Ö•ÏŠ·‚·‚é
 		@param number •ÏŠ·‚µ‚½‚¢®”Œ^‚Ì”

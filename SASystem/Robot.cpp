@@ -191,6 +191,13 @@ void Robot::setLogDirectoryPath(std::string directoryPath, std::string fileName)
 	this->innerMemory->setLogFilePath(directoryPath, fileName);
 }
 
+std::string Robot::getLogDirectoryPath() const{
+	return this->innerMemory->getLogDirectoryPath();
+}
+std::string Robot::getLogFileName() const{
+	return this->innerMemory->getLogFileName();
+}
+
 std::string Robot::getLogFilePath() const{
 	return this->innerMemory->getLogFilePath();
 }
