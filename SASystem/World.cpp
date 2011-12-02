@@ -39,6 +39,8 @@ void World::Update(){
 				battery -= (float)BAT_LOSS;
 			}
 
+			////////Range////////
+			updateRange(robot);
 #ifdef _DEBUG
 			std::cout << "Robot[" << i << "] : " << posX + dX << ", " << posY + dY << std::endl;
 #endif	//_DEBUG
@@ -105,4 +107,72 @@ bool World::isAlive(const RobotMAV* robot){
 		result = false;
 	}
 	return result;
+}
+
+void World::updateRange(RobotMAV* robot){
+	//robotの座標
+	float x = robot->getInput(1);
+	float y = robot->getInput(2);
+	/**
+		@brief value[x][y] 
+		x,yは左上が0
+		(0,0),(1,0)
+		(0,1),(1,1)
+	 */
+	float value[RANGE * 2 + 1][RANGE * 2 + 1];
+
+	for(int i = 0; i < RANGE * 2 + 1; i++){
+		for(int j = 0; j < RANGE * 2 + 1; j++){
+			value[i][j] = NORMAL;
+		}
+	}
+
+	//Field外の検出
+	int boundary[4];
+	//north
+	boundary[0] = FIELD_SIZE - 1 - round(y);
+	//east
+	boundary[1] = FIELD_SIZE - 1 - round(x);
+	//south
+	boundary[2] = y;
+	//west
+	boundary[3] = x;
+	for(int i = 0; i < 4; i++){
+		if(boundary[i] > RANGE_DANGER){
+			boundary[i] = RANGE_DANGER;
+		}else{
+			for(int j = boundary[i]; j < RANGE; j++){
+				switch(i){
+				case 0:		//North Boundary
+					for(int x = 0; x < RANGE * 2; x++){
+						value[x][j - boundary[i]] = OUTOFAREA;
+					}
+					break;
+				case 1:		//East Boundary
+					for(int y = 0; y < RANGE * 2; y++){
+						value[j][y] = OUTOFAREA;
+					}
+					break;
+				case 2:		//South Boundary
+					for(int x = 0; x < RANGE * 2; x++){
+						value[x][j] = OUTOFAREA;
+					}
+					break;
+				case 3:		//West Boundary
+					for(int y = 0; y < RANGE * 2; y++){
+						value[j - boundary[i]][y] = OUTOFAREA;
+					}
+					break;
+				default:	//想定外
+					break;
+				}
+			}
+		}
+	}
+
+	//近隣の障害物情報
+
+	//近隣のrobotを探す
+
+	//RANGEへinput
 }
