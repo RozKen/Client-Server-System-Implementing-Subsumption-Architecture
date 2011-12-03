@@ -101,6 +101,12 @@ public:
 		@return factor
 	 */
 	float getFactor() const;
+	/**
+		@breif get currentRatio
+		@sa currentRatio
+		@return currentRatio
+	 */
+	float getCurrentRatio() const;
 protected:
 	/**
 		@brief Generate Signal
@@ -120,6 +126,8 @@ protected:
 	int timeToModify;
 	///Modifyするかしないかを決めたりする確率
 	float factor;
+	///現在の混ぜ具合. (1.0で上 100%, 0.0で下 100%)
+	float currentRatio;
 	///残りModify時間.
 	int timeLeftModified;
 	///ランダム一様分布生成器
@@ -128,6 +136,10 @@ protected:
 
 inline float Arbiter::getFactor() const {
 	return factor;
+}
+
+inline float Arbiter::getCurrentRatio() const{
+	return currentRatio;
 }
 
 #endif	//_Arbiter_H_

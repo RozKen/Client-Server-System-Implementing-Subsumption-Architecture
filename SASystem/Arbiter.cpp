@@ -114,11 +114,13 @@ double Arbiter::generateSignal(){
 
 #ifdef INVERSE_SUPPRESSOR
 		if(getDest() != NO_SIGNAL){
+			destRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
+			sourceRatio = 1.0 - destRatio;
 #else	// if NORMAL_SUPRESSOR
 		if(getSrc() != NO_SIGNAL){
-#endif	//INVERSE_SUPPRESSOR
 			sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
 			destRatio = 1.0 - sourceRatio;
+#endif	//INVERSE_SUPPRESSOR
 		}else{
 #ifdef INVERSE_SUPPRESSOR
 			destRatio = 0.0;
@@ -138,7 +140,7 @@ double Arbiter::generateSignal(){
 		destRatio = 0.0;
 		magnitude = 1.0;
 	}
-
+	this->currentRatio = sourceRatio;
 	double signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
 #ifdef _DEBUG
 	
