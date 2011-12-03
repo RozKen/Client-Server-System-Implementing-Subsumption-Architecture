@@ -76,6 +76,25 @@ public:
 		@return Robotへのポインタ
 	 */
 	RobotMAV* getRobot(const int index);
+	/**
+		@brief フィールドの地形情報を情報として保持．
+		geoField[x][y]
+		<ul>
+			<li>障害物: OUTOFAREA</li>
+		</ul>
+		※OpenGLから二次元配列にアクセスするためにPublicにしてある
+	 */
+	int geoField[FIELD_SIZE][FIELD_SIZE];/**
+		@brief Fieldの固定的な意味情報(semantics)を保持
+		semField[x][y];
+		<ul>
+			<li>ONSTART : 司令部</li>
+			<li>ONCHARGER : 充電器(司令部近傍)</li>
+		</ul>
+		@sa semField
+		※OpenGLから二次元配列にアクセスするためにPublicにしてある
+	 */
+	int semField[FIELD_SIZE][FIELD_SIZE];
 protected:
 	/**
 		@brief 新しくなった世界の状況をRobotに伝達する.
@@ -101,29 +120,12 @@ protected:
 		@sa Constants.h
 	 */
 	void updateRange(RobotMAV* robot);
-	/**
-		@brief フィールドの地形情報を情報として保持．
-		geoField[x][y]
-		<ul>
-			<li>障害物: OUTOFAREA</li>
-		</ul>
-	 */
-	int geoField[FIELD_SIZE][FIELD_SIZE];
+	
 	/**
 		@brief geoFieldをRandomに生成する．
 		@sa geoField
 	 */
 	void generateGeoField();
-	/**
-		@brief Fieldの固定的な意味情報(semantics)を保持
-		semField[x][y];
-		<ul>
-			<li>ONSTART : 司令部</li>
-			<li>ONCHARGER : 充電器(司令部近傍)</li>
-		</ul>
-		@sa semField
-	 */
-	int semField[FIELD_SIZE][FIELD_SIZE];
 	/**
 		@brief semFieldを司令部の初期位置に応じて生成する.
 	 */

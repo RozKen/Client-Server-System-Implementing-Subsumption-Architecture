@@ -21,6 +21,12 @@ public:
 		@sa SAModule::Run()
 	 */
 	virtual void Run();
+	float getBattery() const;
+	void setBattery(float value);
+	float getPosX() const;
+	void setPosX(float value);
+	float getPosY() const;
+	void setPosY(float value);
 protected:
 };
 

@@ -1,45 +1,35 @@
-#include <string>
+#include "main.h"
 
-#include "Constants.h"
-#include "Random.hpp"
-//#include "FieldTester.hpp"
-#include <time.h>
+#include <string>
+#include <GL/glut.h>
 #include <iostream>
 
-//for wait
 #include <Windows.h>
-//for _mkdir
-#include <direct.h>
+#include <time.h>
+#include "Utilities.h"
 
-//#include "Robot.h"
-//#include "Arbiter.h"
+///////For OpenGL Manipulation///////
+float zoom = 15.0f;
+float rotx = 0;
+float roty = 0.001f;
+float tx = 0;
+float ty = 0;
+int lastx=0;
+int lasty=0;
+unsigned char Buttons[3] = {0};
 
-#include "World.h"
-#include "RobotMAV.h"
+void Init();
+void glIdle();
+void glDisplay();
+void glReshape(int w, int h);
+void glMotion(int x,int y);
+void glMouse(int b,int s,int x,int y);
+void glKeyboard(unsigned char key , int x, int y);
 
-//#define TEST_ROBOT
+World* world;
+clock_t start, end;
 
-#ifdef TEST_ROBOT
-#include "ModMultiple.hpp"
-#include "Resetter.hpp"
-
-void RobotTest();
-#endif	//TEST_ROBOT
-
-//#define TEST_LOGGER
-
-#ifdef TEST_LOGGER
-#include "Logger.h"
-#include <math.h>
-
-void LoggerTest();
-
-#endif	//TEST_LOGGER
-
-void fieldGenerator(int* field);
-std::string logPathGenerator();
-
-void main(){	
+int main(int argc, char** argv){	
 
 #ifdef TEST_ROBOT
 	RobotTest();
@@ -49,8 +39,37 @@ void main(){
 	LoggerTest();
 #endif	//TEST_LOGGER
 
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
+	glutInitWindowSize(640, 480);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("Maya Camera");
+
+	glutDisplayFunc(glDisplay);
+	glutReshapeFunc(glReshape);
+	glutMouseFunc(glMouse);
+	glutMotionFunc(glMotion);
+	glutIdleFunc(glIdle);
+
+	Init();
+
+	for(int i = 0; i < 100; i++){
+		world->Run();
+	}
+
+	glutMainLoop();
+	//std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
+	
+	//std::string input;
+	//std::cin >> input;
+	return 0;
+}
+
+void Init(){
+	glEnable(GL_DEPTH_TEST);
+
 	std::string directory = logPathGenerator();
-	World* world = new World(directory, "world.csv");
+	world = new World(directory, "world.csv");
 	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
 	RobotMAV* mav1 = new RobotMAV(directory, "mav1.csv");
 	RobotMAV* mav2 = new RobotMAV(directory, "mav2.csv");
@@ -64,213 +83,133 @@ void main(){
 		tmp->setInput(1, START_X + 1.0f);
 		tmp->setInput(2, START_Y + 1.0f);
 	}
+	start = clock();
+}
 
-	for(int i = 0; i < 100; i++){
+void glIdle(){
+	end = clock();
+	if((double)(end - start) > 1000.0){
 		world->Run();
 	}
-	/*int* field = new int[LENGTH];
-	int numberOfFields = 1;
-	for(int i = 0; i < numberOfFields; i++){
-		//FieldÇÃçÏê¨
-		fieldGenerator(field);
-		
-		//ì¡íËÇÃFieldÇÃçÏê¨
-		
-		//int field2[] = {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,
-		//			0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,
-		//			3,0,0,0,0,0,0,0,0,3,0,0,0,3,3,
-		//			0,0,0,3,0,0,0,0,3,0,3,0,3,0,0,
-		//			3,3,0,3,0,3,0,0,0,0,0,0,3,0,0,
-		//			0,0,0,0,0,3,0,3,0,0,3,3,0,0,0,
-		//			3,0,0,0,0,0,0,3,0,2};
-		//field = field2;
-		
-
-		//FieldTesterÇÃçÏê¨
-		FieldTester ft = FieldTester((const int *)field);
-		//FieldTestÇÃé¿çs
-		ft.Test();
-	}
-	delete(field);
-	*/
-	std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
-	
-	std::string input;
-	std::cin >> input;
-	return;
+	//glutPostRedisplay();
+	//Sleep( 1000 );
 }
 
-std::string logPathGenerator(){
-	time_t now;
-	///åªç›éûçèÇéÊìæ
-	time(&now);
-	///LogDirectoryPathÇê›íË
-	std::string testLogDirectoryPath = "../../../../analysis/";
-	testLogDirectoryPath.append(ctime(&now));
-	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 12, 1);
-	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 9, 1);
-	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 1, 1);
-	std::string logPath = testLogDirectoryPath;
-	return logPath;
+void glDisplay(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+	glTranslatef(0,0,-zoom);
+	glTranslatef(tx,ty,0);
+	glRotatef(rotx,1,0,0);
+	glRotatef(roty,0,1,0);	
+
+	//Draw Robots as Spheres
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	for(int index = 0; index < world->getNumOfModules(); index++){
+		float x = world->getRobot(index)->getPosX();
+		float y = world->getRobot(index)->getPosY();
+		glTranslatef(x, 0, y);
+		glutSolidSphere(0.5, 12, 12);
+		glTranslatef(-x, -0, -y);
+	}
+
+	double offset = -50.0;		//FIELD_SIZEÇÃîºï™
+	glTranslatef(offset, 0, offset);
+		//Draw Barriers as Boxes
+		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		for(int i = 0; i < FIELD_SIZE; i++){
+			for(int j = 0; j < FIELD_SIZE; j++){
+				if(world->geoField[i][j] == OUTOFAREA){
+					glTranslatef((GLfloat)i, 0, (GLfloat)j);
+					glutSolidCube(1.0);
+					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
+				}
+			}
+		}
+	glTranslatef(-offset, 0, -offset);
+
+	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
+
+	// draw grid
+	glBegin(GL_LINES);
+	//glTranslatef(-0.5f, -0.5f, -0.5f);
+	for(int i=-50;i<=50;++i) {
+		glVertex3f(i,-0.5,-50);
+		glVertex3f(i,-0.5,50);
+
+		glVertex3f(50,-0.5,i);
+		glVertex3f(-50,-0.5,i);
+	}
+	//glTranslatef(0.5f, 0.5f, 0.5f);
+	glEnd();
+
+	glutSwapBuffers();
 }
 
-#ifdef TEST_ROBOT
-void RobotTest(){
-	std::string logPath;
-	std::string option = "test.csv";
-	logPath = logPathGenerator();
+void glReshape(int w, int h)
+{
+	// prevent divide by 0 error when minimised
+	if(w==0) 
+		h = 1;
 
-	Robot* robo;
-	robo = new Robot();
-	std::cout << logPath << "," << option << std::endl;
-	robo->setLogDirectoryPath(logPath, option);
-
-	std::vector<SAModule* > mod;
-	std::vector<Arbiter* > arb;
-	Resetter* reset = new Resetter(2.0f);
-	ModMultiple* a = new ModMultiple();
-	ModMultiple* b = new ModMultiple();
-	ModMultiple* c = new ModMultiple();
-	ModMultiple* d = new ModMultiple();
-	ModMultiple* e = new ModMultiple();
-	ModMultiple* f = new ModMultiple();
-	ModMultiple* g = new ModMultiple();
-
-	mod.push_back(reset);
-	mod.push_back(a);
-	mod.push_back(b);
-	mod.push_back(c);
-	mod.push_back(d);
-	mod.push_back(e);
-	mod.push_back(f);
-	mod.push_back(g);
-
-	for(int i = 0; i < mod.size(); i++){
-		robo->addModule(mod.at(i));
-
-	}
-	for(int i = 0; i < mod.size(); i++){
-		for(int j = 0; j < mod.at(i)->getNumOfInputPorts(); j++){
-			robo->addArbiter(new Arbiter(reset, 0, mod.at(i), j, -2.0));
-		}
-	}
-	//Wire
-	Arbiter* ae = new Arbiter(a, 0, e, 0, -2.0);
-	//Inhibitor
-	Arbiter* be = new Arbiter(b, 0, e, 1, -1.0);
-	//Suppressor
-	Arbiter* cf = new Arbiter(c, 0, f, 0, 1.0);
-	//factor = -0.5
-	Arbiter* df = new Arbiter(d, 0, f, 1, -0.5);
-	//factor = 0.6
-	Arbiter* eg = new Arbiter(e, 0, g, 0, 0.6);
-	//factor = 0.8
-	Arbiter* fg = new Arbiter(f, 0, g, 1, 0.85);
-
-	arb.push_back(ae);
-	arb.push_back(be);
-	arb.push_back(cf);
-	arb.push_back(df);
-	arb.push_back(eg);
-	arb.push_back(fg);
-
-	for(int i = 0; i < arb.size(); i++){
-		robo->addArbiter(arb.at(i));
-	}
-
-	for(int i = 0; i < 100; i++){
-		robo->Run();
-	}
+	glViewport(0,0,w,h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45,(float)w/h,0.1,100);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
-#endif
 
-#ifdef TEST_LOGGER
-void LoggerTest(){
-	std::cout << "Logger Test Started" << std::endl;
-	//åªç›éûçè
-	time_t now;
-	///åªç›éûçèÇéÊìæ
-	time(&now);
-	///LogDirectoryPathÇê›íË
-	std::string testLogDirectoryPath = "../../../../analysis/";
-	testLogDirectoryPath.append(ctime(&now));
-	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 12, 1);
-	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 9, 1);
-	testLogDirectoryPath.erase(testLogDirectoryPath.size() - 1, 1);
-	std::string testLogFileName = "_logTest.csv";
-	std::cout << "Log File Path: " << testLogDirectoryPath << testLogFileName << std::endl;
+void glMotion(int x, int y){
+	int diffx=x-lastx;
+	int diffy=y-lasty;
+	lastx=x;
+	lasty=y;
 
-	Logger logger(testLogDirectoryPath, testLogFileName);
-	int step = 0;
-	float factor = 0.0f;
-	float magnitude = 1.0f;
-	float signal = 0.0f;
-	logger.add("step", &step);
-	logger.add("factor", &factor);
-	logger.add("magnitude", &magnitude);
-	logger.add("signal", &signal);
-	std::vector<float>* data = new std::vector<float>();
-	
-	for(int i = 0; i < 10; i++){
-		data->push_back(0.0f);
-		std::string title = "data";
-		logger.add(title, data, i);
+	if( Buttons[0] && Buttons[1] )
+	{
+		zoom -= (float) 0.05f * diffx;
+	}else if( Buttons[0] ){
+		rotx += (float) 0.5f * diffy;
+		roty += (float) 0.5f * diffx;		
+	}else if( Buttons[1] ){
+		tx += (float) 0.05f * diffx;
+		ty -= (float) 0.05f * diffy;
 	}
-
-	std::cout << "Logger has set up." << std::endl;
-
-	int MAX_STEP = 100;
-	double delta = 1.0 / (double)MAX_STEP;
-	for(int i = 0; i < MAX_STEP; i++){
-		step = i;
-		factor = delta * (double)i;
-		signal = (float)0.5 * ( cos(0.5 * PI * (cos((double)factor * PI) + 1.0)) + 1.0 );
-		for(int j = 0; j < 10; j++){
-			data->at(j) = (float)pow(signal, j);
-		}
-		logger.Log();
-	}
-
-	std::cout << "Logger test has done!" << std::endl;
+	glutPostRedisplay();
 }
-#endif	//TEST_LOGGER
 
-Random<boost::uniform_int<> > _numBatGen(15, 25);
-int numberOfBatteries;
-Random<boost::uniform_int<> > _batPos(1, LENGTH);
-//std::string testLogFileName;
-//std::ofstream ofs;
-//int count = 0;
-//int numOfSuccess = 0;
-//double aveSuccessClock = 0;
-//double aveDistance = 0;
+void glMouse(int b,int s,int x,int y)
+{
+	lastx=x;
+	lasty=y;
+	switch(b)
+	{
+	case GLUT_LEFT_BUTTON:
+		Buttons[0] = ((GLUT_DOWN==s)?1:0);
+		break;
+	case GLUT_MIDDLE_BUTTON:
+		Buttons[1] = ((GLUT_DOWN==s)?1:0);
+		break;
+	case GLUT_RIGHT_BUTTON:
+		Buttons[2] = ((GLUT_DOWN==s)?1:0);
+		break;
+	default:
+		break;		
+	}
+	glutPostRedisplay();
+}
 
-void fieldGenerator(int* field){
-	numberOfBatteries = _numBatGen();
-	for(int i = 0; i < LENGTH; i++){
-		field[i] = NORMAL;
-		/**
-		if(i % 10 == 3){
-			field[i] = ONCHARGER;
-		}else{
-			field[i] = NORMAL;
-		}
-		*/
+void glKeyboard(unsigned char key , int x, int y){
+	switch(key){
+	case 't':
+		std::cout << " 't' pushed !" << std::endl;
+		break;
+	case '\033':	//ESC
+		exit(0);
+		break;
+	default:
+		break;
 	}
-	field[0] = ONSTART;
-	field[LENGTH - 1] = ONGOAL;
-	for(int i = 0; i < numberOfBatteries; ){
-		int index = _batPos();
-		if(field[index] != ONCHARGER && field[index] != ONSTART
-			&& field[index] != ONGOAL){
-			field[index] = ONCHARGER;
-			i++;
-		}
-	}
-	/*
-	for(int i = 0; i < LENGTH; i++){
-		std::cout << field[i] << "\t";
-	}
-	std::cout << std::endl;
-	*/
 }

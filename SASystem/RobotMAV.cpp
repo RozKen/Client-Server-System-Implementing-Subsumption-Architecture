@@ -173,3 +173,22 @@ void RobotMAV::Run(){
 	//Log‚ðŽæ‚é
 	Log();
 }
+
+float RobotMAV::getBattery() const{
+	return this->getInput(0);
+}
+void RobotMAV::setBattery(float value){
+	this->setInput(0, value);
+}
+float RobotMAV::getPosX() const{
+	return this->getInput(1);
+}
+void  RobotMAV::setPosX(float value){
+	this->setInput(1, value);
+}
+float RobotMAV::getPosY() const{
+	return this->getInput(2);
+}
+void RobotMAV::setPosY(float value){
+	this->setInput(2, value);
+}
