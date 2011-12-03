@@ -86,7 +86,7 @@ void World::Update(){
 			////////Range////////
 			updateRange(robot);
 #ifdef _DEBUG
-			std::cout << "Robot[" << i << "] : " << posX + dX << ", " << posY + dY << std::endl;
+		//	std::cout << "Robot[" << i << "] : " << posX + dX << ", " << posY + dY << std::endl;
 #endif	//_DEBUG
 		}
 
@@ -98,6 +98,9 @@ void World::Update(){
 		}else{
 			robot->setInput(0, battery);
 		}
+		
+		//For Debug////////////////////
+		robot->setInput(0, (float)MAX_BAT);
 	}
 }
 

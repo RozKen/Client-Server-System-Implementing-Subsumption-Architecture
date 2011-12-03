@@ -43,7 +43,7 @@ int main(int argc, char** argv){
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Maya Camera");
+	glutCreateWindow("Radiation Mapping Agents");
 
 	glutDisplayFunc(glDisplay);
 	glutReshapeFunc(glReshape);
@@ -53,9 +53,9 @@ int main(int argc, char** argv){
 
 	Init();
 
-	for(int i = 0; i < 100; i++){
+	/*for(int i = 0; i < 100; i++){
 		world->Run();
-	}
+	}*/
 
 	glutMainLoop();
 	//std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
@@ -77,23 +77,33 @@ void Init(){
 	world->addRobot(mav2);
 	//èâä˙ílÇê›íË
 	RobotMAV* tmp;
+
+	Random<boost::uniform_int<> > _numBatGen(-15, 15);
+
 	for(int i = 0; i < world->getNumOfModules(); i++){
 		tmp = world->getRobot(i);
 		tmp->setInput(0, 100.0f);
-		tmp->setInput(1, START_X + 1.0f);
+		tmp->setInput(1, START_X + (float)_numBatGen());
 		tmp->setInput(2, START_Y + 1.0f);
 	}
 	start = clock();
 }
 
+	//float dx = 0;
+	//float dy = 0;
+
 void glIdle(){
 	end = clock();
-	if((double)(end - start) > 1000.0){
+	if((double)(end - start) > 30.0){
 		world->Run();
+		start = clock();
+	//	dx ++;
+	//	dy ++;
 	}
-	//glutPostRedisplay();
-	//Sleep( 1000 );
+	glutPostRedisplay();
+	//Sleep( 500 );
 }
+
 
 void glDisplay(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -104,7 +114,9 @@ void glDisplay(){
 	glRotatef(rotx,1,0,0);
 	glRotatef(roty,0,1,0);	
 
+
 	//Draw Robots as Spheres
+
 	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 	for(int index = 0; index < world->getNumOfModules(); index++){
 		float x = world->getRobot(index)->getPosX();
@@ -133,15 +145,15 @@ void glDisplay(){
 
 	// draw grid
 	glBegin(GL_LINES);
-	//glTranslatef(-0.5f, -0.5f, -0.5f);
+	//glTranslatef(-0.5, -0.5, -0.5);
 	for(int i=-50;i<=50;++i) {
-		glVertex3f(i,-0.5,-50);
-		glVertex3f(i,-0.5,50);
+		glVertex3f(i - 0.5,-0.5,-50 - 0.5);
+		glVertex3f(i - 0.5,-0.5,50 -0.5);
 
-		glVertex3f(50,-0.5,i);
-		glVertex3f(-50,-0.5,i);
+		glVertex3f(50 - 0.5,-0.5,i - 0.5);
+		glVertex3f(-50 - 0.5,-0.5,i - 0.5);
 	}
-	//glTranslatef(0.5f, 0.5f, 0.5f);
+	//glTranslatef(0.5, 0.5, 0.5);
 	glEnd();
 
 	glutSwapBuffers();
@@ -156,7 +168,7 @@ void glReshape(int w, int h)
 	glViewport(0,0,w,h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45,(float)w/h,0.1,100);
+	gluPerspective(45,(float)w/h,0.1,200);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -167,13 +179,13 @@ void glMotion(int x, int y){
 	lastx=x;
 	lasty=y;
 
-	if( Buttons[0] && Buttons[1] )
+	if( Buttons[0] && Buttons[2] )
 	{
-		zoom -= (float) 0.05f * diffx;
+		zoom -= (float) 0.05f * diffy;
 	}else if( Buttons[0] ){
 		rotx += (float) 0.5f * diffy;
 		roty += (float) 0.5f * diffx;		
-	}else if( Buttons[1] ){
+	}else if( Buttons[2] ){
 		tx += (float) 0.05f * diffx;
 		ty -= (float) 0.05f * diffy;
 	}

@@ -36,8 +36,8 @@ inline void ActPos::Run(){
 	float dX = this->getInput(0);
 	float dY = this->getInput(1);
 #ifdef _DEBUG
-	std::cout << "getInput0: " << this->getInput(0) << ": dX : " << dX << std::endl;
-	std::cout << "getInput1: " << this->getInput(1) << ": dY : " << dY << std::endl;
+	//std::cout << "getInput0: " << this->getInput(0) << ": dX : " << dX << std::endl;
+	//std::cout << "getInput1: " << this->getInput(1) << ": dY : " << dY << std::endl;
 #endif //_DEBUG
 	//Robot‚Ì“à•”‚Éo—ÍM†‚ðŠi”[
 	this->setFBoard(0, dX);

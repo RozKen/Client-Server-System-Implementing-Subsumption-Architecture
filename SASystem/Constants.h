@@ -1,6 +1,12 @@
 #ifndef Constants_H_
 #define Constants_H_
 
+/**
+	NOW MODIFYING the meaning of SUPPRESSOR
+	If using normal suppressor, Comment out this.
+ */
+#define INVERSE_SUPPRESSOR
+
 //削除予定
 #define LENGTH				100
 ///Fieldの一辺(Fieldは正方形)
@@ -18,7 +24,9 @@
 #define ONCHARGER		3
 #define ROBOTEXIST		4
 ///全体における障害物の存在確率
-#define P_BARRIER		0.1
+#define P_BARRIER		0.03
+///WANDERが発火する確率
+#define P_WANDER		0.03
 
 /*	
 	視野の奥行き:自分から2以上離れていれば，一度に1しか

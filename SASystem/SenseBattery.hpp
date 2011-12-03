@@ -36,7 +36,7 @@ inline SenseBattery::SenseBattery(){
 inline void SenseBattery::Run(){
 	float batteryLevel = this->getFBoard(0);
 #ifdef _DEBUG
-	std::cout << "batteryLevel: " << batteryLevel << std::endl;
+	//std::cout << "batteryLevel: " << batteryLevel << std::endl;
 #endif //_DEBUG
 	this->setOutput(0, batteryLevel);
 }

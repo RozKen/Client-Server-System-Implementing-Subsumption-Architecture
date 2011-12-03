@@ -79,13 +79,14 @@ inline void SenseNet::Run(){
 	for(int i = 0; i < 10; i++){
 		temp = this->getFBoard(i);
 #ifdef _DEBUG
-		std::cout << "Robot[" << i << "]";
+		/*std::cout << "Robot[" << i << "]";
 		if(i % 2 == 0){
 			std::cout << " - x : ";
 		}else{
 			std::cout << " - y : ";
 		}
 		std::cout << temp << std::endl;
+		*/
 #endif //_DEBUG
 		this->setOutput(i, temp);
 	}

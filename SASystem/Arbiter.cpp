@@ -111,12 +111,22 @@ double Arbiter::generateSignal(){
 	if(currentFactor >= 0.0 && currentFactor <= 1.0){
 		//Act like Suppressor, Selecter or Superposer
 		magnitude = 1.0;
-		if(getSrc() != 0.0){
+
+#ifdef INVERSE_SUPPRESSOR
+		if(getDest() != NO_SIGNAL){
+#else	// if NORMAL_SUPRESSOR
+		if(getSrc() != NO_SIGNAL){
+#endif	//INVERSE_SUPPRESSOR
 			sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
 			destRatio = 1.0 - sourceRatio;
 		}else{
+#ifdef INVERSE_SUPPRESSOR
+			destRatio = 0.0;
+			sourceRatio = 1.0;
+#else	// if NORMAL_SUPRESSOR
 			destRatio = 1.0;
 			sourceRatio = 0.0;
+#endif	//INVERSE_SUPPRESSOR
 		}
 	}else if(currentFactor < 0.0 && currentFactor >= -1.0){
 		//Act like Inhibitor
@@ -132,10 +142,10 @@ double Arbiter::generateSignal(){
 	double signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
 #ifdef _DEBUG
 	
-	std::cout << "magnitude: " << magnitude << std::endl;
-	std::cout << "dest: " << this->outputTitles->at(0) << ":" << getDest() << std::endl;
-	std::cout << "src: " << this->inputTitles->at(0) << ":" << getSrc() << std::endl;
-	std::cout << "signal: " << signal << std::endl;
+	//std::cout << "magnitude: " << magnitude << std::endl;
+	//std::cout << "dest: " << this->outputTitles->at(0) << ":" << getDest() << std::endl;
+	//std::cout << "src: " << this->inputTitles->at(0) << ":" << getSrc() << std::endl;
+	//std::cout << "signal: " << signal << std::endl;
 	
 #endif
 	return signal;

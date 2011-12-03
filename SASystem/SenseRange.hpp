@@ -78,7 +78,7 @@ inline void SenseRange::Run(){
 	for(int i = 0; i < RANGE_DIV; i++){
 		temp = this->getFBoard(i);
 #ifdef _DEBUG
-		std::cout << "Range[" << i << "] : " << temp << std::endl;
+		//std::cout << "Range[" << i << "] : " << temp << std::endl;
 #endif	//_DEBUG
 		this->setOutput(i, temp);
 	}
