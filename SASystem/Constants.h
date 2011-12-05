@@ -26,14 +26,14 @@
 ///全体における障害物の存在確率
 #define P_BARRIER		0.03
 ///WANDERが発火する確率
-#define P_WANDER		0.03
+#define P_WANDER		0.1
 
 /*	
 	視野の奥行き:自分から2以上離れていれば，一度に1しか
 	動かないロボット同士はぶつからない
 */
-#define RANGE			2		//RANGE = (int)ceil(RANGE_DANGER);
-#define RANGE_DANGER	2.0f
+#define RANGE			3		//RANGE = (int)ceil(RANGE_DANGER);
+#define RANGE_DANGER	3.0f
 ///RangeSensorの走査する方角は30度刻み
 #define RANGE_DEG		30.0
 ///RangeSensorの走査する方角は12 (360 / RANGE_DEG) 方向

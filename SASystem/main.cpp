@@ -10,10 +10,13 @@
 
 ///////For OpenGL Manipulation///////
 float zoom = 15.0f;
-float rotx = 0;
-float roty = 0.001f;
+//X-axis Rotation [degree]
+float rotx = 30.0f;
+//Y-axis Rotation [degree]
+float roty = 0.0f;
 float tx = 0;
-float ty = 0;
+/////////////////////////何でマイナスなの？
+float ty = -30.0f;
 int lastx=0;
 int lasty=0;
 unsigned char Buttons[3] = {0};
@@ -84,7 +87,7 @@ void Init(){
 		tmp = world->getRobot(i);
 		tmp->setInput(0, 100.0f);
 		tmp->setInput(1, START_X + (float)_numBatGen());
-		tmp->setInput(2, START_Y + 1.0f);
+		tmp->setInput(2, START_Y + (float)_numBatGen());
 	}
 	start = clock();
 }
@@ -113,35 +116,41 @@ void glDisplay(){
 	//Draw Robots as Spheres
 	RobotMAV* robot;
 
-	for(int index = 0; index < world->getNumOfModules(); index++){
-		robot = world->getRobot(index);
-		//std::cout << "color " << robot->getColorR() << ", " << robot->getColorG();
-		//std::cout << ", " << robot->getColorB() << std::endl;
-		glColor4f(robot->getColorR(), robot->getColorG()
-			, robot->getColorB(), 1.0f);
-		float x = robot->getPosX();
-		float y = robot->getPosY();
-		glTranslatef(x, 0, y);
-		glutSolidSphere(0.5, 12, 12);
-		glTranslatef(-x, -0, -y);
-	}
-
 	double offset = -50.0;		//FIELD_SIZEの半分
 	glTranslatef(offset, 0, offset);
+
+		for(int index = 0; index < world->getNumOfModules(); index++){
+			robot = world->getRobot(index);
+			//std::cout << "color " << robot->getColorR() << ", " << robot->getColorG();
+			//std::cout << ", " << robot->getColorB() << std::endl;
+			glColor4f(robot->getColorR(), robot->getColorG()
+				, robot->getColorB(), 1.0f);
+			float x = robot->getPosX();
+			float y = robot->getPosY();
+			glTranslatef(x, 0, y);
+			glutSolidSphere(0.5, 12, 12);
+			glTranslatef(-x, -0, -y);
+		}
+
 		//Draw Barriers as Boxes
-		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){
 				if(world->geoField[i][j] == OUTOFAREA){
+					glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 					glTranslatef((GLfloat)i, 0, (GLfloat)j);
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
+				}else{
+					glColor4f(0.0f, 0.2f, 0.0f, 1.0f);
+					glTranslatef((GLfloat)i, -1.0f, (GLfloat)j);
+					glutSolidCube(1.0);
+					glTranslatef((GLfloat)-i, +1.0f, (GLfloat)-j);
 				}
 			}
 		}
 	glTranslatef(-offset, 0, -offset);
 
-	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
+	glColor4f(0.0f, 0.8f, 0.0f, 0.8f);
 
 	// draw grid
 	glBegin(GL_LINES);
