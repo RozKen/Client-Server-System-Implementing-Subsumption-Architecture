@@ -32,8 +32,8 @@
 	視野の奥行き:自分から2以上離れていれば，一度に1しか
 	動かないロボット同士はぶつからない
 */
-#define RANGE			3		//RANGE = (int)ceil(RANGE_DANGER);
-#define RANGE_DANGER	3.0f
+#define RANGE			2		//RANGE = (int)ceil(RANGE_DANGER);
+#define RANGE_DANGER	2.0f
 ///RangeSensorの走査する方角は30度刻み
 #define RANGE_DEG		30.0
 ///RangeSensorの走査する方角は12 (360 / RANGE_DEG) 方向
@@ -64,5 +64,8 @@
 
 ///一度の動ける距離
 #define MAX_DRIVE		1.0f
+
+///WorldをRunするInterval [millisecond]
+#define TIME_STEP		300.0
 
 #endif //Constants_H_

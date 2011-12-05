@@ -66,28 +66,28 @@ protected:
 	/**
 		@brief ロボット内のModuleをすべて実行する
 	 */
-	void RunModules();
+	virtual void RunModules();
 	/**
 		@brief すべてのArbiterを実行する
 	 */
-	void ProcessArbiters();
+	virtual void ProcessArbiters();
 	/**
 		@brief Inner Wireの入力に関わる部分を処理
 		Robotへの入力(inputs)を，RobotのinnerMemoryのiBoard/fBoardへコピーする
 	 */
-	void ProcessInputs();
+	virtual void ProcessInputs();
 	/**
 		@brief Inner Wireの出力に関わる部分を処理
 		Robotからの出力(outputs)を，RobotのinnerMemoryのiBoard/fBoardからコピーする
 	 */
-	void ProcessOutputs();
+	virtual void ProcessOutputs();
 	/**
 		@brief Initialize States
 		環境の構築,ログの初期化
 		@sa Blackboard
 		@sa Log();
 	*/
-	void Initialize();
+	virtual void Initialize();
 	/**
 		@brief 管理されているModule
 		Moduleの登録された順に格納されている.

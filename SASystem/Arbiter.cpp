@@ -123,9 +123,11 @@ double Arbiter::generateSignal(){
 #endif	//INVERSE_SUPPRESSOR
 		}else{
 #ifdef INVERSE_SUPPRESSOR
+			//getDest() == NO_SIGNAL
 			destRatio = 0.0;
 			sourceRatio = 1.0;
 #else	// if NORMAL_SUPRESSOR
+			//getSrc() == NO_SIGNAL
 			destRatio = 1.0;
 			sourceRatio = 0.0;
 #endif	//INVERSE_SUPPRESSOR

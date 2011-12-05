@@ -77,7 +77,7 @@ void Init(){
 	world->addRobot(mav2);
 	//初期値を設定
 	RobotMAV* tmp;
-
+	//最初の位置のX座標をランダムにずらす
 	Random<boost::uniform_int<> > _numBatGen(-15, 15);
 
 	for(int i = 0; i < world->getNumOfModules(); i++){
@@ -89,16 +89,11 @@ void Init(){
 	start = clock();
 }
 
-	//float dx = 0;
-	//float dy = 0;
-
 void glIdle(){
 	end = clock();
-	if((double)(end - start) > 30.0){
+	if((double)(end - start) > TIME_STEP){
 		world->Run();
 		start = clock();
-	//	dx ++;
-	//	dy ++;
 	}
 	glutPostRedisplay();
 	//Sleep( 500 );
@@ -114,13 +109,18 @@ void glDisplay(){
 	glRotatef(rotx,1,0,0);
 	glRotatef(roty,0,1,0);	
 
-
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 	//Draw Robots as Spheres
+	RobotMAV* robot;
 
-	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 	for(int index = 0; index < world->getNumOfModules(); index++){
-		float x = world->getRobot(index)->getPosX();
-		float y = world->getRobot(index)->getPosY();
+		robot = world->getRobot(index);
+		//std::cout << "color " << robot->getColorR() << ", " << robot->getColorG();
+		//std::cout << ", " << robot->getColorB() << std::endl;
+		glColor4f(robot->getColorR(), robot->getColorG()
+			, robot->getColorB(), 1.0f);
+		float x = robot->getPosX();
+		float y = robot->getPosY();
 		glTranslatef(x, 0, y);
 		glutSolidSphere(0.5, 12, 12);
 		glTranslatef(-x, -0, -y);
@@ -218,7 +218,7 @@ void glKeyboard(unsigned char key , int x, int y){
 	case 't':
 		std::cout << " 't' pushed !" << std::endl;
 		break;
-	case '\033':	//ESC
+	case 27:	//ESC
 		exit(0);
 		break;
 	default:

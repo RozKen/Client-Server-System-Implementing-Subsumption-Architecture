@@ -45,7 +45,32 @@ public:
 		@brief set Y position via Input
 	 */
 	void setPosY(float value);
+	/**
+		@brief getColor of Current Robot
+	 */
+	float getColorR() const;
+	float getColorG() const;
+	float getColorB() const;
+
+	/**
+		@brief すべてのArbiterを実行する
+	 */
+	virtual void ProcessArbiters();
 protected:
+	/**
+		@brief RobotのColor
+		どのモジュールが発現しているかによって，変化する
+	 */
+	float color[3];
+	/**
+		@brief ModuleごとのColor(R,G,B)
+		modColor[module][r/g/b]
+	 */
+	float modColor[3][3];
+	/**
+		@brief Layerの数
+	 */
+	int numOfLayers;
 };
 
 #endif	//_Robot_MAV_H_
