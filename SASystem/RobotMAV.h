@@ -58,6 +58,11 @@ public:
 	virtual void ProcessArbiters();
 protected:
 	/**
+		@brief Moduleの登録などを行なう．
+		Constructorから呼び出されることを想定
+	 */
+	void Initialize();
+	/**
 		@brief RobotのColor
 		どのモジュールが発現しているかによって，変化する
 	 */

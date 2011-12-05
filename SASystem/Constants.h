@@ -24,7 +24,7 @@
 #define ONCHARGER		3
 #define ROBOTEXIST		4
 ///全体における障害物の存在確率
-#define P_BARRIER		0.03
+#define P_BARRIER		0.01
 ///WANDERが発火する確率
 #define P_WANDER		0.1
 
@@ -52,7 +52,7 @@
 
 ///Start地点の座標
 #define START_X			50.0
-#define START_Y			0.0
+#define START_Y			15.0
 /*
 	Start地点の近傍と見なすところ．
 	<ul>

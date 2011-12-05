@@ -248,8 +248,8 @@ void World::updateRange(RobotMAV* robot){
 			searchX = x + i;
 			searchY = y + j;
 			//Robot‚Ì‹ß–T‚ªField“à‚ÌŽž
-			if( searchX > 0 && searchX < FIELD_SIZE
-				&& searchY > 0 && searchY < FIELD_SIZE){
+			if( searchX >= 0 && searchX < FIELD_SIZE
+				&& searchY >= 0 && searchY < FIELD_SIZE){
 					//’nŒ`î•ñ‚ª•’Ê‚¶‚á‚È‚¢‚Æ‚«
 					if(geoField[searchX][searchY] != NORMAL){
 						value[i + RANGE][j + RANGE] = geoField[searchX][searchY];
@@ -262,9 +262,11 @@ void World::updateRange(RobotMAV* robot){
 	for(int i = 0; i < this->numOfModules; i++){
 		robotX = this->getRobot(i)->getInput(1);
 		robotY = this->getRobot(i)->getInput(2);
-		if( robotX < x + RANGE && robotX > x - RANGE
-			&& robotY < y + RANGE && robotY > y - RANGE){
-				value[(int)robotX - x + RANGE][(int)robotY - y + RANGE] = ROBOTEXIST;
+		if(robotX != robot->getPosX() && robotY != robot->getPosY()){
+			if( robotX < x + RANGE && robotX > x - RANGE
+				&& robotY < y + RANGE && robotY > y - RANGE){
+					value[(int)robotX - x + RANGE][(int)robotY - y + RANGE] = ROBOTEXIST;
+			}
 		}
 	}
 	////////RANGE‚Öinput////////

@@ -87,8 +87,8 @@ inline void ContAvoid::Run(){
 		}else{
 			int index = safeIndex.size() / 2;
 			double theta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
-			signalX = (float)cos(theta);
-			signalY = (float)sin(theta);
+			signalX = (float)MAX_DRIVE * cos(theta);
+			signalY = (float)MAX_DRIVE * sin(theta);
 		}
 	}else{
 		signalX = NO_SIGNAL;

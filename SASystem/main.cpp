@@ -118,6 +118,47 @@ void glDisplay(){
 
 	double offset = -50.0;		//FIELD_SIZE‚Ì”¼•ª
 	glTranslatef(offset, 0, offset);
+		//‚±‚±Žèì‹Æ‚ÅXV insideX[world->getNumOfModules()]
+		bool insideX[2];
+		//Draw Barriers as Boxes
+		for(int i = 0; i < FIELD_SIZE; i++){
+			for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
+				insideX[iRobot] = false;
+				robot = world->getRobot(iRobot);
+				if(i > robot->getPosX() - RANGE && i < robot->getPosX() + RANGE){
+					insideX[iRobot] = true;
+				}
+			}
+			for(int j = 0; j < FIELD_SIZE; j++){
+				if(world->geoField[i][j] == OUTOFAREA){
+					glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
+						if(insideX[iRobot]){
+							robot = world->getRobot(iRobot);
+							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
+								glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+							}
+						}
+					}
+					glTranslatef((GLfloat)i, 0, (GLfloat)j);
+					glutSolidCube(1.0);
+					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
+				}else{
+					glColor4f(0.0f, 0.2f, 0.0f, 1.0f);
+					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
+						if(insideX[iRobot]){
+							robot = world->getRobot(iRobot);
+							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
+								glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+							}
+						}
+					}
+					glTranslatef((GLfloat)i, -1.0f, (GLfloat)j);
+					glutSolidCube(1.0);
+					glTranslatef((GLfloat)-i, +1.0f, (GLfloat)-j);
+				}
+			}
+		}
 
 		for(int index = 0; index < world->getNumOfModules(); index++){
 			robot = world->getRobot(index);
@@ -132,22 +173,6 @@ void glDisplay(){
 			glTranslatef(-x, -0, -y);
 		}
 
-		//Draw Barriers as Boxes
-		for(int i = 0; i < FIELD_SIZE; i++){
-			for(int j = 0; j < FIELD_SIZE; j++){
-				if(world->geoField[i][j] == OUTOFAREA){
-					glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-					glTranslatef((GLfloat)i, 0, (GLfloat)j);
-					glutSolidCube(1.0);
-					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
-				}else{
-					glColor4f(0.0f, 0.2f, 0.0f, 1.0f);
-					glTranslatef((GLfloat)i, -1.0f, (GLfloat)j);
-					glutSolidCube(1.0);
-					glTranslatef((GLfloat)-i, +1.0f, (GLfloat)-j);
-				}
-			}
-		}
 	glTranslatef(-offset, 0, -offset);
 
 	glColor4f(0.0f, 0.8f, 0.0f, 0.8f);
