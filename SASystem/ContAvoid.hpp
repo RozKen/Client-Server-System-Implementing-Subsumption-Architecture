@@ -1,6 +1,7 @@
 #ifndef _Cont_Avoid_HPP_
 #define _Cont_Avoid_HPP_
 
+#include "Random.hpp"
 #include "SAModule.h"
 #include "Constants.h"
 
@@ -51,9 +52,11 @@ public:
 	 */
 	virtual void Run();
 protected:
+	///Random Generator
+	Random<boost::uniform_real<> > _rand;
 };
 
-inline ContAvoid::ContAvoid(){
+inline ContAvoid::ContAvoid() : _rand(0, 1){
 	std::string temp;
 	for(int i = 0; i < RANGE_DIV; i++){
 		temp = "RangeCAv";
@@ -85,7 +88,7 @@ inline void ContAvoid::Run(){
 			signalX = 0.0f;
 			signalY = 0.0f;
 		}else{
-			int index = safeIndex.size() / 2;
+			int index = this->round((safeIndex.size() - 1) * _rand());
 			double theta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
 			signalX = (float)MAX_DRIVE * cos(theta);
 			signalY = (float)MAX_DRIVE * sin(theta);

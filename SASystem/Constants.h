@@ -24,7 +24,7 @@
 #define ONCHARGER		3
 #define ROBOTEXIST		4
 ///‘S‘Ì‚É‚¨‚¯‚éáŠQ•¨‚Ì‘¶İŠm—¦
-#define P_BARRIER		0.01
+#define P_BARRIER		0.1
 ///WANDER‚ª”­‰Î‚·‚éŠm—¦
 #define P_WANDER		0.1
 

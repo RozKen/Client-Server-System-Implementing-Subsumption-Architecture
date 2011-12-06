@@ -7,6 +7,39 @@
 #include "Actuators.h"
 #include "Robot.h"
 
+/**
+	@brief íTçıRobot
+	<h1>Sensors</h1>
+	<ul>
+		<li>Battery Level</li>
+		<li>Position</li>
+		<li>Range</li>
+	</ul>
+	<h1>Controllers</h1>
+	<ul>
+		<li>Avoid</li>
+		<li>Alive</li>
+		<li>Wander</li>
+	</ul>
+	<h1>Actuators</h1>
+	<ul>
+		<li>Position</li>
+	</ul>
+	@sa Actuators.h
+	@sa Controllers.h
+	@sa Sensors.h
+	
+	@sa SenseBattery
+	@sa SenseRange
+	@sa SenseRange
+	
+	@sa ContAvoid
+	@sa ContAlive
+	@sa ContWander
+
+	@sa ActPos
+
+ */
 class RobotMAV : public Robot{
 public:
 	/**

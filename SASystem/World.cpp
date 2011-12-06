@@ -100,7 +100,7 @@ void World::Update(){
 		}
 		
 		//For Debug//////////////////////////////////////////////////////////////////////////////////
-		robot->setInput(0, (float)MAX_BAT);
+		//robot->setInput(0, (float)MAX_BAT);
 	}
 }
 
