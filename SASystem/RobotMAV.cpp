@@ -1,4 +1,5 @@
 #include "RobotMAV.h"
+#include "World.h"
 
 RobotMAV::RobotMAV(){
 	Initialize();
@@ -10,6 +11,23 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 }
 
 void RobotMAV::Initialize(){
+	///Memberの配列を初期化
+	for(int i = 0; i < FIELD_SIZE; i++){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			geoMap[i][j] = NO_DATA;
+			radMap[i][j] = NO_DATA;
+		}
+	}
+
+	numOfLayers = 0;
+	
+	for(int i = 0; i < 3; i++){
+		color[i] = 1.0f;
+		for(int j = 0; j < 3; j++){
+			modColor[i][j] = 1.0f;
+		}
+	}
+
 	///Sensorを追加
 	///////Sensorには初期値も与える必要がある.
 	//Batteryセンサを追加
@@ -56,20 +74,20 @@ void RobotMAV::Initialize(){
 
 	///Arbiterを追加
 	///先にWireObjects
-	///0:Batteryセンサ->Alive
-	Arbiter* sBcAl = new Arbiter(sB, 0, cAl, 0, 2.0f);
-	this->addArbiter(sBcAl);
-	///1,2:位置センサ->Alive
-	Arbiter* sPcAl[2];
-	for(int i = 0; i < 2; i++){
-		sPcAl[i] = new Arbiter(sP, i , cAl, i + 1, 2.0f);
-		this->addArbiter(sPcAl[i]);
-	}
-	///3 - 14 :距離センサ->Avoid
+	///0 - 11 :距離センサ->Avoid
 	Arbiter* sRcAv[RANGE_DIV];
 	for(int i = 0; i < RANGE_DIV; i++){
 		sRcAv[i] = new Arbiter(sR, i, cAv, i, 2.0f);
 		this->addArbiter(sRcAv[i]);
+	}
+	///12:Batteryセンサ->Alive
+	Arbiter* sBcAl = new Arbiter(sB, 0, cAl, 0, 2.0f);
+	this->addArbiter(sBcAl);
+	///13, 14:位置センサ->Alive
+	Arbiter* sPcAl[2];
+	for(int i = 0; i < 2; i++){
+		sPcAl[i] = new Arbiter(sP, i , cAl, i + 1, 2.0f);
+		this->addArbiter(sPcAl[i]);
 	}
 	///15, 16:位置センサ->Wander
 	Arbiter* sPcW[2];
@@ -110,6 +128,8 @@ void RobotMAV::Run(){
 	ProcessArbiters();
 	//RobotからのOutputを処理する
 	ProcessOutputs();
+	//内部の地図情報を更新する
+	updateInnerGeoMap();
 	//Logを取る
 	Log();
 }
@@ -131,6 +151,14 @@ float RobotMAV::getPosY() const{
 }
 void RobotMAV::setPosY(float value){
 	this->setInput(2, value);
+}
+
+float RobotMAV::getRange(int index) const{
+	return this->getInput(3 + index);
+}
+
+float RobotMAV::getRad(int index) const{
+	return this->getInput(3 + RANGE_DIV + index);
 }
 
 float RobotMAV::getColorR() const{
@@ -177,4 +205,25 @@ void RobotMAV::ProcessArbiters(){
 	}
 	std::cout << std::endl;
 	*/
+}
+
+void RobotMAV::updateInnerGeoMap(){
+	for(int i = 0; i < RANGE_DIV; i++){
+		float range = this->getRange(i);
+		if(range < RANGE_DANGER){
+			float dx = range * cos( (double)i * PI * RANGE_DEG / 180.0);
+			float dy = range * sin( (double)i * PI * RANGE_DEG / 180.0);
+			int x = round(this->getPosX() + dx);
+			int y = round(this->getPosY() + dy);
+			geoMap[x][y] = OUTOFAREA;
+		}
+	}
+}
+
+void RobotMAV::updateInnerRadMap(){
+	for(int i = 0; i < MAX_AREA; i++){
+		int x = round(this->getPosX()) + ((World *)(this->parent))->getHash(0, i);
+		int y = round(this->getPosY()) + ((World *)(this->parent))->getHash(1, i);
+		radMap[x][y] = this->getRad(i);
+	}
 }

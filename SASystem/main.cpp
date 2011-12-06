@@ -15,7 +15,7 @@ float rotx = 30.0f;
 //Y-axis Rotation [degree]
 float roty = 0.0f;
 float tx = 0;
-float ty = -30.0f;	//負号があるのは，カメラが動くのではなく，カメラ以外を動かすから．
+float ty = -30.0f;	//負号があるのは，カメラが動くのではなく，カメラ以外を動かすから．???
 int lastx=0;
 int lasty=0;
 unsigned char Buttons[3] = {0};

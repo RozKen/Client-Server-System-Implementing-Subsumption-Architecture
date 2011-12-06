@@ -77,6 +77,12 @@ public:
 	 */
 	RobotMAV* getRobot(const int index);
 	/**
+		@brief hash値を得る
+		@param which x = 0/ y = 1を代入
+		@param index 何番目の八種値がほしいのか．
+	 */
+	int getHash(int which, int index) const;
+	/**
 		@brief フィールドの地形情報を情報として保持．
 		geoField[x][y]
 		<ul>

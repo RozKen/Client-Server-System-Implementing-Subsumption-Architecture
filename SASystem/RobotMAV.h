@@ -54,6 +54,11 @@ public:
 		@sa SAModule::Run()
 	 */
 	virtual void Run();
+
+	/////////Getters and Setters/////////////
+	///These are Created Only for Easy Code Reading
+	///Each Methods are equivalent to [get/set]Inputs(index) excepts getColor[R,G,B]
+
 	/**
 		@brief getBatteryStatus via Input
 	 */
@@ -79,10 +84,28 @@ public:
 	 */
 	void setPosY(float value);
 	/**
-		@brief getColor of Current Robot
+		@brief get Range Sensor Value
+		@param index 角度に応じたindex
+		@return Range Sensor値
+	 */
+	float getRange(int index) const;
+	/**
+		@brief get Radiation Sensor Value
+		@param index Hashに応じたindex
+		@return Radiation Sensor 値
+	 */
+	float getRad(int index) const;
+	/**
+		@brief get Red Color of Current Robot
 	 */
 	float getColorR() const;
+	/**
+		@brief get Green Color of Current Robot
+	 */
 	float getColorG() const;
+	/**
+		@brief get Blue Color of Current Robot
+	 */
 	float getColorB() const;
 
 	/**
@@ -95,6 +118,25 @@ protected:
 		Constructorから呼び出されることを想定
 	 */
 	void Initialize();
+
+	/**
+		@brief geoMapを更新する
+	 */
+	void updateInnerGeoMap();
+	/**
+		@brief radMapを更新する
+	 */
+	void updateInnerRadMap();
+	
+	/**
+		@brief 地形マップ.各ロボットが独自に所有する.
+	 */
+	float geoMap[FIELD_SIZE][FIELD_SIZE];
+	/**
+		@brief 放射線量マップ.各ロボットが独自に所有する.
+	 */
+	float radMap[FIELD_SIZE][FIELD_SIZE];
+	
 	/**
 		@brief RobotのColor
 		どのモジュールが発現しているかによって，変化する

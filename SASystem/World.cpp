@@ -32,6 +32,9 @@ void World::Initialize(){
 	generateSemField();
 }
 
+int World::getHash(int which, int index) const{
+	return hash[which][index];
+}
 
 void World::Run(){
 	this->RunRobots();

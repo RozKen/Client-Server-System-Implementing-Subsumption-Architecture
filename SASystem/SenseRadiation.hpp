@@ -14,6 +14,7 @@ public:
 
 inline SenseRadiation::SenseRadiation(){
 	for(int i = 0; i < MAX_AREA; i++){
+		addFBoard("fRad[" + intToString(i) + "]");
 		addOutput("radiation[" + intToString(i) + "]");
 	}
 }

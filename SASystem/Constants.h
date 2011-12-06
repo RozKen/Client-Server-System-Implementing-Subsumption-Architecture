@@ -17,6 +17,7 @@
 #define HASH_MAX			25
 
 ///Fieldã‚Ì‘®«‚Æ‚»‚Ì‘Î‰’l(Hash)
+#define NO_DATA			-99
 #define OUTOFAREA		-1
 #define NORMAL			0
 #define ONSTART			1
