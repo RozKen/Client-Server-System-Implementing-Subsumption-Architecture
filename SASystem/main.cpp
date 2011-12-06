@@ -136,7 +136,7 @@ void glDisplay(){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
 							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
-								glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+								glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
 							}
 						}
 					}
@@ -149,7 +149,7 @@ void glDisplay(){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
 							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
-								glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+								glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
 							}
 						}
 					}

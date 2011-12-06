@@ -30,19 +30,19 @@ void RobotMAV::Initialize(){
 	//}
 
 	///Controllerを追加
-	//Alive
-	ContAlive* cAl = new ContAlive();
-	this->addModule(cAl);
+	///Avoid : Red
+	ContAvoid* cAv = new ContAvoid();
+	this->addModule(cAv);
 	modColor[0][0] = 1.0f;
 	modColor[0][1] = 0.0f;
 	modColor[0][2] = 0.0f;
-	//Avoid
-	ContAvoid* cAv = new ContAvoid();
-	this->addModule(cAv);
+	///Alive : Green
+	ContAlive* cAl = new ContAlive();
+	this->addModule(cAl);	
 	modColor[1][0] = 0.0f;
 	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
-	//Wander
+	///Wander : Gray
 	ContWander* cW = new ContWander();
 	this->addModule(cW);
 	modColor[2][0] = 0.5f;
@@ -79,17 +79,17 @@ void RobotMAV::Initialize(){
 	}
 	/////////以下の順番は重要．/////////
 	/////////階層の低い者から実施するため////
-	///17, 18:Alive->位置Actuator	//Suppressされたデータが流れるWire
-	Arbiter* cAlaP[2];
-	for(int i = 0; i < 2; i++){
-		cAlaP[i] = new Arbiter(cAl, i, aP, i, 2.0f);
-		this->addArbiter(cAlaP[i]);
-	}
-	///19, 20:Suppress Avoid -> 位置Actuator
+	///17, 18:Avoid->位置Actuator	//Suppressされたデータが流れるWire
 	Arbiter* cAvaP[2];
 	for(int i = 0; i < 2; i++){
-		cAvaP[i] = new Arbiter(cAv, i, aP, i, 1.0f);
+		cAvaP[i] = new Arbiter(cAv, i, aP, i, 2.0f);
 		this->addArbiter(cAvaP[i]);
+	}
+	///19, 20:Suppress Alive -> 位置Actuator
+	Arbiter* cAlaP[2];
+	for(int i = 0; i < 2; i++){
+		cAlaP[i] = new Arbiter(cAl, i, aP, i, 1.0f);
+		this->addArbiter(cAlaP[i]);
 	}
 	///21, 22:Suppress Wander -> 位置Actuator
 	Arbiter* cWaP[2];
@@ -149,10 +149,10 @@ void RobotMAV::ProcessArbiters(){
 	for(int i = 0; i < arbiters->size(); i++){
 		arbiters->at(i)->Run();
 		switch(i){
-		case 19:	//Avoid Suppress Alive and ActPos
+		case 19:	//Alive Suppress Avoid and ActPos
 			ratios[0] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 21:	//Wander Suppress Avoid, Alive and ActPos
+		case 21:	//Wander Suppress Alive, Avoid and ActPos
 			ratios[1] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
