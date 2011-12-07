@@ -28,6 +28,8 @@ void RobotMAV::Initialize(){
 		}
 	}
 
+	this->nearest = new std::vector<RobotMAV *>();
+
 	///Sensorを追加
 	///////Sensorには初期値も与える必要がある.
 	//Batteryセンサを追加
@@ -46,6 +48,10 @@ void RobotMAV::Initialize(){
 	//for(int i = 0; i < sR->getFBoardTitles()->size(); i++){
 	//	sR->setFBoard(i, 4.0f);
 	//}
+
+	//Network接続センサを追加
+	SenseNet* sN = new SenseNet();
+	this->addModule(sN);
 
 	///Controllerを追加
 	///Avoid : Red
@@ -66,6 +72,7 @@ void RobotMAV::Initialize(){
 	modColor[2][0] = 0.5f;
 	modColor[2][1] = 0.5f;
 	modColor[2][2] = 0.5f;
+	
 
 	/////Actuatorを追加
 	//位置Actuatorを追加
@@ -128,10 +135,15 @@ void RobotMAV::Run(){
 	ProcessArbiters();
 	//RobotからのOutputを処理する
 	ProcessOutputs();
-	//内部の地図情報を更新する
-	updateInnerGeoMap();
+	//内部の情報を更新する
+	Update();
 	//Logを取る
 	Log();
+}
+
+void RobotMAV::Update(){
+	updateInnerGeoMap();
+	//updateInnerRadMap();
 }
 
 float RobotMAV::getBattery() const{
@@ -226,4 +238,32 @@ void RobotMAV::updateInnerRadMap(){
 		int y = round(this->getPosY()) + ((World *)(this->parent))->getHash(1, i);
 		radMap[x][y] = this->getRad(i);
 	}
+}
+
+SenseNet* RobotMAV::getSenseNet(){
+	///現在はSenseNetのModuleはindex == 3のところで登録されている．
+	///もし，Moduleを登録する順番に変更があれば，ここも変更する必要がある．
+	return (SenseNet*)(this->modules->at(3));
+}
+
+void RobotMAV::pushNearest(RobotMAV * robot){
+	this->nearest->push_back(robot);
+	numOfNearestRobots = nearest->size();
+}
+
+RobotMAV* RobotMAV::getNearestAt(int index){
+	return this->nearest->at(index);
+}
+
+std::vector<RobotMAV *>* RobotMAV::getNearest(){
+	return this->nearest;
+}
+
+void RobotMAV::clearNearest(){
+	this->nearest->clear();
+	numOfNearestRobots = 0;
+}
+
+int RobotMAV::getNumOfNearestRobots() const{
+	return numOfNearestRobots;
 }

@@ -126,6 +126,14 @@ protected:
 		@sa Constants.h
 	 */
 	void updateRange(RobotMAV* robot);
+	/**
+		@brief 各ロボットのNetworkセンサへの入力等を更新
+		各ロボットの内部偏すう「近傍ロボットへのポインタの配列」も更新する
+		@param robot robotへのpointer
+		@sa SenseNet
+		@sa WIFI_REACH
+	 */
+	void updateNetWork(RobotMAV* robot);
 	
 	/**
 		@brief geoFieldをRandomに生成する．

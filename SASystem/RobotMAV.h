@@ -54,6 +54,16 @@ public:
 		@sa SAModule::Run()
 	 */
 	virtual void Run();
+	/**
+		@brief 内部の地図情報などを更新する
+		<ol>
+			<li>updateInnerGeoMap</li>
+			<li>updateInnerRadMap</li>
+		</ol>
+		@sa updateInnerGeoMap
+		@sa updateInnerRadMap
+	 */
+	virtual void Update();
 
 	/////////Getters and Setters/////////////
 	///These are Created Only for Easy Code Reading
@@ -112,6 +122,38 @@ public:
 		@brief すべてのArbiterを実行する
 	 */
 	virtual void ProcessArbiters();
+
+	/**
+		@brief SenseNetへのポインタを返す. Worldからの呼び出しに利用する
+		@return SenseNet モジュールへのポインタ
+		@sa SenseNet
+	 */
+	SenseNet* getSenseNet();
+
+	/**
+		@brief 近傍のRobotへのポインタを内部変数にPushする
+		@param robot 近傍のRobot
+	 */
+	void pushNearest(RobotMAV* robot);
+	/**
+		@brief 近傍のRobotへのポインタを入手する
+		@param index 何番目のRobotか?
+		@return 近傍のRobotへのポインタ
+	 */
+	RobotMAV* getNearestAt(int index);
+	/**
+		@brief 近傍のRobotを格納しているVectorへのポインタを入手する
+		@return 近傍のRobotを格納しているVector
+	 */
+	std::vector<RobotMAV *>* getNearest();
+	/**
+		@brief 近傍のRobotを格納しているVectorを空にする
+	 */
+	void clearNearest();
+	/**
+		@brief 近傍のロボット数を入手する
+	 */
+	int getNumOfNearestRobots() const;
 protected:
 	/**
 		@brief Moduleの登録などを行なう．
@@ -128,6 +170,7 @@ protected:
 	 */
 	void updateInnerRadMap();
 	
+	///Member Variables
 	/**
 		@brief 地形マップ.各ロボットが独自に所有する.
 	 */
@@ -136,7 +179,11 @@ protected:
 		@brief 放射線量マップ.各ロボットが独自に所有する.
 	 */
 	float radMap[FIELD_SIZE][FIELD_SIZE];
-	
+	/**
+		@brief 近傍のRobotへのポインタ配列
+	 */
+	std::vector<RobotMAV*>* nearest;
+
 	/**
 		@brief RobotのColor
 		どのモジュールが発現しているかによって，変化する
@@ -151,6 +198,10 @@ protected:
 		@brief Layerの数
 	 */
 	int numOfLayers;
+	/**
+		@brief 近傍のRobotの数
+	 */
+	int numOfNearestRobots;
 };
 
 #endif	//_Robot_MAV_H_

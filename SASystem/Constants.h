@@ -7,6 +7,8 @@
  */
 #define INVERSE_SUPPRESSOR
 
+#define NUM_ROBOT			2
+
 //削除予定
 #define LENGTH				100
 ///Fieldの一辺(Fieldは正方形)
@@ -39,6 +41,9 @@
 #define RANGE_DEG		30.0
 ///RangeSensorの走査する方角は12 (360 / RANGE_DEG) 方向
 #define RANGE_DIV		12
+
+///Wifiの接続範囲
+#define WIFI_REACH		30.0f
 
 ///バッテリーの消耗率 point/step
 #define BAT_LOSS		3.0

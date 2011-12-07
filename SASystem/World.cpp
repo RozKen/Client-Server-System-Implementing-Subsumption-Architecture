@@ -52,7 +52,7 @@ void World::RunRobots(){
 void World::Update(){
 	RobotMAV* robot;
 	for(int i = 0; i < this->modules->size(); i++){
-		robot = (RobotMAV*)(modules->at(i));
+		robot = this->getRobot(i);
 		////////Battery////////
 		float battery = robot->getInput(0);
 		if(onBatteryCharger(robot)){
@@ -88,6 +88,8 @@ void World::Update(){
 
 			////////Range////////
 			updateRange(robot);
+			////////Network////////
+			updateNetWork(robot);
 #ifdef _DEBUG
 		//	std::cout << "Robot[" << i << "] : " << posX + dX << ", " << posY + dY << std::endl;
 #endif	//_DEBUG
@@ -361,5 +363,31 @@ void World::updateRange(RobotMAV* robot){
 	////Rangeへ出力する
 	for(int i = 0; i < RANGE_DIV; i++){
 		robot->setInput(3 + i, signal[i]);
+	}
+}
+
+void World::updateNetWork(RobotMAV* robot){
+	//現在位置
+	float x = robot->getPosX();
+	float y = robot->getPosY();
+	//現在位置に近いロボットをPickUp
+	std::vector<RobotMAV*>* neighbors = new std::vector<RobotMAV*>();
+	for(int i = 0; i < this->numOfModules; i++){
+		float xi = (this->getRobot(i))->getPosX();
+		float yi = (this->getRobot(i))->getPosY();
+		if(this->norm(xi - x, yi - y) < WIFI_REACH){
+			neighbors->push_back(this->getRobot(i));
+		}
+
+	}
+	//昇順にソート
+	std::sort(neighbors->begin(), neighbors->end());
+	robot->clearNearest();
+	for(int i = 0; i < 5 && i < neighbors->size(); i++){
+		//nearestを設定
+		robot->pushNearest(neighbors->at(i));
+		//fBoardを設定
+		robot->getSenseNet()->setFBoard(i * 2, neighbors->at(i)->getPosX() - x);
+		robot->getSenseNet()->setFBoard(i * 2 + 1, neighbors->at(i)->getPosY() - y);
 	}
 }

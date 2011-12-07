@@ -3,9 +3,15 @@
 
 #include "SAModule.h"
 
+#ifndef _RobotMAV_H_
+class RobotMAV;
+#endif	//_RobotMAV_H_
+
 /**
 	@class SenseNet
 	@brief ネットワーク接続を検知し，近傍五つのロボットの位置を出力
+	また，近傍のロボットとの情報の交流を行なうため，
+	内部にそれらのRobotへのポインタを保持する
 	<h1>FBoard</h1>
 	<ul>
 		<li>fRobot0X : Robot[0]->posX</li>
@@ -45,7 +51,7 @@ public:
 	SenseNet();
 	/**
 		@brief 実行時の動作.
-		近くの繋がっているRobotを5体まで検知し，出力
+		近くの繋がっているRobotを5体まで検知し，そこまでの位置(方向と距離)を出力
 		@sa SAModule::Run()
 	 */
 	virtual void Run();

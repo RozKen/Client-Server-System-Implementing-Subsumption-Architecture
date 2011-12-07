@@ -112,7 +112,7 @@ public:
 	/**
 		@brief 出力信号を設定する
 		@param index 設定する配列要素のモジュール上の出力ポート番号
-		@param output 出力信号の配列要素へ代入する値
+		@param signal 出力信号の配列要素へ代入する値
 	 */
 	virtual void setOutput(int index, float signal);
 	
@@ -144,6 +144,19 @@ public:
 		@sa Blackboard
 	 */
 	Blackboard* getInnerMemory() const;
+
+	/**
+		@brief int型の変数をstring型に変換して変えす関数
+		@param num 変換したい数値
+		@return string型になった数値
+	 */
+	std::string intToString(int num);
+	/**
+		@brief float型の値を四捨五入してint型にする
+		@param value 四捨五入したい値
+		@return 四捨五入された値
+	 */
+	int round(float value);
 	
 protected:
 	///SAModuleの入力値が格納されているmemory上のIndex
@@ -168,18 +181,6 @@ protected:
 	Blackboard* memory;
 	///値の入出力に当たり，利用する記憶領域
 	Blackboard* innerMemory;
-	/**
-		@brief int型の変数をstring型に変換して変えす関数
-		@param num 変換したい数値
-		@return string型になった数値
-	 */
-	std::string intToString(int num);
-	/**
-		@brief float型の値を四捨五入してint型にする
-		@param value 四捨五入したい値
-		@return 四捨五入された値
-	 */
-	int round(float value);
 };
 
 #endif //_SAModule_H_

@@ -45,8 +45,8 @@ public:
 	void setSource(SAModule* src, int srcPort);
 	/**
 		@brief set Destination. addOutputの代わりに利用
-		@param src 接続先Module
-		@param srcPort 接続先Module上の入力ポート番号
+		@param dest 接続先Module
+		@param destPort 接続先Module上の入力ポート番号
 	 */
 	void setDestination(SAModule* dest, int destPort);
 	
@@ -71,7 +71,7 @@ public:
 	/**
 		@brief 入力信号を得る．
 		@param index [disabled]得る配列要素のモジュール上の入力ポート番号
-		@return input 入力信号の配列要素の値
+		@return signal 入力信号の配列要素の値
 		@override SAModule::getInput
 		@sa SAModule::getInput
 	 */
@@ -80,14 +80,14 @@ public:
 	void setInput(float signal);
 	/**
 		@brief 出力信号を設定する
-		@param output 出力信号の配列要素へ代入する値
+		@param signal 出力信号の配列要素へ代入する値
 		@override SAModule::setOutput
 		@sa SAModule::setOutput
 	 */
 	void setOutput(float signal);
 	/**
 		@brief 出力信号を設定する
-		@param output 出力信号の配列要素へ代入する値
+		@param signal 出力信号の配列要素へ代入する値
 		@param index [disabled]設定する配列要素のモジュール上の出力ポート番号
 		@override SAModule::setOutput
 		@sa SAModule::setOutput
@@ -102,7 +102,7 @@ public:
 	 */
 	float getFactor() const;
 	/**
-		@breif get currentRatio
+		@brief get currentRatio
 		@sa currentRatio
 		@return currentRatio
 	 */

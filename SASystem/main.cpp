@@ -73,20 +73,18 @@ void Init(){
 	std::string directory = logPathGenerator();
 	world = new World(directory, "world.csv");
 	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
-	RobotMAV* mav1 = new RobotMAV(directory, "mav1.csv");
-	RobotMAV* mav2 = new RobotMAV(directory, "mav2.csv");
-	world->addRobot(mav1);
-	world->addRobot(mav2);
-	//初期値を設定
-	RobotMAV* tmp;
+	
 	//最初の位置のX座標をランダムにずらす
 	Random<boost::uniform_int<> > _numBatGen(-15, 15);
 
-	for(int i = 0; i < world->getNumOfModules(); i++){
-		tmp = world->getRobot(i);
-		tmp->setInput(0, 100.0f);
-		tmp->setInput(1, START_X + (float)_numBatGen());
-		tmp->setInput(2, START_Y + (float)_numBatGen());
+	std::vector<RobotMAV*>* mav = new std::vector<RobotMAV*>();
+	for(int i = 0; i < NUM_ROBOT; i++){
+		mav->push_back(new RobotMAV(directory, "mav" + world->intToString(i) + ".csv"));
+		world->addRobot(mav->at(i));
+		//初期値を設定
+		mav->at(i)->setInput(0, 100.0f);
+		mav->at(i)->setInput(1, START_X + (float)_numBatGen());
+		mav->at(i)->setInput(2, START_Y + (float)_numBatGen());
 	}
 	start = clock();
 }
@@ -117,8 +115,7 @@ void glDisplay(){
 
 	double offset = -50.0;		//FIELD_SIZEの半分
 	glTranslatef(offset, 0, offset);
-		//ここ手作業で更新 insideX[world->getNumOfModules()]
-		bool insideX[2];
+		bool insideX[NUM_ROBOT];
 		//Draw Barriers as Boxes
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
