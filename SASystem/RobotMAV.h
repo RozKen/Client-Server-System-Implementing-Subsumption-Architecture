@@ -106,6 +106,13 @@ public:
 	 */
 	float getRad(int index) const;
 	/**
+		@brief set Radiation Sensor Value. World‚©‚ç—˜—p‚³‚ê‚é
+		@param index Hash‚É‰ž‚¶‚½index
+		@param value Radiation Sensor’l
+
+	 */
+	void setRad(int index, float value);
+	/**
 		@brief get Red Color of Current Robot
 	 */
 	float getColorR() const;

@@ -49,6 +49,10 @@ void RobotMAV::Initialize(){
 	//	sR->setFBoard(i, 4.0f);
 	//}
 
+	//放射線量センサを追加
+	SenseRadiation* sRad = new SenseRadiation();
+	this->addModule(sRad);
+
 	//Network接続センサを追加
 	SenseNet* sN = new SenseNet();
 	this->addModule(sN);
@@ -171,6 +175,10 @@ float RobotMAV::getRange(int index) const{
 
 float RobotMAV::getRad(int index) const{
 	return this->getInput(3 + RANGE_DIV + index);
+}
+
+void RobotMAV::setRad(int index, float value){
+	this->setInput(3 + RANGE_DIV + index, value);
 }
 
 float RobotMAV::getColorR() const{

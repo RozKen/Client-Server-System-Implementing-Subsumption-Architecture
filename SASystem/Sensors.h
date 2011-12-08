@@ -3,9 +3,9 @@
 
 #include "SensePos.hpp"
 #include "SenseBattery.hpp"
-#include "SenseNet.hpp"
 #include "SenseRange.hpp"
-//#include "SenseRadiation.hpp"
+#include "SenseRadiation.hpp"
+#include "SenseNet.hpp"
 
 
 #endif	//_Sensors_H_

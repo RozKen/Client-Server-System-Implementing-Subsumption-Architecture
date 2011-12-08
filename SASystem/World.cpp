@@ -30,6 +30,7 @@ World::World(std::string directoryPath, std::string fileName)
 void World::Initialize(){
 	generateGeoField();
 	generateSemField();
+	generateRadField();
 }
 
 int World::getHash(int which, int index) const{
@@ -88,6 +89,8 @@ void World::Update(){
 
 			////////Range////////
 			updateRange(robot);
+			////////Radiation////////
+			updateRadiation(robot);
 			////////Network////////
 			updateNetWork(robot);
 #ifdef _DEBUG
@@ -167,6 +170,75 @@ void World::generateSemField(){
 	ofsSemField.close();
 }
 
+void World::generateRadField(){
+	
+	//initialize as NO_DATA
+	for(int i = 0; i < FIELD_SIZE; i++){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			radField[i][j] = NO_DATA;
+		}
+	}
+
+	//放射性物質の点源数を生成するのに利用
+	Random<boost::uniform_int<> > number(MIN_RAD_POINT, MAX_RAD_POINT);
+	//放射線物質の点源の場所を生成するのに利用
+	Random<boost::uniform_int<> > pos(0, FIELD_SIZE);
+	//放射線物質の点源が持つ放射線量を生成するのに利用
+	Random<boost::uniform_real<> > rand(0.0f, MAX_RAD_VALUE);
+
+
+	int numberOfRadPoints = number();
+	std::vector<int> emitPosX;
+	std::vector<int> emitPosY;
+	//Create Radiation Emitting Point
+	int x, y;
+	for(int i = 0; i < numberOfRadPoints; i++){
+		x = pos();
+		y = pos();
+		radField[x][y] = rand();
+		emitPosX.push_back(x);
+		emitPosY.push_back(y);
+	}
+	//Calculate Radiation Volumne at each point
+	for(int i = 0; i < FIELD_SIZE; i++){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			if(radField[i][j] == NO_DATA){
+				radField[i][j] = 0.0f;
+				//Sum Up Values derive from each emitting point.
+				for(int k = 0; k < numberOfRadPoints; k++){
+					float distance = this->norm(i - emitPosX.at(k), j - emitPosY.at(k));
+					distance *= (float)FIELD_SCALE;
+					radField[i][j] += radField[emitPosX.at(k)][emitPosY.at(k)] / pow(distance, 2);
+				}
+			}
+		}
+	}
+
+	////File Output
+	std::ofstream ofsRadField;
+	std::string fileName = this->getLogDirectoryPath();
+	fileName.append("/radField.csv");
+	ofsRadField.open(fileName);
+
+	//Write Out Conditions
+	ofsRadField << "radPoints," << numberOfRadPoints << std::endl;
+	ofsRadField << "point,posX,posY,radValue" << std::endl;
+	for(int i = 0; i < numberOfRadPoints; i++){
+		ofsRadField << i << "," << emitPosX.at(i) << ",";
+		ofsRadField << emitPosY.at(i) << "," << radField[emitPosX.at(i)][emitPosY.at(i)] << std::endl;
+	}
+	//Write Out Rad Field Map
+	for(int i = FIELD_SIZE - 1; i >= 0; i--){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			ofsRadField << radField[j][i] << ",";
+		}
+		ofsRadField << std::endl;
+	}
+
+	ofsRadField.close();
+
+}
+
 bool World::onBatteryCharger(const RobotMAV* robot){
 	bool result = false;
 	int i = robot->getInput(1);
@@ -183,6 +255,17 @@ bool World::isAlive(const RobotMAV* robot){
 		result = false;
 	}
 	return result;
+}
+
+void World::updateRadiation(RobotMAV* robot){
+	//robotの座標 (int)
+	int x = round(robot->getInput(1));
+	int y = round(robot->getInput(2));
+	float value;
+	for(int i = 0; i < MAX_AREA; i++){
+		value = radField[x + hash[0][i]][y + hash[1][i]];
+		robot->setRad(i, value);
+	}
 }
 
 void World::updateRange(RobotMAV* robot){

@@ -83,7 +83,7 @@ public:
 	 */
 	int getHash(int which, int index) const;
 	/**
-		@brief フィールドの地形情報を情報として保持．
+		@brief Fieldの地形情報を保持．
 		geoField[x][y]
 		<ul>
 			<li>障害物: OUTOFAREA</li>
@@ -101,6 +101,15 @@ public:
 		※OpenGLから二次元配列にアクセスするためにPublicにしてある
 	 */
 	int semField[FIELD_SIZE][FIELD_SIZE];
+	/**
+		@brief Fieldの放射線量情報を保持
+		radField[x][y];
+		<ul>
+			<li>放射線量: [0.0, 1.0]</li>
+		</ul>
+		※OpenGLから二次元配列にアクセスするためにPublicにしてある
+	 */
+	float radField[FIELD_SIZE][FIELD_SIZE];
 protected:
 	/**
 		@brief 新しくなった世界の状況をRobotに伝達する.
@@ -127,11 +136,20 @@ protected:
 	 */
 	void updateRange(RobotMAV* robot);
 	/**
+		@brief 各ロボットの放射線センサへの入力を更新
+		近くかどうかは，MAX_RANGEで決まる
+		@param robot robotへのpointer
+		@sa MAX_RANGE
+		@sa Constants.h
+	 */
+	void updateRadiation(RobotMAV* robot);
+	/**
 		@brief 各ロボットのNetworkセンサへの入力等を更新
 		各ロボットの内部偏すう「近傍ロボットへのポインタの配列」も更新する
 		@param robot robotへのpointer
 		@sa SenseNet
 		@sa WIFI_REACH
+		@sa Constants.h
 	 */
 	void updateNetWork(RobotMAV* robot);
 	
@@ -142,8 +160,14 @@ protected:
 	void generateGeoField();
 	/**
 		@brief semFieldを司令部の初期位置に応じて生成する.
+		@sa semField
 	 */
 	void generateSemField();
+	/**
+		@brief radFieldをRandomに生成する
+		@sa radField
+	 */
+	void generateRadField();
 	/**
 		@brief各ロボットの位置を保持する配列．
 		@sa position

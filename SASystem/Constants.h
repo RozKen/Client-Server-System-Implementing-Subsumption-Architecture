@@ -13,6 +13,16 @@
 #define LENGTH				100
 ///Fieldの一辺(Fieldは正方形)
 #define FIELD_SIZE			100
+/**
+	@briefField1マス分の長さ [m]
+	@sa WIFI_REACH
+ */
+#define FIELD_SCALE			1
+/**
+	@brief 1 step 分の時間の長さ [sec]
+	Unmanned Ground Vehicleの速さが 1 m/sを想定
+ */
+#define TIME_SCALE			1
 ///Sensorの有効な範囲のCell数: マンハッタン距離で3
 #define MAX_AREA			25
 ///Hashデータが持つ最大index ( > MAX_AREA )
@@ -42,8 +52,31 @@
 ///RangeSensorの走査する方角は12 (360 / RANGE_DEG) 方向
 #define RANGE_DIV		12
 
-///Wifiの接続範囲
-#define WIFI_REACH		30.0f
+///放射線量最大のポイントの数の最小値
+#define MIN_RAD_POINT	1
+///放射線量最大のポイントの数の最大値
+#define MAX_RAD_POINT	10
+/**
+	@brief 放射線量の最大値 [mSv]
+	<ul>
+		<li>6000mSvを超えると一回の被爆で死亡に繋がる</li>
+		<li>500mSv程度では一回程度では，疫学手金，遺伝的影響の心配はない</li>
+
+	</ul>
+	@sa <a href="http://homepage3.nifty.com/anshin-kagaku/anshin_level.html">放射線の健康レベルと危険レベル</a>
+ */
+#define MAX_RAD_VALUE	10000.0f
+
+/**
+	@brief Wifiの接続範囲:100 [m]と設定する=>1マスが10mとなる
+	<ul>
+		<li>Indoor : 70m</li>
+		<li>Outdoor : 250m</li>
+	</ul>
+	@sa <a href="http://en.wikipedia.org/wiki/IEEE_802.11n">IEEE 802.11n-2009 - Wikipedia (English)</a>
+	@sa <a href="http://making.ti-da.net/e3166838.html">Wi-Fi（無線LAN）の電波到達距離を、iPhoneで計測してみた！</a>
+ */
+#define WIFI_REACH		50.0f
 
 ///バッテリーの消耗率 point/step
 #define BAT_LOSS		3.0
