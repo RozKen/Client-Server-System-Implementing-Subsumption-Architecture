@@ -85,6 +85,7 @@ inline void ContAvoid::Run(){
 
 	if(danger){
 		if(safeIndex.empty()){
+			//ÇªÇÃèÍÇ…í‚é~Ç∑ÇÈ
 			signalX = 0.0f;
 			signalY = 0.0f;
 		}else{

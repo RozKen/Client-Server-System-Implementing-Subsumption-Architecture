@@ -262,10 +262,19 @@ void World::updateRadiation(RobotMAV* robot){
 	int x = round(robot->getInput(1));
 	int y = round(robot->getInput(2));
 	float value;
+	//探索する座標
+	int searchX;
+	int searchY;
 	for(int i = 0; i < MAX_AREA; i++){
-		value = radField[x + hash[0][i]][y + hash[1][i]];
-		robot->setRad(i, value);
+		searchX = x + hash[0][i];
+		searchY = y + hash[1][i];
+		if(searchX >= 0 && searchX < FIELD_SIZE
+			&& searchY >= 0 && searchY < FIELD_SIZE){
+				value = radField[searchX][searchY];
+				robot->setRad(i, value);
+		}
 	}
+	return;
 }
 
 void World::updateRange(RobotMAV* robot){
@@ -469,7 +478,8 @@ void World::updateNetWork(RobotMAV* robot){
 	for(int i = 0; i < 5 && i < neighbors->size(); i++){
 		//nearestを設定
 		robot->pushNearest(neighbors->at(i));
-		//fBoardを設定
+		//fBoardを設定///////////////////////////これうまく動いているか不安．
+		////////RobotMAV::ProcessInputsでinputからfBoardへ上書きされている可能性がある
 		robot->getSenseNet()->setFBoard(i * 2, neighbors->at(i)->getPosX() - x);
 		robot->getSenseNet()->setFBoard(i * 2 + 1, neighbors->at(i)->getPosY() - y);
 	}

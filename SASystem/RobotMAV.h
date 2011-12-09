@@ -161,6 +161,15 @@ public:
 		@brief 近傍のロボット数を入手する
 	 */
 	int getNumOfNearestRobots() const;
+	///ContExploreからAccessするため，publicにしてある
+	/**
+		@brief 地形マップ.各ロボットが独自に所有する.
+	 */
+	float geoMap[FIELD_SIZE][FIELD_SIZE];
+	/**
+		@brief 放射線量マップ.各ロボットが独自に所有する.
+	 */
+	float radMap[FIELD_SIZE][FIELD_SIZE];
 protected:
 	/**
 		@brief Moduleの登録などを行なう．
@@ -179,14 +188,6 @@ protected:
 	
 	///Member Variables
 	/**
-		@brief 地形マップ.各ロボットが独自に所有する.
-	 */
-	float geoMap[FIELD_SIZE][FIELD_SIZE];
-	/**
-		@brief 放射線量マップ.各ロボットが独自に所有する.
-	 */
-	float radMap[FIELD_SIZE][FIELD_SIZE];
-	/**
 		@brief 近傍のRobotへのポインタ配列
 	 */
 	std::vector<RobotMAV*>* nearest;
@@ -199,12 +200,9 @@ protected:
 	/**
 		@brief ModuleごとのColor(R,G,B)
 		modColor[module][r/g/b]
+		@sa NUM_OF_CONTROLLERS
 	 */
-	float modColor[3][3];
-	/**
-		@brief Layerの数
-	 */
-	int numOfLayers;
+	float modColor[NUM_OF_LAYERS][3];
 	/**
 		@brief 近傍のRobotの数
 	 */

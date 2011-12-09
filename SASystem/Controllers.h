@@ -1,11 +1,13 @@
 #ifndef _Controllers_H_
 #define _Controllers_H_
 
-//íœ—\’è
-#include "ContMove.hpp"
+#include "ContMove.hpp"	//íœ—\’è
 
-#include "ContAlive.hpp"
 #include "ContAvoid.hpp"
+#include "ContAlive.hpp"
 #include "ContWander.hpp"
+#include "ContExplore.hpp"
+
+#define NUM_OF_LAYERS	4
 
 #endif	//_Controllers_H_

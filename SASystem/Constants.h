@@ -7,7 +7,7 @@
  */
 #define INVERSE_SUPPRESSOR
 
-#define NUM_ROBOT			2
+#define NUM_ROBOT			5
 
 //íœ—\’è
 #define LENGTH				100
@@ -37,7 +37,7 @@
 #define ONCHARGER		3
 #define ROBOTEXIST		4
 ///‘S‘Ì‚É‚¨‚¯‚éáŠQ•¨‚Ì‘¶İŠm—¦
-#define P_BARRIER		0.1
+#define P_BARRIER		0.05
 ///WANDER‚ª”­‰Î‚·‚éŠm—¦
 #define P_WANDER		0.1
 

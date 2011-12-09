@@ -18,8 +18,6 @@ void RobotMAV::Initialize(){
 			radMap[i][j] = NO_DATA;
 		}
 	}
-
-	numOfLayers = 0;
 	
 	for(int i = 0; i < 3; i++){
 		color[i] = 1.0f;
@@ -76,7 +74,13 @@ void RobotMAV::Initialize(){
 	modColor[2][0] = 0.5f;
 	modColor[2][1] = 0.5f;
 	modColor[2][2] = 0.5f;
-	
+
+	///ContExplore : Blue
+	ContExplore* cE = new ContExplore();
+	this->addModule(cE);
+	modColor[3][0] = 0.0f;
+	modColor[3][1] = 0.0f;
+	modColor[3][2] = 1.0f;
 
 	/////Actuator‚ð’Ç‰Á
 	//ˆÊ’uActuator‚ð’Ç‰Á
@@ -126,8 +130,14 @@ void RobotMAV::Initialize(){
 		cWaP[i] = new Arbiter(cW, i, aP, i, 1.0f);
 		this->addArbiter(cWaP[i]);
 	}
+	///23, 24:Suppress Explore -> ˆÊ’uActuator
+	Arbiter* cEaP[2];
+	for(int i = 0; i < 2; i++){
+		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
+		this->addArbiter(cEaP[i]);
+	}
+	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
-	this->numOfLayers = 3;
 }
 
 void RobotMAV::Run(){
@@ -147,7 +157,7 @@ void RobotMAV::Run(){
 
 void RobotMAV::Update(){
 	updateInnerGeoMap();
-	//updateInnerRadMap();
+	updateInnerRadMap();
 }
 
 float RobotMAV::getBattery() const{
@@ -193,7 +203,7 @@ float RobotMAV::getColorB() const{
 }
 
 void RobotMAV::ProcessArbiters(){
-	float ratios[2];
+	float ratios[NUM_OF_LAYERS - 1];
 	for(int i = 0; i < arbiters->size(); i++){
 		arbiters->at(i)->Run();
 		switch(i){
@@ -203,6 +213,9 @@ void RobotMAV::ProcessArbiters(){
 		case 21:	//Wander Suppress Alive, Avoid and ActPos
 			ratios[1] = arbiters->at(i)->getCurrentRatio();
 			break;
+		case 23:	//Explore Suppress Wander, Alive, Avoid and ActPos
+			ratios[2] = arbiters->at(i)->getCurrentRatio();
+			break;
 		default:
 			break;
 		}
@@ -210,10 +223,10 @@ void RobotMAV::ProcessArbiters(){
 
 	///Set RobotColor According to Suppress
 	for(int j = 0; j < 3; j++){
-		color[j] = modColor[numOfLayers - 1][j] * ratios[numOfLayers - 2] 
-		+ modColor[numOfLayers - 2][j] * (1.0f - ratios[numOfLayers - 2]);
+		color[j] = modColor[NUM_OF_LAYERS - 1][j] * ratios[NUM_OF_LAYERS - 2] 
+		+ modColor[NUM_OF_LAYERS - 2][j] * (1.0f - ratios[NUM_OF_LAYERS - 2]);
 	}
-	for(int i = numOfLayers - 3; i >= 0; i--){
+	for(int i = NUM_OF_LAYERS - 3; i >= 0; i--){
 		for(int j= 0; j < 3; j++){
 			color[j] = color[j] * ratios[i] + modColor[i][j] * (1.0f - ratios[i]);
 		}
