@@ -157,7 +157,13 @@ public:
 		@return lÌŒÜ“ü‚³‚ê‚½’l
 	 */
 	int round(float value);
-	
+	/**
+		@brief ‹——£‚ğZo‚·‚é : SQRT(dx^2 + dy^2)
+		@param dx x‚Ì·•ª
+		@param dy y‚Ì·•ª
+		@return ‹——£ : SQRT(dx^2 + dy^2)
+	 */
+	float norm(const float dx, const float dy);
 protected:
 	///SAModule‚Ì“ü—Í’l‚ªŠi”[‚³‚ê‚Ä‚¢‚émemoryã‚ÌIndex
 	std::vector<int> *inputIndex;

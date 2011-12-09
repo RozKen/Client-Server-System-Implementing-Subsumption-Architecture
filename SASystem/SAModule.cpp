@@ -169,3 +169,7 @@ std::string SAModule::intToString(int num){
 int SAModule::round(float value){
 	return (int)(value + 0.5);
 }
+
+float SAModule::norm(const float dx, const float dy){
+	return sqrt(pow(dx, 2) + pow(dy, 2));
+}

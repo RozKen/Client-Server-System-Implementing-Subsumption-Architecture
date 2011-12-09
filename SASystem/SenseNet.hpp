@@ -9,9 +9,8 @@ class RobotMAV;
 
 /**
 	@class SenseNet
-	@brief ネットワーク接続を検知し，近傍五つのロボットの位置を出力
-	また，近傍のロボットとの情報の交流を行なうため，
-	内部にそれらのRobotへのポインタを保持する
+	@brief ネットワーク接続を検知し，近傍五つのロボットの相対位置を出力
+	情報の交流などは，RobotMAVやWorldにて，Moduleを用いない方法で実装されている.
 	<h1>FBoard</h1>
 	<ul>
 		<li>fRobot0X : Robot[0]->posX</li>
@@ -58,31 +57,24 @@ public:
 };
 
 inline SenseNet::SenseNet(){
-	this->addFBoard("fRobot0X");
-	this->addFBoard("fRobot0Y");
-	this->addFBoard("fRobot1X");
-	this->addFBoard("fRobot1Y");
-	this->addFBoard("fRobot2X");
-	this->addFBoard("fRobot2Y");
-	this->addFBoard("fRobot3X");
-	this->addFBoard("fRobot3Y");
-	this->addFBoard("fRobot4X");
-	this->addFBoard("fRobot4Y");
-	this->addOutput("Robot0X");
-	this->addOutput("Robot0Y");
-	this->addOutput("Robot1X");
-	this->addOutput("Robot1Y");
-	this->addOutput("Robot2X");
-	this->addOutput("Robot2Y");
-	this->addOutput("Robot3X");
-	this->addOutput("Robot3Y");
-	this->addOutput("Robot4X");
-	this->addOutput("Robot4Y");
+	for(int i = 0; i < WIFI_CONNECT * 2; i++){
+		std::string name = "Robot";
+		name.append(intToString( i / 2 ));
+		if( i % 2 == 0){
+			name.append("X");
+		}else{
+			name.append("Y");
+		}
+		this->addOutput(name);
+		std::string fname = "f";
+		fname.append(name);
+		this->addFBoard(fname);
+	}
 }
 
 inline void SenseNet::Run(){
 	float temp;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < WIFI_CONNECT * 2; i++){
 		temp = this->getFBoard(i);
 #ifdef _DEBUG
 		/*std::cout << "Robot[" << i << "]";

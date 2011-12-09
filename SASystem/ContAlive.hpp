@@ -37,13 +37,6 @@ public:
 	virtual void Run();
 protected:
 	/**
-		@brief ‹——£‚ðŽZo‚·‚é : SQRT(dx^2 + dy^2)
-		@param dx x‚Ì·•ª
-		@param dy y‚Ì·•ª
-		@return ‹——£ : SQRT(dx^2 + dy^2)
-	 */
-	float norm(const float dx, const float dy);
-	/**
 		@brief Battery‚ª‘«‚è‚È‚¢‚Æ”»’f‚·‚é‚½‚ß‚Ìè‡’l
 		Œ»Ý‚Í0.3
 	 */
@@ -77,10 +70,6 @@ inline void ContAlive::Run(){
 
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
-}
-
-inline float ContAlive::norm(const float dx, const float dy){
-	return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
 #endif	//_Cont_Alive_HPP_

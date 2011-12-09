@@ -11,17 +11,17 @@
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0: RangeCAv0 : 0</li>
-		<li>Input0: RangeCAv1 : 30</li>
-		<li>Input0: RangeCAv2 : 60</li>
-		<li>Input0: RangeCAv3 : 90</li>
-		<li>Input0: RangeCAv4 : 120</li>
-		<li>Input0: RangeCAv5 : 150</li>
-		<li>Input0: RangeCAv6 : 180</li>
-		<li>Input0: RangeCAv7 : 210</li>
-		<li>Input0: RangeCAv8 : 240</li>
-		<li>Input0: RangeCAv9 : 270</li>
-		<li>Input0: RangeCAv10 : 300</li>
-		<li>Input0: RangeCAv11 : 330</li>
+		<li>Input1: RangeCAv1 : 30</li>
+		<li>Input2: RangeCAv2 : 60</li>
+		<li>Input3: RangeCAv3 : 90</li>
+		<li>Input4: RangeCAv4 : 120</li>
+		<li>Input5: RangeCAv5 : 150</li>
+		<li>Input6: RangeCAv6 : 180</li>
+		<li>Input7: RangeCAv7 : 210</li>
+		<li>Input8: RangeCAv8 : 240</li>
+		<li>Input9: RangeCAv9 : 270</li>
+		<li>Input10: RangeCAv10 : 300</li>
+		<li>Input11: RangeCAv11 : 330</li>
 	</ul>
 	<h1>Outputs</h1>
 	<ul>

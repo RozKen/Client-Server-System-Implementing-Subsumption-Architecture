@@ -97,6 +97,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ContAlive.hpp" />
     <ClInclude Include="ContAvoid.hpp" />
+    <ClInclude Include="ContConnect.hpp" />
     <ClInclude Include="ContExplore.hpp" />
     <ClInclude Include="ContMove.hpp" />
     <ClInclude Include="Controllers.h" />

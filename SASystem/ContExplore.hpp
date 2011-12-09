@@ -3,8 +3,8 @@
 
 #include "SAModule.h"
 /**
-	@class ContExplorer
-	@brief 
+	@class ContExplore
+	@brief <h1>Mission</h1>: 探索していない場所へ行く
 	<h1>Inputs</h1>
 		Inputはなし．Robot内部のMapを利用する
 	<h1>Outputs</h1>
@@ -25,7 +25,16 @@ public:
 	ContExplore();
 	/**
 		@brief 実行時の動作
-		radMapやgeoMapのデータがないところを目指して動く
+			<ul>
+				<li>
+					radMapやgeoMapのデータがない(NO_DATA)ところを
+					innerMapから探し，そこを目指して動く
+				</li>
+				<li>
+					NO_DATAがない場合や，NO_DATAが自分の位置の時は
+					出力をNO_SIGNALとする
+				</li>
+			</ul>
 		@sa geoMap
 		@sa radMap
 	 */

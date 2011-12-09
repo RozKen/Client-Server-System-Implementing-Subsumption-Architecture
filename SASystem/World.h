@@ -177,15 +177,6 @@ protected:
 	//float radiationMap[FIELD_SIZE][FIELD_SIZE];
 	///¢ŠE‘S‘Ì‚Ì“ñŽ_‰»’Y‘f—ÊMap
 	//float cooMap[FIELD_SIZE][FIELD_SIZE];
-
-	/**
-		@brief ‹——£‚ðŽZo‚·‚é : SQRT(dx^2 + dy^2)
-		ContAlive‚©‚ç”qŽØ
-		@param dx x‚Ì·•ª
-		@param dy y‚Ì·•ª
-		@return ‹——£ : SQRT(dx^2 + dy^2)
-	 */
-	float norm(const float dx, const float dy);
 };
 
 inline void World::addRobot(RobotMAV* robot){
@@ -193,40 +184,7 @@ inline void World::addRobot(RobotMAV* robot){
 	this->addModule(robot);
 }
 
-inline float World::norm(const float dx, const float dy){
-	return sqrt(pow(dx, 2) + pow(dy, 2));
-}
-
 inline RobotMAV* World::getRobot(const int index){
 	return ((RobotMAV*)this->modules->at(index));
 }
-/*
-inline void World::setRadiationMap(int x, int y, std::vector<float>* data){
-	for(int i; i < MAX_AREA; i++){
-		radiationMap[ x + hash[0][i] ][ y + hash[1][i] ] = data->at(i);
-	}
-}
-
-inline void World::setCOOMap(int x, int y, std::vector<float>* data){
-	for(int i; i < MAX_AREA; i++){
-		cooMap[ x + hash[0][i] ][ y + hash[1][i] ] = data->at(i);
-	}
-}
-
-inline std::vector<float>* World::getRadiationMap(int x, int y){
-	std::vector<float>* data = new std::vector<float>();
-	for(int i; i < MAX_AREA; i++){
-		data->push_back(radiationMap[ x + hash[0][i] ][ y + hash[1][i] ]);
-	}
-	return data;
-}
-
-inline std::vector<float>* World::getCOOMap(int x, int y){
-	std::vector<float>* data = new std::vector<float>();
-	for(int i; i < MAX_AREA; i++){
-		data->push_back(cooMap[ x + hash[0][i] ][ y + hash[1][i] ]);
-	}
-	return data;
-}
-*/
 #endif	//_World_H_

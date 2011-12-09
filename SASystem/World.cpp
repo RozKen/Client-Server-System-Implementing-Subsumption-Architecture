@@ -467,7 +467,8 @@ void World::updateNetWork(RobotMAV* robot){
 	for(int i = 0; i < this->numOfModules; i++){
 		float xi = (this->getRobot(i))->getPosX();
 		float yi = (this->getRobot(i))->getPosY();
-		if(this->norm(xi - x, yi - y) < WIFI_REACH){
+		//自分を除外する
+		if(this->norm(xi - x, yi - y) < WIFI_REACH && this->norm(xi - x, yi - y) > 0){
 			neighbors->push_back(this->getRobot(i));
 		}
 
@@ -475,12 +476,15 @@ void World::updateNetWork(RobotMAV* robot){
 	//昇順にソート
 	std::sort(neighbors->begin(), neighbors->end());
 	robot->clearNearest();
-	for(int i = 0; i < 5 && i < neighbors->size(); i++){
+	for(int i = 0; i < WIFI_CONNECT && i < neighbors->size(); i++){
 		//nearestを設定
 		robot->pushNearest(neighbors->at(i));
 		//fBoardを設定///////////////////////////これうまく動いているか不安．
 		////////RobotMAV::ProcessInputsでinputからfBoardへ上書きされている可能性がある
-		robot->getSenseNet()->setFBoard(i * 2, neighbors->at(i)->getPosX() - x);
-		robot->getSenseNet()->setFBoard(i * 2 + 1, neighbors->at(i)->getPosY() - y);
+		//robot->getSenseNet()->setFBoard(i * 2, neighbors->at(i)->getPosX() - x);
+		//robot->getSenseNet()->setFBoard(i * 2 + 1, neighbors->at(i)->getPosY() - y);
+		//上記の通りなので，robotのInputを手動で設定
+		robot->setInput(3 + RANGE_DIV + MAX_AREA + i * 2, neighbors->at(i)->getPosX() - x);
+		robot->setInput(3 + RANGE_DIV + MAX_AREA + i * 2 + 1, neighbors->at(i)->getPosY() - y);
 	}
 }

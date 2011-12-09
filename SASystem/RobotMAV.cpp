@@ -62,11 +62,11 @@ void RobotMAV::Initialize(){
 	modColor[0][0] = 1.0f;
 	modColor[0][1] = 0.0f;
 	modColor[0][2] = 0.0f;
-	///Alive : Green
+	///Alive : Orange
 	ContAlive* cAl = new ContAlive();
 	this->addModule(cAl);	
-	modColor[1][0] = 0.0f;
-	modColor[1][1] = 1.0f;
+	modColor[1][0] = 1.0f;
+	modColor[1][1] = 0.7f;
 	modColor[1][2] = 0.0f;
 	///Wander : Gray
 	ContWander* cW = new ContWander();
@@ -75,12 +75,19 @@ void RobotMAV::Initialize(){
 	modColor[2][1] = 0.5f;
 	modColor[2][2] = 0.5f;
 
-	///ContExplore : Blue
+	///ContExplore : Sky Blue
 	ContExplore* cE = new ContExplore();
 	this->addModule(cE);
 	modColor[3][0] = 0.0f;
-	modColor[3][1] = 0.0f;
+	modColor[3][1] = 1.0f;
 	modColor[3][2] = 1.0f;
+
+	///ContConnect : Yellow
+	ContConnect* cC = new ContConnect();
+	this->addModule(cC);
+	modColor[4][0] = 1.0f;
+	modColor[4][1] = 1.0f;
+	modColor[4][2] = 0.0f;
 
 	/////Actuatorを追加
 	//位置Actuatorを追加
@@ -110,31 +117,45 @@ void RobotMAV::Initialize(){
 		sPcW[i] = new Arbiter(sP, i, cW, i, 2.0f);
 		this->addArbiter(sPcW[i]);
 	}
+	///17 - 26: Networkセンサ->Connect
+	Arbiter* sNcC[WIFI_CONNECT * 2];
+	for(int i = 0; i < WIFI_CONNECT * 2; i++){
+		sNcC[i] = new Arbiter(sN, i, cC, i, 2.0f);
+		this->addArbiter(sNcC[i]);
+	}
+
 	/////////以下の順番は重要．/////////
 	/////////階層の低い者から実施するため////
-	///17, 18:Avoid->位置Actuator	//Suppressされたデータが流れるWire
+	///27, 28:Avoid->位置Actuator	//Suppressされたデータが流れるWire
 	Arbiter* cAvaP[2];
 	for(int i = 0; i < 2; i++){
 		cAvaP[i] = new Arbiter(cAv, i, aP, i, 2.0f);
 		this->addArbiter(cAvaP[i]);
 	}
-	///19, 20:Suppress Alive -> 位置Actuator
+	///29, 30:Suppress Alive -> 位置Actuator
 	Arbiter* cAlaP[2];
 	for(int i = 0; i < 2; i++){
 		cAlaP[i] = new Arbiter(cAl, i, aP, i, 1.0f);
 		this->addArbiter(cAlaP[i]);
 	}
-	///21, 22:Suppress Wander -> 位置Actuator
+	///31, 32:Suppress Wander -> 位置Actuator
 	Arbiter* cWaP[2];
 	for(int i = 0; i < 2; i++){
 		cWaP[i] = new Arbiter(cW, i, aP, i, 1.0f);
 		this->addArbiter(cWaP[i]);
 	}
-	///23, 24:Suppress Explore -> 位置Actuator
+	///33, 34:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
 		this->addArbiter(cEaP[i]);
+	}
+
+	///35, 36:Suppress Connect -> 位置Actuator
+	Arbiter* cCaP[2];
+	for(int i = 0; i < 2; i++){
+		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
+		this->addArbiter(cCaP[i]);
 	}
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
@@ -215,6 +236,9 @@ void RobotMAV::ProcessArbiters(){
 			break;
 		case 23:	//Explore Suppress Wander, Alive, Avoid and ActPos
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
+			break;
+		case 25:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
+			ratios[3] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
 			break;

@@ -173,5 +173,8 @@
     <ClInclude Include="ContExplore.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="ContConnect.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
