@@ -37,7 +37,7 @@
 #define ONCHARGER		3
 #define ROBOTEXIST		4
 ///全体における障害物の存在確率
-#define P_BARRIER		0.05
+#define P_BARRIER		0.0		//0.05
 ///WANDERが発火する確率
 #define P_WANDER		0.1
 
@@ -68,7 +68,7 @@
 #define MAX_RAD_VALUE	10000.0f
 
 /**
-	@brief Wifiの接続範囲:100 [m]と設定する=>1マスが10mとなる
+	@brief Wifiの接続範囲:100 [m]と設定する=>1マスが5mとなる
 	<ul>
 		<li>Indoor : 70m</li>
 		<li>Outdoor : 250m</li>
@@ -76,14 +76,14 @@
 	@sa <a href="http://en.wikipedia.org/wiki/IEEE_802.11n">IEEE 802.11n-2009 - Wikipedia (English)</a>
 	@sa <a href="http://making.ti-da.net/e3166838.html">Wi-Fi（無線LAN）の電波到達距離を、iPhoneで計測してみた！</a>
  */
-#define WIFI_REACH		50.0f			//50.0f
+#define WIFI_REACH		20.0f			//50.0f
 /**
 	@brief Wifiの接続が切れそうだと判断するのに利用する．
 	WIFI_REACH * WIFI_WEAKの距離に達したら，ContConnect作動
  */
-#define WIFI_WEAK		0.3f
+#define WIFI_WEAK		0.9f
 ///Wifiの接続中心へと移動する率
-#define WIFI_BALANCE	0.8f
+#define WIFI_BALANCE	0.2f
 ///Wifiで接続するロボットの数
 #define WIFI_CONNECT	5
 

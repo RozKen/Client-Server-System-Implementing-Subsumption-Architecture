@@ -62,11 +62,11 @@ void RobotMAV::Initialize(){
 	modColor[0][0] = 1.0f;
 	modColor[0][1] = 0.0f;
 	modColor[0][2] = 0.0f;
-	///Alive : Orange
+	///Alive : Yellow
 	ContAlive* cAl = new ContAlive();
 	this->addModule(cAl);	
 	modColor[1][0] = 1.0f;
-	modColor[1][1] = 0.7f;
+	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
 	///Wander : Gray
 	ContWander* cW = new ContWander();
@@ -75,6 +75,23 @@ void RobotMAV::Initialize(){
 	modColor[2][1] = 0.5f;
 	modColor[2][2] = 0.5f;
 
+	//暫定的に入れ替えてみる
+	///ContConnect : White
+	ContConnect* cC = new ContConnect();
+	this->addModule(cC);
+	modColor[3][0] = 1.0f;
+	modColor[3][1] = 1.0f;
+	modColor[3][2] = 1.0f;
+
+	///ContExplore : Sky Blue
+	ContExplore* cE = new ContExplore();
+	this->addModule(cE);
+	modColor[4][0] = 0.0f;
+	modColor[4][1] = 1.0f;
+	modColor[4][2] = 1.0f;
+
+	/*
+
 	///ContExplore : Sky Blue
 	ContExplore* cE = new ContExplore();
 	this->addModule(cE);
@@ -82,13 +99,14 @@ void RobotMAV::Initialize(){
 	modColor[3][1] = 1.0f;
 	modColor[3][2] = 1.0f;
 
-	///ContConnect : Yellow
+	///ContConnect : White
 	ContConnect* cC = new ContConnect();
 	this->addModule(cC);
 	modColor[4][0] = 1.0f;
 	modColor[4][1] = 1.0f;
-	modColor[4][2] = 0.0f;
+	modColor[4][2] = 1.0f;
 
+	*/
 	/////Actuatorを追加
 	//位置Actuatorを追加
 	ActPos* aP = new ActPos();
@@ -144,6 +162,22 @@ void RobotMAV::Initialize(){
 		cWaP[i] = new Arbiter(cW, i, aP, i, 1.0f);
 		this->addArbiter(cWaP[i]);
 	}
+	//暫定的に入れ替えてみる
+	///33, 34:Suppress Connect -> 位置Actuator
+	Arbiter* cCaP[2];
+	for(int i = 0; i < 2; i++){
+		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
+		this->addArbiter(cCaP[i]);
+	}
+
+	///35, 36:Suppress Explore -> 位置Actuator
+	Arbiter* cEaP[2];
+	for(int i = 0; i < 2; i++){
+		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
+		this->addArbiter(cEaP[i]);
+	}
+
+	/*
 	///33, 34:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
@@ -157,6 +191,7 @@ void RobotMAV::Initialize(){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
 		this->addArbiter(cCaP[i]);
 	}
+	*/
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
 }
@@ -228,16 +263,16 @@ void RobotMAV::ProcessArbiters(){
 	for(int i = 0; i < arbiters->size(); i++){
 		arbiters->at(i)->Run();
 		switch(i){
-		case 19:	//Alive Suppress Avoid and ActPos
+		case 29:	//Alive Suppress Avoid and ActPos
 			ratios[0] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 21:	//Wander Suppress Alive, Avoid and ActPos
+		case 31:	//Wander Suppress Alive, Avoid and ActPos
 			ratios[1] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 23:	//Explore Suppress Wander, Alive, Avoid and ActPos
+		case 33:	//Explore Suppress Wander, Alive, Avoid and ActPos
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 25:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
+		case 35:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
 			ratios[3] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:

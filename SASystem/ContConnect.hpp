@@ -95,8 +95,8 @@ inline void ContConnect::Run(){
 		float dy = this->getInput(i * 2 + 1);
 		float distance = this->norm(dx, dy);
 		if(distance > WIFI_REACH * WIFI_WEAK){
-			signalX = dx;
-			signalY = dy;
+			signalX = dx / distance;
+			signalY = dy / distance;
 		}
 	}
 
