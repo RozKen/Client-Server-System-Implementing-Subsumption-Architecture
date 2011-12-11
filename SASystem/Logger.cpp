@@ -61,6 +61,7 @@ void Logger::Log(){
 			ofs << ((std::vector<int> *)logContents->at(i))->at(logArrayIndex->at(i)) << ",";
 			break;
 		case 3:
+			////ERRORここでしばしばメモリリークが起きる logArrayIndexにおかしな値
 			ofs << ((std::vector<float> *)logContents->at(i))->at(logArrayIndex->at(i)) << ",";
 			break;
 		default:

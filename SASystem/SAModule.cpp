@@ -11,7 +11,7 @@ SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 	this->outputTitles = new std::vector<std::string>();
 	this->iBoardTitles = new std::vector<std::string>();
 	this->fBoardTitles = new std::vector<std::string>();
-	this->memory = new Blackboard();
+	//this->memory = new Blackboard();
 	this->innerMemory = new Blackboard();
 }
 
@@ -32,7 +32,7 @@ SAModule::~SAModule(){
 	delete outputTitles;
 	delete iBoardTitles;
 	delete fBoardTitles;
-	delete memory;
+	//delete memory;
 	delete innerMemory;
 }
 
