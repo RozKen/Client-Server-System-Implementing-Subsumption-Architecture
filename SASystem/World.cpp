@@ -509,7 +509,10 @@ void World::updateNetWork(RobotMAV* robot){
 		float yi = (this->getRobot(i))->getPosY();
 		//Ž©•ª‚ðœŠO‚·‚é
 		if(this->norm(xi - x, yi - y) < WIFI_REACH && this->norm(xi - x, yi - y) > 0){
-			neighbors->push_back(this->getRobot(i));
+			//“d’r‚ª‚È‚¢‚à‚Ì‚ÍCŒq‚ª‚ç‚È‚¢‚æ‚¤‚É‚·‚é.
+			if(this->getRobot(i)->getBattery() > 1.0f){
+				neighbors->push_back(this->getRobot(i));
+			}
 		}
 
 	}
