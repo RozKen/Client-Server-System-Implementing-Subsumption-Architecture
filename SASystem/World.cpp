@@ -55,7 +55,7 @@ void World::Update(){
 	for(int i = 0; i < this->modules->size(); i++){
 		robot = this->getRobot(i);
 		////////Battery////////
-		float battery = robot->getInput(0);
+		float battery = robot->getBattery();
 		if(onBatteryCharger(robot)){
 			battery += (float)BAT_GAIN;
 		}
@@ -63,30 +63,66 @@ void World::Update(){
 		if(isAlive(robot)){
 			////////Position////////
 			//fPosX = fPosX + fDeltaX
-			float posX = robot->getInput(1);
-			float dX = robot->getOutput(0);
-			float newX = posX + dX;
+			float posX = robot->getPosX();
+			float dX = robot->getDX();
+			float newX;
+			if(dX != NO_SIGNAL){
+				newX = posX + dX;
+			}else{
+				newX = posX;
+			}
 			if(newX < 0.0f){
 				newX = 0.0f;
 			}else if(newX > FIELD_SIZE){
 				newX = FIELD_SIZE;
 			}
-			robot->setInput(1, newX);
+			robot->setPosX(newX);
 			//fPosY = fPosY + fDeltaY
-			float posY = robot->getInput(2);
-			float dY = robot->getOutput(1);
-			float newY = posY + dY;
+			float posY = robot->getPosY();
+			float dY = robot->getDY();
+			float newY;
+			if(dY != NO_SIGNAL){
+				newY = posY + dY;
+			}else{
+				newY = posY;
+			}
 			if(newY < 0.0f){
 				newY = 0.0f;
 			}else if(newY > FIELD_SIZE){
 				newY = FIELD_SIZE;
 			}
-			robot->setInput(2, newY);
+			robot->setPosY(newY);
 			//Positionに応じてBatteryを減らす
 			if(sqrt(dX) > 0 || sqrt(dY) > 0){
 				battery -= (float)BAT_LOSS;
 			}
 
+			////////Direction////////
+			double theta;
+			if(dX != NO_SIGNAL || dY != NO_SIGNAL){
+				//単位pi : [-PI/2, PI/2]
+				double phi;
+				if(dX == 0.0f){
+					if(dY > 0.0f){
+						phi = PI / 2.0;
+					}else{
+						phi = -PI / 2.0;
+					}
+				}else{
+					phi = atan( dY / dX );
+				}
+				theta = phi * 180.0 / PI;
+			
+				//象限ごとに追加の処理を行なう
+				if(dX < 0){
+					theta += 180.0;
+				}else if(dY < 0){	//第四象限
+					theta += 360.0f;
+				}
+			}else{
+				theta = robot->getDirection();
+			}
+			robot->setDirection(theta);
 			////////Range////////
 			updateRange(robot);
 			////////Radiation////////
@@ -100,11 +136,14 @@ void World::Update(){
 
 		////////MAX_BAT Condition////////
 		if(battery > MAX_BAT){
-			robot->setInput(0, (float)MAX_BAT);
+			robot->setBattery(MAX_BAT);
+			//robot->setInput(0, (float)MAX_BAT);
 		}else if(battery < 0){
-			robot->setInput(0, 0.0f);
+			robot->setBattery(0.0f);
+			//robot->setInput(0, 0.0f);
 		}else{
-			robot->setInput(0, battery);
+			robot->setBattery(battery);
+			//robot->setInput(0, battery);
 		}
 		
 		//For Debug//////////////////////////////////////////////////////////////////////////////////
@@ -241,8 +280,8 @@ void World::generateRadField(){
 
 bool World::onBatteryCharger(const RobotMAV* robot){
 	bool result = false;
-	int i = robot->getInput(1);
-	int j = robot->getInput(2);
+	int i = robot->getPosX();
+	int j = robot->getPosY();
 	if(this->semField[i][j] == ONCHARGER){
 		result = true;
 	}
@@ -251,7 +290,7 @@ bool World::onBatteryCharger(const RobotMAV* robot){
 
 bool World::isAlive(const RobotMAV* robot){
 	bool result = true;
-	if(robot->getInput(0) < 1.0){
+	if(robot->getBattery() < 1.0){
 		result = false;
 	}
 	return result;
@@ -259,8 +298,8 @@ bool World::isAlive(const RobotMAV* robot){
 
 void World::updateRadiation(RobotMAV* robot){
 	//robotの座標 (int)
-	int x = round(robot->getInput(1));
-	int y = round(robot->getInput(2));
+	int x = round(robot->getPosX());
+	int y = round(robot->getPosY());
 	float value;
 	//探索する座標
 	int searchX;
@@ -279,8 +318,8 @@ void World::updateRadiation(RobotMAV* robot){
 
 void World::updateRange(RobotMAV* robot){
 	//robotの座標 (int)
-	int x = round(robot->getInput(1));
-	int y = round(robot->getInput(2));
+	int x = round(robot->getPosX());
+	int y = round(robot->getPosY());
 	/**
 		@brief value[x][y] 
 		x,yは左下が原点
@@ -357,8 +396,8 @@ void World::updateRange(RobotMAV* robot){
 	////////近隣のrobotを探す////////
 	float robotX, robotY;
 	for(int i = 0; i < this->numOfModules; i++){
-		robotX = this->getRobot(i)->getInput(1);
-		robotY = this->getRobot(i)->getInput(2);
+		robotX = this->getRobot(i)->getPosX();
+		robotY = this->getRobot(i)->getPosY();
 		if(robotX != robot->getPosX() && robotY != robot->getPosY()){
 			if( robotX < x + RANGE && robotX > x - RANGE
 				&& robotY < y + RANGE && robotY > y - RANGE){
@@ -454,7 +493,8 @@ void World::updateRange(RobotMAV* robot){
 
 	////Rangeへ出力する
 	for(int i = 0; i < RANGE_DIV; i++){
-		robot->setInput(3 + i, signal[i]);
+		robot->setRange(i, signal[i]);
+		//robot->setInput(4 + i, signal[i]);
 	}
 }
 
@@ -484,7 +524,10 @@ void World::updateNetWork(RobotMAV* robot){
 		//robot->getSenseNet()->setFBoard(i * 2, neighbors->at(i)->getPosX() - x);
 		//robot->getSenseNet()->setFBoard(i * 2 + 1, neighbors->at(i)->getPosY() - y);
 		//上記の通りなので，robotのInputを手動で設定
-		robot->setInput(3 + RANGE_DIV + MAX_AREA + i * 2, neighbors->at(i)->getPosX() - x);
-		robot->setInput(3 + RANGE_DIV + MAX_AREA + i * 2 + 1, neighbors->at(i)->getPosY() - y);
+		robot->setRobot(i, neighbors->at(i)->getPosX() - x, true);
+		robot->setRobot(i, neighbors->at(i)->getPosY() - y, false);
+		//旧version
+		//robot->setInput(4 + RANGE_DIV + MAX_AREA + i * 2, neighbors->at(i)->getPosX() - x);
+		//robot->setInput(4 + RANGE_DIV + MAX_AREA + i * 2 + 1, neighbors->at(i)->getPosY() - y);
 	}
 }

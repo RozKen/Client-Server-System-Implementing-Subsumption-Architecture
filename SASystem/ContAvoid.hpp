@@ -22,6 +22,7 @@
 		<li>Input9: RangeCAv9 : 270</li>
 		<li>Input10: RangeCAv10 : 300</li>
 		<li>Input11: RangeCAv11 : 330</li>
+		<li>Input12: DirectionCAv</li>
 	</ul>
 	<h1>Outputs</h1>
 	<ul>
@@ -63,6 +64,7 @@ inline ContAvoid::ContAvoid() : _rand(0, 1){
 		temp.append(this->intToString(i));
 		this->addInput(temp);
 	}
+	this->addInput("Direction");
 	this->addOutput("dXCAv");
 	this->addOutput("dXCAv");
 }
@@ -89,10 +91,27 @@ inline void ContAvoid::Run(){
 			signalX = 0.0f;
 			signalY = 0.0f;
 		}else{
-			int index = this->round((safeIndex.size() - 1) * _rand());
-			double theta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
-			signalX = (float)MAX_DRIVE * cos(theta);
-			signalY = (float)MAX_DRIVE * sin(theta);
+			//‹Œversion
+			//int index = this->round((safeIndex.size() - 1) * _rand());
+			int index = -1;
+			float delta = 720.0f;
+			float theta = this->getInput(12);
+			for(int i = 0; i < safeIndex.size(); i++){
+				float tmp = sqrt(pow( theta - (float)safeIndex.at(i) * 30.0f, 2 ) );
+				if( delta > tmp ){
+					index = i;
+					delta = tmp;
+				}
+			}
+			if(index != -1){
+				double newTheta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
+				signalX = (float)MAX_DRIVE * cos(newTheta);
+				signalY = (float)MAX_DRIVE * sin(newTheta);
+			}else{
+				//‚»‚Ìê‚É’âŽ~‚·‚é
+				signalX = 0.0f;
+				signalY = 0.0f;
+			}
 		}
 	}else{
 		signalX = NO_SIGNAL;
@@ -102,6 +121,5 @@ inline void ContAvoid::Run(){
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
-
 
 #endif	//_Cont_Avoid_HPP_

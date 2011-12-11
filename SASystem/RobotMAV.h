@@ -70,6 +70,15 @@ public:
 	///Each Methods are equivalent to [get/set]Inputs(index) excepts getColor[R,G,B]
 
 	/**
+		@brief getDX via Output
+	 */
+	float getDX() const;
+	/**
+		@brief getDY via Output
+	 */
+	float getDY() const;
+
+	/**
 		@brief getBatteryStatus via Input
 	 */
 	float getBattery() const;
@@ -94,11 +103,25 @@ public:
 	 */
 	void setPosY(float value);
 	/**
+		@brief get Direction via Input
+	 */
+	float getDirection() const;
+	/**
+		@brief set Direction via Input
+	 */
+	void setDirection(float value);
+	/**
 		@brief get Range Sensor Value
 		@param index Šp“x‚É‰ž‚¶‚½index
 		@return Range Sensor’l
 	 */
 	float getRange(int index) const;
+	/**
+		@brief set Range Sensor Value
+		@param index Šp“x‚É‰ž‚¶‚½index
+		@param value Range Sensor’l
+	 */
+	void setRange(int index, float value);
 	/**
 		@brief get Radiation Sensor Value
 		@param index Hash‚É‰ž‚¶‚½index
@@ -112,6 +135,21 @@ public:
 
 	 */
 	void setRad(int index, float value);
+	/**
+		@brief get Coordinate of Robot at index
+		@param index which Robot
+		@param x-axis : true, y-axis. false
+		@return Coordinate of the Robot
+	 */
+	float getRobot(int index, bool x);
+	/**
+		@brief set Coordinate of Robot at index
+		@param index which Robot
+		@param value Robot Position
+		@param x-axis : true, y-axis. false
+	 */
+	void setRobot(int index, float value, bool x);
+	
 	/**
 		@brief get Red Color of Current Robot
 	 */

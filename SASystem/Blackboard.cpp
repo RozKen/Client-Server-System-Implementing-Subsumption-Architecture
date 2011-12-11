@@ -1,5 +1,6 @@
 #include "Logger.h"
 #include "Blackboard.h"
+#include <iostream>
 
 void Blackboard::Update(){
 }
@@ -18,6 +19,9 @@ int Blackboard::addInputPort(std::string title){
 	numOfInputPorts = inputs->size();
 	///Logger‚É‹L˜^‚·‚é‚æ‚¤Ý’è
 	logger->add(title, inputs, index);
+	if(index < 0){
+		std::cout << "Index has wrong value : " << index << ", Blackboard::input: " << title << std::endl;
+	}
 	return index;
 }
 int Blackboard::addOutputPort(std::string title){
@@ -29,6 +33,9 @@ int Blackboard::addOutputPort(std::string title){
 	numOfOutputPorts = outputs->size();
 	///Logger‚É‹L˜^‚·‚é‚æ‚¤Ý’è
 	logger->add(title, outputs, index);
+	if(index < 0){
+		std::cout << "Index has wrong value : " << index << ", Blackboard::output: " << title << std::endl;
+	}
 	return index;
 }
 

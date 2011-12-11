@@ -97,12 +97,18 @@ void Robot::addModule(SAModule *module){
 	//moduleの入力を，このロボットのinnerMemoryの出力と接続
 	for(int i = 0; i < module->getNumOfInputPorts(); i++){
 		index = this->innerMemory->addOutputPort(module->getInputTitles()->at(i));
+		if(index < 0){
+			std::cout << "Index has wrong value : " << index << ", Robot::Input: " << module->getInputTitles()->at(i) << std::endl;
+		}
 		module->addInputIndex(index);
 	}
 
 	//moduleの出力を，このロボットのinnerMemoryの入力と接続
 	for(int i = 0; i < module->getNumOfOutputPorts(); i++){
 		index = this->innerMemory->addInputPort(module->getOutputTitles()->at(i));
+		if(index < 0){
+			std::cout << "Index has wrong value : " << index << ", Robot::Output: " << module->getInputTitles()->at(i) << std::endl;
+		}
 		module->addOutputIndex(index);
 	}
 	

@@ -115,6 +115,7 @@
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SenseBattery.hpp" />
+    <ClInclude Include="SenseDirection.hpp" />
     <ClInclude Include="SenseNet.hpp" />
     <ClInclude Include="SensePos.hpp" />
     <ClInclude Include="SenseRadiation.hpp" />

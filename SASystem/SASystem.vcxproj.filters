@@ -176,5 +176,8 @@
     <ClInclude Include="ContConnect.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="SenseDirection.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,19 +33,19 @@ void RobotMAV::Initialize(){
 	//Batteryセンサを追加
 	SenseBattery* sB = new SenseBattery();
 	this->addModule(sB);
-	//sB->setFBoard(0, 100.0f);
+	
 	//位置センサを追加
 	SensePos* sP = new SensePos();
 	this->addModule(sP);
-	//sP->setFBoard(0, START_X);
-	//sP->setFBoard(1, START_Y);
+	
+	//方向センサを追加
+	SenseDirection* sD = new SenseDirection();
+	this->addModule(sD);
 
 	//距離センサを追加
 	SenseRange* sR = new SenseRange();
 	this->addModule(sR);
-	//for(int i = 0; i < sR->getFBoardTitles()->size(); i++){
-	//	sR->setFBoard(i, 4.0f);
-	//}
+	
 
 	//放射線量センサを追加
 	SenseRadiation* sRad = new SenseRadiation();
@@ -107,35 +107,48 @@ void RobotMAV::Initialize(){
 	modColor[4][2] = 1.0f;
 
 	*/
+
 	/////Actuatorを追加
 	//位置Actuatorを追加
 	ActPos* aP = new ActPos();
 	this->addModule(aP);
 
+	std::cout << "Number of Modules" << this->getNumOfModules() << std::endl;
+
 	///Arbiterを追加
 	///先にWireObjects
+	
 	///0 - 11 :距離センサ->Avoid
 	Arbiter* sRcAv[RANGE_DIV];
 	for(int i = 0; i < RANGE_DIV; i++){
 		sRcAv[i] = new Arbiter(sR, i, cAv, i, 2.0f);
 		this->addArbiter(sRcAv[i]);
 	}
-	///12:Batteryセンサ->Alive
+
+	///12 : 方向センサ->Avoid
+	Arbiter* sDcAv;
+	sDcAv = new Arbiter(sD, 0, cAv, RANGE_DIV, 2.0f);
+	this->addArbiter(sDcAv);
+	
+	///13 : Batteryセンサ->Alive
 	Arbiter* sBcAl = new Arbiter(sB, 0, cAl, 0, 2.0f);
 	this->addArbiter(sBcAl);
-	///13, 14:位置センサ->Alive
+	
+	///14, 15:位置センサ->Alive
 	Arbiter* sPcAl[2];
 	for(int i = 0; i < 2; i++){
 		sPcAl[i] = new Arbiter(sP, i , cAl, i + 1, 2.0f);
 		this->addArbiter(sPcAl[i]);
 	}
-	///15, 16:位置センサ->Wander
+	
+	///16, 17:位置センサ->Wander
 	Arbiter* sPcW[2];
 	for(int i = 0; i < 2; i++){
 		sPcW[i] = new Arbiter(sP, i, cW, i, 2.0f);
 		this->addArbiter(sPcW[i]);
 	}
-	///17 - 26: Networkセンサ->Connect
+	
+	///18 - 27: Networkセンサ->Connect
 	Arbiter* sNcC[WIFI_CONNECT * 2];
 	for(int i = 0; i < WIFI_CONNECT * 2; i++){
 		sNcC[i] = new Arbiter(sN, i, cC, i, 2.0f);
@@ -144,33 +157,36 @@ void RobotMAV::Initialize(){
 
 	/////////以下の順番は重要．/////////
 	/////////階層の低い者から実施するため////
-	///27, 28:Avoid->位置Actuator	//Suppressされたデータが流れるWire
+	///28, 29:Avoid->位置Actuator	//Suppressされたデータが流れるWire
 	Arbiter* cAvaP[2];
 	for(int i = 0; i < 2; i++){
 		cAvaP[i] = new Arbiter(cAv, i, aP, i, 2.0f);
 		this->addArbiter(cAvaP[i]);
 	}
-	///29, 30:Suppress Alive -> 位置Actuator
+	
+	///30, 31:Suppress Alive -> 位置Actuator
 	Arbiter* cAlaP[2];
 	for(int i = 0; i < 2; i++){
 		cAlaP[i] = new Arbiter(cAl, i, aP, i, 1.0f);
 		this->addArbiter(cAlaP[i]);
 	}
-	///31, 32:Suppress Wander -> 位置Actuator
+	
+	///32, 33:Suppress Wander -> 位置Actuator
 	Arbiter* cWaP[2];
 	for(int i = 0; i < 2; i++){
 		cWaP[i] = new Arbiter(cW, i, aP, i, 1.0f);
 		this->addArbiter(cWaP[i]);
 	}
 	//暫定的に入れ替えてみる
-	///33, 34:Suppress Connect -> 位置Actuator
+	
+	///34, 35:Suppress Connect -> 位置Actuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
 		this->addArbiter(cCaP[i]);
 	}
 
-	///35, 36:Suppress Explore -> 位置Actuator
+	///36, 37:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
@@ -178,14 +194,14 @@ void RobotMAV::Initialize(){
 	}
 
 	/*
-	///33, 34:Suppress Explore -> 位置Actuator
+	///34, 35:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
 		this->addArbiter(cEaP[i]);
 	}
 
-	///35, 36:Suppress Connect -> 位置Actuator
+	///36, 37:Suppress Connect -> 位置Actuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
@@ -216,6 +232,14 @@ void RobotMAV::Update(){
 	updateInnerRadMap();
 }
 
+float RobotMAV::getDX() const {
+	return this->getOutput(0);
+}
+
+float RobotMAV::getDY() const {
+	return this->getOutput(1);
+}
+
 float RobotMAV::getBattery() const{
 	return this->getInput(0);
 }
@@ -235,16 +259,43 @@ void RobotMAV::setPosY(float value){
 	this->setInput(2, value);
 }
 
+float RobotMAV::getDirection() const{
+	return this->getInput(3);
+}
+void RobotMAV::setDirection(float value){
+	this->setInput(3, value);
+}
+
 float RobotMAV::getRange(int index) const{
-	return this->getInput(3 + index);
+	return this->getInput(4 + index);
+}
+
+void RobotMAV::setRange(int index, float value){
+	this->setInput(4 + index, value);
 }
 
 float RobotMAV::getRad(int index) const{
-	return this->getInput(3 + RANGE_DIV + index);
+	return this->getInput(4 + RANGE_DIV + index);
 }
 
 void RobotMAV::setRad(int index, float value){
-	this->setInput(3 + RANGE_DIV + index, value);
+	this->setInput(4 + RANGE_DIV + index, value);
+}
+
+float RobotMAV::getRobot(int index, bool x){
+	int odd = 1;
+	if(x){
+		odd = 0;
+	}
+	return this->getInput(4 + RANGE_DIV + MAX_AREA + index * 2 + odd);
+}
+
+void RobotMAV::setRobot(int index, float value, bool x){
+	int odd = 1;
+	if(x){
+		odd = 0;
+	}
+	this->setInput(4 + RANGE_DIV + MAX_AREA + index * 2 + odd, value);
 }
 
 float RobotMAV::getColorR() const{
@@ -263,16 +314,16 @@ void RobotMAV::ProcessArbiters(){
 	for(int i = 0; i < arbiters->size(); i++){
 		arbiters->at(i)->Run();
 		switch(i){
-		case 29:	//Alive Suppress Avoid and ActPos
+		case 30:	//Alive Suppress Avoid and ActPos
 			ratios[0] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 31:	//Wander Suppress Alive, Avoid and ActPos
+		case 32:	//Wander Suppress Alive, Avoid and ActPos
 			ratios[1] = arbiters->at(i)->getCurrentRatio();
 			break;
 		case 33:	//Explore Suppress Wander, Alive, Avoid and ActPos
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 35:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
+		case 36:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
 			ratios[3] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
