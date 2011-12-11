@@ -359,6 +359,7 @@ void RobotMAV::ProcessArbiters(){
 }
 
 void RobotMAV::updateInnerGeoMap(){
+	//Self Acquired Data
 	for(int i = 0; i < RANGE_DIV; i++){
 		float range = this->getRange(i);
 		if(range < RANGE_DANGER){
@@ -369,13 +370,42 @@ void RobotMAV::updateInnerGeoMap(){
 			geoMap[x][y] = OUTOFAREA;
 		}
 	}
+
+	//Collect Data from Other Robots
+	for(int i = 0; i < WIFI_CONNECT && i < nearest->size(); i++){
+		RobotMAV* robot = nearest->at(i);
+		float value;
+		for(int j = 0; j < FIELD_SIZE; j++){
+			for(int k = 0; k < FIELD_SIZE; k++){
+				value = robot->geoMap[j][k];
+				if(value != NO_DATA){
+					this->geoMap[j][k] = value;
+				}
+			}
+		}
+	}
 }
 
 void RobotMAV::updateInnerRadMap(){
+	//Self Acquired Data
 	for(int i = 0; i < MAX_AREA; i++){
 		int x = round(this->getPosX()) + ((World *)(this->parent))->getHash(0, i);
 		int y = round(this->getPosY()) + ((World *)(this->parent))->getHash(1, i);
 		radMap[x][y] = this->getRad(i);
+	}
+
+	//Collect Data from Other Robots
+	for(int i = 0; i < WIFI_CONNECT && i < nearest->size(); i++){
+		RobotMAV* robot = nearest->at(i);
+		float value;
+		for(int j = 0; j < FIELD_SIZE; j++){
+			for(int k = 0; k < FIELD_SIZE; k++){
+				value = robot->radMap[j][k];
+				if(value != NO_DATA){
+					this->radMap[j][k] = value;
+				}
+			}
+		}
 	}
 }
 

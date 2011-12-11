@@ -245,7 +245,7 @@ void World::generateRadField(){
 		emitPosX.push_back(x);
 		emitPosY.push_back(y);
 	}
-	//Calculate Radiation Volumne at each point
+	//Calculate Radiation Volume at each point
 	for(int i = 0; i < FIELD_SIZE; i++){
 		for(int j = 0; j < FIELD_SIZE; j++){
 			if(radField[i][j] == NO_DATA){
