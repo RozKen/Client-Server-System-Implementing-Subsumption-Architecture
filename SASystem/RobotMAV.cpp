@@ -10,6 +10,14 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 	Initialize();
 }
 
+RobotMAV::~RobotMAV(){
+	delete(geoMap);
+	delete(radMap);
+	delete(nearest);
+	delete(color);
+	delete(modColor);
+}
+
 void RobotMAV::Initialize(){
 	///Member‚Ì”z—ñ‚ğ‰Šú‰»
 	for(int i = 0; i < FIELD_SIZE; i++){

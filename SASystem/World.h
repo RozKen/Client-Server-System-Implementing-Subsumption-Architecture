@@ -3,17 +3,6 @@
 
 #include "RobotMAV.h"
 
-/**
-	@brief 位置を表す構造体
-	x, yの2次元
- */
-/*
-typedef struct {
-	int x;
-	int y;
-} position;
-*/
-
 class World : public Robot{
 public:
 	/**
@@ -25,6 +14,10 @@ public:
 		@brief Constructor
 	 */
 	World(std::string directoryPath, std::string fileName);
+	/**
+		@brief Destructor. Clear Memories.
+	 */
+	~World();
 	/**
 		@brief 世界を1clock進める
 		<ol>

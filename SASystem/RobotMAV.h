@@ -50,6 +50,11 @@ public:
 	RobotMAV(std::string directoryPath, std::string fileName);
 
 	/**
+		@brief Destructor. Clear Memories.
+	 */
+	~RobotMAV();
+
+	/**
 		@brief Às‚Ì“®ì
 		@sa SAModule::Run()
 	 */
