@@ -205,11 +205,11 @@ inline Blackboard::Blackboard(std::string directoryPath, std::string fileName){
 }
 
 inline Blackboard::~Blackboard(){
-	delete(inputs);
-	delete(outputs);
-	delete(iBoard);
-	delete(fBoard);
-	delete(logger);
+	delete inputs;
+	delete outputs;
+	delete iBoard;
+	delete fBoard;
+	delete logger;
 }
 
 inline void Blackboard::setLogFilePath(std::string logFilePath){

@@ -22,8 +22,12 @@ Robot::Robot(std::string directoryPath, std::string fileName)
 }
 
 Robot::~Robot(){
-	delete(modules);
-	delete(arbiters);
+	delete modules;
+	delete arbiters;
+	delete innerWireSrcType;
+	delete innerWireSrcIndex;
+	delete innerWireDestType;
+	delete innerWireDestIndex;
 }
 
 void Robot::Initialize(){
@@ -177,6 +181,7 @@ void Robot::addModule(SAModule *module){
 			this->innerWireDestIndex->push_back(this->outputTitles->size() - 1);
 		}
 	}
+	delete(titles);
 }
 
 void Robot::addArbiter(Arbiter *arbiter){

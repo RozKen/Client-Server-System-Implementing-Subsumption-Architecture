@@ -31,7 +31,7 @@ public:
 	/**
 		@brief Destructor. delete vectors
 	 */
-	~Robot();
+	virtual ~Robot();
 	virtual void Run();
 	/**
 		@brief ƒ‚ƒWƒ…[ƒ‹‚ğ“o˜^‚·‚é

@@ -17,7 +17,7 @@ public:
 	/**
 		@brief Destructor. Clear Memories.
 	 */
-	~World();
+	virtual ~World();
 	/**
 		@brief ¢ŠE‚ğ1clocki‚ß‚é
 		<ol>

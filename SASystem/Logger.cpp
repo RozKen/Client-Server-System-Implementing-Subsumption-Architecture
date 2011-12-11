@@ -28,6 +28,10 @@ Logger::Logger(std::string directoryPath, std::string fileName)
 
 Logger::~Logger(){
 	ofs.close();
+	logTitles.clear();
+	logTypes.clear();
+	logContents.clear();
+	logArrayIndex.clear();
 }
 
 void Logger::Log(){

@@ -44,7 +44,7 @@ public:
 	/**
 		@brief Destructor
 	 */
-	~Logger();
+	virtual ~Logger();
 	/**
 		@brief <b>Œ»İ‚Ìó‘Ô(•Ï”)‚ğ‹L˜^</b>
 	 */

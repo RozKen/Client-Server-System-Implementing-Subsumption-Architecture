@@ -28,10 +28,10 @@ World::World(std::string directoryPath, std::string fileName)
 }
 
 World::~World(){
-	delete(hash);
-	delete(geoField);
-	delete(semField);
-	delete(radField);
+	delete [] hash;
+	delete [] geoField;
+	delete [] semField;
+	delete [] radField;
 }
 
 void World::Initialize(){
@@ -281,6 +281,9 @@ void World::generateRadField(){
 		ofsRadField << std::endl;
 	}
 
+	emitPosX.clear();
+	emitPosY.clear();
+
 	ofsRadField.close();
 
 }
@@ -503,6 +506,7 @@ void World::updateRange(RobotMAV* robot){
 		robot->setRange(i, signal[i]);
 		//robot->setInput(4 + i, signal[i]);
 	}
+
 }
 
 void World::updateNetWork(RobotMAV* robot){
@@ -540,4 +544,5 @@ void World::updateNetWork(RobotMAV* robot){
 		//robot->setInput(4 + RANGE_DIV + MAX_AREA + i * 2, neighbors->at(i)->getPosX() - x);
 		//robot->setInput(4 + RANGE_DIV + MAX_AREA + i * 2 + 1, neighbors->at(i)->getPosY() - y);
 	}
+	delete neighbors;
 }

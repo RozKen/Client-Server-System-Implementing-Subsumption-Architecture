@@ -16,16 +16,16 @@ SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 }
 
 SAModule::~SAModule(){
-	delete(inputIndex);
-	delete(outputIndex);
-	delete(iBoardIndex);
-	delete(fBoardIndex);
-	delete(inputTitles);
-	delete(outputTitles);
-	delete(iBoardTitles);
-	delete(fBoardTitles);
-	delete(memory);
-	delete(innerMemory);
+	delete inputIndex;
+	delete outputIndex;
+	delete iBoardIndex;
+	delete fBoardIndex;
+	delete inputTitles;
+	delete outputTitles;
+	delete iBoardTitles;
+	delete fBoardTitles;
+	delete memory;
+	delete innerMemory;
 }
 
 void SAModule::Log(){

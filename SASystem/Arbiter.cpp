@@ -34,6 +34,11 @@ Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort,
 		addOutputIndex(dest->getInputIndex(destPort));
 }
 
+Arbiter::~Arbiter(){
+	delete source;
+	delete destination;
+}
+
 void Arbiter::Run(){
 	this->setOutput((float)generateSignal());
 }

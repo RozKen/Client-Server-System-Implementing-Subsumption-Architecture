@@ -32,6 +32,10 @@ public:
 	Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, 
 		float factor_min, float factor_max);
 	/**
+		@brief Destructor. Free Memories
+	 */
+	virtual ~Arbiter();
+	/**
 		@brief Transfer/Modify/Arbit Signal
 		@sa generateSignal
 	 */

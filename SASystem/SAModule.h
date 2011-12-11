@@ -23,7 +23,7 @@ public:
 	/**
 		@brief Destructor. Delete std::vector
 	 */
-	~SAModule();
+	virtual ~SAModule();
 	/**
 		@brief モジュールを動作させる．
 		純粋仮想関数．継承した子クラスでの定義が必須

@@ -11,11 +11,11 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 }
 
 RobotMAV::~RobotMAV(){
-	delete(geoMap);
-	delete(radMap);
-	delete(nearest);
-	delete(color);
-	delete(modColor);
+	delete [] geoMap;
+	delete [] radMap;
+	delete nearest;
+	delete color;
+	delete [] modColor;
 }
 
 void RobotMAV::Initialize(){

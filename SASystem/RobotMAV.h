@@ -52,7 +52,7 @@ public:
 	/**
 		@brief Destructor. Clear Memories.
 	 */
-	~RobotMAV();
+	virtual ~RobotMAV();
 
 	/**
 		@brief Às‚Ì“®ì

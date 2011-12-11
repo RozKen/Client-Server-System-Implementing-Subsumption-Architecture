@@ -29,6 +29,7 @@ void glMouse(int b,int s,int x,int y);
 void glKeyboard(unsigned char key , int x, int y);
 
 World* world;
+std::vector<RobotMAV*>* mav;
 clock_t start, end;
 
 int main(int argc, char** argv){	
@@ -57,6 +58,10 @@ int main(int argc, char** argv){
 	Init();
 
 	glutMainLoop();
+
+	delete(world);
+	delete(mav);
+	
 	return 0;
 }
 
@@ -70,7 +75,7 @@ void Init(){
 	//Å‰‚ÌˆÊ’u‚ÌXÀ•W‚ğƒ‰ƒ“ƒ_ƒ€‚É‚¸‚ç‚·
 	Random<boost::uniform_int<> > _numBatGen(-15, 15);
 
-	std::vector<RobotMAV*>* mav = new std::vector<RobotMAV*>();
+	mav = new std::vector<RobotMAV*>();
 	for(int i = 0; i < NUM_ROBOT; i++){
 		mav->push_back(new RobotMAV(directory, "mav" + world->intToString(i) + ".csv"));
 		world->addRobot(mav->at(i));
