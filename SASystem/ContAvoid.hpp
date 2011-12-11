@@ -44,7 +44,8 @@ public:
 		<ul>
 			<li>近くに危険な物体があるとき</li>
 			<ul>
-				<li>安全な方向があればそちらへ</li>
+				<li>安全な方向があればそちらへ.
+					進行方向は出来るだけ保存する</li>
 				<li>なければ停止する</li>
 			</ul>
 			<li>周りがすべて安全なとき，NO_SIGNAL</li>
@@ -55,6 +56,8 @@ public:
 protected:
 	///Random Generator
 	Random<boost::uniform_real<> > _rand;
+	///前回進んだ方向
+	float direction;
 };
 
 inline ContAvoid::ContAvoid() : _rand(0, 1){
@@ -67,6 +70,7 @@ inline ContAvoid::ContAvoid() : _rand(0, 1){
 	this->addInput("Direction");
 	this->addOutput("dXCAv");
 	this->addOutput("dXCAv");
+	direction = _rand() * 360.0;
 }
 
 inline void ContAvoid::Run(){
@@ -79,7 +83,14 @@ inline void ContAvoid::Run(){
 
 	for(int i = 0; i < RANGE_DIV; i++){
 		if(this->getInput(i) < RANGE_DANGER){
-			danger = true;
+			float angle = sqrt(pow(direction - RANGE_DEG * (float)i, 2));
+			if(angle > 180.0f){
+				angle = 360.0f - angle;
+			}
+			//以前の進行方向の左右15度以内に危険なものがあれば
+			if(angle < 15.0f){
+				danger = true;
+			}
 		}else{
 			safeIndex.push_back(i);
 		}
@@ -94,14 +105,21 @@ inline void ContAvoid::Run(){
 			//旧version
 			//int index = this->round((safeIndex.size() - 1) * _rand());
 			int index = -1;
-			float delta = 720.0f;
+			int index2 = -1;
+			float delta = 1000.0f;
+			float delta2 = delta;
 			float theta = this->getInput(12);
 			for(int i = 0; i < safeIndex.size(); i++){
 				float tmp = sqrt(pow( theta - (float)safeIndex.at(i) * 30.0f, 2 ) );
 				if( delta > tmp ){
+					index2 = index;
 					index = i;
+					delta2 = delta;
 					delta = tmp;
 				}
+			}
+			if(index2 != -1){
+				index = index2;
 			}
 			if(index != -1){
 				double newTheta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
@@ -120,6 +138,8 @@ inline void ContAvoid::Run(){
 
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
+	//Update Internal Variable
+	direction = this->getInput(12);
 }
 
 #endif	//_Cont_Avoid_HPP_

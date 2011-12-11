@@ -51,9 +51,14 @@ public:
 		@sa WIFI_BALANCE
 	 */
 	virtual void Run();
+protected:
+	/**
+		@brief Random Generator.WIFI_BALANCE関連で利用
+	 */
+	Random<boost::uniform_real<> > rand;
 };
 
-inline ContConnect::ContConnect(){
+inline ContConnect::ContConnect() : rand(0.0, 1.0){
 	std::string head = "Robot";
 	std::string foot = "CC";
 	//Add Inputs
@@ -101,7 +106,6 @@ inline void ContConnect::Run(){
 	}
 
 	//切れそうなものがなかったら，時々バランスをとる
-	Random<boost::uniform_real<> > rand(0.0, 1.0);
 	if(signalX == NO_SIGNAL && signalY == NO_SIGNAL){
 		if(rand() < WIFI_BALANCE){
 			signalX = 0.0f;
