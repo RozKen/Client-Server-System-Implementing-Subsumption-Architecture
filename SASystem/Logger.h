@@ -122,7 +122,7 @@ protected:
 	///ログファイルを書き出す場所へのpath
 	std::string logFilePath;
 	///ログの種類を説明するタイトル．一行目に表示される
-	std::vector<std::string> logTitles;
+	std::vector<std::string> *logTitles;
 	/**
 		@brief ログの変数の種類
 		<ul>
@@ -134,10 +134,10 @@ protected:
 				logArrayIndexに書いてあるindexの要素</li>
 		</ul>
 	 */
-	std::vector<int>	logTypes;
+	std::vector<int>	*logTypes;
 	///記録する変数へのポインタ
-	std::vector<void *> logContents;
-	std::vector<int>	logArrayIndex;
+	std::vector<void *> *logContents;
+	std::vector<int>	*logArrayIndex;
 	///Logした回数のカウンタ
 	int count;
 	/**

@@ -8,6 +8,10 @@
 
 Logger::Logger(): count(0), logFilePath(""), logDirectoryPath("")
 	, logFileName(""){
+		logTitles = new std::vector<std::string>();
+		logTypes = new std::vector<int>();
+		logContents = new std::vector<void *>();
+		logArrayIndex = new std::vector<int>();
 }
 
 Logger::Logger(std::string filePath)
@@ -28,32 +32,36 @@ Logger::Logger(std::string directoryPath, std::string fileName)
 
 Logger::~Logger(){
 	ofs.close();
-	logTitles.clear();
-	logTypes.clear();
-	logContents.clear();
-	logArrayIndex.clear();
+	logTitles->clear();
+	logTypes->clear();
+	logContents->clear();
+	logArrayIndex->clear();
+	delete logTitles;
+	delete logTypes;
+	delete logContents;
+	delete logArrayIndex;
 }
 
 void Logger::Log(){
 	if(count == 0){
-		for(int i = 0; i < logTitles.size(); i++){
-			ofs << logTitles[i] << ",";
+		for(int i = 0; i < logTitles->size(); i++){
+			ofs << logTitles->at(i) << ",";
 		}
 		ofs << std::endl;
 	}
-	for(int i = 0; i < logContents.size(); i++){
-		switch(logTypes[i]){
+	for(int i = 0; i < logContents->size(); i++){
+		switch(logTypes->at(i)){
 		case 0:
-			ofs << *((int *)(logContents[i])) << ",";
+			ofs << *((int *)(logContents->at(i))) << ",";
 			break;
 		case 1:
-			ofs << *((float *)(logContents[i])) << ",";
+			ofs << *((float *)(logContents->at(i))) << ",";
 			break;
 		case 2:
-			ofs << ((std::vector<int> *)logContents.at(i))->at(logArrayIndex.at(i)) << ",";
+			ofs << ((std::vector<int> *)logContents->at(i))->at(logArrayIndex->at(i)) << ",";
 			break;
 		case 3:
-			ofs << ((std::vector<float> *)logContents.at(i))->at(logArrayIndex.at(i)) << ",";
+			ofs << ((std::vector<float> *)logContents->at(i))->at(logArrayIndex->at(i)) << ",";
 			break;
 		default:
 			ofs << "Invalid Type Value,";
@@ -71,36 +79,40 @@ void Logger::Initialize(){
 		this->ofs.open(logFilePath);
 		this->add("count", &count);
 	}
+	logTitles = new std::vector<std::string>();
+	logTypes = new std::vector<int>();
+	logContents = new std::vector<void *>();
+	logArrayIndex = new std::vector<int>();
 }
 
 void Logger::add(std::string title, int* pointer_to_integer_variable){
-	logTitles.push_back(title);
-	logTypes.push_back(0);
-	logContents.push_back((void*) pointer_to_integer_variable);
-	logArrayIndex.push_back(-1);
+	logTitles->push_back(title);
+	logTypes->push_back(0);
+	logContents->push_back((void*) pointer_to_integer_variable);
+	logArrayIndex->push_back(-1);
 }
 
 void Logger::add(std::string title, float* pointer_to_float_variable){
-	logTitles.push_back(title);
-	logTypes.push_back(1);
-	logContents.push_back((void*) pointer_to_float_variable);
-	logArrayIndex.push_back(-1);
+	logTitles->push_back(title);
+	logTypes->push_back(1);
+	logContents->push_back((void*) pointer_to_float_variable);
+	logArrayIndex->push_back(-1);
 }
 
 void Logger::add(std::string title, std::vector<int>* vector, int index){
-	logTitles.push_back(title);
-	logTypes.push_back(2);
-	logContents.push_back((void*) vector);
-	logArrayIndex.push_back(index);
+	logTitles->push_back(title);
+	logTypes->push_back(2);
+	logContents->push_back((void*) vector);
+	logArrayIndex->push_back(index);
 }
 
 void Logger::add(std::string title, std::vector<float>* vector, int index){
-	logTitles.push_back(title);
-	logTypes.push_back(3);
+	logTitles->push_back(title);
+	logTypes->push_back(3);
 	//logContentsには配列全体を入れておく
-	logContents.push_back((void *) vector);
+	logContents->push_back((void *) vector);
 	//pushはしないけど，なにかしたいよね…
-	logArrayIndex.push_back(index);
+	logArrayIndex->push_back(index);
 }
 
 std::string Logger::intToString(int number){
