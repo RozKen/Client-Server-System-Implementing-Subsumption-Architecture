@@ -6,6 +6,39 @@ void ContExplore::Run(){
 	//Current Position
 	float x = ((RobotMAV*)(this->parent))->getPosX();
 	float y = ((RobotMAV*)(this->parent))->getPosY();
+	
+	if(destination[0] != NO_DATA && destination[1] != NO_DATA){
+		if(//geoMap
+			((RobotMAV*)(this->parent))->geoMap[destination[0]][destination[1]] == NO_DATA
+			||
+			//radMap
+			((RobotMAV*)(this->parent))->radMap[destination[0]][destination[1]] == NO_DATA
+			){
+				DecideDestination();
+		}
+	}else{
+		DecideDestination();
+	}
+
+	//Generate Signals
+	float signalX = NO_SIGNAL;
+	float signalY = NO_SIGNAL;
+	if(destination[0] != -1 && destination[1] != -1){
+		float norm = sqrt(pow((double)destination[0] - x, 2) + pow((double)destination[1] - y, 2));
+		if(norm != 0.0f){
+			signalX = (destination[0] - x) / norm;
+			signalY = (destination[1] - y) / norm;
+		}
+	}
+	//Set Outputs
+	this->setOutput(0, signalX);
+	this->setOutput(1, signalY);
+}
+
+void ContExplore::DecideDestination(){
+	//Current Position
+	float x = ((RobotMAV*)(this->parent))->getPosX();
+	float y = ((RobotMAV*)(this->parent))->getPosY();
 	//Destination
 	int destX = -1;
 	int destY = -1;
@@ -29,18 +62,6 @@ void ContExplore::Run(){
 			}
 		}
 	}
-
-	//Generate Signals
-	float signalX = NO_SIGNAL;
-	float signalY = NO_SIGNAL;
-	if(destX != -1 && destY != -1){
-		float norm = sqrt(pow((double)destX - x, 2) + pow((double)destY - y, 2));
-		if(norm != 0.0f){
-			signalX = (destX - x) / norm;
-			signalY = (destY - y) / norm;
-		}
-	}
-	//Set Outputs
-	this->setOutput(0, signalX);
-	this->setOutput(1, signalY);
+	destination[0] = destX;
+	destination[1] = destY;
 }

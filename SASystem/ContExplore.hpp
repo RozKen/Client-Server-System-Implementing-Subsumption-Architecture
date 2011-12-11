@@ -31,6 +31,10 @@ public:
 					innerMapから探し，そこを目指して動く
 				</li>
 				<li>
+					すでに目的地が設定されている場合は，新規に探さず，
+					そこを目指して動く
+				</li>
+				<li>
 					NO_DATAがない場合や，NO_DATAが自分の位置の時は
 					出力をNO_SIGNALとする
 				</li>
@@ -39,11 +43,21 @@ public:
 		@sa radMap
 	 */
 	virtual void Run();
+	/**
+		@brief 新たに目的地を定める
+	 */
+	void DecideDestination();
+protected:
+	///目的地の座標
+	int destination[2];
 };
 
 inline ContExplore::ContExplore(){
 	this->addOutput("dXCExp");
 	this->addOutput("dYCExp");
+
+	destination[0] = NO_DATA;
+	destination[1] = NO_DATA;
 }
 
 #endif	//_Cont_Explore_HPP_
