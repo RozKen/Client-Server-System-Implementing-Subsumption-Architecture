@@ -205,6 +205,10 @@ inline Blackboard::Blackboard(std::string directoryPath, std::string fileName){
 }
 
 inline Blackboard::~Blackboard(){
+	inputs->clear();
+	outputs->clear();
+	iBoard->clear();
+	fBoard->clear();
 	delete inputs;
 	delete outputs;
 	delete iBoard;

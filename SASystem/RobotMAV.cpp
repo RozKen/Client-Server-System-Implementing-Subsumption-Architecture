@@ -11,6 +11,13 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 }
 
 RobotMAV::~RobotMAV(){
+	for(int i = 0; i < modules->size(); i++){
+		delete modules->at(i);
+	}
+	for(int i = 0; i < arbiters->size(); i++){
+		delete arbiters->at(i);
+	}
+	nearest->clear();
 	delete [] geoMap;
 	delete [] radMap;
 	delete nearest;
@@ -39,45 +46,45 @@ void RobotMAV::Initialize(){
 	///Sensorを追加
 	///////Sensorには初期値も与える必要がある.
 	//Batteryセンサを追加
-	SenseBattery* sB = new SenseBattery();
+	sB = new SenseBattery();
 	this->addModule(sB);
 	
 	//位置センサを追加
-	SensePos* sP = new SensePos();
+	sP = new SensePos();
 	this->addModule(sP);
 	
 	//方向センサを追加
-	SenseDirection* sD = new SenseDirection();
+	sD = new SenseDirection();
 	this->addModule(sD);
 
 	//距離センサを追加
-	SenseRange* sR = new SenseRange();
+	sR = new SenseRange();
 	this->addModule(sR);
 	
 
 	//放射線量センサを追加
-	SenseRadiation* sRad = new SenseRadiation();
+	sRad = new SenseRadiation();
 	this->addModule(sRad);
 
 	//Network接続センサを追加
-	SenseNet* sN = new SenseNet();
+	sN = new SenseNet();
 	this->addModule(sN);
 
 	///Controllerを追加
 	///Avoid : Red
-	ContAvoid* cAv = new ContAvoid();
+	cAv = new ContAvoid();
 	this->addModule(cAv);
 	modColor[0][0] = 1.0f;
 	modColor[0][1] = 0.0f;
 	modColor[0][2] = 0.0f;
 	///Alive : Yellow
-	ContAlive* cAl = new ContAlive();
+	cAl = new ContAlive();
 	this->addModule(cAl);	
 	modColor[1][0] = 1.0f;
 	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
 	///Wander : Gray
-	ContWander* cW = new ContWander();
+	cW = new ContWander();
 	this->addModule(cW);
 	modColor[2][0] = 0.5f;
 	modColor[2][1] = 0.5f;
@@ -85,14 +92,14 @@ void RobotMAV::Initialize(){
 
 	//暫定的に入れ替えてみる
 	///ContConnect : White
-	ContConnect* cC = new ContConnect();
+	cC = new ContConnect();
 	this->addModule(cC);
 	modColor[3][0] = 1.0f;
 	modColor[3][1] = 1.0f;
 	modColor[3][2] = 1.0f;
 
 	///ContExplore : Sky Blue
-	ContExplore* cE = new ContExplore();
+	cE = new ContExplore();
 	this->addModule(cE);
 	modColor[4][0] = 0.0f;
 	modColor[4][1] = 1.0f;
@@ -101,14 +108,14 @@ void RobotMAV::Initialize(){
 	/*
 
 	///ContExplore : Sky Blue
-	ContExplore* cE = new ContExplore();
+	cE = new ContExplore();
 	this->addModule(cE);
 	modColor[3][0] = 0.0f;
 	modColor[3][1] = 1.0f;
 	modColor[3][2] = 1.0f;
 
 	///ContConnect : White
-	ContConnect* cC = new ContConnect();
+	cC = new ContConnect();
 	this->addModule(cC);
 	modColor[4][0] = 1.0f;
 	modColor[4][1] = 1.0f;
@@ -118,7 +125,7 @@ void RobotMAV::Initialize(){
 
 	/////Actuatorを追加
 	//位置Actuatorを追加
-	ActPos* aP = new ActPos();
+	aP = new ActPos();
 	this->addModule(aP);
 
 	std::cout << "Number of Modules" << this->getNumOfModules() << std::endl;

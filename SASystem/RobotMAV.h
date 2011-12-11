@@ -250,6 +250,21 @@ protected:
 		@brief ãﬂñTÇÃRobotÇÃêî
 	 */
 	int numOfNearestRobots;
+private:
+	SenseBattery* sB;
+	SensePos* sP;
+	SenseDirection* sD;
+	SenseRange* sR;
+	SenseRadiation* sRad;
+	SenseNet* sN;
+
+	ContAvoid* cAv;
+	ContAlive* cAl;
+	ContWander* cW;
+	ContConnect* cC;
+	ContExplore* cE;
+	
+	ActPos* aP;
 };
 
 #endif	//_Robot_MAV_H_

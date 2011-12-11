@@ -16,6 +16,14 @@ SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 }
 
 SAModule::~SAModule(){
+	inputIndex->clear();
+	outputIndex->clear();
+	iBoardIndex->clear();
+	fBoardIndex->clear();
+	inputTitles->clear();
+	outputTitles->clear();
+	iBoardTitles->clear();
+	fBoardTitles->clear();
 	delete inputIndex;
 	delete outputIndex;
 	delete iBoardIndex;
