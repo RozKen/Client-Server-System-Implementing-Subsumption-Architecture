@@ -79,6 +79,18 @@ void Logger::Initialize(){
 		this->ofs.open(logFilePath);
 		this->add("count", &count);
 	}
+	if(logTitles != NULL){
+		delete logTitles;
+	}
+	if(logTypes != NULL){
+		delete logTypes;
+	}
+	if(logContents != NULL){
+		delete logContents;
+	}
+	if(logArrayIndex != NULL){
+		delete logArrayIndex;
+	}
 	logTitles = new std::vector<std::string>();
 	logTypes = new std::vector<int>();
 	logContents = new std::vector<void *>();
@@ -113,6 +125,9 @@ void Logger::add(std::string title, std::vector<float>* vector, int index){
 	logContents->push_back((void *) vector);
 	//push‚Í‚µ‚È‚¢‚¯‚ÇC‚È‚É‚©‚µ‚½‚¢‚æ‚Ëc
 	logArrayIndex->push_back(index);
+	if(index < 0){
+		std::cout << "Wrong Index Value on Logger::add (std::vector<float>) : " << index << std::endl;
+	}
 }
 
 std::string Logger::intToString(int number){
