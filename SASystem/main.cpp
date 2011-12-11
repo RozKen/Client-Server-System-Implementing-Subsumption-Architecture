@@ -51,19 +51,12 @@ int main(int argc, char** argv){
 	glutReshapeFunc(glReshape);
 	glutMouseFunc(glMouse);
 	glutMotionFunc(glMotion);
+	glutKeyboardFunc(glKeyboard);
 	glutIdleFunc(glIdle);
 
 	Init();
 
-	/*for(int i = 0; i < 100; i++){
-		world->Run();
-	}*/
-
 	glutMainLoop();
-	//std::cout << "Enter any character and Press 'Enter Key'" << std::endl;
-	
-	//std::string input;
-	//std::cin >> input;
 	return 0;
 }
 
