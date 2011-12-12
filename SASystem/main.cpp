@@ -20,6 +20,11 @@ int lastx=0;
 int lasty=0;
 unsigned char Buttons[3] = {0};
 
+#define LAYER	11
+
+///////For Map Display Selection///////
+bool flags[LAYER];
+
 void Init();
 void glIdle();
 void glDisplay();
@@ -31,6 +36,11 @@ void glKeyboard(unsigned char key , int x, int y);
 World* world;
 std::vector<RobotMAV*>* mav;
 clock_t start, end;
+
+/**
+	@brief 色の配列を返す
+ */
+float* CalcColor(float radValue);
 
 int main(int argc, char** argv){	
 
@@ -66,6 +76,11 @@ int main(int argc, char** argv){
 }
 
 void Init(){
+
+	for(int i = 0; i < LAYER; i++){
+		flags[i] = false;
+	}
+
 	glEnable(GL_DEPTH_TEST);
 
 	std::string directory = logPathGenerator();
@@ -138,7 +153,10 @@ void glDisplay(){
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
 				}else{
-					glColor4f(0.0f, 0.2f, 0.0f, 1.0f);
+					//glColor4f(0.0f, 0.2f, 0.0f, 1.0f);
+					float* color = CalcColor(world->radField[i][j]);
+					glColor4f(color[0], color[1], color[2], 1.0f);
+
 					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
@@ -252,4 +270,23 @@ void glKeyboard(unsigned char key , int x, int y){
 	default:
 		break;
 	}
+}
+
+float* CalcColor(float radValue){
+	float* color = new float[3];
+	if(radValue < 500.0f){
+		color[0] = 0.0f;
+		color[1] = radValue / 500.0f;
+		color[2] = 1.0f - color[1];
+	}else if(radValue < 6000){
+		color[0] = (radValue - 500.0f)/5500.0f;
+		color[1] = 1.0f - color[0];
+		color[2] = 0.0f;
+	}else{	//6000.0f <= radValue <= 10000.0f
+		//完全にはBlueにしないよう，4000ではなく，8000で割る.
+		color[0] = 1.0f - (radValue - 6000.0f)/ 8000.0f;
+		color[1] = 0.0f;
+		color[2] = 1.0f - color[0];
+	}
+	return color;
 }
