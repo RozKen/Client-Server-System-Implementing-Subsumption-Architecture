@@ -114,6 +114,6 @@
 #define MAX_DRIVE		1.0f
 
 ///World‚ðRun‚·‚éInterval [millisecond]
-#define TIME_STEP		300.0
+#define TIME_STEP		100.0
 
 #endif //_Constants_H_

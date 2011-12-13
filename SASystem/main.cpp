@@ -39,6 +39,8 @@ World* world;
 std::vector<RobotMAV*>* mav;
 clock_t start, end;
 
+bool onSimulation = false;
+
 /**
 	@brief F‚Ì”z—ñ‚ð•Ô‚·
  */
@@ -123,7 +125,9 @@ void glIdle(){
 	end = clock();
 	if((double)(end - start) > TIME_STEP){
 		start = clock();
-		world->Run();
+		if(onSimulation){
+			world->Run();
+		}
 	}
 	glutPostRedisplay();
 	//Sleep( 500 );
@@ -297,6 +301,9 @@ void glKeyboard(unsigned char key , int x, int y){
 		break;
 	case 27:	//ESC
 		exit(0);
+		break;
+	case 32:	//Space Key
+		onSimulation = !onSimulation;
 		break;
 	case '0':
 		if(radSwitch){
