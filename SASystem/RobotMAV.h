@@ -219,7 +219,10 @@ protected:
 		Constructorから呼び出されることを想定
 	 */
 	void Initialize();
-
+	/**
+		@brief 各ロボットが保持している地図を書き出す
+	 */
+	void logMaps();
 	/**
 		@brief geoMapを更新する
 	 */
@@ -265,6 +268,9 @@ private:
 	ContExplore* cE;
 	
 	ActPos* aP;
+
+	std::ofstream geoLog;
+	std::ofstream radLog;
 };
 
 #endif	//_Robot_MAV_H_

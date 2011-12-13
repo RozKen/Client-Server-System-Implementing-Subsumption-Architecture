@@ -122,8 +122,8 @@ void Init(){
 void glIdle(){
 	end = clock();
 	if((double)(end - start) > TIME_STEP){
-		world->Run();
 		start = clock();
+		world->Run();
 	}
 	glutPostRedisplay();
 	//Sleep( 500 );

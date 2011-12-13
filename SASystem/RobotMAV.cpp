@@ -11,7 +11,11 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 }
 
 RobotMAV::~RobotMAV(){
+	geoLog.close();
+	radLog.close();
+
 	nearest->clear();
+
 	delete [] geoMap;
 	delete [] radMap;
 	delete nearest;
@@ -219,6 +223,15 @@ void RobotMAV::Initialize(){
 	*/
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
+
+	///////Initialize Map Log Files///////
+	std::string filename = this->getLogFilePath();
+	filename.append(".geoLog.csv");
+	geoLog.open(filename);
+
+	filename = this->getLogFilePath();
+	filename.append(".radLog.csv");
+	radLog.open(filename);
 }
 
 void RobotMAV::Run(){
@@ -234,6 +247,19 @@ void RobotMAV::Run(){
 	Update();
 	//LogÇéÊÇÈ
 	Log();
+	//ínê}ÇãLò^Ç∑ÇÈ
+	logMaps();
+}
+
+void RobotMAV::logMaps(){
+	for(int i = 0; i < FIELD_SIZE; i++){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			geoLog << geoMap[i][j] << ",";
+			radLog << radMap[i][j] << ",";
+		}
+	}
+	geoLog << std::endl;
+	radLog << std::endl;
 }
 
 void RobotMAV::Update(){
