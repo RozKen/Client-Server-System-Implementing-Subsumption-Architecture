@@ -20,10 +20,12 @@ int lastx=0;
 int lasty=0;
 unsigned char Buttons[3] = {0};
 
-#define LAYER	11
+#define DISP_LAYER	11
 
 ///////For Map Display Selection///////
-bool flags[LAYER];
+bool geoFlags[DISP_LAYER];
+bool radFlags[DISP_LAYER];
+bool radSwitch = true;	//true -> radFlags, false -> geoFlags
 
 void Init();
 void glIdle();
@@ -41,6 +43,15 @@ clock_t start, end;
 	@brief 色の配列を返す
  */
 float* CalcColor(float radValue);
+
+/**
+	@brief Flagの組み合わせから，表示/非表示を算出
+	@param flags	array of boolean flags
+	@param rad		radMap->true, geoMap->false
+	@param i		index : i
+	@param j		index : j
+ */
+bool CalcDisplay(bool* flags, bool rad, int i, int j);
 
 int main(int argc, char** argv){	
 
@@ -70,6 +81,10 @@ int main(int argc, char** argv){
 	glutMainLoop();
 
 	delete(world);
+	for(int i = 0; i < mav->size(); i++){
+		delete mav->at(i);
+	}
+	mav->clear();
 	delete(mav);
 	
 	return 0;
@@ -77,11 +92,13 @@ int main(int argc, char** argv){
 
 void Init(){
 
-	for(int i = 0; i < LAYER; i++){
-		flags[i] = false;
+	for(int i = 0; i < DISP_LAYER; i++){
+		radFlags[i] = false;
+		geoFlags[i] = false;
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
 
 	std::string directory = logPathGenerator();
 	world = new World(directory, "world.csv");
@@ -123,7 +140,6 @@ void glDisplay(){
 	glRotatef(roty,0,1,0);	
 
 	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-	//Draw Robots as Spheres
 	RobotMAV* robot;
 
 	double offset = -50.0;		//FIELD_SIZEの半分
@@ -139,24 +155,34 @@ void glDisplay(){
 				}
 			}
 			for(int j = 0; j < FIELD_SIZE; j++){
+				//On Barrier
 				if(world->geoField[i][j] == OUTOFAREA){
 					glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
 							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
-								glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
+								if(CalcDisplay(geoFlags, false, i, j)){
+									glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
+								}else{
+									glColor4f(0.5f * 0.2f, 0.0f, 0.0f, 1.0f);
+								}
 							}
 						}
 					}
 					glTranslatef((GLfloat)i, 0, (GLfloat)j);
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
-				}else{
-					//glColor4f(0.0f, 0.2f, 0.0f, 1.0f);
+				}else{		//Not on Barrier
 					float* color = CalcColor(world->radField[i][j]);
-					glColor4f(color[0], color[1], color[2], 1.0f);
-
+					if(CalcDisplay(radFlags, true, i, j)){
+						float color0 = color[0];
+						float color1 = color[1];
+						float color2 = color[2];
+						glColor4f(color[0], color[1], color[2], 1.0f);
+					}else{
+						glColor4f(color[0] * 0.2f, color[1] * 0.2f, color[2] * 0.2f, 1.0f);
+					}
 					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
@@ -172,6 +198,7 @@ void glDisplay(){
 			}
 		}
 
+		//Draw Robots as Spheres
 		for(int index = 0; index < world->getNumOfModules(); index++){
 			robot = world->getRobot(index);
 			//std::cout << "color " << robot->getColorR() << ", " << robot->getColorG();
@@ -267,6 +294,104 @@ void glKeyboard(unsigned char key , int x, int y){
 	case 27:	//ESC
 		exit(0);
 		break;
+	case '0':
+		if(radSwitch){
+			radFlags[0] = !radFlags[0];
+		}else{
+			geoFlags[0] = !geoFlags[0];
+		}
+		break;
+	case '1':
+		if(radSwitch){
+			radFlags[1] = !radFlags[1];
+		}else{
+			geoFlags[1] = !geoFlags[1];
+		}
+		break;
+	case '2':
+		if(radSwitch){
+			radFlags[2] = !radFlags[2];
+		}else{
+			geoFlags[2] = !geoFlags[2];
+		}
+		break;
+	case '3':
+		if(radSwitch){
+			radFlags[3] = !radFlags[3];
+		}else{
+			geoFlags[3] = !geoFlags[3];
+		}
+		break;
+	case '4':
+		if(radSwitch){
+			radFlags[4] = !radFlags[4];
+		}else{
+			geoFlags[4] = !geoFlags[4];
+		}
+		break;
+	case '5':
+		if(radSwitch){
+			radFlags[5] = !radFlags[5];
+		}else{
+			geoFlags[5] = !geoFlags[5];
+		}
+		break;
+	case '6':
+		if(radSwitch){
+			radFlags[6] = !radFlags[6];
+		}else{
+			geoFlags[6] = !geoFlags[6];
+		}
+		break;
+	case '7':
+		if(radSwitch){
+			radFlags[7] = !radFlags[7];
+		}else{
+			geoFlags[7] = !geoFlags[7];
+		}
+		break;
+	case '8':
+		if(radSwitch){
+			radFlags[8] = !radFlags[8];
+		}else{
+			geoFlags[8] = !geoFlags[8];
+		}
+		break;
+	case '9':
+		if(radSwitch){
+			radFlags[9] = !radFlags[9];
+		}else{
+			geoFlags[9] = !geoFlags[9];
+		}
+		break;
+	case 'w':
+		if(radSwitch){
+			radFlags[10] = !radFlags[10];
+		}else{
+			geoFlags[10] = !geoFlags[10];
+		}
+		break;
+	case 's':	//Switch
+		radSwitch = !radSwitch;
+		break;
+	case 'a':
+		for(int i = 0; i < DISP_LAYER; i++){
+			if(radSwitch){
+				radFlags[i] = true;
+			}else{
+				geoFlags[i] = true;
+			}
+		}
+		break;
+	case 'z':
+		for(int i = 0; i < DISP_LAYER; i++){
+			if(radSwitch){
+				radFlags[i] = false;
+			}else{
+				geoFlags[i]  = false;
+			}
+		}
+		break;
 	default:
 		break;
 	}
@@ -289,4 +414,30 @@ float* CalcColor(float radValue){
 		color[2] = 1.0f - color[0];
 	}
 	return color;
+}
+
+bool CalcDisplay(bool* flags, bool rad, int i, int j){
+	bool answer = false;
+	if(flags[DISP_LAYER - 1]){
+			answer = true;
+	}else{
+		if(rad){
+			for(int i = 0; i < world->getNumOfModules() && i < DISP_LAYER - 1; i++){
+				if(flags[i] 
+					&& world->getRobot(i)->radMap[i][j] != NO_DATA){
+					answer = true;
+					break;
+				}
+			}	
+		}else{
+			for(int i = 0; i < world->getNumOfModules() && i < DISP_LAYER - 1; i++){
+				if(flags[i] 
+					&& world->getRobot(i)->geoMap[i][j] != NO_DATA){
+					answer = true;
+					break;
+				}
+			}
+		}
+	}
+	return answer;
 }

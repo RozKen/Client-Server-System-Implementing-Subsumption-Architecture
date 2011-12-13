@@ -316,7 +316,6 @@ void RobotMAV::setRobot(int index, float value, bool x){
 float RobotMAV::getColorR() const{
 	return this->color[0];
 }
-
 float RobotMAV::getColorG() const{
 	return this->color[1];
 }
