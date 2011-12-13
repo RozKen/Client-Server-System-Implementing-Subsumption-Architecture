@@ -27,8 +27,8 @@ void RobotMAV::Initialize(){
 	///Member‚Ì”z—ñ‚ğ‰Šú‰»
 	for(int i = 0; i < FIELD_SIZE; i++){
 		for(int j = 0; j < FIELD_SIZE; j++){
-			geoMap[i][j] = NO_DATA;
-			radMap[i][j] = NO_DATA;
+			geoMap[i][j] = (float)NO_DATA_ON_FIELD;
+			radMap[i][j] = (float)NO_DATA_ON_FIELD;
 		}
 	}
 	
@@ -248,7 +248,7 @@ void RobotMAV::Run(){
 	//Log‚ğæ‚é
 	Log();
 	//’n}‚ğ‹L˜^‚·‚é
-	logMaps();
+	//logMaps();
 }
 
 void RobotMAV::logMaps(){
@@ -393,7 +393,7 @@ void RobotMAV::updateInnerGeoMap(){
 			int y = j + round(this->getPosY());
 			if( x >= 0 && x < FIELD_SIZE 
 				&& y >= 0 && y < FIELD_SIZE){
-				geoMap[x][y] = NORMAL;
+				geoMap[x][y] = (float)NORMAL;
 			}
 		}
 	}
@@ -407,7 +407,7 @@ void RobotMAV::updateInnerGeoMap(){
 			int y = round(this->getPosY() + dy);
 			if( x >= 0 && x < FIELD_SIZE 
 				&& y >= 0 && y < FIELD_SIZE){
-				geoMap[x][y] = OUTOFAREA;
+				geoMap[x][y] = (float)OUTOFAREA;
 			}
 		}
 	}
@@ -419,7 +419,7 @@ void RobotMAV::updateInnerGeoMap(){
 		for(int j = 0; j < FIELD_SIZE; j++){
 			for(int k = 0; k < FIELD_SIZE; k++){
 				value = robot->geoMap[j][k];
-				if(value != NO_DATA){
+				if(value != (float)NO_DATA_ON_FIELD){
 					this->geoMap[j][k] = value;
 				}
 			}
@@ -445,7 +445,7 @@ void RobotMAV::updateInnerRadMap(){
 		for(int j = 0; j < FIELD_SIZE; j++){
 			for(int k = 0; k < FIELD_SIZE; k++){
 				value = robot->radMap[j][k];
-				if(value != NO_DATA){
+				if(value != NO_DATA_ON_FIELD){
 					this->radMap[j][k] = value;
 				}
 			}

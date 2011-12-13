@@ -157,7 +157,11 @@ void glDisplay(){
 			for(int j = 0; j < FIELD_SIZE; j++){
 				//On Barrier
 				if(world->geoField[i][j] == OUTOFAREA){
-					glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+					if(CalcDisplay(geoFlags, false, i, j)){
+						glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+					}else{
+						glColor4f(0.0f, 0.0f, 0.2f, 1.0f);
+					}
 					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
@@ -422,17 +426,17 @@ bool CalcDisplay(bool* flags, bool rad, int i, int j){
 			answer = true;
 	}else{
 		if(rad){
-			for(int i = 0; i < world->getNumOfModules() && i < DISP_LAYER - 1; i++){
-				if(flags[i] 
-					&& world->getRobot(i)->radMap[i][j] != NO_DATA){
+			for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
+				if(flags[robot] && ((int)(world->getRobot(robot)->radMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
+					//std::cout << (int)(world->getRobot(robot)->radMap[i][j] - 0.5f) << std::endl;
+					//std::cout << NO_DATA_ON_FIELD << std::endl;
 					answer = true;
 					break;
 				}
 			}	
 		}else{
-			for(int i = 0; i < world->getNumOfModules() && i < DISP_LAYER - 1; i++){
-				if(flags[i] 
-					&& world->getRobot(i)->geoMap[i][j] != NO_DATA){
+			for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
+				if(flags[robot] && ((int)(world->getRobot(robot)->geoMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
 					answer = true;
 					break;
 				}

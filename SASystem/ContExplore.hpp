@@ -27,7 +27,7 @@ public:
 		@brief 実行時の動作
 			<ul>
 				<li>
-					radMapやgeoMapのデータがない(NO_DATA)ところを
+					radMapやgeoMapのデータがない(NO_DATA_ON_FIELD)ところを
 					innerMapから探し，そこを目指して動く
 				</li>
 				<li>
@@ -35,7 +35,7 @@ public:
 					そこを目指して動く
 				</li>
 				<li>
-					NO_DATAがない場合や，NO_DATAが自分の位置の時は
+					NO_DATA_ON_FIELDがない場合や，NO_DATA_ON_FIELDが自分の位置の時は
 					出力をNO_SIGNALとする
 				</li>
 			</ul>
@@ -56,8 +56,8 @@ inline ContExplore::ContExplore(){
 	this->addOutput("dXCExp");
 	this->addOutput("dYCExp");
 
-	destination[0] = NO_DATA;
-	destination[1] = NO_DATA;
+	destination[0] = NO_DATA_ON_FIELD;
+	destination[1] = NO_DATA_ON_FIELD;
 }
 
 #endif	//_Cont_Explore_HPP_

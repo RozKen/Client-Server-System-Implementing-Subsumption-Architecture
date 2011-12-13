@@ -1,5 +1,5 @@
-#ifndef Constants_H_
-#define Constants_H_
+#ifndef _Constants_H_
+#define _Constants_H_
 
 /**
 	NOW MODIFYING the meaning of SUPPRESSOR
@@ -29,7 +29,7 @@
 #define HASH_MAX			25
 
 ///Fieldã‚Ì‘®«‚Æ‚»‚Ì‘Î‰’l(Hash)
-#define NO_DATA			-99
+#define NO_DATA_ON_FIELD			-99
 #define OUTOFAREA		-1
 #define NORMAL			0
 #define ONSTART			1
@@ -116,4 +116,4 @@
 ///World‚ğRun‚·‚éInterval [millisecond]
 #define TIME_STEP		300.0
 
-#endif //Constants_H_
+#endif //_Constants_H_

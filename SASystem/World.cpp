@@ -218,10 +218,10 @@ void World::generateSemField(){
 
 void World::generateRadField(){
 	
-	//initialize as NO_DATA
+	//initialize as NO_DATA_ON_FIELD
 	for(int i = 0; i < FIELD_SIZE; i++){
 		for(int j = 0; j < FIELD_SIZE; j++){
-			radField[i][j] = NO_DATA;
+			radField[i][j] = NO_DATA_ON_FIELD;
 		}
 	}
 
@@ -248,7 +248,7 @@ void World::generateRadField(){
 	//Calculate Radiation Volume at each point
 	for(int i = 0; i < FIELD_SIZE; i++){
 		for(int j = 0; j < FIELD_SIZE; j++){
-			if(radField[i][j] == NO_DATA){
+			if(radField[i][j] == NO_DATA_ON_FIELD){
 				radField[i][j] = 0.0f;
 				//Sum Up Values derive from each emitting point.
 				for(int k = 0; k < numberOfRadPoints; k++){
