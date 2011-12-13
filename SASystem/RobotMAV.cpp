@@ -386,6 +386,18 @@ void RobotMAV::ProcessArbiters(){
 
 void RobotMAV::updateInnerGeoMap(){
 	//Self Acquired Data
+	//‚Ü‚¸CŒŸ’m‚Å‚«‚é”ÍˆÍ‚ğNORMAL‚Æ‚·‚é
+	for(int i = -RANGE; i <= RANGE; i++){
+		for(int j = -RANGE; j <= RANGE; j++){
+			int x = i + round(this->getPosX());
+			int y = j + round(this->getPosY());
+			if( x >= 0 && x < FIELD_SIZE 
+				&& y >= 0 && y < FIELD_SIZE){
+				geoMap[x][y] = NORMAL;
+			}
+		}
+	}
+	//áŠQ•¨‚ª‚ ‚é‚Æ‚±‚ë‚ğOUTOFAREA‚Æ‚·‚é
 	for(int i = 0; i < RANGE_DIV; i++){
 		float range = this->getRange(i);
 		if(range < RANGE_DANGER){
@@ -393,7 +405,10 @@ void RobotMAV::updateInnerGeoMap(){
 			float dy = range * sin( (double)i * PI * RANGE_DEG / 180.0);
 			int x = round(this->getPosX() + dx);
 			int y = round(this->getPosY() + dy);
-			geoMap[x][y] = OUTOFAREA;
+			if( x >= 0 && x < FIELD_SIZE 
+				&& y >= 0 && y < FIELD_SIZE){
+				geoMap[x][y] = OUTOFAREA;
+			}
 		}
 	}
 
@@ -417,7 +432,10 @@ void RobotMAV::updateInnerRadMap(){
 	for(int i = 0; i < MAX_AREA; i++){
 		int x = round(this->getPosX()) + ((World *)(this->parent))->getHash(0, i);
 		int y = round(this->getPosY()) + ((World *)(this->parent))->getHash(1, i);
-		radMap[x][y] = this->getRad(i);
+		if( x >= 0 && x < FIELD_SIZE 
+				&& y >= 0 && y < FIELD_SIZE){
+			radMap[x][y] = this->getRad(i);
+		}
 	}
 
 	//Collect Data from Other Robots
