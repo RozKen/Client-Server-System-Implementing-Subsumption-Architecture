@@ -11,12 +11,6 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 }
 
 RobotMAV::~RobotMAV(){
-	for(int i = 0; i < modules->size(); i++){
-		delete modules->at(i);
-	}
-	for(int i = 0; i < arbiters->size(); i++){
-		delete arbiters->at(i);
-	}
 	nearest->clear();
 	delete [] geoMap;
 	delete [] radMap;

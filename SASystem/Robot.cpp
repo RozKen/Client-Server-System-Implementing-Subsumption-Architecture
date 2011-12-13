@@ -22,6 +22,12 @@ Robot::Robot(std::string directoryPath, std::string fileName)
 }
 
 Robot::~Robot(){
+	for(int i = 0; i < modules->size(); i++){
+		delete modules->at(i);
+	}
+	for(int i = 0; i < arbiters->size(); i++){
+		delete arbiters->at(i);
+	}
 	modules->clear();
 	arbiters->clear();
 	innerWireSrcType->clear();
