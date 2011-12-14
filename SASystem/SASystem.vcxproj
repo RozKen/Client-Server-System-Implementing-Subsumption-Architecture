@@ -78,14 +78,11 @@
     <ClCompile Include="Arbiter.cpp" />
     <ClCompile Include="ContExplore.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
-    <ClCompile Include="EnvUpdater.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="RobotMAV.cpp" />
     <ClCompile Include="SAModule.cpp" />
-    <ClCompile Include="FieldConnectorTester.cpp" />
-    <ClCompile Include="Tester.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -99,19 +96,14 @@
     <ClInclude Include="ContAvoid.hpp" />
     <ClInclude Include="ContConnect.hpp" />
     <ClInclude Include="ContExplore.hpp" />
-    <ClInclude Include="ContMove.hpp" />
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="ContWander.hpp" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
-    <ClInclude Include="EnvUpdater.h" />
-    <ClInclude Include="FieldTester.hpp" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="RobotMAV.h" />
     <ClInclude Include="Modules.h" />
-    <ClInclude Include="ModMultiple.hpp" />
     <ClInclude Include="Random.hpp" />
-    <ClInclude Include="Resetter.hpp" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SenseBattery.hpp" />
@@ -122,8 +114,6 @@
     <ClInclude Include="SenseRange.hpp" />
     <ClInclude Include="Sensors.h" />
     <ClInclude Include="StochasticSelecter.hpp" />
-    <ClInclude Include="FieldConnectorTester.h" />
-    <ClInclude Include="Tester.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
