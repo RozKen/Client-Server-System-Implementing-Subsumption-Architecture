@@ -16,11 +16,7 @@ RobotMAV::~RobotMAV(){
 
 	nearest->clear();
 
-	delete [] geoMap;
-	delete [] radMap;
 	delete nearest;
-	delete color;
-	delete [] modColor;
 }
 
 void RobotMAV::Initialize(){

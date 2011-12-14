@@ -28,10 +28,6 @@ World::World(std::string directoryPath, std::string fileName)
 }
 
 World::~World(){
-	delete [] hash;
-	delete [] geoField;
-	delete [] semField;
-	delete [] radField;
 }
 
 void World::Initialize(){
