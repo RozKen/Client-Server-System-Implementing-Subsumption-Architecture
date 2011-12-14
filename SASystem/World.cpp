@@ -524,7 +524,6 @@ void World::updateNetWork(RobotMAV* robot){
 				neighborsIndex->push_back(distance);
 			}
 		}
-
 	}
 	//¸‡‚Éƒ\[ƒg
 	std::sort(neighborsIndex->begin(), neighborsIndex->end());
