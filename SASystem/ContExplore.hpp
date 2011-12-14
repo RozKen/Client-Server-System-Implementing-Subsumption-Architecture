@@ -4,7 +4,7 @@
 #include "SAModule.h"
 /**
 	@class ContExplore
-	@brief <h1>Mission</h1>: 探索していない場所へ行く
+	@brief Mission : 探索していない場所へ行こうとする制御器
 	<h1>Inputs</h1>
 		Inputはなし．Robot内部のMapを利用する
 	<h1>Outputs</h1>
@@ -15,7 +15,6 @@
 	@author Kencihi Yorozu
 	@date 8th December 2011
  */
-
 class ContExplore : public SAModule{
 public:
 	/**

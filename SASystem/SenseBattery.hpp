@@ -5,7 +5,7 @@
 
 /**
 	@class SenseBattery
-	@brief バッテリー残量を検知し，出力する
+	@brief バッテリー残量を検知し，出力するセンサ
 	<h1>Output</h1>
 	<ul><li>Output0: battery : バッテリーレベル</li></ul>
 	<h1>FBoard</h1>

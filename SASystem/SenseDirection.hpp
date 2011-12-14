@@ -5,7 +5,7 @@
 
 /**
 	@class SenseDirection
-	@brief 現在の方向を検知し，出力する(地磁気センサ)
+	@brief 現在の方向を検知し，出力する(地磁気検知)センサ
 	<h1>Outputs</h1>
 	<ul>
 		<li>Output0 : direc - Direction [degree]</li>

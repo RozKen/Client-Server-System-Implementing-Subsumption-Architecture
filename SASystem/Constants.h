@@ -14,7 +14,7 @@
 ///Fieldの一辺(Fieldは正方形)
 #define FIELD_SIZE			100
 /**
-	@briefField1マス分の長さ [m]
+	@brief Field1マス分の長さ [m]
 	@sa WIFI_REACH
  */
 #define FIELD_SCALE			1
@@ -29,7 +29,7 @@
 #define HASH_MAX			25
 
 ///Field上の属性とその対応値(Hash)
-#define NO_DATA_ON_FIELD			-99
+#define NO_DATA_ON_FIELD	-99
 #define OUTOFAREA		-1
 #define NORMAL			0
 #define ONSTART			1

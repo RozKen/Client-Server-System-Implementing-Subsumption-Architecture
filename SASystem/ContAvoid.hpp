@@ -7,7 +7,7 @@
 
 /**
 	@class ContAvoid
-	@brief ‘¼‚Ì‚à‚Ì‚É‚Ô‚Â‚©‚ç‚È‚¢‚æ‚¤‚É‚µ‚æ‚¤‚Æ‚·‚é§ŒäŠí
+	@brief Mission : ‘¼‚Ì‚à‚Ì‚É‚Ô‚Â‚©‚ç‚È‚¢‚æ‚¤‚É‚µ‚æ‚¤‚Æ‚·‚é§ŒäŠí
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0: RangeCAv0 : 0</li>

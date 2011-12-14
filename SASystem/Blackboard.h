@@ -85,7 +85,7 @@ public:
 	void setLogFilePath(std::string logFilePath);
 	/**
 		@brief このBlackboardで利用するログファイルへのPathを設定
-		@param directoryPath ログファイルを保存するディレクトリへのPath
+		@param fileDirectoryPath ログファイルを保存するディレクトリへのPath
 		@param fileName ログファイル名
 		@sa logger
 	 */

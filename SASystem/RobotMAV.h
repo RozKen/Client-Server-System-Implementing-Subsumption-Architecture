@@ -143,7 +143,7 @@ public:
 	/**
 		@brief get Coordinate of Robot at index
 		@param index which Robot
-		@param x-axis : true, y-axis. false
+		@param x x-axis : true, y-axis. false
 		@return Coordinate of the Robot
 	 */
 	float getRobot(int index, bool x);
@@ -151,7 +151,7 @@ public:
 		@brief set Coordinate of Robot at index
 		@param index which Robot
 		@param value Robot Position
-		@param x-axis : true, y-axis. false
+		@param x x-axis : true, y-axis. false
 	 */
 	void setRobot(int index, float value, bool x);
 	

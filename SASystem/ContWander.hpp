@@ -8,7 +8,7 @@
 
 /**
 	@class ContWander
-	@brief ‚¤‚ë‚Â‚«s“®‚ğ§Œä‚·‚éModule
+	@brief Mission : ‚¤‚ë‚Â‚«s“®‚ğ‚µ‚æ‚¤‚Æ‚·‚é§ŒäŠí
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0: posXCW : current Position - X</li>

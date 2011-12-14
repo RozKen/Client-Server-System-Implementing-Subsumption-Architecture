@@ -6,7 +6,7 @@
 
 /**
 	@class ContConnect
-	@brief <h1>Mission</h1>: ‹ß‚­‚É‚¢‚é’‡ŠÔ‚ÆŒq‚ª‚ë‚¤‚Æ‚·‚é
+	@brief Mission : ‹ß‚­‚É‚¢‚é’‡ŠÔ‚ÆŒq‚ª‚ë‚¤‚Æ‚·‚é§ŒäŠí
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0: Robot0XCC : Robot[0]->posX</li>

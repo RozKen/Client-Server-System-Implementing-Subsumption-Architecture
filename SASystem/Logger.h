@@ -36,8 +36,8 @@ public:
 	/**
 		@brief Constructor
 		@param directoryPath ログファイルを書き出すDirectoryへのpath
+		@param fileName
 		@sa logDirectoryPath ログファイル名
-		@sa logFileName
 	 */
 	Logger(std::string directoryPath, std::string fileName);
 

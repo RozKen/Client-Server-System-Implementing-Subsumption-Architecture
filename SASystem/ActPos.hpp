@@ -5,7 +5,8 @@
 #include <iostream>
 /**
 	@class ActPos
-	@brief Robotの位置を移動させる．出力は現在からの相対距離
+	@brief Robotの位置を移動させるアクチュエータ．
+	出力は現在からの相対距離
 	@author Kenichi Yorozu
 	@date 25th November 2011
  */

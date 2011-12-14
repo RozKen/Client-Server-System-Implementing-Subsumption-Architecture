@@ -85,7 +85,6 @@ public:
 	/**
 		@brief このモジュールのindexOnModule番目の入力ポートが，
 		memory上のどの出力ポートと繋がっているか？を返す
-		@param indexOnModule モジュールの入力ポート番号
 		@return memory上の出力ポート番号
 	 */
 	virtual std::vector<std::string>* getIBoardTitles() const;

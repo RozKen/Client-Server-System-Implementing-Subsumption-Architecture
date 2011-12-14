@@ -23,25 +23,23 @@ public:
 			<li>Probability-based Selector</li>
 			<li>Probability-based Superposer</li>
 		</ol>
+		@param prob 確率は0.6に固定
 		default: Wire
 	 */
 	//FieldConnectorTester(const int* field, int mode);
 	FieldConnectorTester(const int* field, int mode, double prob = 0.6);
 	/**
 		@brief Battery間の最大の距離を計測
-		@param field フィールド
 		@return Battery間の最大の距離
 	 */
 	int maxBatteryDistance();
 	/**
 		@brief Battery間の最小の距離を計測
-		@param field フィールド
 		@return Battery間の最小の距離
 	 */
 	int minBatteryDistance();
 	/**
 		@brief Battery間の平均の距離を計測
-		@param field フィールド
 		@return Battery間の平均距離
 	 */
 	double averageBatteryDistance();

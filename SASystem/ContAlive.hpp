@@ -7,7 +7,7 @@
 
 /**
 	@class ContAlive
-	@brief バッテリー残量を一定に維持しようとする制御器
+	@brief Mission : バッテリー残量を一定に維持しようとする制御器
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0: batLevelCAl: current Battery Level</li>

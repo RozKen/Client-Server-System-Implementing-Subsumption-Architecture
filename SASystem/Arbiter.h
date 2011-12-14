@@ -67,16 +67,16 @@ public:
 
 	/**
 		@brief 入力信号を得る．
+		override SAModule::getInput
 		@return input 入力信号の配列要素の値
-		@override SAModule::getInput
 		@sa SAModule::getInput
 	 */
 	float getInput() const;
 	/**
 		@brief 入力信号を得る．
+		override SAModule::getInput
 		@param index [disabled]得る配列要素のモジュール上の入力ポート番号
 		@return signal 入力信号の配列要素の値
-		@override SAModule::getInput
 		@sa SAModule::getInput
 	 */
 	float getInput(int index) const;
@@ -84,16 +84,16 @@ public:
 	void setInput(float signal);
 	/**
 		@brief 出力信号を設定する
+		override SAModule::setOutput
 		@param signal 出力信号の配列要素へ代入する値
-		@override SAModule::setOutput
 		@sa SAModule::setOutput
 	 */
 	void setOutput(float signal);
 	/**
 		@brief 出力信号を設定する
+		override SAModule::setOutput
 		@param signal 出力信号の配列要素へ代入する値
 		@param index [disabled]設定する配列要素のモジュール上の出力ポート番号
-		@override SAModule::setOutput
 		@sa SAModule::setOutput
 	 */
 	void setOutput(int index, float signal);

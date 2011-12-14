@@ -9,7 +9,7 @@ class RobotMAV;
 
 /**
 	@class SenseNet
-	@brief ネットワーク接続を検知し，近傍五つのロボットの相対位置を出力
+	@brief ネットワーク接続を検知し，近傍五つのロボットの相対位置を出力するセンサ
 	情報の交流などは，RobotMAVやWorldにて，Moduleを用いない方法で実装されている.
 	<h1>FBoard</h1>
 	<ul>

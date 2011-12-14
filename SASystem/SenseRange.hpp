@@ -6,7 +6,8 @@
 
 /**
 	@class SenseRange
-	@brief Survey Obstacles for each 30 degree
+	@brief 障害物との距離を検出するセンサ
+	Survey Obstacles for each 30 degree
 	0度は常にx軸方向．
 	<h1>FBoard</h1>
 	<ul>

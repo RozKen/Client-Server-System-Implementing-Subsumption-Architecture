@@ -5,7 +5,7 @@
 
 /**
 	@class SensePos
-	@brief 現在位置を検知し，出力する(GPS)
+	@brief 現在位置を検知し，出力する(GPS)センサ
 	<h1>Outputs</h1>
 	<ul>
 		<li>Output0 : posX - X Position</li>
