@@ -511,34 +511,43 @@ void World::updateNetWork(RobotMAV* robot){
 	float y = robot->getPosY();
 	//現在位置に近いロボットをPickUp
 	std::vector<RobotMAV*>* neighbors = new std::vector<RobotMAV*>();
+	std::vector<float>* neighborsIndex = new std::vector<float>();
 	for(int i = 0; i < this->numOfModules; i++){
 		float xi = (this->getRobot(i))->getPosX();
 		float yi = (this->getRobot(i))->getPosY();
-		//自分を除外する
-		if(this->norm(xi - x, yi - y) < WIFI_REACH && this->norm(xi - x, yi - y) > 0){
+		float distance = this->norm(xi - x, yi - y);
+		//自分自身を除外する
+		if(distance < WIFI_REACH && distance > 0){
 			//電池がないものは，繋がらないようにする.
-			if(this->getRobot(i)->getBattery() > 1.0f){
+			if(this->getRobot(i)->getBattery() >= 1.0f){
 				neighbors->push_back(this->getRobot(i));
+				neighborsIndex->push_back(distance);
 			}
 		}
 
 	}
 	//昇順にソート
-	std::sort(neighbors->begin(), neighbors->end());
+	std::sort(neighborsIndex->begin(), neighborsIndex->end());
 	robot->clearNearest();
 	for(int i = 0; i < WIFI_CONNECT && i < neighbors->size(); i++){
+		int j = 0;// = neighborsIndex->at(i);
+		while(j < neighbors->size()){
+			float xj = neighbors->at(j)->getPosX();
+			float yj = neighbors->at(j)->getPosY();
+			if(this->norm(xj - x, yj - y) == neighborsIndex->at(i)){
+				break;
+			}else{
+				j++;
+			}
+		}
 		//nearestを設定
-		robot->pushNearest(neighbors->at(i));
-		//fBoardを設定///////////////////////////これうまく動いているか不安．
-		////////RobotMAV::ProcessInputsでinputからfBoardへ上書きされている可能性がある
-		//robot->getSenseNet()->setFBoard(i * 2, neighbors->at(i)->getPosX() - x);
-		//robot->getSenseNet()->setFBoard(i * 2 + 1, neighbors->at(i)->getPosY() - y);
-		//上記の通りなので，robotのInputを手動で設定
-		robot->setRobot(i, neighbors->at(i)->getPosX() - x, true);
-		robot->setRobot(i, neighbors->at(i)->getPosY() - y, false);
-		//旧version
-		//robot->setInput(4 + RANGE_DIV + MAX_AREA + i * 2, neighbors->at(i)->getPosX() - x);
-		//robot->setInput(4 + RANGE_DIV + MAX_AREA + i * 2 + 1, neighbors->at(i)->getPosY() - y);
+		robot->pushNearest(neighbors->at(j));
+		//robotのInputを手動で設定
+		robot->setRobot(i, neighbors->at(j)->getPosX() - x, true);
+		robot->setRobot(i, neighbors->at(j)->getPosY() - y, false);
 	}
+	neighbors->clear();
 	delete neighbors;
+	neighborsIndex->clear();
+	delete neighborsIndex;
 }

@@ -94,7 +94,7 @@ inline void ContConnect::Run(){
 	float signalY = NO_SIGNAL;
 
 	//切れそうなのがあったら，そっちの方へ．
-	//切れそうなもののうち，一番近いRobotの方へ向かう
+	//切れそうなもののうち，一番近いRobotの方へ向かう	//for Loopを逆にしてある.
 	for(int i = WIFI_CONNECT - 1; i >= 0 ; i--){
 		float dx = this->getInput(i * 2);
 		float dy = this->getInput(i * 2 + 1);
