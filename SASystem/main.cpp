@@ -26,6 +26,7 @@ unsigned char Buttons[3] = {0};
 bool geoFlags[DISP_LAYER];
 bool radFlags[DISP_LAYER];
 bool radSwitch = true;	//true -> radFlags, false -> geoFlags
+bool axisSwitch = true;	//true -> display axis, false -> hide axis
 
 void Init();
 void glIdle();
@@ -141,7 +142,43 @@ void glDisplay(){
 	glTranslatef(0,0,-zoom);
 	glTranslatef(tx,ty,0);
 	glRotatef(rotx,1,0,0);
-	glRotatef(roty,0,1,0);	
+	glRotatef(roty,0,1,0);
+
+	if(axisSwitch){
+		glTranslatef(0.0f, 10.0f, 0.0f);
+
+		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		glTranslatef(1.0f, 0.0f, 0.0f);
+		glutSolidCube(1.0f);
+		glTranslatef(2.0f, 0.0f, 0.0f);
+		glRotatef(90.0f, 0, 1, 0);
+		glutSolidCone(0.5f, 1.0f, 12, 4);
+		glRotatef(-90.0f, 0, 1, 0);
+		glTranslatef(-2.0f, 0.0f, 0.0f);
+		glTranslatef(-1.0f, 0.0f, 0.0f);
+	
+		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+		glTranslatef(0.0f, 1.0f, 0.0f);
+		glutSolidCube(1.0f);
+		glTranslatef(0.0f, 2.0f, 0.0f);
+		glRotatef(-90.0f, 1, 0, 0);
+		glutSolidCone(0.5f, 1.0f, 12, 4);
+		glRotatef(90.0f, 1, 0, 0);
+		glTranslatef(0.0f, -2.0f, 0.0f);
+		glTranslatef(0.0f, -1.0f, 0.0f);
+
+		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		glTranslatef(0.0f, 0.0f, 1.0f);
+		glutSolidCube(1.0f);
+		glTranslatef(0.0f, 0.0f, 2.0f);
+		glRotatef(90.0f, 0, 0, 1);
+		glutSolidCone(0.5f, 1.0f, 12, 4);
+		glRotatef(-90.0f, 0, 0, 1);
+		glTranslatef(0.0f, 0.0f, -2.0f);
+		glTranslatef(0.0f, 0.0f, -1.0f);
+
+		glTranslatef(0.0f, -10.0f, 0.0f);
+	}
 
 	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 	RobotMAV* robot;
@@ -220,6 +257,14 @@ void glDisplay(){
 			glTranslatef(x, 0, y);
 			glutSolidSphere(0.5, 12, 12);
 			glTranslatef(-x, -0, -y);
+
+			//Draw Exploring Objective
+			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			glTranslatef(robot->getObjectiveX(), 0, robot->getObjectiveY());
+			glRotatef(-90.0f, 1, 0, 0);
+			glutSolidCone(0.3, 2.0, 12, 3);
+			glRotatef(90.0f, 1, 0, 0);
+			glTranslatef(-robot->getObjectiveX(), 0, -robot->getObjectiveY());
 		}
 
 	glTranslatef(-offset, 0, -offset);
@@ -386,6 +431,9 @@ void glKeyboard(unsigned char key , int x, int y){
 		break;
 	case 's':	//Switch
 		radSwitch = !radSwitch;
+		break;
+	case 'c':	//Coordinate
+		axisSwitch = !axisSwitch;
 		break;
 	case 'a':
 		for(int i = 0; i < DISP_LAYER; i++){

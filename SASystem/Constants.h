@@ -83,7 +83,7 @@
  */
 #define WIFI_WEAK		0.9f
 ///Wifiの接続中心へと移動する率
-#define WIFI_BALANCE	0.0f			//0.1f
+#define WIFI_BALANCE	0.1f
 ///Wifiで接続するロボットの数
 #define WIFI_CONNECT	5
 

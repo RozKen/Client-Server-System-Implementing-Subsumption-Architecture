@@ -168,6 +168,18 @@ public:
 	 */
 	float getColorB() const;
 
+	///////•\¦—p///////
+	/**
+		@brief get x coordinate of Objective on ContExplore
+		@return x coordinate of Objective on ContExplore
+	 */
+	float getObjectiveX() const;
+	/**
+		@brief get x coordinate of Objective on ContExplore
+		@return x coordinate of Objective on ContExplore
+	 */
+	float getObjectiveY() const;
+
 	/**
 		@brief ‚·‚×‚Ä‚ÌArbiter‚ğÀs‚·‚é
 	 */

@@ -476,3 +476,11 @@ void RobotMAV::clearNearest(){
 int RobotMAV::getNumOfNearestRobots() const{
 	return numOfNearestRobots;
 }
+
+float RobotMAV::getObjectiveX() const{
+	return this->cE->getDestinationX();
+}
+
+float RobotMAV::getObjectiveY() const{
+	return this->cE->getDestinationY();
+}

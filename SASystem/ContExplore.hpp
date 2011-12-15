@@ -46,6 +46,18 @@ public:
 		@brief 新たに目的地を定める
 	 */
 	void DecideDestination();
+	/**
+		@brief 現在の目的地のX座標を得る
+		@return 現在の目的地のX座標
+		@sa destination
+	 */
+	float getDestinationX() const;
+	/**
+		@brief 現在の目的地のY座標を得る
+		@return 現在の目的地のY座標
+		@sa destination
+	 */
+	float getDestinationY() const;
 protected:
 	///目的地の座標
 	int destination[2];
@@ -57,6 +69,14 @@ inline ContExplore::ContExplore(){
 
 	destination[0] = NO_DATA_ON_FIELD;
 	destination[1] = NO_DATA_ON_FIELD;
+}
+
+inline float ContExplore::getDestinationX() const{
+	return destination[0];
+}
+
+inline float ContExplore::getDestinationY() const{
+	return destination[1];
 }
 
 #endif	//_Cont_Explore_HPP_
