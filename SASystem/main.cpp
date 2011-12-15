@@ -188,8 +188,10 @@ void glDisplay(){
 						float color1 = color[1];
 						float color2 = color[2];
 						glColor4f(color[0], color[1], color[2], 1.0f);
+						delete color;	//CalcColor“à‚Ånew‚µ‚Ä‚é‚©‚ç
 					}else{
 						glColor4f(color[0] * 0.2f, color[1] * 0.2f, color[2] * 0.2f, 1.0f);
+						delete color;	//CalcColor“à‚Ånew‚µ‚Ä‚é‚©‚ç
 					}
 					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
