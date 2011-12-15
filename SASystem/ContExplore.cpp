@@ -9,10 +9,10 @@ void ContExplore::Run(){
 	
 	if(destination[0] != NO_DATA_ON_FIELD && destination[1] != NO_DATA_ON_FIELD){
 		if(//geoMap
-			((RobotMAV*)(this->parent))->geoMap[destination[0]][destination[1]] == NO_DATA_ON_FIELD
-			||
+			((RobotMAV*)(this->parent))->geoMap[destination[0]][destination[1]] != NO_DATA_ON_FIELD
+			&&
 			//radMap
-			((RobotMAV*)(this->parent))->radMap[destination[0]][destination[1]] == NO_DATA_ON_FIELD
+			((RobotMAV*)(this->parent))->radMap[destination[0]][destination[1]] != NO_DATA_ON_FIELD
 			){
 				DecideDestination();
 		}
@@ -40,8 +40,8 @@ void ContExplore::DecideDestination(){
 	float x = ((RobotMAV*)(this->parent))->getPosX();
 	float y = ((RobotMAV*)(this->parent))->getPosY();
 	//Destination
-	int destX = -1;
-	int destY = -1;
+	int destX = (int)NO_DATA_ON_FIELD;
+	int destY = (int)NO_DATA_ON_FIELD;
 	//Distance
 	float distance = (float)(FIELD_SIZE * FIELD_SIZE);
 	//Decide Destination
