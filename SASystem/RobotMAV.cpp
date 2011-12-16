@@ -83,24 +83,8 @@ void RobotMAV::Initialize(){
 	modColor[2][0] = 0.5f;
 	modColor[2][1] = 0.5f;
 	modColor[2][2] = 0.5f;
-
-	//暫定的に入れ替えてみる
-	///ContConnect : White
-	cC = new ContConnect();
-	this->addModule(cC);
-	modColor[3][0] = 1.0f;
-	modColor[3][1] = 1.0f;
-	modColor[3][2] = 1.0f;
-
-	///ContExplore : Sky Blue
-	cE = new ContExplore();
-	this->addModule(cE);
-	modColor[4][0] = 0.0f;
-	modColor[4][1] = 1.0f;
-	modColor[4][2] = 1.0f;
-
-	/*
-
+	
+#ifdef SWAP_CCCE
 	///ContExplore : Sky Blue
 	cE = new ContExplore();
 	this->addModule(cE);
@@ -115,7 +99,23 @@ void RobotMAV::Initialize(){
 	modColor[4][1] = 1.0f;
 	modColor[4][2] = 1.0f;
 
-	*/
+#else
+
+	///ContConnect : White
+	cC = new ContConnect();
+	this->addModule(cC);
+	modColor[3][0] = 1.0f;
+	modColor[3][1] = 1.0f;
+	modColor[3][2] = 1.0f;
+
+	///ContExplore : Sky Blue
+	cE = new ContExplore();
+	this->addModule(cE);
+	modColor[4][0] = 0.0f;
+	modColor[4][1] = 1.0f;
+	modColor[4][2] = 1.0f;
+
+#endif	//SWAP_CCCE
 
 	/////Actuatorを追加
 	//位置Actuatorを追加
@@ -186,23 +186,8 @@ void RobotMAV::Initialize(){
 		cWaP[i] = new Arbiter(cW, i, aP, i, 1.0f);
 		this->addArbiter(cWaP[i]);
 	}
-	//暫定的に入れ替えてみる
-	
-	///34, 35:Suppress Connect -> 位置Actuator
-	Arbiter* cCaP[2];
-	for(int i = 0; i < 2; i++){
-		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
-		this->addArbiter(cCaP[i]);
-	}
 
-	///36, 37:Suppress Explore -> 位置Actuator
-	Arbiter* cEaP[2];
-	for(int i = 0; i < 2; i++){
-		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
-		this->addArbiter(cEaP[i]);
-	}
-
-	/*
+#ifdef SWAP_CCCE
 	///34, 35:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
@@ -216,7 +201,22 @@ void RobotMAV::Initialize(){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
 		this->addArbiter(cCaP[i]);
 	}
-	*/
+
+#else
+	///34, 35:Suppress Connect -> 位置Actuator
+	Arbiter* cCaP[2];
+	for(int i = 0; i < 2; i++){
+		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
+		this->addArbiter(cCaP[i]);
+	}
+
+	///36, 37:Suppress Explore -> 位置Actuator
+	Arbiter* cEaP[2];
+	for(int i = 0; i < 2; i++){
+		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
+		this->addArbiter(cEaP[i]);
+	}
+#endif	//SWAP_CCCE
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
 

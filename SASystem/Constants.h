@@ -7,7 +7,10 @@
  */
 #define INVERSE_SUPPRESSOR
 
-#define NUM_ROBOT			5
+//ContConnect‚ğContExplore‚æ‚è‚à’á‚¢—Dæ“x‚É‚·‚é‚Æ‚«éŒ¾‚·‚é
+//#define SWAP_CCCE
+
+#define NUM_ROBOT			40
 
 //íœ—\’è
 #define LENGTH				100
