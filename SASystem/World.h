@@ -3,6 +3,17 @@
 
 #include "RobotMAV.h"
 
+/**
+	@class World
+	@brief 世界をSimulateする．
+	世界に存在するRobotを駆動させ，
+	駆動に応じた反応としてセンサーへデータを送る
+	@author Kenichi Yorozu
+	@date 22th November 2011
+	@sa Robot
+	@sa SAModule
+ */
+
 class World : public Robot{
 public:
 	/**
