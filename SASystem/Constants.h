@@ -10,7 +10,7 @@
 //ContConnect‚ğContExplore‚æ‚è‚à’á‚¢—Dæ“x‚É‚·‚é‚Æ‚«éŒ¾‚·‚é
 //#define SWAP_CCCE
 
-#define NUM_ROBOT			40
+#define NUM_ROBOT			10
 
 //íœ—\’è
 #define LENGTH				100

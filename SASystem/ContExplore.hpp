@@ -9,8 +9,13 @@
 		Inputはなし．Robot内部のMapを利用する
 	<h1>Outputs</h1>
 	<ul>
-		<li>dXCExp</li>
-		<li>dYCExp</li>
+		<li>Output0 : dXCExp</li>
+		<li>Output1 : dYCExp</li>
+	</ul>
+	<h1>IBoard</h1>
+	<ul>
+		<li>FBoard0 : iDestinationX</li>
+		<li>FBoard1 : iDestinationY</li>
 	</ul>
 	@author Kencihi Yorozu
 	@date 8th December 2011
@@ -51,32 +56,30 @@ public:
 		@return 現在の目的地のX座標
 		@sa destination
 	 */
-	float getDestinationX() const;
+	int getDestinationX() const;
 	/**
 		@brief 現在の目的地のY座標を得る
 		@return 現在の目的地のY座標
 		@sa destination
 	 */
-	float getDestinationY() const;
+	int getDestinationY() const;
 protected:
-	///目的地の座標
-	int destination[2];
 };
 
 inline ContExplore::ContExplore(){
 	this->addOutput("dXCExp");
 	this->addOutput("dYCExp");
 
-	destination[0] = NO_DATA_ON_FIELD;
-	destination[1] = NO_DATA_ON_FIELD;
+	this->addIBoard("iDestinationX");
+	this->addIBoard("iDestinationY");
 }
 
-inline float ContExplore::getDestinationX() const{
-	return destination[0];
+inline int ContExplore::getDestinationX() const{
+	return this->getIBoard(0);
 }
 
-inline float ContExplore::getDestinationY() const{
-	return destination[1];
+inline int ContExplore::getDestinationY() const{
+	return this->getIBoard(1);
 }
 
 #endif	//_Cont_Explore_HPP_

@@ -115,7 +115,6 @@ public:
 	 */
 	virtual void setOutput(int index, float signal);
 	
-	///iBoardとfBoardは，innerMemoryのものにアクセスする
 	virtual int getIBoard(int index) const;
 	virtual float getFBoard(int index) const;
 	virtual void setIBoard(int index, int signal);
