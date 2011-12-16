@@ -219,6 +219,8 @@ void RobotMAV::Initialize(){
 #endif	//SWAP_CCCE
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
+	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
+	std::cout << "Number of Outputs" << this->getNumOfOutputPorts() << std::endl;
 
 	///////Initialize Map Log Files///////
 	std::string filename = this->getLogFilePath();
