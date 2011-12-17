@@ -232,3 +232,10 @@ int Robot::getNumOfModules() const{
 int Robot::getNumOfArbiters() const{
 	return numOfArbiters;
 }
+
+SAModule*	Robot::getModule(int index){
+	return this->modules->at(index);
+}
+Arbiter*	Robot::getArbiter(int index){
+	return this->arbiters->at(index);
+}

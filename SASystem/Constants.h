@@ -95,6 +95,12 @@
 #define BAT_GAIN		2.0
 #define MAX_BAT			100.0
 
+////ContArbitrateDestination
+///Destination‚ª‰“‚¢‚Æ”»’f‚·‚éÛ‚Ìthreshold
+#define DEST_FAR		5.0
+///‘¼‚Ì‚à‚Ì‚ª‹­‚­•Ê‚Ì•ûŒü‚Öi‚ñ‚Å‚¢‚é‚Æ”»’f‚·‚éÛ‚Ìthreshold
+#define DEST_STRONG_WRONG	1.0
+
 ///–³M†ó‘Ô
 #define NO_SIGNAL		-99.0f
 

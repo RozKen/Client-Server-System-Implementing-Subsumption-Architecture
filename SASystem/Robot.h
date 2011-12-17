@@ -62,6 +62,18 @@ public:
 		@return number of Registered Arbiters
 	 */
 	int getNumOfArbiters() const;
+	/**
+		@brief get Module at index
+		@param index “o˜^‚³‚ê‚½‡”Ô
+		@return pointer to the Module
+	 */
+	SAModule*	getModule(int index);
+	/**
+		@brief get Arbiter at index
+		@param index “o˜^‚³‚ê‚½‡”Ô
+		@return pointer to the Arbiter
+	 */
+	Arbiter*	getArbiter(int index);
 protected:
 	/**
 		@brief ƒƒ{ƒbƒg“à‚ÌModule‚ğ‚·‚×‚ÄÀs‚·‚é

@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClCompile Include="Blackboard.cpp" />
     <ClCompile Include="Arbiter.cpp" />
+    <ClCompile Include="ContArbitrateDestination.cpp" />
     <ClCompile Include="ContExplore.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Arbiter.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ContAlive.hpp" />
+    <ClInclude Include="ContArbitrateDestination.hpp" />
     <ClInclude Include="ContAvoid.hpp" />
     <ClInclude Include="ContConnect.hpp" />
     <ClInclude Include="ContExplore.hpp" />
