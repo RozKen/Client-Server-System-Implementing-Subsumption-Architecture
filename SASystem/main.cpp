@@ -20,13 +20,17 @@ int lastx=0;
 int lasty=0;
 unsigned char Buttons[3] = {0};
 
-#define DISP_LAYER	11
+#define DISP_LAYER	10
 
 ///////For Map Display Selection///////
 bool geoFlags[DISP_LAYER];
 bool radFlags[DISP_LAYER];
+bool geoFlagW = false;
+bool radFlagW = false;
 bool radSwitch = true;	//true -> radFlags, false -> geoFlags
 bool axisSwitch = true;	//true -> display axis, false -> hide axis
+bool dangerSwitch = false;
+bool wifiSwitch = false;
 
 void Init();
 void glIdle();
@@ -101,7 +105,6 @@ void Init(){
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
 
 	std::string directory = logPathGenerator();
 	world = new World(directory, "world.csv");
@@ -138,7 +141,8 @@ void glIdle(){
 void glDisplay(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glTranslatef(0,0,-zoom);
 	glTranslatef(tx,ty,0);
 	glRotatef(rotx,1,0,0);
@@ -188,22 +192,22 @@ void glDisplay(){
 		bool insideX[NUM_ROBOT];
 		//Draw Barriers as Boxes
 		for(int i = 0; i < FIELD_SIZE; i++){
-			for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
+			/*for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 				insideX[iRobot] = false;
 				robot = world->getRobot(iRobot);
 				if(i > robot->getPosX() - RANGE && i < robot->getPosX() + RANGE){
 					insideX[iRobot] = true;
 				}
-			}
+			}*/
 			for(int j = 0; j < FIELD_SIZE; j++){
 				//On Barrier
 				if(world->geoField[i][j] == OUTOFAREA){
-					if(CalcDisplay(geoFlags, false, i, j)){
+					if(CalcDisplay(geoFlags, false, i, j) || geoFlagW){
 						glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 					}else{
 						glColor4f(0.0f, 0.0f, 0.2f, 1.0f);
 					}
-					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
+					/*for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
 							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
@@ -214,13 +218,13 @@ void glDisplay(){
 								}
 							}
 						}
-					}
+					}*/
 					glTranslatef((GLfloat)i, 0, (GLfloat)j);
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
 				}else{		//Not on Barrier
 					float* color = CalcColor(world->radField[i][j]);
-					if(CalcDisplay(radFlags, true, i, j)){
+					if(CalcDisplay(radFlags, true, i, j) || radFlagW){
 						float color0 = color[0];
 						float color1 = color[1];
 						float color2 = color[2];
@@ -230,14 +234,14 @@ void glDisplay(){
 						glColor4f(color[0] * 0.2f, color[1] * 0.2f, color[2] * 0.2f, 1.0f);
 						delete color;	//CalcColor“à‚Ånew‚µ‚Ä‚é‚©‚ç
 					}
-					for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
+					/*for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
 						if(insideX[iRobot]){
 							robot = world->getRobot(iRobot);
 							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
 								glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
 							}
 						}
-					}
+					}*/
 					glTranslatef((GLfloat)i, -1.0f, (GLfloat)j);
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, +1.0f, (GLfloat)-j);
@@ -255,7 +259,27 @@ void glDisplay(){
 			float x = robot->getPosX();
 			float y = robot->getPosY();
 			glTranslatef(x, 0, y);
+			//Draw Robot
 			glutSolidSphere(0.5, 12, 12);
+			
+			if(dangerSwitch){
+				//Draw Reach of Sensors
+				glColor4f(1.0f, 0.0f, 0.0f, 0.3f);
+				glTranslatef(0, -0.4f, 0);
+				glRotatef(-90.0f, 1, 0, 0);
+				glutSolidCone(RANGE_DANGER, 0.2, 12, 2);
+				glRotatef(90.0f, 1, 0, 0);
+				glTranslatef(0, 0.4f, 0);
+			}
+			if(wifiSwitch){
+				//Draw Reach of Wi-Fi
+				glColor4f(0.0f, 1.0f, 0.0f, 0.3f);
+				glTranslatef(0, -0.4f, 0);
+				glRotatef(-90.0f, 1, 0, 0);
+				glutSolidCone(WIFI_REACH, 0.1, 32, 5);
+				glRotatef(90.0f, 1, 0, 0);
+				glTranslatef(0, 0.4f, 0);
+			}
 			glTranslatef(-x, -0, -y);
 
 			//Draw Exploring Objective
@@ -272,19 +296,22 @@ void glDisplay(){
 	glColor4f(0.0f, 0.8f, 0.0f, 0.8f);
 
 	// draw grid
-	glBegin(GL_LINES);
-	//glTranslatef(-0.5, -0.5, -0.5);
-	for(int i=-50;i<=50;++i) {
-		glVertex3f(i - 0.5,-0.5,-50 - 0.5);
-		glVertex3f(i - 0.5,-0.5,50 -0.5);
+	if(axisSwitch){
+		glBegin(GL_LINES);
+		//glTranslatef(-0.5, -0.5, -0.5);
+		for(int i=-50;i<=50;++i) {
+			glVertex3f(i - 0.5,-0.4,-50 - 0.5);
+			glVertex3f(i - 0.5,-0.4,50 -0.5);
 
-		glVertex3f(50 - 0.5,-0.5,i - 0.5);
-		glVertex3f(-50 - 0.5,-0.5,i - 0.5);
+			glVertex3f(50 - 0.5,-0.4,i - 0.5);
+			glVertex3f(-50 - 0.5,-0.4,i - 0.5);
+		}
+		//glTranslatef(0.5, 0.5, 0.5);
+		glEnd();
 	}
-	//glTranslatef(0.5, 0.5, 0.5);
-	glEnd();
 
 	glutSwapBuffers();
+	glDisable(GL_BLEND);
 }
 
 void glReshape(int w, int h)
@@ -422,11 +449,17 @@ void glKeyboard(unsigned char key , int x, int y){
 			geoFlags[9] = !geoFlags[9];
 		}
 		break;
+	case 'd':
+		dangerSwitch = !dangerSwitch;
+		break;
+	case 'i':
+		wifiSwitch = !wifiSwitch;
+		break;
 	case 'w':
 		if(radSwitch){
-			radFlags[10] = !radFlags[10];
+			radFlagW = !radFlagW;
 		}else{
-			geoFlags[10] = !geoFlags[10];
+			geoFlagW = !geoFlagW;
 		}
 		break;
 	case 's':	//Switch
@@ -479,24 +512,21 @@ float* CalcColor(float radValue){
 
 bool CalcDisplay(bool* flags, bool rad, int i, int j){
 	bool answer = false;
-	if(flags[DISP_LAYER - 1]){
-			answer = true;
+	
+	if(rad){
+		for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
+			if(flags[robot] && ((int)(world->getRobot(robot)->radMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
+				//std::cout << (int)(world->getRobot(robot)->radMap[i][j] - 0.5f) << std::endl;
+				//std::cout << NO_DATA_ON_FIELD << std::endl;
+				answer = true;
+				break;
+			}
+		}	
 	}else{
-		if(rad){
-			for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
-				if(flags[robot] && ((int)(world->getRobot(robot)->radMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
-					//std::cout << (int)(world->getRobot(robot)->radMap[i][j] - 0.5f) << std::endl;
-					//std::cout << NO_DATA_ON_FIELD << std::endl;
-					answer = true;
-					break;
-				}
-			}	
-		}else{
-			for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
-				if(flags[robot] && ((int)(world->getRobot(robot)->geoMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
-					answer = true;
-					break;
-				}
+		for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
+			if(flags[robot] && ((int)(world->getRobot(robot)->geoMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
+				answer = true;
+				break;
 			}
 		}
 	}

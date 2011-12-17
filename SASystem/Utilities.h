@@ -9,6 +9,8 @@
 
 #include "Random.hpp"
 
+#include <gl/GL.h>
+
 int fieldGenerator(int* field);
 std::string logPathGenerator();
 

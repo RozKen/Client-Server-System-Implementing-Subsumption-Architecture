@@ -113,8 +113,8 @@ void ContArbitrateDestination::Run(){
 			//方角が全然ちがったら，
 			if(innerProduct2 < - DEST_STRONG_WRONG){
 				//Destinationを再計算させるようにする
-				this->setIBoard(0, (int)NO_SIGNAL);
-				this->setIBoard(1, (int)NO_SIGNAL);
+				//this->setIBoard(0, (int)NO_SIGNAL);
+				//this->setIBoard(1, (int)NO_SIGNAL);
 			}
 		}
 	}
