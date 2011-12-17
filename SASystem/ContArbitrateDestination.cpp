@@ -7,6 +7,18 @@ ContArbitrateDestination::ContArbitrateDestination(){
 	//InputにはPositonを用いる
 	this->addInput("posXCAd");
 	this->addInput("posYCAd");
+}
+
+ContArbitrateDestination::ContArbitrateDestination(SAModule* parent){
+	this->setParent(parent);
+	//InputにはPositonを用いる
+	this->addInput("posXCAd");
+	this->addInput("posYCAd");
+
+	Initialize();
+}
+
+void ContArbitrateDestination::Initialize(){
 	//ContExploreのIBoardを用いる．
 #ifdef SWAP_CCCE
 	int modNum = 9;
@@ -71,7 +83,7 @@ void ContArbitrateDestination::Run(){
 		if(vecBnorm != 0.0f){
 			innerProduct /= vecBnorm;
 		}
-		std::cout << "innerProduct" << innerProduct << std::endl;
+		//std::cout << "innerProduct : " << innerProduct << std::endl;
 		//中心方向じゃない場合
 		if(innerProduct < 0.5){
 			//自分の進もうとしている方向が，他のRobotの進もうとしている方向と大幅にずれていないか
@@ -97,6 +109,7 @@ void ContArbitrateDestination::Run(){
 				innerProduct2 /= vecBnorm;
 			}
 			**/
+			//std::cout << "innerProduct2 : " << innerProduct2 << std::endl;
 			//方角が全然ちがったら，
 			if(innerProduct2 < - DEST_STRONG_WRONG){
 				//Destinationを再計算させるようにする

@@ -278,6 +278,7 @@ private:
 	ContWander* cW;
 	ContConnect* cC;
 	ContExplore* cE;
+	ContArbitrateDestination* cAd;
 	
 	ActPos* aP;
 

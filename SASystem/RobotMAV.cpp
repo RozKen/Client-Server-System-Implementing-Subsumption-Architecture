@@ -38,46 +38,47 @@ void RobotMAV::Initialize(){
 	this->nearest = new std::vector<RobotMAV *>();
 
 	///Sensorを追加
-	///////Sensorには初期値も与える必要がある.
-	//Batteryセンサを追加
+	///////Sensorにはどこかで初期値も与える必要がある.
+	///Module 00 : Batteryセンサを追加
 	sB = new SenseBattery();
 	this->addModule(sB);
 	
-	//位置センサを追加
+	///Module 01 : 位置センサを追加
 	sP = new SensePos();
 	this->addModule(sP);
 	
-	//方向センサを追加
+	///Module 02 : 方向センサを追加
 	sD = new SenseDirection();
 	this->addModule(sD);
 
-	//距離センサを追加
+	///Module 03 : 距離センサを追加
 	sR = new SenseRange();
 	this->addModule(sR);
 	
 
-	//放射線量センサを追加
+	///Module 04 : 放射線量センサを追加
 	sRad = new SenseRadiation();
 	this->addModule(sRad);
 
-	//Network接続センサを追加
+	///Module 05 : Network接続センサを追加
 	sN = new SenseNet();
 	this->addModule(sN);
 
 	///Controllerを追加
-	///Avoid : Red
+	///////Controllerは発現したときの表現色を定義する必要がある
+	///Module 06 : Avoid : Red
 	cAv = new ContAvoid();
 	this->addModule(cAv);
 	modColor[0][0] = 1.0f;
 	modColor[0][1] = 0.0f;
 	modColor[0][2] = 0.0f;
-	///Alive : Yellow
+	///Module 07 : Alive : Yellow
 	cAl = new ContAlive();
 	this->addModule(cAl);	
 	modColor[1][0] = 1.0f;
 	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
-	///Wander : Gray
+	///Module 08 : Wander : Gray
 	cW = new ContWander();
 	this->addModule(cW);
 	modColor[2][0] = 0.5f;
@@ -85,14 +86,14 @@ void RobotMAV::Initialize(){
 	modColor[2][2] = 0.5f;
 	
 #ifdef SWAP_CCCE
-	///ContExplore : Sky Blue
+	///Module 09 : ContExplore : Sky Blue
 	cE = new ContExplore();
 	this->addModule(cE);
 	modColor[3][0] = 0.0f;
 	modColor[3][1] = 1.0f;
 	modColor[3][2] = 1.0f;
 
-	///ContConnect : White
+	///Module 10 : ContConnect : White
 	cC = new ContConnect();
 	this->addModule(cC);
 	modColor[4][0] = 1.0f;
@@ -101,14 +102,14 @@ void RobotMAV::Initialize(){
 
 #else
 
-	///ContConnect : White
+	///Module 09 : ContConnect : White
 	cC = new ContConnect();
 	this->addModule(cC);
 	modColor[3][0] = 1.0f;
 	modColor[3][1] = 1.0f;
 	modColor[3][2] = 1.0f;
 
-	///ContExplore : Sky Blue
+	///Module 10 : ContExplore : Sky Blue
 	cE = new ContExplore();
 	this->addModule(cE);
 	modColor[4][0] = 0.0f;
@@ -117,8 +118,15 @@ void RobotMAV::Initialize(){
 
 #endif	//SWAP_CCCE
 
+	///Module 11 : ContArbitrateDestination : Purple?
+	cAd = new ContArbitrateDestination(this);
+	this->addModule(cAd);
+	modColor[5][0] = 1.0f;
+	modColor[5][1] = 0.0f;
+	modColor[5][2] = 1.0f;
+
 	/////Actuatorを追加
-	//位置Actuatorを追加
+	///Module 12 : 位置Actuatorを追加
 	aP = new ActPos();
 	this->addModule(aP);
 
@@ -217,6 +225,13 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cEaP[i]);
 	}
 #endif	//SWAP_CCCE
+
+	///38, 39: Wire 位置Sensor -> Arbitratedestination
+	Arbiter* sPcAd[2];
+	for(int i = 0; i < 2; i++){
+		sPcAd[i] = new Arbiter(sP, i, cAd, i, 2.0f);
+		this->addArbiter(sPcAd[i]);
+	}
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
 	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
@@ -362,6 +377,9 @@ void RobotMAV::ProcessArbiters(){
 			break;
 		}
 	}
+
+	//ratios[4] doesn't used.
+	ratios[4] = 0.0f;
 
 	///Set RobotColor According to Suppress
 	for(int j = 0; j < 3; j++){

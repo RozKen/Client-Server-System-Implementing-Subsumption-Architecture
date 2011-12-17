@@ -23,10 +23,23 @@ public:
 	/**
 		@brief Default Constructor
 		InputやOutputなどを追加していく．
+		これを用いてObjectを生成した際は，
+		addModule後，Initialize()を呼ぶ必要がある
+	 */
+	ContArbitrateDestination();
+	/**
+		@brief Constructor
+		InputやOutputなどを追加していく．
+		Initializeも呼ばれる
+	 */
+	ContArbitrateDestination(SAModule* parent);
+	/**
+		@brief addModuleされた後，あるいは，parentを知った後に実行
 		ContExploreのIBoardを用いるため，iBoardIndexを設定
 		@sa ContExplore
 	 */
-	ContArbitrateDestination();
+	void Initialize();
+
 	/**
 		@brief 実行時の動作
 			<ul>

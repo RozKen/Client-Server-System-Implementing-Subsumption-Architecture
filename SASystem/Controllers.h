@@ -4,9 +4,10 @@
 #include "ContAvoid.hpp"
 #include "ContAlive.hpp"
 #include "ContWander.hpp"
-#include "ContExplore.hpp"
 #include "ContConnect.hpp"
+#include "ContExplore.hpp"
+#include "ContArbitrateDestination.hpp"
 
-#define NUM_OF_LAYERS	5
+#define NUM_OF_LAYERS	6
 
 #endif	//_Controllers_H_
