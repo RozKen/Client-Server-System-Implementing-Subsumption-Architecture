@@ -6,6 +6,7 @@
 #include "SenseDirection.hpp"
 #include "SenseRange.hpp"
 #include "SenseRadiation.hpp"
+#include "SenseBatteryCharger.hpp"
 #include "SenseNet.hpp"
 
 

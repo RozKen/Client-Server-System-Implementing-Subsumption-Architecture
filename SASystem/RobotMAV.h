@@ -141,6 +141,11 @@ public:
 	 */
 	void setRad(int index, float value);
 	/**
+		@brief get the value of Battery Charger Sensor
+		@return value of Battery Charger Sensor
+	 */
+	int getBatteryCharger() const;
+	/**
 		@brief get Coordinate of Robot at index
 		@param index which Robot
 		@param x x-axis : true, y-axis. false
@@ -220,11 +225,16 @@ public:
 	/**
 		@brief 地形マップ.各ロボットが独自に所有する.
 	 */
-	float geoMap[FIELD_SIZE][FIELD_SIZE];
+	int geoMap[FIELD_SIZE][FIELD_SIZE];
 	/**
 		@brief 放射線量マップ.各ロボットが独自に所有する.
 	 */
 	float radMap[FIELD_SIZE][FIELD_SIZE];
+	/**
+		@brief 意味Map．各ロボットが独自に所有する.
+		Battery Chargerの有無などを記録する
+	 */
+	int semMap[FIELD_SIZE][FIELD_SIZE];
 protected:
 	/**
 		@brief Moduleの登録などを行なう．
@@ -237,13 +247,19 @@ protected:
 	void logMaps();
 	/**
 		@brief geoMapを更新する
+		@sa geoMap
 	 */
 	void updateInnerGeoMap();
 	/**
 		@brief radMapを更新する
+		@sa radMap
 	 */
 	void updateInnerRadMap();
-	
+	/**
+		@brief semMapを更新する
+		@sa semMap
+	 */
+	void updateInnerSemMap();
 	///Member Variables
 	/**
 		@brief 近傍のRobotへのポインタ配列
@@ -271,11 +287,13 @@ private:
 	SenseDirection* sD;
 	SenseRange* sR;
 	SenseRadiation* sRad;
+	SenseBatteryCharger* sBc;
 	SenseNet* sN;
 
 	ContAvoid* cAv;
 	ContAlive* cAl;
 	ContWander* cW;
+	ContSmartAlive* cSa;
 	ContConnect* cC;
 	ContExplore* cE;
 	ContArbitrateDestination* cAd;
@@ -284,6 +302,7 @@ private:
 
 	std::ofstream geoLog;
 	std::ofstream radLog;
+	std::ofstream semLog;
 };
 
 #endif	//_Robot_MAV_H_

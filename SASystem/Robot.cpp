@@ -146,7 +146,7 @@ void Robot::addModule(SAModule *module){
 	for(int i = 0; i < titles->size(); i++){
 		index = this->innerMemory->addIntPort(titles->at(i));
 		module->addIBoardIndex(index);
-		if(flag != 2){
+		if(flag == 1){
 			std::string title = titles->at(i);
 			this->addInput(title);
 			//this->addIBoard(title.append("_i"));
@@ -156,7 +156,7 @@ void Robot::addModule(SAModule *module){
 			this->innerWireDestType->push_back(2);
 			this->innerWireDestIndex->push_back(index);
 		}
-		if(flag != 1){
+		if(flag == 2){
 			std::string title = titles->at(i);
 			this->addOutput(title);
 			//this->addIBoard(title.append("_i"));
@@ -172,7 +172,7 @@ void Robot::addModule(SAModule *module){
 	for(int i = 0; i < titles->size(); i++){
 		index = this->innerMemory->addFloatPort(titles->at(i));
 		module->addFBoardIndex(index);
-		if(flag != 2){
+		if(flag == 1){
 			std::string title = titles->at(i);
 			this->addInput(title);
 			//this->addFBoard(title.append("_i"));
@@ -182,7 +182,7 @@ void Robot::addModule(SAModule *module){
 			this->innerWireDestType->push_back(3);
 			this->innerWireDestIndex->push_back(index);
 		}
-		if(flag != 1){
+		if(flag == 2){
 			std::string title = titles->at(i);
 			this->addOutput(title);
 			//this->addFBoard(title.append("_i"));

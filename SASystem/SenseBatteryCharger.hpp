@@ -14,7 +14,7 @@
 	</ul>
 	<h1>IBoard</h1>
 	<ul>
-		<li>fBoard0 : fOnBattery : 1 = true, 0 = false</li>
+		<li>iBoard0 : iOnBattery : 1 = true, 0 = false</li>
 	</ul>
 	@author Kenichi Yorozu
 	@date 18th December 2011
@@ -38,11 +38,11 @@ public:
 
 inline SenseBatteryCharger::SenseBatteryCharger(){
 	this->addOutput("onBattery");
-	this->addFBoard("fOnBattery");
+	this->addIBoard("iOnBattery");
 }
 
 inline void SenseBatteryCharger::Run(){
-	float value = (float)(this->getFBoard(0));
-	this->setOutput(0, value);
+	int value = this->getIBoard(0);
+	this->setOutput(0, (float)value);
 }
 #endif	//_Sense_Battery_Charger_HPP_

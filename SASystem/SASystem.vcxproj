@@ -78,6 +78,7 @@
     <ClCompile Include="Arbiter.cpp" />
     <ClCompile Include="ContArbitrateDestination.cpp" />
     <ClCompile Include="ContExplore.cpp" />
+    <ClCompile Include="ContSmartAlive.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="ContConnect.hpp" />
     <ClInclude Include="ContExplore.hpp" />
     <ClInclude Include="Controllers.h" />
+    <ClInclude Include="ContSmartAlive.hpp" />
     <ClInclude Include="ContWander.hpp" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="Logger.h" />
@@ -109,6 +111,7 @@
     <ClInclude Include="Robot.h" />
     <ClInclude Include="SAModule.h" />
     <ClInclude Include="SenseBattery.hpp" />
+    <ClInclude Include="SenseBatteryCharger.hpp" />
     <ClInclude Include="SenseDirection.hpp" />
     <ClInclude Include="SenseNet.hpp" />
     <ClInclude Include="SensePos.hpp" />

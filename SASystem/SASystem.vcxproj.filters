@@ -63,6 +63,9 @@
     <ClCompile Include="ContArbitrateDestination.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ContSmartAlive.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SAModule.h">
@@ -154,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="ContArbitrateDestination.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="ContSmartAlive.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="SenseBatteryCharger.hpp">
+      <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

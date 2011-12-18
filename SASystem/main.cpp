@@ -242,7 +242,6 @@ void glDisplay(){
 
 	double offset = -50.0;		//FIELD_SIZE‚Ì”¼•ª
 	glTranslatef(offset, 0, offset);
-		bool insideX[NUM_ROBOT];
 		//Draw Barriers as Boxes
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){

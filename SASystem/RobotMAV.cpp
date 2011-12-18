@@ -23,8 +23,9 @@ void RobotMAV::Initialize(){
 	///Memberの配列を初期化
 	for(int i = 0; i < FIELD_SIZE; i++){
 		for(int j = 0; j < FIELD_SIZE; j++){
-			geoMap[i][j] = (float)NO_DATA_ON_FIELD;
+			geoMap[i][j] = NO_DATA_ON_FIELD;
 			radMap[i][j] = (float)NO_DATA_ON_FIELD;
+			semMap[i][j] = NO_DATA_ON_FIELD;
 		}
 	}
 	
@@ -60,78 +61,90 @@ void RobotMAV::Initialize(){
 	sRad = new SenseRadiation();
 	this->addModule(sRad);
 
-	///Module 05 : Network接続センサを追加
+	///Module 05 : 充電器センサを追加
+	sBc = new SenseBatteryCharger();
+	this->addModule(sBc);
+
+	///Module 06 : Network接続センサを追加
 	sN = new SenseNet();
 	this->addModule(sN);
 
 	///Controllerを追加
 	///////Controllerは発現したときの表現色を定義する必要がある
-	///Module 06 : Avoid : Red
+	///Module 07 : Avoid : Red
 	cAv = new ContAvoid();
 	this->addModule(cAv);
 	modColor[0][0] = 1.0f;
 	modColor[0][1] = 0.0f;
 	modColor[0][2] = 0.0f;
-	///Module 07 : Alive : Yellow
+	///Module 08 : Alive : Yellow
 	cAl = new ContAlive();
 	this->addModule(cAl);	
 	modColor[1][0] = 1.0f;
 	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
-	///Module 08 : Wander : Gray
+	///Module 09 : Wander : Gray
 	cW = new ContWander();
 	this->addModule(cW);
 	modColor[2][0] = 0.5f;
 	modColor[2][1] = 0.5f;
 	modColor[2][2] = 0.5f;
+
+	///Module 10 : Smart Alive : Orange
+	cSa = new ContSmartAlive();
+	this->addModule(cSa);
+	modColor[3][0] = 1.0f;
+	modColor[3][1] = 0.5f;
+	modColor[3][2] = 0.0f;
 	
 #ifdef SWAP_CCCE
-	///Module 09 : ContExplore : Sky Blue
-	cE = new ContExplore();
-	this->addModule(cE);
-	modColor[3][0] = 0.0f;
-	modColor[3][1] = 1.0f;
-	modColor[3][2] = 1.0f;
-
-	///Module 10 : ContConnect : White
-	cC = new ContConnect();
-	this->addModule(cC);
-	modColor[4][0] = 1.0f;
-	modColor[4][1] = 1.0f;
-	modColor[4][2] = 1.0f;
-
-#else
-
-	///Module 09 : ContConnect : White
-	cC = new ContConnect();
-	this->addModule(cC);
-	modColor[3][0] = 1.0f;
-	modColor[3][1] = 1.0f;
-	modColor[3][2] = 1.0f;
-
-	///Module 10 : ContExplore : Sky Blue
+	///Module 11 : ContExplore : Sky Blue
 	cE = new ContExplore();
 	this->addModule(cE);
 	modColor[4][0] = 0.0f;
 	modColor[4][1] = 1.0f;
 	modColor[4][2] = 1.0f;
 
-#endif	//SWAP_CCCE
-
-	///Module 11 : ContArbitrateDestination : Purple?
-	cAd = new ContArbitrateDestination(this);
-	this->addModule(cAd);
+	///Module 12 : ContConnect : White
+	cC = new ContConnect();
+	this->addModule(cC);
 	modColor[5][0] = 1.0f;
-	modColor[5][1] = 0.0f;
+	modColor[5][1] = 1.0f;
 	modColor[5][2] = 1.0f;
 
+#else
+
+	///Module 11 : ContConnect : White
+	cC = new ContConnect();
+	this->addModule(cC);
+	modColor[4][0] = 1.0f;
+	modColor[4][1] = 1.0f;
+	modColor[4][2] = 1.0f;
+
+	///Module 12 : ContExplore : Sky Blue
+	cE = new ContExplore();
+	this->addModule(cE);
+	modColor[5][0] = 0.0f;
+	modColor[5][1] = 1.0f;
+	modColor[5][2] = 1.0f;
+
+#endif	//SWAP_CCCE
+
+	///Module 13 : ContArbitrateDestination : Purple?
+	cAd = new ContArbitrateDestination(this);
+	this->addModule(cAd);
+	modColor[6][0] = 1.0f;
+	modColor[6][1] = 0.0f;
+	modColor[6][2] = 1.0f;
+
 	/////Actuatorを追加
-	///Module 12 : 位置Actuatorを追加
+	///Module 14 : 位置Actuatorを追加
 	aP = new ActPos();
 	this->addModule(aP);
 
 	std::cout << "Number of Modules" << this->getNumOfModules() << std::endl;
 
+	///////////////////Arbiter/////////////////////////////
 	///Arbiterを追加
 	///先にWireObjects
 	
@@ -172,38 +185,60 @@ void RobotMAV::Initialize(){
 		this->addArbiter(sNcC[i]);
 	}
 
+	///28, 29 : 位置センサ -> SmartAlive
+	Arbiter* sPcSa[2];
+	for(int i = 0; i < 2; i++){
+		sPcSa[i] = new Arbiter(sP, i, cSa, i, 2.0f);
+		this->addArbiter(sPcSa[i]);
+	}
+
+	///30 : Batteryセンサ -> SmartAlive
+	Arbiter* sBcSa = new Arbiter(sB, 0, cSa, 2, 2.0f);
+	this->addArbiter(sBcSa);
+
+	///31 : BatteryChargerセンサ -> SmartAlive
+	Arbiter* sBccSa = new Arbiter(sBc, 0, cSa, 3, 2.0f);
+	this->addArbiter(sBccSa);
+
 	/////////以下の順番は重要．/////////
 	/////////階層の低い者から実施するため////
-	///28, 29:Avoid->位置Actuator	//Suppressされたデータが流れるWire
+	///32, 33:Avoid->位置Actuator	//Suppressされたデータが流れるWire
 	Arbiter* cAvaP[2];
 	for(int i = 0; i < 2; i++){
 		cAvaP[i] = new Arbiter(cAv, i, aP, i, 2.0f);
 		this->addArbiter(cAvaP[i]);
 	}
 	
-	///30, 31:Suppress Alive -> 位置Actuator
+	///34, 35:Suppress Alive -> 位置Actuator
 	Arbiter* cAlaP[2];
 	for(int i = 0; i < 2; i++){
 		cAlaP[i] = new Arbiter(cAl, i, aP, i, 1.0f);
 		this->addArbiter(cAlaP[i]);
 	}
 	
-	///32, 33:Suppress Wander -> 位置Actuator
+	///36, 37:Suppress Wander -> 位置Actuator
 	Arbiter* cWaP[2];
 	for(int i = 0; i < 2; i++){
 		cWaP[i] = new Arbiter(cW, i, aP, i, 1.0f);
 		this->addArbiter(cWaP[i]);
 	}
 
+	///38, 39:Suppress SmartAlive -> 位置Actuator
+	Arbiter* cSaaP[2];
+	for(int i = 0; i < 2; i++){
+		cSaaP[i] = new Arbiter(cSa, i, aP, i, 1.0f);
+		this->addArbiter(cSaaP[i]);
+	}
+
 #ifdef SWAP_CCCE
-	///34, 35:Suppress Explore -> 位置Actuator
+	///40, 41:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
 		this->addArbiter(cEaP[i]);
 	}
 
-	///36, 37:Suppress Connect -> 位置Actuator
+	///42, 43:Suppress Connect -> 位置Actuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
@@ -211,14 +246,14 @@ void RobotMAV::Initialize(){
 	}
 
 #else
-	///34, 35:Suppress Connect -> 位置Actuator
+	///40, 41:Suppress Connect -> 位置Actuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
 		this->addArbiter(cCaP[i]);
 	}
 
-	///36, 37:Suppress Explore -> 位置Actuator
+	///42, 43:Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
@@ -226,7 +261,7 @@ void RobotMAV::Initialize(){
 	}
 #endif	//SWAP_CCCE
 
-	///38, 39: Wire 位置Sensor -> Arbitratedestination
+	///44, 45: Wire 位置Sensor -> ArbitrateDestination
 	Arbiter* sPcAd[2];
 	for(int i = 0; i < 2; i++){
 		sPcAd[i] = new Arbiter(sP, i, cAd, i, 2.0f);
@@ -236,6 +271,8 @@ void RobotMAV::Initialize(){
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
 	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
 	std::cout << "Number of Outputs" << this->getNumOfOutputPorts() << std::endl;
+	std::cout << "Number of fBoards" << this->innerMemory->getNumOfFBoards() << std::endl;
+	std::cout << "Number of iBoards" << this->innerMemory->getNumOfIBoards() << std::endl;
 
 	///////Initialize Map Log Files///////
 	std::string filename = this->getLogFilePath();
@@ -245,6 +282,10 @@ void RobotMAV::Initialize(){
 	filename = this->getLogFilePath();
 	filename.append(".radLog.csv");
 	radLog.open(filename);
+
+	filename = this->getLogFilePath();
+	filename.append(".semLog.csv");
+	semLog.open(filename);
 }
 
 void RobotMAV::Run(){
@@ -269,15 +310,18 @@ void RobotMAV::logMaps(){
 		for(int j = 0; j < FIELD_SIZE; j++){
 			geoLog << geoMap[i][j] << ",";
 			radLog << radMap[i][j] << ",";
+			semLog << semMap[i][j] << ",";
 		}
 	}
 	geoLog << std::endl;
 	radLog << std::endl;
+	semLog << std::endl;
 }
 
 void RobotMAV::Update(){
 	updateInnerGeoMap();
 	updateInnerRadMap();
+	updateInnerSemMap();
 }
 
 float RobotMAV::getDX() const {
@@ -330,12 +374,16 @@ void RobotMAV::setRad(int index, float value){
 	this->setInput(4 + RANGE_DIV + index, value);
 }
 
+int RobotMAV::getBatteryCharger() const{
+	return this->getInput(4 + RANGE_DIV + MAX_AREA);
+}
+
 float RobotMAV::getRobot(int index, bool x){
 	int odd = 1;
 	if(x){
 		odd = 0;
 	}
-	return this->getInput(4 + RANGE_DIV + MAX_AREA + index * 2 + odd);
+	return this->getInput(4 + RANGE_DIV + MAX_AREA + 1 + index * 2 + odd);
 }
 
 void RobotMAV::setRobot(int index, float value, bool x){
@@ -343,7 +391,7 @@ void RobotMAV::setRobot(int index, float value, bool x){
 	if(x){
 		odd = 0;
 	}
-	this->setInput(4 + RANGE_DIV + MAX_AREA + index * 2 + odd, value);
+	this->setInput(4 + RANGE_DIV + MAX_AREA + 1 + index * 2 + odd, value);
 }
 
 float RobotMAV::getColorR() const{
@@ -361,31 +409,35 @@ void RobotMAV::ProcessArbiters(){
 	for(int i = 0; i < arbiters->size(); i++){
 		arbiters->at(i)->Run();
 		switch(i){
-		case 30:	//Alive Suppress Avoid and ActPos
+		case 34:	//Alive Suppress Avoid and ActPos
 			ratios[0] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 32:	//Wander Suppress Alive, Avoid and ActPos
+		case 36:	//Wander Suppress Alive, Avoid and ActPos
 			ratios[1] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 33:	//Explore Suppress Wander, Alive, Avoid and ActPos
+		case 38:	//Explore Suppress Wander, Alive, Avoid and ActPos
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 36:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
+		case 40:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
 			ratios[3] = arbiters->at(i)->getCurrentRatio();
+			break;
+		case 42:
+			ratios[4] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
 			break;
 		}
 	}
 
-	//ratios[4] doesn't used.
-	ratios[4] = 0.0f;
+	//ratios[5] doesn't used. ContArbitrateDestination
+	ratios[5] = 0.0f;
 
 	///Set RobotColor According to Suppress
 	for(int j = 0; j < 3; j++){
 		color[j] = modColor[NUM_OF_LAYERS - 1][j] * ratios[NUM_OF_LAYERS - 2] 
 		+ modColor[NUM_OF_LAYERS - 2][j] * (1.0f - ratios[NUM_OF_LAYERS - 2]);
 	}
+
 	for(int i = NUM_OF_LAYERS - 3; i >= 0; i--){
 		for(int j= 0; j < 3; j++){
 			color[j] = color[j] * ratios[i] + modColor[i][j] * (1.0f - ratios[i]);
@@ -409,7 +461,7 @@ void RobotMAV::updateInnerGeoMap(){
 			int y = j + round(this->getPosY());
 			if( x >= 0 && x < FIELD_SIZE 
 				&& y >= 0 && y < FIELD_SIZE){
-				geoMap[x][y] = (float)NORMAL;
+				geoMap[x][y] = NORMAL;
 			}
 		}
 	}
@@ -423,7 +475,7 @@ void RobotMAV::updateInnerGeoMap(){
 			int y = round(this->getPosY() + dy);
 			if( x >= 0 && x < FIELD_SIZE 
 				&& y >= 0 && y < FIELD_SIZE){
-				geoMap[x][y] = (float)OUTOFAREA;
+				geoMap[x][y] = OUTOFAREA;
 			}
 		}
 	}
@@ -431,11 +483,11 @@ void RobotMAV::updateInnerGeoMap(){
 	//Collect Data from Other Robots
 	for(int i = 0; i < WIFI_CONNECT && i < nearest->size(); i++){
 		RobotMAV* robot = nearest->at(i);
-		float value;
+		int value;
 		for(int j = 0; j < FIELD_SIZE; j++){
 			for(int k = 0; k < FIELD_SIZE; k++){
 				value = robot->geoMap[j][k];
-				if(value != (float)NO_DATA_ON_FIELD){
+				if(value != NO_DATA_ON_FIELD){
 					this->geoMap[j][k] = value;
 				}
 			}
@@ -463,6 +515,28 @@ void RobotMAV::updateInnerRadMap(){
 				value = robot->radMap[j][k];
 				if(value != NO_DATA_ON_FIELD){
 					this->radMap[j][k] = value;
+				}
+			}
+		}
+	}
+}
+
+void RobotMAV::updateInnerSemMap(){
+	//Self Acquired Data
+	int x = this->getPosX();
+	int y = this->getPosY();
+	int onBattery = this->getBatteryCharger();
+	this->semMap[x][y] = onBattery;
+
+	//Collect Data from Other Robots
+	for(int i = 0; i < WIFI_CONNECT && i < nearest->size(); i++){
+		RobotMAV* robot = nearest->at(i);
+		int value;
+		for(int j = 0; j < FIELD_SIZE; j++){
+			for(int k = 0; k < FIELD_SIZE; k++){
+				value = robot->semMap[j][k];
+				if(value != (int)NO_DATA_ON_FIELD){
+					this->semMap[j][k] = value;
 				}
 			}
 		}

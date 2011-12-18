@@ -155,6 +155,16 @@ public:
 		@return 出力ポートの数
 	 */
 	int getNumOfOutputs() const;
+	/**
+		@brief iBoardポート数を入手する
+		@return iBoardポートの数
+	 */
+	int getNumOfIBoards() const;
+	/**
+		@brief fBoardポート数を入手する
+		@return fBoardポートの数
+	 */
+	int getNumOfFBoards() const;
 
 protected:
 	///入力信号用Buffer

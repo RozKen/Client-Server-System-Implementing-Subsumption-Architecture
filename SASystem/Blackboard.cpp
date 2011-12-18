@@ -110,3 +110,9 @@ int Blackboard::getNumOfOutputs() const{
 int Blackboard::getNumOfInputs() const{
 	return numOfInputPorts;
 }
+int Blackboard::getNumOfIBoards() const{
+	return this->iBoard->size();
+}
+int Blackboard::getNumOfFBoards() const{
+	return this->fBoard->size();
+}

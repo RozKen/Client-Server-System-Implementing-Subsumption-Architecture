@@ -101,6 +101,10 @@
 ///‘¼‚Ì‚à‚Ì‚ª‹­‚­•Ê‚Ì•ûŒü‚Öi‚ñ‚Å‚¢‚é‚Æ”»’f‚·‚éÛ‚Ìthreshold
 #define DEST_STRONG_WRONG	1.0
 
+////ContSmartAlive
+///—]—T‚ğ‚Á‚Ä–ß‚é‚½‚ß,‹——£‚É‚©‚¯‚éŒW”
+#define SURPLUS			1.2f
+
 ///–³M†ó‘Ô
 #define NO_SIGNAL		-99.0f
 

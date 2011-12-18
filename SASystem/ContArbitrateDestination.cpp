@@ -21,11 +21,11 @@ ContArbitrateDestination::ContArbitrateDestination(SAModule* parent){
 void ContArbitrateDestination::Initialize(){
 	//ContExplore‚ÌIBoard‚ð—p‚¢‚éD
 #ifdef SWAP_CCCE
-	int modNum = 9;
+	int modNum = 11;
 #else
-	int modNum = 10;
+	int modNum = 12;
 #endif
-	ContExplore* cE = (ContExplore*)((RobotMAV*)(this->parent))->getModule(modNum);
+	ContExplore* cE = (ContExplore*)(((RobotMAV*)(this->parent))->getModule(modNum));
 	this->addIBoardIndex(cE->getIBoardIndex(0));
 	this->addIBoardIndex(cE->getIBoardIndex(1));
 }
