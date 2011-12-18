@@ -146,6 +146,12 @@ public:
 	 */
 	int getBatteryCharger() const;
 	/**
+		@brief set the value of Battery Charger Sensor
+		@param value the value of Battery Charger Sensr
+		@sa World::updateBatteryCharger(RobotMAV* robot)
+	 */
+	void setBatteryCharger(float value);
+	/**
 		@brief get Coordinate of Robot at index
 		@param index which Robot
 		@param x x-axis : true, y-axis. false

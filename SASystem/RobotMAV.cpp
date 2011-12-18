@@ -93,9 +93,9 @@ void RobotMAV::Initialize(){
 	///Module 10 : Smart Alive : Orange
 	cSa = new ContSmartAlive();
 	this->addModule(cSa);
-	modColor[3][0] = 1.0f;
-	modColor[3][1] = 0.5f;
-	modColor[3][2] = 0.0f;
+	modColor[3][0] = 0.0f;
+	modColor[3][1] = 1.0f;
+	modColor[3][2] = 1.0f;
 	
 #ifdef SWAP_CCCE
 	///Module 11 : ContExplore : Sky Blue
@@ -376,6 +376,10 @@ void RobotMAV::setRad(int index, float value){
 
 int RobotMAV::getBatteryCharger() const{
 	return this->getInput(4 + RANGE_DIV + MAX_AREA);
+}
+
+void RobotMAV::setBatteryCharger(float value){
+	this->setInput(4 + RANGE_DIV + MAX_AREA, value);
 }
 
 float RobotMAV::getRobot(int index, bool x){

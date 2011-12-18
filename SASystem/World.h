@@ -149,14 +149,19 @@ protected:
 	void updateRadiation(RobotMAV* robot);
 	/**
 		@brief 各ロボットのNetworkセンサへの入力等を更新
-		各ロボットの内部偏すう「近傍ロボットへのポインタの配列」も更新する
+		各ロボットの内部変数「近傍ロボットへのポインタの配列」も更新する
 		@param robot robotへのpointer
 		@sa SenseNet
 		@sa WIFI_REACH
 		@sa Constants.h
 	 */
 	void updateNetWork(RobotMAV* robot);
-	
+	/**
+		@brief 各ロボットのBatteryChargerセンサへの入力などを更新
+		@param robot robotへのpointer
+		@sa SenseBatteryCharger
+	 */
+	void updateBatteryCharger(RobotMAV* robot);
 	/**
 		@brief geoFieldをRandomに生成する．
 		@sa geoField

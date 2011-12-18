@@ -9,9 +9,9 @@
 #include "Utilities.h"
 
 ///////For OpenGL Manipulation///////
-float zoom = 15.0f;
+float zoom = 10.0f;
 //X-axis Rotation [degree]
-float rotx = 30.0f;
+float rotx = 15.0f;
 //Y-axis Rotation [degree]
 float roty = 0.0f;
 float tx = 0;

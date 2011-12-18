@@ -130,6 +130,8 @@ void World::Update(){
 			updateRange(robot);
 			////////Radiation////////
 			updateRadiation(robot);
+			////////BatteryCharger///////
+			updateBatteryCharger(robot);
 			////////Network////////
 			updateNetWork(robot);
 #ifdef _DEBUG
@@ -549,4 +551,8 @@ void World::updateNetWork(RobotMAV* robot){
 	delete neighbors;
 	neighborsIndex->clear();
 	delete neighborsIndex;
+}
+
+void World::updateBatteryCharger(RobotMAV* robot){
+	robot->setBatteryCharger(this->semField[round(robot->getPosX())][round(robot->getPosY())]);
 }
