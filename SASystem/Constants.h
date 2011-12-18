@@ -91,7 +91,7 @@
 #define WIFI_CONNECT	5
 
 ///バッテリーの消耗率 point/step
-#define BAT_LOSS		1.0
+#define BAT_LOSS		3.0
 #define BAT_GAIN		2.0
 #define MAX_BAT			100.0
 
@@ -121,7 +121,7 @@
 		<li>指令からの無線が届く</li>
 	</ul>
  */
-#define START_R			20.0
+#define START_R			5.0
 
 ///一度の動ける距離
 #define MAX_DRIVE		1.0f

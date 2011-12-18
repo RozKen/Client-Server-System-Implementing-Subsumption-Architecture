@@ -42,8 +42,8 @@ void ContSmartAlive::Run(){
 				//Battery‚ª‘«‚è‚È‚­‚È‚è‚»‚¤‚¾‚Á‚½‚ç
 				if(distance > SURPLUS * this->getInput(2) / BAT_LOSS){
 					//‚»‚±‚ÖŒü‚©‚¤
-					signalX = nearestCharger[0] / distance;
-					signalY = nearestCharger[1] / distance;
+					signalX = (nearestCharger[0] - this->getInput(0)) / distance;
+					signalY = (nearestCharger[1] - this->getInput(1)) / distance;
 				}
 			}//else Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚çC’ú‚ß‚éD
 		}
