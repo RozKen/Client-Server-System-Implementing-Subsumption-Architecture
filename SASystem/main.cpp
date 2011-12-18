@@ -23,14 +23,30 @@ unsigned char Buttons[3] = {0};
 #define DISP_LAYER	10
 
 ///////For Map Display Selection///////
+///robotごとの地形の表示をON/OFF
 bool geoFlags[DISP_LAYER];
+///robotごとの放射線量の表示をON/OFF
 bool radFlags[DISP_LAYER];
+///世界全体の障害物(地形)の表示をON/OFF
 bool geoFlagW = false;
+///世界全体の放射線量の表示をON/OFF
 bool radFlagW = false;
-bool radSwitch = true;	//true -> radFlags, false -> geoFlags
-bool axisSwitch = true;	//true -> display axis, false -> hide axis
+/**
+	@brief キーボード操作のモードを切り替える
+	true -> radFlags, false -> geoFlags
+ */
+bool radSwitch = true;
+/**
+	@brief x,y,z軸と，Gridの表示をON/OFF
+	true -> display axis, false -> hide axis
+ */
+bool axisSwitch = true;
+///RANGE_DANGERの範囲をON/OFF
 bool dangerSwitch = false;
+///Wi-Fiの接続可能範囲をON/OFF
 bool wifiSwitch = false;
+///陰影をON/OFF
+bool renderShadow = true;
 
 void Init();
 void glIdle();
@@ -148,10 +164,38 @@ void glDisplay(){
 	glRotatef(rotx,1,0,0);
 	glRotatef(roty,0,1,0);
 
+	//Set up Light
+	if(renderShadow){
+		GLfloat ambient[] = {0.2, 0.2, 0.2, 1.0};
+		GLfloat diffuse[] = {1.0, 1.0, 1.0, 1.0};
+		GLfloat specular[] = {1.0, 1.0, 1.0, 1.0};
+		GLfloat lightPos[] = {0.0, 100.0, 100.0, 1.0};
+
+		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+	}else{
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHTING);
+	}
+
+	//For Shadow Rendering
+	GLfloat matR[] = {1.0, 0.0, 0.0, 1.0};
+	GLfloat matG[] = {0.0, 1.0, 0.0, 1.0};
+	GLfloat matB[] = {0.0, 0.0, 1.0, 1.0};
+
+	//Draw X,Y,Z-Axis
 	if(axisSwitch){
 		glTranslatef(0.0f, 10.0f, 0.0f);
-
-		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		if(renderShadow){
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, matR);
+		}else{
+				glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		}
 		glTranslatef(1.0f, 0.0f, 0.0f);
 		glutSolidCube(1.0f);
 		glTranslatef(2.0f, 0.0f, 0.0f);
@@ -160,8 +204,13 @@ void glDisplay(){
 		glRotatef(-90.0f, 0, 1, 0);
 		glTranslatef(-2.0f, 0.0f, 0.0f);
 		glTranslatef(-1.0f, 0.0f, 0.0f);
-	
-		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+		
+		if(renderShadow){
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, matG);
+		}else{
+				glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+		}
+
 		glTranslatef(0.0f, 1.0f, 0.0f);
 		glutSolidCube(1.0f);
 		glTranslatef(0.0f, 2.0f, 0.0f);
@@ -171,7 +220,12 @@ void glDisplay(){
 		glTranslatef(0.0f, -2.0f, 0.0f);
 		glTranslatef(0.0f, -1.0f, 0.0f);
 
-		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		if(renderShadow){
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, matB);
+		}else{
+				glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		}
+
 		glTranslatef(0.0f, 0.0f, 1.0f);
 		glutSolidCube(1.0f);
 		glTranslatef(0.0f, 0.0f, 2.0f);
@@ -184,7 +238,6 @@ void glDisplay(){
 		glTranslatef(0.0f, -10.0f, 0.0f);
 	}
 
-	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 	RobotMAV* robot;
 
 	double offset = -50.0;		//FIELD_SIZEの半分
@@ -192,33 +245,24 @@ void glDisplay(){
 		bool insideX[NUM_ROBOT];
 		//Draw Barriers as Boxes
 		for(int i = 0; i < FIELD_SIZE; i++){
-			/*for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
-				insideX[iRobot] = false;
-				robot = world->getRobot(iRobot);
-				if(i > robot->getPosX() - RANGE && i < robot->getPosX() + RANGE){
-					insideX[iRobot] = true;
-				}
-			}*/
 			for(int j = 0; j < FIELD_SIZE; j++){
 				//On Barrier
 				if(world->geoField[i][j] == OUTOFAREA){
 					if(CalcDisplay(geoFlags, false, i, j) || geoFlagW){
-						glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-					}else{
-						glColor4f(0.0f, 0.0f, 0.2f, 1.0f);
-					}
-					/*for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
-						if(insideX[iRobot]){
-							robot = world->getRobot(iRobot);
-							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
-								if(CalcDisplay(geoFlags, false, i, j)){
-									glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
-								}else{
-									glColor4f(0.5f * 0.2f, 0.0f, 0.0f, 1.0f);
-								}
-							}
+						if(renderShadow){
+							glMaterialfv(GL_FRONT, GL_DIFFUSE, matB);
+						}else{
+							glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 						}
-					}*/
+					}else{
+						if(renderShadow){
+							GLfloat matTmp[] = {0.0, 0.0, 0.2, 1.0};
+							glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+						}else{
+							glColor4f(0.0f, 0.0f, 0.2f, 1.0f);
+						}
+					}
+
 					glTranslatef((GLfloat)i, 0, (GLfloat)j);
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, 0, (GLfloat)-j);
@@ -228,20 +272,22 @@ void glDisplay(){
 						float color0 = color[0];
 						float color1 = color[1];
 						float color2 = color[2];
-						glColor4f(color[0], color[1], color[2], 1.0f);
+						if(renderShadow){
+							GLfloat matTmp[] = {color[0], color[1], color[2], 1.0};
+							glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+						}else{
+							glColor4f(color[0], color[1], color[2], 1.0f);
+						}
 						delete color;	//CalcColor内でnewしてるから
 					}else{
-						glColor4f(color[0] * 0.2f, color[1] * 0.2f, color[2] * 0.2f, 1.0f);
+						if(renderShadow){
+							GLfloat matTmp[] = {color[0] * 0.2f, color[1] * 0.2f, color[2] * 0.2f, 1.0f};
+							glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+						}else{
+							glColor4f(color[0] * 0.2f, color[1] * 0.2f, color[2] * 0.2f, 1.0f);
+						}
 						delete color;	//CalcColor内でnewしてるから
 					}
-					/*for(int iRobot = 0; iRobot < world->getNumOfModules(); iRobot++){
-						if(insideX[iRobot]){
-							robot = world->getRobot(iRobot);
-							if(j > robot->getPosY() - RANGE && j < robot->getPosY() + RANGE){
-								glColor4f(0.5f, 0.0f, 0.0f, 1.0f);
-							}
-						}
-					}*/
 					glTranslatef((GLfloat)i, -1.0f, (GLfloat)j);
 					glutSolidCube(1.0);
 					glTranslatef((GLfloat)-i, +1.0f, (GLfloat)-j);
@@ -252,10 +298,14 @@ void glDisplay(){
 		//Draw Robots as Spheres
 		for(int index = 0; index < world->getNumOfModules(); index++){
 			robot = world->getRobot(index);
-			//std::cout << "color " << robot->getColorR() << ", " << robot->getColorG();
-			//std::cout << ", " << robot->getColorB() << std::endl;
-			glColor4f(robot->getColorR(), robot->getColorG()
-				, robot->getColorB(), 1.0f);
+			if(renderShadow){
+				GLfloat matTmp[] = {robot->getColorR(), robot->getColorG(),
+					robot->getColorB(), 1.0};
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+			}else{
+				glColor4f(robot->getColorR(), robot->getColorG()
+					, robot->getColorB(), 1.0f);
+			}
 			float x = robot->getPosX();
 			float y = robot->getPosY();
 			glTranslatef(x, 0, y);
@@ -264,7 +314,12 @@ void glDisplay(){
 			
 			if(dangerSwitch){
 				//Draw Reach of Sensors
-				glColor4f(1.0f, 0.0f, 0.0f, 0.3f);
+				if(renderShadow){
+					GLfloat matTmp[] = {1.0, 0.0, 0.0, 0.3};
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+				}else{
+					glColor4f(1.0f, 0.0f, 0.0f, 0.3f);
+				}
 				glTranslatef(0, -0.4f, 0);
 				glRotatef(-90.0f, 1, 0, 0);
 				glutSolidCone(RANGE_DANGER, 0.2, 12, 2);
@@ -273,7 +328,12 @@ void glDisplay(){
 			}
 			if(wifiSwitch){
 				//Draw Reach of Wi-Fi
-				glColor4f(0.0f, 1.0f, 0.0f, 0.3f);
+				if(renderShadow){
+					GLfloat matTmp[] = {0.0, 1.0, 0.0, 0.1};
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+				}else{
+					glColor4f(0.0f, 1.0f, 0.0f, 0.1f);
+				}
 				glTranslatef(0, -0.4f, 0);
 				glRotatef(-90.0f, 1, 0, 0);
 				glutSolidCone(WIFI_REACH, 0.1, 32, 5);
@@ -283,7 +343,13 @@ void glDisplay(){
 			glTranslatef(-x, -0, -y);
 
 			//Draw Exploring Objective
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			if(renderShadow){
+				GLfloat matTmp[] = {1.0, 1.0, 1.0, 1.0};
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+			}else{
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			}
+
 			glTranslatef(robot->getObjectiveX(), 0, robot->getObjectiveY());
 			glRotatef(-90.0f, 1, 0, 0);
 			glutSolidCone(0.3, 2.0, 12, 3);
@@ -293,9 +359,13 @@ void glDisplay(){
 
 	glTranslatef(-offset, 0, -offset);
 
-	glColor4f(0.0f, 0.8f, 0.0f, 0.8f);
-
 	// draw grid
+	if(renderShadow){
+		GLfloat matTmp[] = {0.0, 0.8, 0.0, 0.8};
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+	}else{
+		glColor4f(0.0f, 0.8f, 0.0f, 0.8f);
+	}
 	if(axisSwitch){
 		glBegin(GL_LINES);
 		//glTranslatef(-0.5, -0.5, -0.5);
@@ -465,8 +535,11 @@ void glKeyboard(unsigned char key , int x, int y){
 	case 's':	//Switch
 		radSwitch = !radSwitch;
 		break;
-	case 'c':	//Coordinate
+	case 'c':	//Coordinate and X, Y, Z - Axis
 		axisSwitch = !axisSwitch;
+		break;
+	case 'r':	//Render Shadow
+		renderShadow = !renderShadow;
 		break;
 	case 'a':
 		for(int i = 0; i < DISP_LAYER; i++){
