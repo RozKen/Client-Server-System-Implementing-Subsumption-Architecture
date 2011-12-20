@@ -3,9 +3,6 @@
 #include "RobotMAV.h"
 
 void ContExplore::Run(){
-	//Current Position
-	float x = ((RobotMAV*)(this->parent))->getPosX();
-	float y = ((RobotMAV*)(this->parent))->getPosY();
 	int destX = this->getIBoard(0);
 	int destY = this->getIBoard(1);
 	
@@ -17,15 +14,23 @@ void ContExplore::Run(){
 			((RobotMAV*)(this->parent))->radMap[destX][destY] != NO_SIGNAL
 			){
 				DecideDestination();
+				destX = this->getIBoard(0);
+				destY = this->getIBoard(1);
 		}
 	}else{
 		DecideDestination();
+		destX = this->getIBoard(0);
+		destY = this->getIBoard(1);
 	}
 
 	//Generate Signals
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
 	if(destX != (int)NO_SIGNAL && destY != (int)NO_SIGNAL){
+		//Current Position
+		float x = ((RobotMAV*)(this->parent))->getPosX();
+		float y = ((RobotMAV*)(this->parent))->getPosY();
+		
 		float norm = sqrt(pow((double)destX - x, 2) + pow((double)destY - y, 2));
 		if(norm != 0.0f){
 			signalX = (destX - x) / norm;
