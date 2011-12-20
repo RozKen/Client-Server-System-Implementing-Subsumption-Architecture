@@ -83,12 +83,12 @@ void RobotMAV::Initialize(){
 	modColor[1][0] = 1.0f;
 	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
-	///Module 09 : Wander : Gray
+	///Module 09 : Wander : Purple?
 	cW = new ContWander();
 	this->addModule(cW);
-	modColor[2][0] = 0.5f;
-	modColor[2][1] = 0.5f;
-	modColor[2][2] = 0.5f;
+	modColor[2][0] = 1.0f;
+	modColor[2][1] = 0.0f;
+	modColor[2][2] = 1.0f;
 
 	///Module 10 : Smart Alive : Orange
 	cSa = new ContSmartAlive();
@@ -130,12 +130,12 @@ void RobotMAV::Initialize(){
 
 #endif	//SWAP_CCCE
 
-	///Module 13 : ContArbitrateDestination : Purple?
+	///Module 13 : ContArbitrateDestination : Dark Gray
 	cAd = new ContArbitrateDestination(this);
 	this->addModule(cAd);
-	modColor[6][0] = 1.0f;
-	modColor[6][1] = 0.0f;
-	modColor[6][2] = 1.0f;
+	modColor[6][0] = 0.3f;
+	modColor[6][1] = 0.3f;
+	modColor[6][2] = 0.3f;
 
 	/////Actuator‚ð’Ç‰Á
 	///Module 14 : ˆÊ’uActuator‚ð’Ç‰Á
@@ -419,13 +419,13 @@ void RobotMAV::ProcessArbiters(){
 		case 36:	//Wander Suppress Alive, Avoid and ActPos
 			ratios[1] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 38:	//Explore Suppress Wander, Alive, Avoid and ActPos
+		case 38:	//SmartAlive Suppress
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 40:	//Connect Suppress Explore, Wander, Alive, Avoid and ActPos
+		case 40:	//Connect Suppress SmartAlive, Wander, Alive, Avoid and ActPos
 			ratios[3] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 42:
+		case 42:	//Explore Suppress Connect, SmartAlive, Wander, Alive, Avoid and ActPos
 			ratios[4] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
@@ -437,23 +437,23 @@ void RobotMAV::ProcessArbiters(){
 	ratios[5] = 0.0f;
 
 	///Set RobotColor According to Suppress
-	for(int j = 0; j < 3; j++){
-		color[j] = modColor[NUM_OF_LAYERS - 1][j] * ratios[NUM_OF_LAYERS - 2] 
-		+ modColor[NUM_OF_LAYERS - 2][j] * (1.0f - ratios[NUM_OF_LAYERS - 2]);
-	}
 
-	for(int i = NUM_OF_LAYERS - 3; i >= 0; i--){
-		for(int j= 0; j < 3; j++){
-			color[j] = color[j] * ratios[i] + modColor[i][j] * (1.0f - ratios[i]);
+	if(this->getOutput(0) == NO_SIGNAL || this->getOutput(1) == NO_SIGNAL){
+		color[0] = 0.3f;
+		color[1] = 0.3f;
+		color[2] = 0.3f;
+	}else{
+		for(int j = 0; j < 3; j++){
+			color[j] = modColor[NUM_OF_LAYERS - 1][j] * ratios[NUM_OF_LAYERS - 2] 
+			+ modColor[NUM_OF_LAYERS - 2][j] * (1.0f - ratios[NUM_OF_LAYERS - 2]);
+		}
+
+		for(int i = NUM_OF_LAYERS - 3; i >= 0; i--){
+			for(int j= 0; j < 3; j++){
+				color[j] = color[j] * ratios[i] + modColor[i][j] * (1.0f - ratios[i]);
+			}
 		}
 	}
-	/*
-	std::cout << "colors: ";
-	for(int j = 0; j < 3; j++){
-		std::cout << color[j] << ",";
-	}
-	std::cout << std::endl;
-	*/
 }
 
 void RobotMAV::updateInnerGeoMap(){
