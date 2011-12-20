@@ -94,9 +94,38 @@
 #define WIFI_CONNECT	5
 
 ///バッテリーの消耗率 point/step
-#define BAT_LOSS		3.0
-#define BAT_GAIN		2.0
-#define MAX_BAT			100.0
+/**
+	@brief Battery Specification
+	<table>
+	<tr><th>Name</th><td>Carbon Pro 6400mAh 90C 14,8V (Deans plug)</td></tr>
+	<tr><th>Number of Cells</th><td>4</td></tr>
+	<tr><th>Voltage</th><td> 3.7 x 4 = 14.8 [V]</td></tr>
+	<tr><th>Discharge</th><td>90C</td></tr>
+	<tr><th>Charge</th><td>5C</td></tr>
+	<tr><th>Maximum Power Output</th><td>8325 [W] = 14.8 [V] * 6.4 [Ah] * 90C</td></tr>
+	<tr><th>Maximum Power Input</th><td>473.6 [W] = 14.8 [V] * 6.4 [Ah] * 5C</td></tr>
+	<tr><th>Weight</th><td>449.3</td></tr>
+	</table>
+	@sa http://www.teamorion.com/carbon-pro-6400mah-90c-14-8v-deans-plug-en.html
+ */
+/**
+	@brief Motor Specification
+	モーターは右左の2個
+	トルクの確認が必要
+	本当は，Brushless Motorの方が良いかも．
+	<table>
+		<tr><th>Model</th><td>マブチ FC-280PC-22125</td></tr>
+		<tr><th>電圧</th><td>12 [V] Constant</td></tr>
+		<tr><th>電流</th><td>0.71 [A]</td></tr>
+		<tr><th>トルク</th><td>4.76 [mN・m]</td></tr>
+		<tr><th>出力</th><td>5.52 [W]</td></tr>
+		<tr><th></th><td></td></tr>
+		<tr><th></th><td></td></tr>
+	</table>
+ */
+#define BAT_LOSS		11.04
+#define BAT_GAIN		473.6
+#define MAX_BAT			8525.0
 
 ////ContArbitrateDestination
 ///Destinationが遠いと判断する際のthreshold
