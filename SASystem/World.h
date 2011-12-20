@@ -168,6 +168,12 @@ protected:
 	 */
 	void generateGeoField();
 	/**
+		@brief ファイルから読み込んで，geoFieldを生成する
+		@param filepath geoFieldのデータが格納されているファイルへのPath
+		@sa geoField
+	 */
+	void generateGeoField(std::string filepath);
+	/**
 		@brief semFieldを司令部の初期位置に応じて生成する.
 		@sa semField
 	 */

@@ -164,5 +164,8 @@
     <ClInclude Include="SenseBatteryCharger.hpp">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
     </ClInclude>
+    <ClInclude Include="CistreamCSV.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

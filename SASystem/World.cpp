@@ -1,5 +1,6 @@
 #include "World.h"
 #include "RobotMAV.h"
+#include "CistreamCSV.hpp"
 World::World(){
 	//robotPos = new std::vector<position>();
 	int tmp[2][HASH_MAX] = {
@@ -31,7 +32,7 @@ World::~World(){
 }
 
 void World::Initialize(){
-	generateGeoField();
+	generateGeoField("geoField.csv");
 	generateSemField();
 	generateRadField();
 #ifdef	CONSIDER_DELAY
@@ -178,6 +179,30 @@ void World::generateGeoField(){
 			}
 		}
 	}
+	////File Output
+	std::string fileName = this->getLogDirectoryPath();
+	fileName.append("/geoField.csv");
+	std::ofstream ofsGeoField(fileName);
+	for(int i = FIELD_SIZE - 1; i >= 0; i--){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			ofsGeoField << geoField[j][i] << ",";
+		}
+		ofsGeoField << std::endl;
+	}
+	ofsGeoField.close();
+}
+
+void World::generateGeoField(std::string filepath){
+	////Read Data from File
+	std::ifstream ifs(filepath);
+	CistreamCSV csv(ifs);
+	for(int i = 0; i < FIELD_SIZE; i++){
+		for(int j = 0; j < FIELD_SIZE; j++){
+			csv >> this->geoField[j][i];
+		}
+		csv >> endl;
+	}
+
 	////File Output
 	std::string fileName = this->getLogDirectoryPath();
 	fileName.append("/geoField.csv");

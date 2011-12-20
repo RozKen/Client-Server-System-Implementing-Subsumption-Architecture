@@ -93,6 +93,7 @@
     <ClInclude Include="Actuators.h" />
     <ClInclude Include="Blackboard.h" />
     <ClInclude Include="Arbiter.h" />
+    <ClInclude Include="CistreamCSV.hpp" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ContAlive.hpp" />
     <ClInclude Include="ContArbitrateDestination.hpp" />
