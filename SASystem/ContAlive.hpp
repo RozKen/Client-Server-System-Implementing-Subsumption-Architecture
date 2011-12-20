@@ -38,12 +38,12 @@ public:
 protected:
 	/**
 		@brief Battery‚ª‘«‚è‚È‚¢‚Æ”»’f‚·‚é‚½‚ß‚Ìè‡’l
-		Œ»Ý‚Í0.3
+		Œ»Ý‚Í0.2
 	 */
 	float threshold;
 };
 
-inline ContAlive::ContAlive(): threshold(0.3f){
+inline ContAlive::ContAlive(): threshold(0.2f){
 	this->addInput("batLevelCAl");
 	this->addInput("posXCAl");
 	this->addInput("posYCAl");
@@ -61,8 +61,13 @@ inline void ContAlive::Run(){
 		float deltaX = START_X - posX;
 		float deltaY = START_Y - posY;
 		float norm = this->norm(deltaX, deltaY);
-		signalX = MAX_DRIVE * deltaX / norm;
-		signalY = MAX_DRIVE * deltaY / norm;
+		if(norm > START_R - 1.0f){
+			signalX = MAX_DRIVE * deltaX / norm;
+			signalY = MAX_DRIVE * deltaY / norm;
+		}else{
+			signalX = 0.0f;
+			signalY = 0.0f;
+		}
 	}else{
 		signalX = NO_SIGNAL;
 		signalY = NO_SIGNAL;
