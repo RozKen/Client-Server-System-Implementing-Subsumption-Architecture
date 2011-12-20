@@ -5,7 +5,7 @@
 
 /**
 	@class SenseBatteryCharger
-		@brief ©•ª‚ÌˆÊ’u‚ªBattery Charger‚Ì‚ ‚éêŠ‚©‚Ç‚¤‚©‚ğ—^‚¦‚é
+	@brief ©•ª‚ÌˆÊ’u‚ªBattery Charger‚Ì‚ ‚éêŠ‚©‚Ç‚¤‚©‚ğ—^‚¦‚é
 	<h1>Inputs</h1>
 	No Inputs
 	<h1>Outputs</h1>

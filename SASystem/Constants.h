@@ -121,7 +121,7 @@
 		<li>w—ß‚©‚ç‚Ì–³ü‚ª“Í‚­</li>
 	</ul>
  */
-#define START_R			5.0
+#define START_R			10.0
 
 ///ˆê“x‚Ì“®‚¯‚é‹——£
 #define MAX_DRIVE		1.0f
