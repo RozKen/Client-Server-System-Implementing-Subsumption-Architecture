@@ -290,7 +290,7 @@ bool World::onBatteryCharger(const RobotMAV* robot){
 	bool result = false;
 	int i = robot->getPosX();
 	int j = robot->getPosY();
-	if(this->semField[i][j] == ONCHARGER){
+	if(this->semField[i][j] == ONCHARGER || this->semField[i][j] == ONSTART){
 		result = true;
 	}
 	return result;
