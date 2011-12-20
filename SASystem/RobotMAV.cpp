@@ -286,23 +286,32 @@ void RobotMAV::Initialize(){
 	filename = this->getLogFilePath();
 	filename.append(".semLog.csv");
 	semLog.open(filename);
+
+	count = 0;
 }
 
 void RobotMAV::Run(){
-	//RobotへのInputを処理する
-	ProcessInputs();
-	//Robotの各Moduleを動かす
-	RunModules();
-	//Arbiterを作動させる
-	ProcessArbiters();
-	//RobotからのOutputを処理する
-	ProcessOutputs();
-	//内部の情報を更新する
-	Update();
-	//Logを取る
-	Log();
-	//地図を記録する
-	//logMaps();
+	if(count == 0){
+		//RobotへのInputを処理する
+		ProcessInputs();
+		count = 1;
+	}else if(count == 1){
+		//Robotの各Moduleを動かす
+		RunModules();
+		//Arbiterを作動させる
+		ProcessArbiters();
+		count = 2;
+	}else if(count == 2){
+		//RobotからのOutputを処理する
+		ProcessOutputs();
+		//内部の情報を更新する
+		Update();
+		//Logを取る
+		Log();
+		//地図を記録する
+		//logMaps();
+		count = 0;
+	}
 }
 
 void RobotMAV::logMaps(){

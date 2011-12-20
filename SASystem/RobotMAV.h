@@ -309,6 +309,8 @@ private:
 	std::ofstream geoLog;
 	std::ofstream radLog;
 	std::ofstream semLog;
+
+	int count;
 };
 
 #endif	//_Robot_MAV_H_
