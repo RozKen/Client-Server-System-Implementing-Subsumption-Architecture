@@ -42,8 +42,8 @@ void ContSmartAlive::Run(){
 				//Batteryが足りなくなりそうだったら
 				if(distance > SURPLUS * this->getInput(2) / BAT_LOSS){
 					//そこへ向かう
-					signalX = (nearestCharger[0] - this->getInput(0)) / distance;
-					signalY = (nearestCharger[1] - this->getInput(1)) / distance;
+					signalX = MAX_DRIVE * (nearestCharger[0] - this->getInput(0)) / distance;
+					signalY = MAX_DRIVE * (nearestCharger[1] - this->getInput(1)) / distance;
 				}
 			}//else 見つからなかったら，諦める．
 		}
@@ -65,7 +65,8 @@ bool ContSmartAlive::findNearestCharger(){
 		float distance = 1000.0;
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){
-				if(((RobotMAV*)(this->parent))->semMap[i][j] == ONCHARGER){
+				if(((RobotMAV*)(this->parent))->semMap[i][j] == ONCHARGER
+					|| ((RobotMAV*)(this->parent))->semMap[i][j] == ONSTART){
 					float tmp = norm(posX - i, posY - j);
 					if(distance > tmp){
 						distance = tmp;
@@ -79,7 +80,8 @@ bool ContSmartAlive::findNearestCharger(){
 		if(result){
 			nearestCharger[0] = x;
 			nearestCharger[1] = y;
-			this->distance = distance;
+			//マンハッタン距離にしてみる
+			this->distance = (posX - x) + (posY - y);
 		}
 	}
 

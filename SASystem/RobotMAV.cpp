@@ -286,22 +286,29 @@ void RobotMAV::Initialize(){
 	filename = this->getLogFilePath();
 	filename.append(".semLog.csv");
 	semLog.open(filename);
-
+#ifdef	CONSIDER_DELAY
 	count = 0;
+#endif	//CONSIDER_DELAY
 }
 
 void RobotMAV::Run(){
+#ifdef	CONSIDER_DELAY
 	if(count == 0){
+#endif	//CONSIDER_DELAY
 		//RobotへのInputを処理する
 		ProcessInputs();
+#ifdef	CONSIDER_DELAY
 		count = 1;
 	}else if(count == 1){
+#endif	//CONSIDER_DELAY
 		//Robotの各Moduleを動かす
 		RunModules();
 		//Arbiterを作動させる
 		ProcessArbiters();
+#ifdef	CONSIDER_DELAY
 		count = 2;
 	}else if(count == 2){
+#endif	//CONSIDER_DELAY
 		//RobotからのOutputを処理する
 		ProcessOutputs();
 		//内部の情報を更新する
@@ -310,8 +317,10 @@ void RobotMAV::Run(){
 		Log();
 		//地図を記録する
 		//logMaps();
+#ifdef	CONSIDER_DELAY
 		count = 0;
 	}
+#endif	//CONSIDER_DELAY
 }
 
 void RobotMAV::logMaps(){

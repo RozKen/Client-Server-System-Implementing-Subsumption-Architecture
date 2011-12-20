@@ -309,8 +309,9 @@ private:
 	std::ofstream geoLog;
 	std::ofstream radLog;
 	std::ofstream semLog;
-
+#ifdef CONSIDER_DELAY
 	int count;
+#endif //CONSIDER_DELAY
 };
 
 #endif	//_Robot_MAV_H_

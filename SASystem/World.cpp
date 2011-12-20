@@ -34,6 +34,9 @@ void World::Initialize(){
 	generateGeoField();
 	generateSemField();
 	generateRadField();
+#ifdef	CONSIDER_DELAY
+	count = 0;
+#endif	//CONSIDER_DELAY
 }
 
 int World::getHash(int which, int index) const{
@@ -42,9 +45,16 @@ int World::getHash(int which, int index) const{
 
 void World::Run(){
 	this->RunRobots();
-	this->Update();
-	//Œ»İ‚Ìó‘Ô‚ğ‹L˜^
-	Log();
+#ifdef	CONSIDER_DELAY
+	if(count % 3 == 2){
+#endif	//CONSIDER_DELAY
+		this->Update();
+		//Œ»İ‚Ìó‘Ô‚ğ‹L˜^
+		Log();
+#ifdef	CONSIDER_DELAY
+	}
+	count++;
+#endif	//CONSIDER_DELAY
 }
 
 void World::RunRobots(){

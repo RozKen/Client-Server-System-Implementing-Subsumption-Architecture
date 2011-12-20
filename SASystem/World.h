@@ -177,15 +177,9 @@ protected:
 		@sa radField
 	 */
 	void generateRadField();
-	/**
-		@brief各ロボットの位置を保持する配列．
-		@sa position
-	 */
-	//std::vector<position> *robotPos;
-	///世界全体の放射線量Map
-	//float radiationMap[FIELD_SIZE][FIELD_SIZE];
-	///世界全体の二酸化炭素量Map
-	//float cooMap[FIELD_SIZE][FIELD_SIZE];
+#ifdef	CONSIDER_DELAY
+	int count;
+#endif	//CONSIDER_DELAY
 };
 
 inline void World::addRobot(RobotMAV* robot){

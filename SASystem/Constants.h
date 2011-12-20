@@ -10,6 +10,9 @@
 //ContConnectをContExploreよりも低い優先度にするとき宣言する
 //#define SWAP_CCCE
 
+//Robot内, Robot-World間情報処理の遅延を考慮する場合，宣言する
+//#define CONSIDER_DELAY
+
 #define NUM_ROBOT			10
 
 //削除予定
@@ -63,7 +66,7 @@
 	@brief 放射線量の最大値 [mSv]
 	<ul>
 		<li>6000mSvを超えると一回の被爆で死亡に繋がる</li>
-		<li>500mSv程度では一回程度では，疫学手金，遺伝的影響の心配はない</li>
+		<li>500mSv程度では一回程度では，疫学的に，遺伝的影響の心配はない</li>
 
 	</ul>
 	@sa <a href="http://homepage3.nifty.com/anshin-kagaku/anshin_level.html">放射線の健康レベルと危険レベル</a>
@@ -103,7 +106,7 @@
 
 ////ContSmartAlive
 ///余裕を持って戻るため,距離にかける係数
-#define SURPLUS			1.2f
+#define SURPLUS			1.5f
 
 ///無信号状態
 #define NO_SIGNAL		-99.0f
