@@ -191,6 +191,7 @@ protected:
 inline void World::addRobot(RobotMAV* robot){
 	//Robot‚Å’è‹`‚³‚ê‚Ä‚¢‚éaddModule‚ðŽÀs
 	this->addModule(robot);
+	robot->setBattery(MAX_BAT);
 }
 
 inline RobotMAV* World::getRobot(const int index){

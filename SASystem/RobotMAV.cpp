@@ -548,8 +548,10 @@ void RobotMAV::updateInnerSemMap(){
 	//Self Acquired Data
 	int x = this->getPosX();
 	int y = this->getPosY();
-	int onBattery = this->getBatteryCharger();
-	this->semMap[x][y] = onBattery;
+	if(x >= 0 && x < FIELD_SIZE && y >= 0 && y < FIELD_SIZE){
+		int onBattery = this->getBatteryCharger();
+		this->semMap[x][y] = onBattery;
+	}
 
 	//Collect Data from Other Robots
 	for(int i = 0; i < WIFI_CONNECT && i < nearest->size(); i++){

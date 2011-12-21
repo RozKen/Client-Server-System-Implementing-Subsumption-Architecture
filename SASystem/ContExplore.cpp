@@ -69,6 +69,16 @@ void ContExplore::DecideDestination(){
 			}
 		}
 	}
+
+	//–¢’Tõ‚ÌêŠ‚ªŒ©‚ ‚½‚ç‚È‚©‚Á‚½‚çCSTART’n“_‚Ö–ß‚é
+	if(distance == (float)(FIELD_SIZE * FIELD_SIZE)){
+		distance = sqrt(pow((double)START_X - x, 2) + pow((double)START_Y - y, 2));
+		if(distance > START_R){
+			destX = START_X;
+			destY = START_Y;
+		}
+	}
+
 	this->setIBoard(0, destX);
 	this->setIBoard(1, destY);
 }

@@ -89,8 +89,8 @@ inline void ContWander::Run(){
 	float signalX, signalY;
 	if(_rand() < P_WANDER){
 		float theta = 2.0 * PI * _rand();
-		signalX = cos(theta);
-		signalY = sin(theta);
+		signalX = (float)MAX_DRIVE * cos(theta);
+		signalY = (float)MAX_DRIVE * sin(theta);
 	}else{
 		signalX = NO_SIGNAL;
 		signalY = NO_SIGNAL;
