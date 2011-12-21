@@ -46,10 +46,10 @@ int World::getHash(int which, int index) const{
 
 void World::Run(){
 	this->RunRobots();
+	this->Update();
 #ifdef	CONSIDER_DELAY
 	if(count % 3 == 2){
 #endif	//CONSIDER_DELAY
-		this->Update();
 		//Œ»İ‚Ìó‘Ô‚ğ‹L˜^
 		Log();
 #ifdef	CONSIDER_DELAY

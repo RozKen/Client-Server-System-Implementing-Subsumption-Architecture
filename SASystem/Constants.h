@@ -11,7 +11,7 @@
 //#define SWAP_CCCE
 
 //Robot“à, Robot-WorldŠÔî•ñˆ—‚Ì’x‰„‚ğl—¶‚·‚éê‡CéŒ¾‚·‚é
-//#define CONSIDER_DELAY
+#define CONSIDER_DELAY
 
 #define NUM_ROBOT			10
 
@@ -123,8 +123,13 @@
 		<tr><th></th><td></td></tr>
 	</table>
  */
+#ifdef CONSIDER_DELAY
+#define BAT_LOSS		3.68
+#define BAT_GAIN		157.9
+#else
 #define BAT_LOSS		11.04
 #define BAT_GAIN		473.6
+#endif
 #define MAX_BAT			8525.0
 
 ////ContArbitrateDestination
@@ -156,9 +161,17 @@
 #define START_R			10.0
 
 ///ˆê“x‚Ì“®‚¯‚é‹——£
+#ifdef CONSIDER_DELAY
+#define MAX_DRIVE		0.3333f
+#else
 #define MAX_DRIVE		1.0f
+#endif	//CONSIDER_DELAY
 
 ///World‚ğRun‚·‚éInterval [millisecond]
+#ifdef CONSIDER_DELAY
+#define TIME_STEP		33.33
+#else
 #define TIME_STEP		100.0
+#endif	//CONSIDER_DELAY
 
 #endif //_Constants_H_

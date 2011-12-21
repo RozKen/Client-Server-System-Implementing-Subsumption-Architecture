@@ -13,6 +13,7 @@ RobotMAV::RobotMAV(std::string directoryPath, std::string fileName)
 RobotMAV::~RobotMAV(){
 	geoLog.close();
 	radLog.close();
+	semLog.close();
 
 	nearest->clear();
 
