@@ -5,7 +5,7 @@
 
 /**
 	@class ContSmartAlive
-	@brief Mission : 充電にかんして、よりスマートな動きを発現させる.
+	@brief Mission : 充電に関して、よりスマートな動きを発現させる.
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0 : posXCS</li>
@@ -18,7 +18,7 @@
 		<li>Output0 : dXCS</li>
 		<li>Output1 : dYCS</li>
 	</ul>
-	<h1>IBoard</h1>
+	<h1>iBoard</h1>
 	<ul>
 		<li>iBoard0 : iChargeF ; Charge Flag : 1 = Stop and Charge, 0 = Other</li>
 	</ul>

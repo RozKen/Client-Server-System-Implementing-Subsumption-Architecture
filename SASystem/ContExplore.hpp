@@ -12,10 +12,10 @@
 		<li>Output0 : dXCExp</li>
 		<li>Output1 : dYCExp</li>
 	</ul>
-	<h1>IBoard</h1>
+	<h1>iBoard</h1>
 	<ul>
-		<li>FBoard0 : iDestinationX</li>
-		<li>FBoard1 : iDestinationY</li>
+		<li>iBoard0 : iDestinationX</li>
+		<li>iBoard1 : iDestinationY</li>
 	</ul>
 	@author Kencihi Yorozu
 	@date 8th December 2011

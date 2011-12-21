@@ -346,11 +346,11 @@ void RobotMAV::Update(){
 }
 
 float RobotMAV::getDX() const {
-	return this->getOutput(0);
+	return this->getOutput(1);
 }
 
 float RobotMAV::getDY() const {
-	return this->getOutput(1);
+	return this->getOutput(2);
 }
 
 float RobotMAV::getBattery() const{
@@ -459,7 +459,7 @@ void RobotMAV::ProcessArbiters(){
 
 	///Set RobotColor According to Suppress
 
-	if(this->getOutput(0) == NO_SIGNAL || this->getOutput(1) == NO_SIGNAL){
+	if(this->getPosX() == NO_SIGNAL || this->getPosY() == NO_SIGNAL){
 		color[0] = 0.3f;
 		color[1] = 0.3f;
 		color[2] = 0.3f;
