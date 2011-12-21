@@ -242,6 +242,28 @@ void glDisplay(){
 
 	double offset = -50.0;		//FIELD_SIZE‚Ì”¼•ª
 	glTranslatef(offset, 0, offset);
+
+		//Draw Start Point as Cone
+		glTranslatef(START_X, 1.0f, START_Y);
+		glRotatef(-90.0f, 1, 0, 0);
+		if(renderShadow){
+			GLfloat matTmp[] = {0.9f, 0.9f, 0.9f, 1.0f};
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+		}else{
+			glColor4f(0.9f, 0.9f, 0.9f, 1.0f);
+		}
+		glutSolidCone(1.0f, 3.0f, 12, 4);
+		glTranslatef(0.0f, -1.0f, 0.0f);
+		if(renderShadow){
+			GLfloat matTmp[] = {1.0f, 1.0f, 0.0f, 0.3f};
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, matTmp);
+		}else{
+			glColor4f(1.0f, 1.0f, 0.0f, 0.3f);
+		}
+		glutSolidCone((float)START_R, 0.1f, 12, 4);
+		glRotatef(90.0f, 1, 0, 0);
+		glTranslatef(-START_X, 0.0f, -START_Y);
+
 		//Draw Barriers as Boxes
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){
