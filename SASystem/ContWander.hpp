@@ -86,7 +86,8 @@ inline void ContWander::Run(){
 	this->innerMemory->setFBoard(0, this->getInput(0));
 	this->innerMemory->setFBoard(1, this->getInput(1));
 	//とりあえず，履歴とかは考えずに，ランダムに動く．
-	float signalX, signalY;
+	float signalX = NO_SIGNAL;
+	float signalY = NO_SIGNAL;
 	if(_rand() < P_WANDER){
 		float theta = 2.0 * PI * _rand();
 		signalX = (float)MAX_DRIVE * cos(theta);

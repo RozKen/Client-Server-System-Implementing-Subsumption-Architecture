@@ -79,7 +79,8 @@ inline void ContAvoid::Run(){
 	//安全な方向のリスト
 	std::vector<int> safeIndex;
 	//出力信号
-	float signalX, signalY;
+	float signalX = NO_SIGNAL;
+	float signalY = NO_SIGNAL;
 
 	for(int i = 0; i < RANGE_DIV; i++){
 		if(this->getInput(i) < RANGE_DANGER){

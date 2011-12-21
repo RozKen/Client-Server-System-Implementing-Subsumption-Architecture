@@ -54,7 +54,8 @@ inline ContAlive::ContAlive(): threshold(0.2f){
 
 inline void ContAlive::Run(){
 	float batLevel = this->getInput(0);
-	float signalX, signalY;
+	float signalX = NO_SIGNAL;
+	float signalY = NO_SIGNAL;
 	if(batLevel / ((float)MAX_BAT) < threshold){
 		float posX = this->getInput(1);
 		float posY = this->getInput(2);

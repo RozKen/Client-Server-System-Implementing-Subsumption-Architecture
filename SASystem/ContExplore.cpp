@@ -33,8 +33,8 @@ void ContExplore::Run(){
 		
 		float norm = sqrt(pow((double)destX - x, 2) + pow((double)destY - y, 2));
 		if(norm != 0.0f){
-			signalX = (destX - x) / norm;
-			signalY = (destY - y) / norm;
+			signalX = (float)MAX_DRIVE * (destX - x) / norm;
+			signalY = (float)MAX_DRIVE * (destY - y) / norm;
 		}
 	}
 	//Set Outputs

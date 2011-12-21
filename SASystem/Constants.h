@@ -28,7 +28,7 @@
 	@brief 1 step 分の時間の長さ [sec]
 	Unmanned Ground Vehicleの速さが 1 m/sを想定
  */
-#define TIME_SCALE			1
+#define TIME_SCALE			10
 ///Sensorの有効な範囲のCell数: マンハッタン距離で3
 #define MAX_AREA			25
 ///Hashデータが持つ最大index ( > MAX_AREA )
@@ -47,21 +47,23 @@
 ///WANDERが発火する確率
 #define P_WANDER		0.1
 
+/////////SenseRange/////////////
 /*	
 	視野の奥行き:自分から2以上離れていれば，一度に1しか
 	動かないロボット同士はぶつからない
 */
-#define RANGE			3		//RANGE = (int)ceil(RANGE_DANGER);
-#define RANGE_DANGER	3.0f
+#define RANGE			4		//RANGE = (int)ceil(RANGE_DANGER);
+#define RANGE_DANGER	4.0f
 ///RangeSensorの走査する方角は30度刻み
 #define RANGE_DEG		30.0
 ///RangeSensorの走査する方角は12 (360 / RANGE_DEG) 方向
 #define RANGE_DIV		12
 
+//////////SenseRadiation/////////////
 ///放射線量最大のポイントの数の最小値
-#define MIN_RAD_POINT	1
+#define MIN_RAD_POINT	5
 ///放射線量最大のポイントの数の最大値
-#define MAX_RAD_POINT	10
+#define MAX_RAD_POINT	15
 /**
 	@brief 放射線量の最大値 [mSv]
 	<ul>
@@ -73,6 +75,7 @@
  */
 #define MAX_RAD_VALUE	10000.0f
 
+//////////SenseNet///////////////
 /**
 	@brief Wifiの接続範囲:100 [m]と設定する=>1マスが5mとなる
 	<ul>

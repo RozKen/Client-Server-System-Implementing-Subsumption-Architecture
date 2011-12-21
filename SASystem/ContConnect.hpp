@@ -100,8 +100,8 @@ inline void ContConnect::Run(){
 		float dy = this->getInput(i * 2 + 1);
 		float distance = this->norm(dx, dy);
 		if(distance > WIFI_REACH * WIFI_WEAK && dx != NO_SIGNAL && dy != NO_SIGNAL){
-			signalX = dx / distance;
-			signalY = dy / distance;
+			signalX = (float)MAX_DRIVE * dx / distance;
+			signalY = (float)MAX_DRIVE * dy / distance;
 		}
 	}
 
@@ -119,6 +119,8 @@ inline void ContConnect::Run(){
 				signalX /= distance;
 				signalY /= distance;
 			}
+			signalX *= (float)MAX_DRIVE;
+			signalY *= (float)MAX_DRIVE;
 		}
 	}
 

@@ -301,8 +301,10 @@ void RobotMAV::Run(){
 #ifdef	CONSIDER_DELAY
 		count = 1;
 	}else if(count == 1){
-#endif	//CONSIDER_DELAY
 		//Robot‚ÌŠeModule‚ğ“®‚©‚·
+		RunModules();
+		RunModules();
+#endif	//CONSIDER_DELAY
 		RunModules();
 		//Arbiter‚ğì“®‚³‚¹‚é
 		ProcessArbiters();
