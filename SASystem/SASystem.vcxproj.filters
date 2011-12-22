@@ -66,6 +66,9 @@
     <ClCompile Include="ContSmartAlive.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ContLinkToHQ.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SAModule.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="CistreamCSV.hpp">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ContLinkToHQ.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

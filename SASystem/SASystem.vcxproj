@@ -78,6 +78,7 @@
     <ClCompile Include="Arbiter.cpp" />
     <ClCompile Include="ContArbitrateDestination.cpp" />
     <ClCompile Include="ContExplore.cpp" />
+    <ClCompile Include="ContLinkToHQ.cpp" />
     <ClCompile Include="ContSmartAlive.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="ContAvoid.hpp" />
     <ClInclude Include="ContConnect.hpp" />
     <ClInclude Include="ContExplore.hpp" />
+    <ClInclude Include="ContLinkToHQ.hpp" />
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="ContSmartAlive.hpp" />
     <ClInclude Include="ContWander.hpp" />

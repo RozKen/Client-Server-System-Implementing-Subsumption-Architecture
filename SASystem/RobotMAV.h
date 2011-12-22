@@ -152,6 +152,30 @@ public:
 	 */
 	void setBatteryCharger(float value);
 	/**
+		@brief Get Relative Root of this Robot
+		@return relativeRoot
+		@sa relativeRoot
+	 */
+	RobotMAV* getRelativeRoot();
+	/**
+		@brief set Relative Root of this Robot
+		@param root RelativeRoot to be set
+		@sa relativeRoot
+	 */
+	void setRelativeRoot(RobotMAV* root);
+	
+	/**
+		@brief get Number of Hops to the Headquarters
+		@return Number of Hops
+	 */
+	int getHop() const;
+	/**
+		@brief set Number of Hops to the Headquarters
+		@param Number of Hops
+	 */
+	void setHop(int hop);
+	
+	/**
 		@brief get Coordinate of Robot at index
 		@param index which Robot
 		@param x x-axis : true, y-axis. false
@@ -165,7 +189,7 @@ public:
 		@param x x-axis : true, y-axis. false
 	 */
 	void setRobot(int index, float value, bool x);
-	
+
 	/**
 		@brief get Red Color of Current Robot
 	 */
@@ -241,6 +265,11 @@ public:
 		Battery Chargerの有無などを記録する
 	 */
 	int semMap[FIELD_SIZE][FIELD_SIZE];
+	/**
+		@brief 司令部へ連絡をとる際に，利用する上流のRobot
+		@sa ContLinkToHQ
+	 */
+	RobotMAV* relativeRoot;
 protected:
 	/**
 		@brief Moduleの登録などを行なう．

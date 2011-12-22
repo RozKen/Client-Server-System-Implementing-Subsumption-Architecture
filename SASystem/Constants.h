@@ -96,6 +96,9 @@
 ///Wifiで接続するロボットの数
 #define WIFI_CONNECT	5
 
+/////////ContLinkToHQ/////////
+#define P_RECONNECT		0.01f
+
 ///バッテリーの消耗率 point/step
 /**
 	@brief Battery Specification

@@ -403,6 +403,23 @@ void RobotMAV::setBatteryCharger(float value){
 	this->setInput(4 + RANGE_DIV + MAX_AREA, value);
 }
 
+RobotMAV* RobotMAV::getRelativeRoot(){
+	return this->relativeRoot;
+}
+
+void RobotMAV::setRelativeRoot(RobotMAV* root){
+	this->relativeRoot = root;
+}
+
+int RobotMAV::getHop() const{
+	//TODO Implement
+	return 0;
+}
+
+void RobotMAV::setHop(int hop){
+	//TODO Implement
+}
+
 float RobotMAV::getRobot(int index, bool x){
 	int odd = 1;
 	if(x){
@@ -428,6 +445,15 @@ float RobotMAV::getColorG() const{
 float RobotMAV::getColorB() const{
 	return this->color[2];
 }
+
+float RobotMAV::getObjectiveX() const{
+	return this->cE->getDestinationX();
+}
+
+float RobotMAV::getObjectiveY() const{
+	return this->cE->getDestinationY();
+}
+
 
 void RobotMAV::ProcessArbiters(){
 	float ratios[NUM_OF_LAYERS - 1];
@@ -596,12 +622,4 @@ void RobotMAV::clearNearest(){
 
 int RobotMAV::getNumOfNearestRobots() const{
 	return numOfNearestRobots;
-}
-
-float RobotMAV::getObjectiveX() const{
-	return this->cE->getDestinationX();
-}
-
-float RobotMAV::getObjectiveY() const{
-	return this->cE->getDestinationY();
 }
