@@ -23,7 +23,7 @@ void ContArbitrateDestination::Initialize(){
 #ifdef SWAP_CCCE
 	int modNum = 11;
 #else
-	int modNum = 12;
+	int modNum = 13;
 #endif
 	ContExplore* cE = (ContExplore*)(((RobotMAV*)(this->parent))->getModule(modNum));
 	this->addIBoardIndex(cE->getIBoardIndex(0));

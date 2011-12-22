@@ -2,6 +2,7 @@
 #define	_Cont_Link_To_HQ_HPP_
 
 #include "SAModule.h"
+#include "Random.hpp"
 
 /**
 	@class ContLinkToHQ

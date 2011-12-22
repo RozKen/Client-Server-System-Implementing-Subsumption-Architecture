@@ -3,6 +3,7 @@
 
 #include "SAModule.h"
 #include <string.h>
+#include "Random.hpp"
 
 /**
 	@class ContConnect

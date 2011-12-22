@@ -171,7 +171,7 @@ public:
 	int getHop() const;
 	/**
 		@brief set Number of Hops to the Headquarters
-		@param Number of Hops
+		@param hop Number of Hops
 	 */
 	void setHop(int hop);
 	
@@ -330,6 +330,7 @@ private:
 	ContWander* cW;
 	ContSmartAlive* cSa;
 	ContConnect* cC;
+	ContLinkToHQ* cL2HQ;
 	ContExplore* cE;
 	ContArbitrateDestination* cAd;
 	

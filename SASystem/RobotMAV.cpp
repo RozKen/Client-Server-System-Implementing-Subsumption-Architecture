@@ -84,19 +84,19 @@ void RobotMAV::Initialize(){
 	modColor[1][0] = 1.0f;
 	modColor[1][1] = 1.0f;
 	modColor[1][2] = 0.0f;
-	///Module 09 : Wander : Purple?
+	///Module 09 : Wander : Gray
 	cW = new ContWander();
 	this->addModule(cW);
-	modColor[2][0] = 1.0f;
-	modColor[2][1] = 0.0f;
-	modColor[2][2] = 1.0f;
+	modColor[2][0] = 0.5f;
+	modColor[2][1] = 0.5f;
+	modColor[2][2] = 0.5f;
 
 	///Module 10 : Smart Alive : Orange
 	cSa = new ContSmartAlive();
 	this->addModule(cSa);
-	modColor[3][0] = 0.0f;
-	modColor[3][1] = 1.0f;
-	modColor[3][2] = 1.0f;
+	modColor[3][0] = 1.0f;
+	modColor[3][1] = 0.5f;
+	modColor[3][2] = 0.0f;
 	
 #ifdef SWAP_CCCE
 	///Module 11 : ContExplore : Sky Blue
@@ -113,6 +113,13 @@ void RobotMAV::Initialize(){
 	modColor[5][1] = 1.0f;
 	modColor[5][2] = 1.0f;
 
+	///Module 13 : ContLinkToHQ : Purple
+	cL2HQ = new ContLinkToHQ();
+	this->addModule(cL2HQ);
+	modColor[6][0] = 1.0f;
+	modColor[6][1] = 0.0f;
+	modColor[6][2] = 1.0f;
+
 #else
 
 	///Module 11 : ContConnect : White
@@ -122,24 +129,31 @@ void RobotMAV::Initialize(){
 	modColor[4][1] = 1.0f;
 	modColor[4][2] = 1.0f;
 
-	///Module 12 : ContExplore : Sky Blue
+	///Module 12 : ContLinkToHQ : Purple
+	cL2HQ = new ContLinkToHQ();
+	this->addModule(cL2HQ);
+	modColor[5][0] = 1.0f;
+	modColor[5][1] = 0.0f;
+	modColor[5][2] = 1.0f;
+
+	///Module 13 : ContExplore : Sky Blue
 	cE = new ContExplore();
 	this->addModule(cE);
-	modColor[5][0] = 0.0f;
-	modColor[5][1] = 1.0f;
-	modColor[5][2] = 1.0f;
+	modColor[6][0] = 0.0f;
+	modColor[6][1] = 1.0f;
+	modColor[6][2] = 1.0f;
 
 #endif	//SWAP_CCCE
 
-	///Module 13 : ContArbitrateDestination : Dark Gray
+	///Module 14 : ContArbitrateDestination : Dark Gray
 	cAd = new ContArbitrateDestination(this);
 	this->addModule(cAd);
-	modColor[6][0] = 0.3f;
-	modColor[6][1] = 0.3f;
-	modColor[6][2] = 0.3f;
+	modColor[7][0] = 0.3f;
+	modColor[7][1] = 0.3f;
+	modColor[7][2] = 0.3f;
 
 	/////Actuatorを追加
-	///Module 14 : 位置Actuatorを追加
+	///Module 15 : 位置Actuatorを追加
 	aP = new ActPos();
 	this->addModule(aP);
 
@@ -246,15 +260,29 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cCaP[i]);
 	}
 
+	///44,45 : Suppress LinkToHQ -> 位置Actuator
+	Arbiter* cL2HQaP[2];
+	for(int i = 0; i < 2; i++){
+		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i, 1.0f);
+		this->addArbiter(cL2HQaP[i]);
+	}
+
 #else
-	///40, 41:Suppress Connect -> 位置Actuator
+	///40, 41 : Suppress Connect -> 位置Actuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
 		cCaP[i] = new Arbiter(cC, i, aP, i, 1.0f);
 		this->addArbiter(cCaP[i]);
 	}
 
-	///42, 43:Suppress Explore -> 位置Actuator
+	///42, 43 : Suppress LinkToHQ -> 位置Actuator
+	Arbiter* cL2HQaP[2];
+	for(int i = 0; i < 2; i++){
+		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i, 1.0f);
+		this->addArbiter(cL2HQaP[i]);
+	}
+
+	///44, 45 : Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
@@ -262,11 +290,18 @@ void RobotMAV::Initialize(){
 	}
 #endif	//SWAP_CCCE
 
-	///44, 45: Wire 位置Sensor -> ArbitrateDestination
+	///46, 47 : Wire 位置Sensor -> ArbitrateDestination
 	Arbiter* sPcAd[2];
 	for(int i = 0; i < 2; i++){
 		sPcAd[i] = new Arbiter(sP, i, cAd, i, 2.0f);
 		this->addArbiter(sPcAd[i]);
+	}
+
+	///48, 49 : Wire 位置Sensor -> LinkToHQ
+	Arbiter* sPcL2HQ[2];
+	for(int i = 0; i < 2; i++){
+		sPcL2HQ[i] = new Arbiter(sP, i, cL2HQ, i, 2.0f);
+		this->addArbiter(sPcL2HQ[i]);
 	}
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
@@ -346,11 +381,11 @@ void RobotMAV::Update(){
 }
 
 float RobotMAV::getDX() const {
-	return this->getOutput(1);
+	return this->getOutput(2);
 }
 
 float RobotMAV::getDY() const {
-	return this->getOutput(2);
+	return this->getOutput(3);
 }
 
 float RobotMAV::getBattery() const{
@@ -413,11 +448,12 @@ void RobotMAV::setRelativeRoot(RobotMAV* root){
 
 int RobotMAV::getHop() const{
 	//TODO Implement
-	return 0;
+	return this->getOutput(1);
 }
 
 void RobotMAV::setHop(int hop){
 	//TODO Implement
+	this->setInput(53, hop);
 }
 
 float RobotMAV::getRobot(int index, bool x){
@@ -469,19 +505,21 @@ void RobotMAV::ProcessArbiters(){
 		case 38:	//SmartAlive Suppress
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 40:	//Connect Suppress SmartAlive, Wander, Alive, Avoid and ActPos
+		case 40:	//ContLinkToHQ Suppress
 			ratios[3] = arbiters->at(i)->getCurrentRatio();
-			break;
-		case 42:	//Explore Suppress Connect, SmartAlive, Wander, Alive, Avoid and ActPos
+		case 42:	//Connect Suppress SmartAlive, Wander, Alive, Avoid and ActPos
 			ratios[4] = arbiters->at(i)->getCurrentRatio();
+			break;
+		case 44:	//Explore Suppress Connect, SmartAlive, Wander, Alive, Avoid and ActPos
+			ratios[5] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
 			break;
 		}
 	}
 
-	//ratios[5] doesn't used. ContArbitrateDestination
-	ratios[5] = 0.0f;
+	//ratios[6] doesn't used. ContArbitrateDestination
+	ratios[6] = 0.0f;
 
 	///Set RobotColor According to Suppress
 
