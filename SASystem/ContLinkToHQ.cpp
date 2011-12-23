@@ -29,15 +29,26 @@ void ContLinkToHQ::Run(){
 			signalY = (float)MAX_DRIVE * dY / d;
 		}
 	}else{	//既にhopがある時
-		int pHop = ((RobotMAV*)parent)->getRelativeRoot()->getHop();
-		//relativeRootのHopが，自分のHopよりも大きかったら，NO_SIGNALとする
-		if( pHop >= ((RobotMAV*)this->parent)->getHop()){
-			hop = NO_SIGNAL;
+		if(hop == 0){	//hop数が0の時はrelativeRootがない
+			float dX = ((float)START_X - posX);
+			float dY = ((float)START_Y - posY);
+			float d = norm(dX, dY);
+			if(d >= START_R){
+				hop = NO_SIGNAL;
+			}
 		}else{
-			//そうじゃないときは，自分のHopを計算し直す．
-			((RobotMAV*)this->parent)->setHop(pHop + 1);
+			int pHop = ((RobotMAV*)parent)->getRelativeRoot()->getHop();
+			//relativeRootのHopが，自分のHopよりも大きかったら，NO_SIGNALとする
+			if( pHop >= ((RobotMAV*)this->parent)->getHop()){
+				hop = NO_SIGNAL;
+			}else{
+				//そうじゃないときは，自分のHopを計算し直す．
+				hop = pHop + 1;;
+			}
 		}
 	}
+	this->setIBoard(0, hop);
+
 	//ときおり，relativeRootを書き換える機会を与える
 	if(P_RECONNECT > rand()){
 		findHQ();

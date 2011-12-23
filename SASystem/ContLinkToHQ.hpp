@@ -44,19 +44,23 @@ public:
 				</ul>
 				<li>hop != NO_SIGNALの時</li>
 				<ul>
-					<li>relative_rootのhop > this->hop なら，hop = NO_SIGNALとし，新たなrelative_rootを探す</li>
-					<li>そうでないときthis->hop = relative_root->hop + 1とする</li>
-					<li>時々，relative_rootの代替案があれば，そっちに乗り換えたりもする</li>
+					<li> hop == 0のとき，司令部との距離を確認して，繋がっているか，確認</li>
+					<li>そうでないとき</li>
+					<ul>
+						<li>relative_rootのhop > this->hop なら，hop = NO_SIGNALとし，新たなrelative_rootを探す</li>
+						<li>そうでないときthis->hop = relative_root->hop + 1とする</li>
+						<li>時々，relative_rootの代替案があれば，そっちに乗り換えたりもする</li>
+					</ul
 				</ul>
 			</ul>
 		@sa SAModule::Run
 	 */
 	virtual void Run();
+protected:
 	/**
 		@brief HeadquarterへのRouteを探す
 	 */
 	bool findHQ();
-protected:
 	/**
 		@brief Random Generator. relative_rootの代替案を探すかどうかを決める際に利用する
 	 */
