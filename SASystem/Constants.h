@@ -99,7 +99,7 @@
 #define WIFI_CONNECT	5
 
 /////////ContLinkToHQ/////////
-#define P_RECONNECT		0.01f
+#define P_RECONNECT		0.0f			//0.01f
 
 ///バッテリーの消耗率 point/step
 /**

@@ -28,6 +28,7 @@ void ContLinkToHQ::Run(){
 		float d = norm(dX, dY);
 		signalX = ((float)MAX_DRIVE) * dX / d;
 		signalY = ((float)MAX_DRIVE) * dY / d;
+		std::cout << "Headquarter 0: " << signalX << ", " << signalY << std::endl;
 	}else{
 		float dXP;
 		float dYP;
@@ -44,9 +45,12 @@ void ContLinkToHQ::Run(){
 		float dP = norm(dXP, dYP);
 		//relativeRoot / START が少し遠いとき
 		if(dP < WIFI_CONNECT * WIFI_WEAK){
+			//目的地に向かう
 			signalX = (float)MAX_DRIVE * dXP / dP;
 			signalY = (float)MAX_DRIVE * dYP / dP;
+			std::cout << "Headquarter 1: " << signalX << ", " << signalY << std::endl;
 		}else{
+			//そうでないとき，信号は出さない
 			signalX = NO_SIGNAL;
 			signalY = NO_SIGNAL;
 		}
@@ -68,7 +72,8 @@ bool ContLinkToHQ::update(){
 	float d = norm(dX, dY);
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
-	//hop, relativeRootを更新
+	
+	//findHQするかどうかを決めていく
 
 	//ときおり，relativeRootを書き換える機会を与える
 	if(P_RECONNECT > rand()){
@@ -106,11 +111,13 @@ bool ContLinkToHQ::update(){
 		if(!findHQ()){
 			//START地点へ戻るよう伝える
 			result = false;
-			return result;
 		}else{
+			//見つかったときは，
 			result = true;
-			return result;
 		}
+	}else{
+		//新たに探索する必要がない場合
+		result = true;
 	}
 
 	return result;
@@ -124,37 +131,42 @@ bool ContLinkToHQ::findHQ(){
 	float dY = START_Y - posY;
 	float d = norm(dX, dY);
 	RobotMAV* parent = ((RobotMAV*)this->parent);
-	if(d < START_R){	//司令部から近いとき
-		parent->setHop(0);
-		return true;
-	}else
-	{	//そうでないとき，
-		//nearest->size() = 0の時
-		if(parent->getNearest()->size() == 0){
-			//hop = NO_SIGNALとして，result = false
-			parent->setHop(NO_SIGNAL);
-			return false;
-		}else{
-			bool flag = false;
-			for(int i = 0; i < parent->getNearest()->size(); i++){
-				int pHop = parent->getNearestAt(i)->getHop();
-				if(pHop != NO_SIGNAL){
-					//nearestの中で，繋がっているものがある場合
-					//relativeRobotを更新
-					parent->setRelativeRoot(parent->getNearestAt(i));
-					//Hopを更新
-					parent->setHop(pHop + 1);
-					flag = true;
-					return true;
-				}
-			}
-			//nearestのhop = NO_SIGNALの時
-			if(!flag){
-				//hop = NO_SIGNALとして，result = false
-				parent->setHop(NO_SIGNAL);
-				return false;
+
+	//nearest->size() = 0の時
+	if(parent->getNearest()->size() == 0){
+		//hop = NO_SIGNALとして，result = false
+		parent->setHop(NO_SIGNAL);
+		return false;
+	}else{
+		bool flag = false;
+		for(int i = 0; i < parent->getNearest()->size(); i++){
+			int pHop = parent->getNearestAt(i)->getHop();
+			if(pHop != NO_SIGNAL){
+				//nearestの中で，繋がっているものがある場合
+				//relativeRobotを更新
+				parent->setRelativeRoot(parent->getNearestAt(i));
+				//Hopを更新
+				parent->setHop(pHop + 1);
+				flag = true;
+				result = true;
+				//なるべく遠くのものと繋がるようにしてみた．
+				//これにより，長く繋がる気がする
 			}
 		}
+		//nearestのhop = NO_SIGNALの時
+		if(!flag){
+			//hop = NO_SIGNALとして，result = false
+			parent->setHop(NO_SIGNAL);
+			result = false;
+		}
 	}
+	//この時点で，hop = NO_SIGNALで
+	//司令部から近ければ
+	if(d < START_R && parent->getHop() == NO_SIGNAL){	//司令部から近いとき
+		//hop = 0とする
+		parent->setHop(0);
+		result = true;
+	}
+
 	return result;
 }
