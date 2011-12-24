@@ -91,6 +91,8 @@
 	WIFI_REACH * WIFI_WEAKの距離に達したら，ContConnect作動
  */
 #define WIFI_WEAK		0.9f
+///LinkToHQとの接続はより強く確保する
+#define WIFI_WEAK_HQ	0.8f
 ///Wifiの接続中心へと移動する率
 #define WIFI_BALANCE	0.0f
 ///Wifiで接続するロボットの数

@@ -62,6 +62,11 @@ protected:
 	 */
 	bool findHQ();
 	/**
+		@brief hopとrelativeRootを更新する
+		@return true : ちゃんとつながっている, false : START地点へ戻れ
+	 */
+	bool update();
+	/**
 		@brief Random Generator. relative_rootの代替案を探すかどうかを決める際に利用する
 	 */
 	Random<boost::uniform_real<> > rand;
