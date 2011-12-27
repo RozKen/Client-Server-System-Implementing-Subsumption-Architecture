@@ -124,8 +124,8 @@ inline void ContAvoid::Run(){
 			}
 			if(index != -1){
 				double newTheta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
-				signalX = (float)MAX_DRIVE * cos(newTheta);
-				signalY = (float)MAX_DRIVE * sin(newTheta);
+				signalX = (float)MAX_DRIVE * SPEED_DELAY * cos(newTheta);
+				signalY = (float)MAX_DRIVE * SPEED_DELAY * sin(newTheta);
 			}else{
 				//ÇªÇÃèÍÇ…í‚é~Ç∑ÇÈ
 				signalX = 0.0f;

@@ -44,6 +44,12 @@
 #define ROBOTEXIST		4
 ///全体における障害物の存在確率
 #define P_BARRIER		0.05		//0.05
+
+/////////ContAvoid////////////
+///Avoidの時は，MaxSpeedの0.3倍で進む.
+#define SPEED_DELAY		0.3
+
+/////////ContWander/////////////
 ///WANDERが発火する確率
 #define P_WANDER		0.1
 
@@ -138,7 +144,7 @@
 #define BAT_LOSS		11.04
 #define BAT_GAIN		473.6
 #endif
-#define MAX_BAT			8525.0
+#define MAX_BAT			142.1
 
 ////ContArbitrateDestination
 ///Destinationが遠いと判断する際のthreshold

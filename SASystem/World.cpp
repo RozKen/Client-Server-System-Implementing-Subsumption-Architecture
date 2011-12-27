@@ -108,7 +108,7 @@ void World::Update(){
 			robot->setPosY(newY);
 			//Position‚É‰ž‚¶‚ÄBattery‚ðŒ¸‚ç‚·
 			if(sqrt(dX) > 0 || sqrt(dY) > 0){
-				battery -= (float)BAT_LOSS;
+				battery -= (float)BAT_LOSS * this->norm(dX, dY);
 			}
 
 			////////Direction////////
