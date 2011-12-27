@@ -58,7 +58,7 @@ bool ContSmartAlive::findNearestCharger(){
 	float posX = this->getInput(0);
 	float posY = this->getInput(1);
 	//‚Ç‚¤‚µ‚æ‚¤‚à‚È‚­Ži—ß•”‚©‚ç‰“‚¢‚Æ‚«‚ÍC’ú‚ß‚éD
-	if(norm(posX - START_X, posY - START_Y) > MAX_BAT / BAT_LOSS){
+	if(norm(posX - START_X, posY - START_Y) > (float)MAX_DRIVE * MAX_BAT / BAT_LOSS){
 		result = false;
 	}else{
 		int x, y;
