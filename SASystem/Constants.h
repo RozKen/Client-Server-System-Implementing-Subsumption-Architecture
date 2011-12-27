@@ -13,6 +13,9 @@
 //Robot“à, Robot-WorldŠÔî•ñˆ—‚Ì’x‰„‚ğl—¶‚·‚éê‡CéŒ¾‚·‚é
 #define CONSIDER_DELAY
 
+//Importance-Based‚Å‚â‚é‚Æ‚«éŒ¾
+#define IMPORTANCE_BASED
+
 #define NUM_ROBOT			10
 
 //íœ—\’è
@@ -144,7 +147,7 @@
 #define BAT_LOSS		11.04
 #define BAT_GAIN		473.6
 #endif
-#define MAX_BAT			142.1
+#define MAX_BAT			90000			//142.1
 
 ////ContArbitrateDestination
 ///Destination‚ª‰“‚¢‚Æ”»’f‚·‚éÛ‚Ìthreshold
