@@ -343,10 +343,7 @@ void RobotMAV::Run(){
 		RunModules();
 		//Arbiterを作動させる
 		ProcessArbiters();
-#ifdef	CONSIDER_DELAY
-		count = 2;
-	}else if(count == 2){
-#endif	//CONSIDER_DELAY
+
 		//RobotからのOutputを処理する
 		ProcessOutputs();
 		//内部の情報を更新する
@@ -355,6 +352,12 @@ void RobotMAV::Run(){
 		Log();
 		//地図を記録する
 		//logMaps();
+
+#ifdef	CONSIDER_DELAY
+		count = 0;
+	}else if(count == 2){
+#endif	//CONSIDER_DELAY
+
 #ifdef	CONSIDER_DELAY
 		count = 0;
 	}

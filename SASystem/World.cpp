@@ -48,7 +48,7 @@ void World::Run(){
 	this->RunRobots();
 	this->Update();
 #ifdef	CONSIDER_DELAY
-	if(count % 3 == 2){
+	if(count % 2 == 1){
 #endif	//CONSIDER_DELAY
 		//Œ»İ‚Ìó‘Ô‚ğ‹L˜^
 		Log();
