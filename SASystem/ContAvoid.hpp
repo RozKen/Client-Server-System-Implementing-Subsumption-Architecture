@@ -82,8 +82,20 @@ inline void ContAvoid::Run(){
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
 
+#ifdef IMPORTANCE_BASED
+	this->importance = 0.0f;
+	float range = RANGE_DANGER * 2;
+#endif	//IMPORTANCE_BASED
+
 	for(int i = 0; i < RANGE_DIV; i++){
-		if(this->getInput(i) < RANGE_DANGER){
+		float rangeValue = this->getInput(i);
+#ifdef	IMPORTANCE_BASED
+		//rangeÇàÍî‘ãﬂÇ¢Ç‡ÇÃÇ…çXêV
+		if(range > rangeValue){
+			range = rangeValue;
+		}
+#endif	//IMPORTANCE_BASED
+		if(rangeValue < RANGE_DANGER){
 			float angle = sqrt(pow(direction - RANGE_DEG * (float)i, 2));
 			if(angle > 180.0f){
 				angle = 360.0f - angle;
@@ -98,6 +110,13 @@ inline void ContAvoid::Run(){
 	}
 
 	if(danger){
+#ifdef	IMPORTANCE_BASED
+		if(range < RANGE_DANGER){
+			this->importance = this->calcImportance(1.0f - range / RANGE_DANGER * 2);
+		}else{
+			this->importance = 0.0f;
+		}
+#endif	//IMPORTANCE_BASED
 		if(safeIndex.empty()){
 			//ÇªÇÃèÍÇ…í‚é~Ç∑ÇÈ
 			signalX = 0.0f;
