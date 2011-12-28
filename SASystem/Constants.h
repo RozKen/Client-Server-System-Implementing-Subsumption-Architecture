@@ -14,7 +14,8 @@
 #define CONSIDER_DELAY
 
 //Importance-Based‚Å‚â‚é‚Æ‚«éŒ¾
-#define IMPORTANCE_BASED
+//#define IMPORTANCE_BASED
+#define IMPORTANCE_POWER	4
 
 #define NUM_ROBOT			10
 

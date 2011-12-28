@@ -102,15 +102,20 @@ double Arbiter::generateSignal(){
 	double currentFactor;
 	///factorが指定されていなければ，
 	if(factor == NO_SIGNAL){
+#ifdef	IMPORTANCE_BASED
 		///importanceを入手
 		float impSrc = source->getImportance();
 		float impDst = destination->getImportance();
+		//sourceかdestinationのどちらかがNO_SIGNALの時
 		if(impSrc == NO_SIGNAL || impDst == NO_SIGNAL){
+#endif	//IMPORTANCE_BASED
 			///乱数で生成
 			currentFactor = _rand();
-		}else{
+#ifdef	IMPORTANCE_BASED
+		}else{	//そうでないときは，計算できる
 			currentFactor = impSrc / (impSrc + impDst);
 		}
+#endif	//IMPORTANCE_BASED
 	}else{
 		///factorが指定されていれば，その値を利用
 		currentFactor = (double)factor;

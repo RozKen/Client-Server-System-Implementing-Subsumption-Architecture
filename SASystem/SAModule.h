@@ -126,13 +126,23 @@ public:
 		@return 信号の重要度
 		@sa importance
 	 */
-	float getImportance() const;
+	virtual float getImportance() const;
 	/**
 		@brief 信号の重要度を設定する
 		@param importance 信号の重要度
 		@sa importance
 	 */
-	void setImportance(float importance);
+	virtual void setImportance(float importance);
+	/**
+		@brief 効用のような特性を持った重要度を算出する
+		重要度を線形ではなく，下に凸とするために必要．(効用は上に凸)
+		現在はy = x^4の曲線 4 = IMPORTANCE_POWER
+		@param value 重要度に関係する値∈[0.0, 1.0]：大きいほど重要
+		@return 重要度
+		@sa importance
+	 */
+	virtual float calcImportance(float value);
+
 #endif	//IMPORTANCE_BASED
 
 	/**

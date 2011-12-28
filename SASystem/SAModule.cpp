@@ -139,7 +139,7 @@ void SAModule::setIBoard(int index, int signal){
 void SAModule::setFBoard(int index, float signal){
 	this->memory->setFBoard(this->fBoardIndex->at(index), signal);
 }
-
+#ifdef	IMPORTANCE_BASED
 float SAModule::getImportance() const{
 	return this->importance;
 }
@@ -147,6 +147,12 @@ float SAModule::getImportance() const{
 void SAModule::setImportance(float importance){
 	this->importance = importance;
 }
+
+float SAModule::calcImportance(float value){
+	return pow(value, IMPORTANCE_POWER);
+}
+
+#endif	//IMPORTANCE_BASED
 
 int SAModule::getNumOfInputPorts() const{
 	return this->numOfInputPorts;
