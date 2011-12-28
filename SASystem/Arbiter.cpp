@@ -3,12 +3,12 @@
 
 Arbiter::Arbiter()
 	:_rand(0, 1), timeToModify(0), timeLeftModified(0)
-	, factor(-100.0f){
+	, factor(NO_SIGNAL){
 }
 
 Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort)
 	:_rand(0, 1), source(src), srcPort(srcPort), destination(dest), destPort(destPort),
-	timeToModify(0), timeLeftModified(0), factor(-100.0f){
+	timeToModify(0), timeLeftModified(0), factor(NO_SIGNAL){
 		addInput(src->getOutputTitles()->at(srcPort));
 		addInputIndex(src->getOutputIndex(srcPort));
 		addOutput(dest->getInputTitles()->at(destPort));
@@ -27,7 +27,7 @@ Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, float
 Arbiter::Arbiter(SAModule* src, int srcPort, SAModule* dest, int destPort, 
 		float factor_min, float factor_max)
 	: source(src), srcPort(srcPort), destination(dest), destPort(destPort), 
-	_rand(factor_min, factor_max), timeToModify(0), timeLeftModified(0), factor(-100.0f){
+	_rand(factor_min, factor_max), timeToModify(0), timeLeftModified(0), factor(NO_SIGNAL){
 		addInput(src->getOutputTitles()->at(srcPort));
 		addInputIndex(src->getOutputIndex(srcPort));
 		addOutput(dest->getInputTitles()->at(destPort));
@@ -100,9 +100,17 @@ float Arbiter::getSrc() const{
 double Arbiter::generateSignal(){
 	///現Stepにおける，Arbiterの挙動を決める因子
 	double currentFactor;
-	///factorが指定されていなければ，乱数で生成
-	if(factor == -100.0f){
-		currentFactor = _rand();
+	///factorが指定されていなければ，
+	if(factor == NO_SIGNAL){
+		///importanceを入手
+		float impSrc = source->getImportance();
+		float impDst = destination->getImportance();
+		if(impSrc == NO_SIGNAL || impDst == NO_SIGNAL){
+			///乱数で生成
+			currentFactor = _rand();
+		}else{
+			currentFactor = impSrc / (impSrc + impDst);
+		}
 	}else{
 		///factorが指定されていれば，その値を利用
 		currentFactor = (double)factor;
