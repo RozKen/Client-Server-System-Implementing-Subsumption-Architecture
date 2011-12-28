@@ -109,8 +109,14 @@ double Arbiter::generateSignal(){
 		//sourceÇ©destinationÇÃÇ«ÇøÇÁÇ©Ç™NO_SIGNALÇÃéû
 		if(impSrc == NO_SIGNAL || impDst == NO_SIGNAL){
 #endif	//IMPORTANCE_BASED
-			///óêêîÇ≈ê∂ê¨
-			currentFactor = _rand();
+			if(impSrc != NO_SIGNAL){
+				currentFactor = 0.0f;
+			}else if(impDst != NO_SIGNAL){
+				currentFactor = 1.0f;
+			}else{
+				///óêêîÇ≈ê∂ê¨
+				currentFactor = _rand();
+			}
 #ifdef	IMPORTANCE_BASED
 		}else{	//ÇªÇ§Ç≈Ç»Ç¢Ç∆Ç´ÇÕÅCåvéZÇ≈Ç´ÇÈ
 			currentFactor = impSrc / (impSrc + impDst);
@@ -132,11 +138,11 @@ double Arbiter::generateSignal(){
 
 #ifdef INVERSE_SUPPRESSOR
 		if(getDest() != NO_SIGNAL){
-			destRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
+			destRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) currentFactor * PI ) + 1.0 ) ) + 1.0 );
 			sourceRatio = 1.0 - destRatio;
 #else	// if NORMAL_SUPRESSOR
 		if(getSrc() != NO_SIGNAL){
-			sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) factor * PI ) + 1.0 ) ) + 1.0 );
+			sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) currentFactor * PI ) + 1.0 ) ) + 1.0 );
 			destRatio = 1.0 - sourceRatio;
 #endif	//INVERSE_SUPPRESSOR
 		}else{
