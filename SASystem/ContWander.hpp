@@ -88,11 +88,19 @@ inline void ContWander::Run(){
 	//とりあえず，履歴とかは考えずに，ランダムに動く．
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
-	if(_rand() < P_WANDER){
+	
+	float random = _rand();
+	if(random < P_WANDER){
 		float theta = 2.0 * PI * _rand();
 		signalX = (float)MAX_DRIVE * cos(theta);
 		signalY = (float)MAX_DRIVE * sin(theta);
+#ifdef	IMPORTANCE_BASED
+		this->importance = this->calcImportance(1.0f - random / P_WANDER);
+#endif	//IMPORTANCE_BASED
 	}else{
+#ifdef	IMPORTANCE_BASED
+	this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 		signalX = NO_SIGNAL;
 		signalY = NO_SIGNAL;
 	}
