@@ -120,6 +120,21 @@ public:
 	virtual void setIBoard(int index, int signal);
 	virtual void setFBoard(int index, float signal);
 
+#ifdef	IMPORTANCE_BASED
+	/**
+		@brief 信号の重要度を与える
+		@return 信号の重要度
+		@sa importance
+	 */
+	float getImportance() const;
+	/**
+		@brief 信号の重要度を設定する
+		@param importance 信号の重要度
+		@sa importance
+	 */
+	void setImportance(float importance);
+#endif	//IMPORTANCE_BASED
+
 	/**
 		@brief 入力信号ポート数を返す
 		@return 入力信号ポート数
@@ -185,6 +200,10 @@ protected:
 	Blackboard* memory;
 	///値の入出力に当たり，利用する記憶領域
 	Blackboard* innerMemory;
+#ifdef	IMPORTANCE_BASED
+	///このモジュールが発する信号の重要度．効用に応じて発されるべき
+	float importance;
+#endif	//IMPORTANCE_BASED
 };
 
 #endif //_SAModule_H_

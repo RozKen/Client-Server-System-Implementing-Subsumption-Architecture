@@ -13,6 +13,10 @@ SAModule::SAModule():numOfInputPorts(0), numOfOutputPorts(0){
 	this->fBoardTitles = new std::vector<std::string>();
 	//this->memory = new Blackboard();
 	this->innerMemory = new Blackboard();
+
+#ifdef	IMPORTANCE_BASED
+	importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 }
 
 SAModule::~SAModule(){
@@ -134,6 +138,14 @@ void SAModule::setIBoard(int index, int signal){
 
 void SAModule::setFBoard(int index, float signal){
 	this->memory->setFBoard(this->fBoardIndex->at(index), signal);
+}
+
+float SAModule::getImportance() const{
+	return this->importance;
+}
+
+void SAModule::setImportance(float importance){
+	this->importance = importance;
 }
 
 int SAModule::getNumOfInputPorts() const{
