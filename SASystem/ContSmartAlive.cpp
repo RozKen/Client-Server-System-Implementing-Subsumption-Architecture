@@ -19,12 +19,19 @@ ContSmartAlive::ContSmartAlive(){
 }
 
 void ContSmartAlive::Run(){
+	//基本的にNO_SIGNALを出力
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
+#ifdef	IMPORTANCE_BASED
+	this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 	//Charge中の時
 	if(this->getIBoard(0) == 1){
 		signalX = 0.0f;
 		signalY = 0.0f;
+#ifdef	IMPORTANCE_BASED
+	this->importance = 1.0f;
+#endif	//IMPORTANCE_BASED
 		if(this->getInput(2) >= MAX_BAT){
 			//Charge済みとする
 			this->setIBoard(0, 0);
@@ -37,6 +44,9 @@ void ContSmartAlive::Run(){
 			//停止する=充電する
 			signalX = 0.0f;
 			signalY = 0.0f;
+#ifdef	IMPORTANCE_BASED
+			this->importance = 1.0f;
+#endif	//IMPORTANCE_BASED
 		}else{
 			if(findNearestCharger()){
 				//Batteryが足りなくなりそうだったら
@@ -44,6 +54,9 @@ void ContSmartAlive::Run(){
 					//そこへ向かう
 					signalX = (float)MAX_DRIVE * (nearestCharger[0] - this->getInput(0)) / distance;
 					signalY = (float)MAX_DRIVE * (nearestCharger[1] - this->getInput(1)) / distance;
+#ifdef	IMPORTANCE_BASED
+					this->importance = 1.0f;
+#endif	//IMPORTANCE_BASED
 				}
 			}//else 見つからなかったら，諦める．
 		}
