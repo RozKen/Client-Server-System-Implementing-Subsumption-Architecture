@@ -15,6 +15,7 @@
 
 //Importance-Basedでやるとき宣言
 #define IMPORTANCE_BASED
+#define IMPORTANCE_POWER	4
 
 #define NUM_ROBOT			10
 
@@ -51,6 +52,10 @@
 /////////ContAvoid////////////
 ///Avoidの時は，MaxSpeedの0.3倍で進む.
 #define SPEED_DELAY		0.3
+
+/////////ContAlive/////////////
+///Batteryが低いと判断するしきい値
+#define BATTERY_LOW		0.2
 
 /////////ContWander/////////////
 ///WANDERが発火する確率
