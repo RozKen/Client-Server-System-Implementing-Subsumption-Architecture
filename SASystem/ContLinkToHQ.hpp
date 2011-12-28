@@ -6,7 +6,7 @@
 
 /**
 	@class ContLinkToHQ
-	@brief Mission: 司令部との連絡経路を確保する Link to Headquaters
+	@brief Mission: 司令部との連絡経路を確保する制御器 Link to Headquaters
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0 : posXCLTHQ : 現在位置(X座標)</li>
@@ -50,7 +50,7 @@ public:
 						<li>relative_rootのhop > this->hop なら，hop = NO_SIGNALとし，新たなrelative_rootを探す</li>
 						<li>そうでないときthis->hop = relative_root->hop + 1とする</li>
 						<li>時々，relative_rootの代替案があれば，そっちに乗り換えたりもする</li>
-					</ul
+					</ul>
 				</ul>
 			</ul>
 		@sa SAModule::Run

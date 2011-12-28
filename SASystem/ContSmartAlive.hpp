@@ -5,7 +5,7 @@
 
 /**
 	@class ContSmartAlive
-	@brief Mission : 充電に関して、よりスマートな動きを発現させる.
+	@brief Mission : 充電に関して、よりスマートな動きを発現させる制御器
 	<h1>Inputs</h1>
 	<ul>
 		<li>Input0 : posXCS</li>
