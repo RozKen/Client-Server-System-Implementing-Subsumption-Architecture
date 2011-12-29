@@ -26,6 +26,9 @@ void ContExplore::Run(){
 	//Generate Signals
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
+#ifdef	IMPORTANCE_BASED
+	this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 	if(destX != (int)NO_SIGNAL && destY != (int)NO_SIGNAL){
 		//Current Position
 		float x = ((RobotMAV*)(this->parent))->getPosX();
@@ -35,6 +38,10 @@ void ContExplore::Run(){
 		if(norm != 0.0f){
 			signalX = (float)MAX_DRIVE * (destX - x) / norm;
 			signalY = (float)MAX_DRIVE * (destY - y) / norm;
+#ifdef	IMPORTANCE_BASED
+			///ここでは直接値を指定している(イレギュラー)
+			this->importance = this->calcImportance(0.5f);
+#endif	//IMPORTANCE_BASED
 		}
 	}
 	//Set Outputs
