@@ -223,7 +223,87 @@ void RobotMAV::Initialize(){
 		cAvaP[i] = new Arbiter(cAv, i, aP, i, 2.0f);
 		this->addArbiter(cAvaP[i]);
 	}
+#ifdef	IMPORTANCE_BASED
+	///34, 35:Suppress Alive -> 位置Actuator
+	Arbiter* cAlaP[2];
+	for(int i = 0; i < 2; i++){
+		cAlaP[i] = new Arbiter(cAl, i, aP, i);
+		this->addArbiter(cAlaP[i]);
+	}
 	
+	///36, 37:Suppress Wander -> 位置Actuator
+	Arbiter* cWaP[2];
+	for(int i = 0; i < 2; i++){
+		cWaP[i] = new Arbiter(cW, i, aP, i);
+		this->addArbiter(cWaP[i]);
+	}
+
+	///38, 39:Suppress SmartAlive -> 位置Actuator
+	Arbiter* cSaaP[2];
+	for(int i = 0; i < 2; i++){
+		cSaaP[i] = new Arbiter(cSa, i, aP, i);
+		this->addArbiter(cSaaP[i]);
+	}
+
+#ifdef SWAP_CCCE
+	///40, 41:Suppress Explore -> 位置Actuator
+	Arbiter* cEaP[2];
+	for(int i = 0; i < 2; i++){
+		cEaP[i] = new Arbiter(cE, i, aP, i);
+		this->addArbiter(cEaP[i]);
+	}
+
+	///42, 43:Suppress Connect -> 位置Actuator
+	Arbiter* cCaP[2];
+	for(int i = 0; i < 2; i++){
+		cCaP[i] = new Arbiter(cC, i, aP, i);
+		this->addArbiter(cCaP[i]);
+	}
+
+	///44,45 : Suppress LinkToHQ -> 位置Actuator
+	Arbiter* cL2HQaP[2];
+	for(int i = 0; i < 2; i++){
+		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i);
+		this->addArbiter(cL2HQaP[i]);
+	}
+
+#else
+	///40, 41 : Suppress Connect -> 位置Actuator
+	Arbiter* cCaP[2];
+	for(int i = 0; i < 2; i++){
+		cCaP[i] = new Arbiter(cC, i, aP, i);
+		this->addArbiter(cCaP[i]);
+	}
+
+	///42, 43 : Suppress LinkToHQ -> 位置Actuator
+	Arbiter* cL2HQaP[2];
+	for(int i = 0; i < 2; i++){
+		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i);
+		this->addArbiter(cL2HQaP[i]);
+	}
+
+	///44, 45 : Suppress Explore -> 位置Actuator
+	Arbiter* cEaP[2];
+	for(int i = 0; i < 2; i++){
+		cEaP[i] = new Arbiter(cE, i, aP, i);
+		this->addArbiter(cEaP[i]);
+	}
+#endif	//SWAP_CCCE
+
+	///46, 47 : Wire 位置Sensor -> ArbitrateDestination
+	Arbiter* sPcAd[2];
+	for(int i = 0; i < 2; i++){
+		sPcAd[i] = new Arbiter(sP, i, cAd, i);
+		this->addArbiter(sPcAd[i]);
+	}
+
+	///48, 49 : Wire 位置Sensor -> LinkToHQ
+	Arbiter* sPcL2HQ[2];
+	for(int i = 0; i < 2; i++){
+		sPcL2HQ[i] = new Arbiter(sP, i, cL2HQ, i);
+		this->addArbiter(sPcL2HQ[i]);
+	}
+#else
 	///34, 35:Suppress Alive -> 位置Actuator
 	Arbiter* cAlaP[2];
 	for(int i = 0; i < 2; i++){
@@ -303,6 +383,7 @@ void RobotMAV::Initialize(){
 		sPcL2HQ[i] = new Arbiter(sP, i, cL2HQ, i, 2.0f);
 		this->addArbiter(sPcL2HQ[i]);
 	}
+#endif	//IMPORTANCE_BASED
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
 	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
