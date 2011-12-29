@@ -37,6 +37,11 @@ void ContArbitrateDestination::Run(){
 	int destXself = this->getIBoard(0);
 	int destYself = this->getIBoard(1);
 
+#ifdef	IMPORTANCE_BASED
+	///‚»‚à‚»‚àSignal Output‚ª‚È‚¢
+	this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
+
 	if(DEST_FAR < this->norm(posXself - (float)destXself, posYself - (float)destYself)){
 
 		int connect = parent->getNumOfNearestRobots();

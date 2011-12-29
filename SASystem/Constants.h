@@ -152,7 +152,7 @@
 #define BAT_LOSS		11.04
 #define BAT_GAIN		473.6
 #endif
-#define MAX_BAT			90000			//142.1
+#define MAX_BAT			900			//142.1
 
 ////ContArbitrateDestination
 ///Destination‚ª‰“‚¢‚Æ”»’f‚·‚éÛ‚Ìthreshold
