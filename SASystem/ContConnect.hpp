@@ -139,5 +139,5 @@ inline void ContConnect::Run(){
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
-
+	
 #endif	_Cont_Connect_HPP_

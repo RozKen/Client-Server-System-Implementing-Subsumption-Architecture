@@ -19,6 +19,9 @@ void ContLinkToHQ::Run(){
 
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
+#ifdef	IMPORTANCE_BASED
+	this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 
 	bool toStart = !update();
 	
@@ -28,6 +31,13 @@ void ContLinkToHQ::Run(){
 		float d = norm(dX, dY);
 		signalX = ((float)MAX_DRIVE) * dX / d;
 		signalY = ((float)MAX_DRIVE) * dY / d;
+#ifdef	IMPORTANCE_BASED
+		float value = d * 2 / FIELD_SIZE;
+		if(value > 1.0f){
+			value = 1.0f;
+		}
+		this->importance = this->calcImportance(value);
+#endif	//IMPORTANCE_BASED
 		std::cout << "Headquarter 0: " << signalX << ", " << signalY << std::endl;
 	}else{
 		float dXP;
@@ -44,15 +54,22 @@ void ContLinkToHQ::Run(){
 		}
 		float dP = norm(dXP, dYP);
 		//relativeRoot / START が少し遠いとき
-		if(dP < WIFI_CONNECT * WIFI_WEAK){
+		if(dP <= WIFI_CONNECT * WIFI_WEAK){
 			//目的地に向かう
 			signalX = (float)MAX_DRIVE * dXP / dP;
 			signalY = (float)MAX_DRIVE * dYP / dP;
+#ifdef	IMPORTANCE_BASED
+			float value = dP / (WIFI_CONNECT * WIFI_WEAK);
+			this->importance = this->calcImportance(value);
+#endif	//IMPORTANCE_BASED
 			std::cout << "Headquarter 1: " << signalX << ", " << signalY << std::endl;
 		}else{
 			//そうでないとき，信号は出さない
 			signalX = NO_SIGNAL;
 			signalY = NO_SIGNAL;
+#ifdef	IMPORTANCE_BASED
+			this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 		}
 	}
 
