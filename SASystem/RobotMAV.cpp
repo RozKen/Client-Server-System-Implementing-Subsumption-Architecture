@@ -289,20 +289,6 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cEaP[i]);
 	}
 #endif	//SWAP_CCCE
-
-	///46, 47 : Wire 位置Sensor -> ArbitrateDestination
-	Arbiter* sPcAd[2];
-	for(int i = 0; i < 2; i++){
-		sPcAd[i] = new Arbiter(sP, i, cAd, i);
-		this->addArbiter(sPcAd[i]);
-	}
-
-	///48, 49 : Wire 位置Sensor -> LinkToHQ
-	Arbiter* sPcL2HQ[2];
-	for(int i = 0; i < 2; i++){
-		sPcL2HQ[i] = new Arbiter(sP, i, cL2HQ, i);
-		this->addArbiter(sPcL2HQ[i]);
-	}
 #else
 	///34, 35:Suppress Alive -> 位置Actuator
 	Arbiter* cAlaP[2];
@@ -369,6 +355,7 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cEaP[i]);
 	}
 #endif	//SWAP_CCCE
+#endif	//IMPORTANCE_BASED
 
 	///46, 47 : Wire 位置Sensor -> ArbitrateDestination
 	Arbiter* sPcAd[2];
@@ -383,7 +370,6 @@ void RobotMAV::Initialize(){
 		sPcL2HQ[i] = new Arbiter(sP, i, cL2HQ, i, 2.0f);
 		this->addArbiter(sPcL2HQ[i]);
 	}
-#endif	//IMPORTANCE_BASED
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
 	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;

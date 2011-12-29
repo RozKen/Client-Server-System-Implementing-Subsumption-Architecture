@@ -11,7 +11,7 @@
 //#define SWAP_CCCE
 
 //Robot“à, Robot-WorldŠÔî•ñˆ—‚Ì’x‰„‚ğl—¶‚·‚éê‡CéŒ¾‚·‚é
-#define CONSIDER_DELAY
+//#define CONSIDER_DELAY
 
 //Importance-Based‚Å‚â‚é‚Æ‚«éŒ¾
 #define IMPORTANCE_BASED
