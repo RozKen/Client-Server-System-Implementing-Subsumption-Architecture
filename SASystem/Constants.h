@@ -5,7 +5,7 @@
 	NOW MODIFYING the meaning of SUPPRESSOR
 	If using normal suppressor, Comment out this.
  */
-#define INVERSE_SUPPRESSOR
+//#define INVERSE_SUPPRESSOR
 
 //ContConnect‚ğContExplore‚æ‚è‚à’á‚¢—Dæ“x‚É‚·‚é‚Æ‚«éŒ¾‚·‚é
 //#define SWAP_CCCE

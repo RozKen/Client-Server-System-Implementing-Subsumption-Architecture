@@ -106,21 +106,39 @@ double Arbiter::generateSignal(){
 		///importanceを入手
 		float impSrc = source->getImportance();
 		float impDst = destination->getImportance();
-		//sourceかdestinationのどちらかがNO_SIGNALの時
-		if(impSrc == NO_SIGNAL || impDst == NO_SIGNAL){
-#endif	//IMPORTANCE_BASED
-			if(impSrc != NO_SIGNAL){
-				currentFactor = 0.0f;
-			}else if(impDst != NO_SIGNAL){
-				currentFactor = 1.0f;
-			}else{
-				///乱数で生成
-				currentFactor = _rand();
-			}
-#ifdef	IMPORTANCE_BASED
-		}else{	//そうでないときは，計算できる
+		if(impSrc != NO_SIGNAL && impDst == NO_SIGNAL){
+#ifdef	INVERSE_SUPPRESSOR
+			currentFactor = 0.0f;
+#else
+			currentFactor = 1.0f;
+#endif	//INVERSE_SUPPRESSOR
+			//destinationの重要度を設定する
+			destination->setImportance(impSrc);
+		}else if(impSrc == NO_SIGNAL && impDst != NO_SIGNAL){
+#ifdef	INVERSE_SUPPRESSOR
+			currentFactor = 1.0f;
+#else
+			currentFactor = 0.0f;
+#endif	//INVERSE_SUPPRESSOR
+		}else if(impSrc != NO_SIGNAL && impDst != NO_SIGNAL){
+#ifdef INVERSE_SUPPRESSOR
+			currentFactor = impDst / (impSrc + impDst);
+#else
 			currentFactor = impSrc / (impSrc + impDst);
+			if(currentFactor > 1.0f){
+				currentFactor = 1.0f;
+			}else if(currentFactor < 0.0f){
+				currentFactor = 0.0f;
+			}
+			destination->setImportance(currentFactor);
+#endif
+		}else{
+			///乱数で生成
+			currentFactor = _rand();
 		}
+#else
+		///乱数で生成
+		currentFactor = _rand();
 #endif	//IMPORTANCE_BASED
 	}else{
 		///factorが指定されていれば，その値を利用
@@ -160,7 +178,7 @@ double Arbiter::generateSignal(){
 		//Act like Inhibitor
 		sourceRatio = 0.0;
 		destRatio = 1.0;
-		magnitude = 0.5 * ( cos( 0.5 * PI * ( cos( (double)(currentFactor + 1.0) * PI ) + 1.0 ) ) + 1.0 );
+		magnitude = 1.0 - 0.5 * ( cos( 0.5 * PI * ( cos( (double)(currentFactor + 1.0) * PI ) + 1.0 ) ) + 1.0 );
 	}else{	//Act as Wire
 		sourceRatio = 1.0;
 		destRatio = 0.0;
