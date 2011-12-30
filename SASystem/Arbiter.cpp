@@ -132,9 +132,11 @@ double Arbiter::generateSignal(){
 			}
 			destination->setImportance(currentFactor);
 #endif
-		}else{
+		}else{	//impSrc == NO_SIGNAL && impDst == NO_SIGNAL
 			///—”‚Å¶¬
-			currentFactor = _rand();
+			//currentFactor = _rand();
+			currentFactor = 0.0;	//‚Ç‚¿‚ç‚É‚µ‚ëNO_SIGNAL;
+			destination->setImportance(NO_SIGNAL);
 		}
 #else
 		///—”‚Å¶¬
