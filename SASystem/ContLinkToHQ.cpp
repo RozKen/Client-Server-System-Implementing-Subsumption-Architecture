@@ -38,7 +38,7 @@ void ContLinkToHQ::Run(){
 		}
 		this->importance = this->calcImportance(value);
 #endif	//IMPORTANCE_BASED
-		std::cout << "Headquarter 0: " << signalX << ", " << signalY << std::endl;
+		//std::cout << "Headquarter 0: " << signalX << ", " << signalY << std::endl;
 	}else{
 		float dXP;
 		float dYP;
@@ -62,7 +62,7 @@ void ContLinkToHQ::Run(){
 			float value = dP / (WIFI_CONNECT * WIFI_WEAK);
 			this->importance = this->calcImportance(value);
 #endif	//IMPORTANCE_BASED
-			std::cout << "Headquarter 1: " << signalX << ", " << signalY << std::endl;
+			//std::cout << "Headquarter 1: " << signalX << ", " << signalY << std::endl;
 		}else{
 			//‚»‚¤‚Å‚È‚¢‚Æ‚«CM†‚Ío‚³‚È‚¢
 			signalX = NO_SIGNAL;
@@ -73,13 +73,6 @@ void ContLinkToHQ::Run(){
 		}
 	}
 	//set Outputs
-	//for Test//////////////////////
-	float direc = ((RobotMAV*)(this->parent))->getDirection();
-	signalX = MAX_DRIVE * cosf(direc * PI / 180.0f);
-	signalY = MAX_DRIVE * sinf(direc * PI / 180.0f);
-#ifdef IMPORTANCE_BASED
-	this->importance = this->calcImportance(0.1f);
-#endif	//IMPORTANCE_BASED
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
