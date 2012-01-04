@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClCompile Include="Blackboard.cpp" />
     <ClCompile Include="Arbiter.cpp" />
+    <ClCompile Include="ContAlive.cpp" />
     <ClCompile Include="ContArbitrateDestination.cpp" />
     <ClCompile Include="ContExplore.cpp" />
     <ClCompile Include="ContLinkToHQ.cpp" />

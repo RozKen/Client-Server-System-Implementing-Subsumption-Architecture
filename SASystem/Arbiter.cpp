@@ -187,7 +187,19 @@ double Arbiter::generateSignal(){
 		magnitude = 1.0;
 	}
 	this->currentRatio = sourceRatio;
-	double signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
+
+	double valDest = getDest();
+	double valSrc = getSrc();
+	double signal = NO_SIGNAL;
+	if(valDest == NO_SIGNAL && valSrc == NO_SIGNAL){
+		signal = NO_SIGNAL;
+	}else if(valDest != NO_SIGNAL && valSrc == NO_SIGNAL){
+		signal = magnitude * valDest;
+	}else if(valDest == NO_SIGNAL && valSrc != NO_SIGNAL){
+		signal = magnitude * valSrc;
+	}else{
+		signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
+	}
 #ifdef _DEBUG
 	
 	//std::cout << "magnitude: " << magnitude << std::endl;

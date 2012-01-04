@@ -61,7 +61,8 @@ void ContSmartAlive::Run(){
 			}//else Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚çC’ú‚ß‚éD
 		}
 	}
-
+	signalX = NO_SIGNAL;
+	signalY = NO_SIGNAL;
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }

@@ -72,7 +72,8 @@ void ContLinkToHQ::Run(){
 #endif	//IMPORTANCE_BASED
 		}
 	}
-
+	signalX = NO_SIGNAL;
+	signalY = NO_SIGNAL;
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }

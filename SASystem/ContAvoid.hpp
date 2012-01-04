@@ -27,7 +27,7 @@
 	<h1>Outputs</h1>
 	<ul>
 		<li>Output0: dXCAv: delta X - differential of Motion X</li>
-		<li>Output1: dXCAv: delta Y - differential of Motion Y</li>
+		<li>Output1: dYCAv: delta Y - differential of Motion Y</li>
 	</ul>
 	@author Kenichi Yorozu
 	@date 29th November 2011
@@ -69,7 +69,7 @@ inline ContAvoid::ContAvoid() : _rand(0, 1){
 	}
 	this->addInput("Direction");
 	this->addOutput("dXCAv");
-	this->addOutput("dXCAv");
+	this->addOutput("dYCAv");
 	direction = _rand() * 360.0;
 }
 
@@ -112,15 +112,18 @@ inline void ContAvoid::Run(){
 	if(danger){
 #ifdef	IMPORTANCE_BASED
 		if(range < RANGE_DANGER){
-			this->importance = this->calcImportance(1.0f - range / RANGE_DANGER * 2);
+			this->importance = this->calcImportance(1.0f - (range - 1.0f) / RANGE_DANGER * 2.0f);
 		}else{
-			this->importance = 0.0f;
+			this->importance = NO_SIGNAL;
 		}
 #endif	//IMPORTANCE_BASED
 		if(safeIndex.empty()){
 			//‚»‚Ìê‚É’âŽ~‚·‚é
 			signalX = 0.0f;
 			signalY = 0.0f;
+#ifdef	IMPORTANCE_BASED
+			this->importance = this->calcImportance(1.0f);
+#endif	//IMPORTANCE_BASED
 		}else{
 			//‹Œversion
 			//int index = this->round((safeIndex.size() - 1) * _rand());
@@ -149,11 +152,17 @@ inline void ContAvoid::Run(){
 				//‚»‚Ìê‚É’âŽ~‚·‚é
 				signalX = 0.0f;
 				signalY = 0.0f;
+#ifdef	IMPORTANCE_BASED
+				this->importance = this->calcImportance(1.0f);
+#endif	//IMPORTANCE_BASED
 			}
 		}
-	}else{
+	}else{	//ŠëŒ¯‚È•ûŠp‚ª‚È‚¢‚Æ‚«
 		signalX = NO_SIGNAL;
 		signalY = NO_SIGNAL;
+#ifdef	IMPORTANCE_BASED
+		this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 	}
 
 	this->setOutput(0, signalX);
