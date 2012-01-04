@@ -25,6 +25,9 @@
     <Filter Include="ヘッダー ファイル\Modules\Actuators">
       <UniqueIdentifier>{19799d22-c656-4d6b-8db7-55adede57d5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Controllers">
+      <UniqueIdentifier>{aa9aaa04-1aea-4e30-9c31-05f3a84a712e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,23 +60,26 @@
     <ClCompile Include="Utilities.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ContExplore.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ContArbitrateDestination.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ContSmartAlive.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ContLinkToHQ.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ContAlive.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="ContWander.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContArbitrateDestination.cpp">
+      <Filter>ソース ファイル\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContExplore.cpp">
+      <Filter>ソース ファイル\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContLinkToHQ.cpp">
+      <Filter>ソース ファイル\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContSmartAlive.cpp">
+      <Filter>ソース ファイル\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContConnect.cpp">
+      <Filter>ソース ファイル\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

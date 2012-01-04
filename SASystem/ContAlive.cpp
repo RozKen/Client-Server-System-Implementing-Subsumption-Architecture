@@ -25,7 +25,7 @@ void ContAlive::Run(){
 				signalX = 0.0f;
 				signalY = 0.0f;
 				//重要度を設定:停止しているので，Avoidよりも優先しても良い．
-				this->importance = 100.0f;	//超重要:だって動いてると充電できないかもじゃん？
+				this->importance = VERY_IMPORTANT;	//超重要:だって動いてると充電できないかもじゃん？
 			}else{
 				signalX = NO_SIGNAL;
 				signalY = NO_SIGNAL;

@@ -30,7 +30,7 @@ void ContSmartAlive::Run(){
 		signalX = 0.0f;
 		signalY = 0.0f;
 #ifdef	IMPORTANCE_BASED
-	this->importance = 1.0f;
+	this->importance = VERY_IMPORTANT;
 #endif	//IMPORTANCE_BASED
 		if(this->getInput(2) >= MAX_BAT){
 			//ChargeÏ‚Ý‚Æ‚·‚é
@@ -45,15 +45,15 @@ void ContSmartAlive::Run(){
 			signalX = 0.0f;
 			signalY = 0.0f;
 #ifdef	IMPORTANCE_BASED
-			this->importance = 1.0f;
+			this->importance = VERY_IMPORTANT;
 #endif	//IMPORTANCE_BASED
 		}else{
 			if(findNearestCharger()){
 				//Battery‚ª‘«‚è‚È‚­‚È‚è‚»‚¤‚¾‚Á‚½‚ç
 				if(distance > SURPLUS * this->getInput(2) / BAT_LOSS){
-					//‚»‚±‚ÖŒü‚©‚¤
-					signalX = (float)MAX_DRIVE * (nearestCharger[0] - this->getInput(0)) / distance;
-					signalY = (float)MAX_DRIVE * (nearestCharger[1] - this->getInput(1)) / distance;
+					//Å‚à‹ß‚¢[“dƒGƒŠƒA‚ÖŒü‚©‚¤
+					signalX = (float)MAX_DRIVE * (this->getInput(0) - nearestCharger[0]) / distance;
+					signalY = (float)MAX_DRIVE * (this->getInput(1) - nearestCharger[1]) / distance;
 #ifdef	IMPORTANCE_BASED
 					this->importance = 1.0f;
 #endif	//IMPORTANCE_BASED
@@ -62,14 +62,6 @@ void ContSmartAlive::Run(){
 		}
 	}
 	//Set Outputs
-	//for Test//////////////////////
-	float direc = ((RobotMAV*)(this->parent))->getDirection();
-	signalX = MAX_DRIVE * cosf(direc * PI / 180.0f);
-	signalY = MAX_DRIVE * sinf(direc * PI / 180.0f);
-#ifdef IMPORTANCE_BASED
-	this->importance = this->calcImportance(0.3f);
-#endif	//IMPORTANCE_BASED
-
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }

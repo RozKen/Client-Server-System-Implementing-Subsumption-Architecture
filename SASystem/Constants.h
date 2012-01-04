@@ -11,6 +11,7 @@
 #define IMPORTANCE_BASED
 #ifdef IMPORTANCE_BASED
 #define IMPORTANCE_POWER	2
+#define VERY_IMPORTANT		100.0f
 #endif
 
 /**
@@ -166,7 +167,7 @@
 
 ////ContSmartAlive
 ///—]—T‚ğ‚Á‚Ä–ß‚é‚½‚ß,‹——£‚É‚©‚¯‚éŒW”
-#define SURPLUS			1.5f
+#define SURPLUS			3.0f
 
 ///–³M†ó‘Ô
 #define NO_SIGNAL		-99.0f

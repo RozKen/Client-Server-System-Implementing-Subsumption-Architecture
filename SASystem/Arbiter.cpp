@@ -236,15 +236,15 @@ double Arbiter::generateSignal(){
 	}
 	
 #ifdef _DEBUG
-	std::cout << "=========================" << std::endl;
+	//std::cout << "=========================" << std::endl;
 	//std::cout << "magnitude: " << magnitude << std::endl;
-	std::cout << "dest: " << this->outputTitles->at(0) << ":" << valDest << std::endl;
-	std::cout << "src: " << this->inputTitles->at(0) << ":" << valSrc << std::endl;
+	//std::cout << "dest: " << this->outputTitles->at(0) << ":" << valDest << std::endl;
+	//std::cout << "src: " << this->inputTitles->at(0) << ":" << valSrc << std::endl;
 #ifdef	IMPORTANCE_BASED
-		std::cout << "impDst: " << destination->getImportance() << std::endl;
-		std::cout << "impSrc: " << source->getImportance() << std::endl;
+	//	std::cout << "impDst: " << destination->getImportance() << std::endl;
+	//	std::cout << "impSrc: " << source->getImportance() << std::endl;
 #endif	//IMPORTANCE_BASED
-	std::cout << "signal: " << signal << std::endl;
+	//std::cout << "signal: " << signal << std::endl;
 	
 #endif
 	return signal;

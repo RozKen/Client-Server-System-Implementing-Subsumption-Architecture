@@ -78,6 +78,7 @@
     <ClCompile Include="Arbiter.cpp" />
     <ClCompile Include="ContAlive.cpp" />
     <ClCompile Include="ContArbitrateDestination.cpp" />
+    <ClCompile Include="ContConnect.cpp" />
     <ClCompile Include="ContExplore.cpp" />
     <ClCompile Include="ContLinkToHQ.cpp" />
     <ClCompile Include="ContSmartAlive.cpp" />

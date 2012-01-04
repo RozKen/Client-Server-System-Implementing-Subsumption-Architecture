@@ -134,7 +134,7 @@ void Init(){
 		mav->push_back(new RobotMAV(directory, "mav" + world->intToString(i) + ".csv"));
 		world->addRobot(mav->at(i));
 		//‰Šú’l‚ðÝ’è
-		mav->at(i)->setInput(0, 100.0f);
+		mav->at(i)->setInput(0, MAX_BAT);
 		mav->at(i)->setInput(1, START_X + (float)_numBatGen());
 		mav->at(i)->setInput(2, START_Y + (float)_numBatGen());
 	}
