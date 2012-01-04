@@ -19,12 +19,13 @@ void ContConnect::Run(){
 			signalX = (float)MAX_DRIVE * dx / distance;
 			signalY = (float)MAX_DRIVE * dy / distance;
 #ifdef	IMPORTANCE_BASED
+			//重要度は，接続しているRobotの数に依存する
 			this->importance = this->calcImportance(WIFI_CONNECT - 1 - i);
 #endif	//IMPORTANCE_BASED
 		}
 	}
 
-	//切れそうなものがなかったら，時々バランスをとる
+	//切れそうなものがなかったら，時々バランスをとる	//実際は使ってない.(WIFI_BALANCE = 0.0f)
 	if(signalX == NO_SIGNAL && signalY == NO_SIGNAL){
 		float random = rand();
 		if(random < WIFI_BALANCE){
@@ -48,13 +49,6 @@ void ContConnect::Run(){
 	}
 
 	//出力
-	//for Test//////////////////////
-	float direc = ((RobotMAV*)(this->parent))->getDirection();
-	signalX = MAX_DRIVE * cosf(direc * PI / 180.0f);
-	signalY = MAX_DRIVE * sinf(direc * PI / 180.0f);
-#ifdef IMPORTANCE_BASED
-	this->importance = this->calcImportance(0.9f);
-#endif	//IMPORTANCE_BASED
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
