@@ -228,9 +228,9 @@ double Arbiter::generateSignal(){
 	}
 
 #ifdef	INVERSE_SUPPRESSOR
-	this->currentRatio = sourceRatio;
-#else	//INVERSE_SUPPRESSOR
 	this->currentRatio = destRatio;
+#else	//INVERSE_SUPPRESSOR
+	this->currentRatio = sourceRatio;
 #endif	//INVERSE_SUPPRESSOR
 
 	double valDest = (double)getDest();

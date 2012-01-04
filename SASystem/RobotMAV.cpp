@@ -589,7 +589,11 @@ void RobotMAV::ProcessArbiters(){
 	}
 
 	//ratios[6] doesn't used. ContArbitrateDestination
+#ifdef	INVERSE_SUPPRESSOR
+	ratios[6] = 1.0f;
+#else	//INVERSE_SUPPRESSOR
 	ratios[6] = 0.0f;
+#endif	//INVERSE_SUPPRESSOR
 
 	///Set RobotColor According to Suppress
 
@@ -598,6 +602,7 @@ void RobotMAV::ProcessArbiters(){
 		color[1] = 0.3f;
 		color[2] = 0.3f;
 	}else{
+		/*
 		for(int j = 0; j < 3; j++){
 			color[j] = modColor[NUM_OF_LAYERS - 1][j] * ratios[NUM_OF_LAYERS - 2] 
 			+ modColor[NUM_OF_LAYERS - 2][j] * (1.0f - ratios[NUM_OF_LAYERS - 2]);
@@ -606,6 +611,18 @@ void RobotMAV::ProcessArbiters(){
 		for(int i = NUM_OF_LAYERS - 3; i >= 0; i--){
 			for(int j= 0; j < 3; j++){
 				color[j] = color[j] * ratios[i] + modColor[i][j] * (1.0f - ratios[i]);
+			}
+		}*/
+		for(int j = 0; j < 3; j++){
+			color[j] = modColor[0][j];
+		}
+		for(int i = 0; i < NUM_OF_LAYERS - 1; i++){
+			for(int j = 0; j < 3; j++){
+#ifdef	INVERSE_SUPPRESSOR
+				color[j] = color[j] * ratios[i] + modColor[i+1][j] * (1.0f - ratios[i]);
+#else	//INVERSE_SUPPRESSOR
+				color[j] = color[j] * (1.0f - ratios[i]) + modColor[i+1][j] * ratios[i];
+#endif	//INVERSE_SUPPRESSOR
 			}
 		}
 	}
