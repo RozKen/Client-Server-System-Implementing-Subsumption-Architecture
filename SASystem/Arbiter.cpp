@@ -111,6 +111,15 @@ double Arbiter::generateSignal(){
 		///importanceを入手
 		float impSrc = source->getImportance();
 		float impDst = destination->getImportance();
+
+		//信号がNO_SIGNALの場合，重要度もNO_SIGNALとする
+		if(getSrc() == NO_SIGNAL){
+			impSrc = NO_SIGNAL;
+		}
+		if(getDest() == NO_SIGNAL){
+			impDst = NO_SIGNAL;
+		}
+
 		if(impSrc != NO_SIGNAL && impDst == NO_SIGNAL){
 #ifdef	INVERSE_SUPPRESSOR
 			currentFactor = 0.0f;	//srcが強い
@@ -217,7 +226,7 @@ double Arbiter::generateSignal(){
 	if(valDest == NO_SIGNAL && valSrc == NO_SIGNAL){
 		signal = NO_SIGNAL;
 #ifdef IMPORTANCE_BASED
-		destination->setImportance(NO_SIGNAL);
+		//destination->setImportance(NO_SIGNAL);
 #endif	//IMPORTANCE_BASED
 	}/*else if(valDest != NO_SIGNAL && valSrc == NO_SIGNAL){
 		signal = magnitude * valDest;
@@ -232,7 +241,7 @@ double Arbiter::generateSignal(){
 	}*/else{
 		signal = magnitude * (destRatio * valDest + sourceRatio * valSrc);
 #ifdef IMPORTANCE_BASED
-		destination->setImportance(currentFactor);
+		//destination->setImportance(currentFactor);
 #endif	//IMPORTANCE_BASED
 	}
 	

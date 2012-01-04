@@ -20,7 +20,6 @@
 		<li>fBoard1: fDeltaY : Y•ûŒüˆÚ“®—Ê</li>
 	</ul>
 	@author Kenichi Yorozu
-	@author Kenichi Yorozu
 	@date 25th November 2011
  */
 class ActPos : public SAModule{
