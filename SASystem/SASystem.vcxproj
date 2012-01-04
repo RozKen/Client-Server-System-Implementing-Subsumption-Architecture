@@ -81,6 +81,7 @@
     <ClCompile Include="ContExplore.cpp" />
     <ClCompile Include="ContLinkToHQ.cpp" />
     <ClCompile Include="ContSmartAlive.cpp" />
+    <ClCompile Include="ContWander.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />

@@ -83,7 +83,7 @@ inline void ContAvoid::Run(){
 	float signalY = NO_SIGNAL;
 
 #ifdef IMPORTANCE_BASED
-	this->importance = 0.0f;
+	this->importance = NO_SIGNAL;
 	float range = RANGE_DANGER * 2;
 #endif	//IMPORTANCE_BASED
 
@@ -148,6 +148,7 @@ inline void ContAvoid::Run(){
 				double newTheta = (RANGE_DEG * PI / 180.0) * (double)(safeIndex.at(index));
 				signalX = (float)MAX_DRIVE * SPEED_DELAY * cos(newTheta);
 				signalY = (float)MAX_DRIVE * SPEED_DELAY * sin(newTheta);
+				//Å‚à‹ß‚¢áŠQ•¨‚Æ‚Ì‹——£‚É‰‚¶‚Äimportance‚Íİ’è‚µ‚Ä‚ ‚éD
 			}else{
 				//‚»‚Ìê‚É’â~‚·‚é
 				signalX = 0.0f;

@@ -267,7 +267,7 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cL2HQaP[i]);
 	}
 
-#else
+#else	//SWAP_CCCE
 	///40, 41 : Suppress Connect -> ˆÊ’uActuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
@@ -289,7 +289,7 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cEaP[i]);
 	}
 #endif	//SWAP_CCCE
-#else
+#else	//IMPORTANCE_BASED
 	///34, 35:Suppress Alive -> ˆÊ’uActuator
 	Arbiter* cAlaP[2];
 	for(int i = 0; i < 2; i++){
@@ -333,7 +333,7 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cL2HQaP[i]);
 	}
 
-#else
+#else //SWAP_CCCE
 	///40, 41 : Suppress Connect -> ˆÊ’uActuator
 	Arbiter* cCaP[2];
 	for(int i = 0; i < 2; i++){
@@ -371,11 +371,11 @@ void RobotMAV::Initialize(){
 		this->addArbiter(sPcL2HQ[i]);
 	}
 	
-	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
-	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
-	std::cout << "Number of Outputs" << this->getNumOfOutputPorts() << std::endl;
-	std::cout << "Number of fBoards" << this->innerMemory->getNumOfFBoards() << std::endl;
-	std::cout << "Number of iBoards" << this->innerMemory->getNumOfIBoards() << std::endl;
+	//std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
+	//std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
+	//std::cout << "Number of Outputs" << this->getNumOfOutputPorts() << std::endl;
+	//std::cout << "Number of fBoards" << this->innerMemory->getNumOfFBoards() << std::endl;
+	//std::cout << "Number of iBoards" << this->innerMemory->getNumOfIBoards() << std::endl;
 
 	///////Initialize Map Log Files///////
 	std::string filename = this->getLogFilePath();

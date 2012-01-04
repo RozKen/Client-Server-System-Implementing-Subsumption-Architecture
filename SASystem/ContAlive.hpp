@@ -50,7 +50,7 @@ inline ContAlive::ContAlive(): threshold((float)BATTERY_LOW){
 	this->addInput("posYCAl");
 
 	this->addOutput("dXCAl");
-	this->addOutput("dXCAl");
+	this->addOutput("dYCAl");
 }
 
 #endif	//_Cont_Alive_HPP_

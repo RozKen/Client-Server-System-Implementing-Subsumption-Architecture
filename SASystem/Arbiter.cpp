@@ -103,42 +103,49 @@ double Arbiter::generateSignal(){
 	///factorが指定されていなければ，
 	if(factor == NO_SIGNAL){
 #ifdef	IMPORTANCE_BASED
+		//重要度に応じてcurrentFactorを設定する
+		//currentFactorはsrc/ dstの影響率を0.0f - 1.0fの範囲で指定する
+		//INVERSE SUPPRESSORの時，currentFactorが大きいほど, dstの影響が大きくなる
+		//NORMAL SUPPRESSORの時, currentFactorが大きいほど，srcの影響が大きくなる
+
 		///importanceを入手
 		float impSrc = source->getImportance();
 		float impDst = destination->getImportance();
 		if(impSrc != NO_SIGNAL && impDst == NO_SIGNAL){
 #ifdef	INVERSE_SUPPRESSOR
-			currentFactor = 0.0f;
-#else
-			currentFactor = 1.0f;
+			currentFactor = 0.0f;	//srcが強い
+#else	//INVERSE_SUPPRESSOR
+			currentFactor = 1.0f;	//srcが強い
 #endif	//INVERSE_SUPPRESSOR
 			//destinationの重要度を設定する
 			destination->setImportance(impSrc);
 		}else if(impSrc == NO_SIGNAL && impDst != NO_SIGNAL){
 #ifdef	INVERSE_SUPPRESSOR
-			currentFactor = 1.0f;
-#else
-			currentFactor = 0.0f;
+			currentFactor = 1.0f;	//dstが強い
+#else	//INVERSE_SUPPRESSOR
+			currentFactor = 0.0f;	//dstが強い
 #endif	//INVERSE_SUPPRESSOR
+			//下は何もしないのと同じ
+			destination->setImportance(impDst);
 		}else if(impSrc != NO_SIGNAL && impDst != NO_SIGNAL){
-#ifdef INVERSE_SUPPRESSOR
-			currentFactor = impDst / (impSrc + impDst);
-#else
-			currentFactor = impSrc / (impSrc + impDst);
+#ifdef	INVERSE_SUPPRESSOR
+			currentFactor = impDst / (impSrc + impDst);	//大きいほど強いのはdst
+#else	//INVERSE_SUPPRESSOR
+			currentFactor = impSrc / (impSrc + impDst);	//大きいほど強いのはsrc
+#endif	//INVERSE_SUPPRESSOR
 			if(currentFactor > 1.0f){
 				currentFactor = 1.0f;
 			}else if(currentFactor < 0.0f){
 				currentFactor = 0.0f;
 			}
 			destination->setImportance(currentFactor);
-#endif
 		}else{	//impSrc == NO_SIGNAL && impDst == NO_SIGNAL
 			///乱数で生成
 			//currentFactor = _rand();
-			currentFactor = 0.0;	//どちらにしろNO_SIGNAL;
+			currentFactor = 0.0f;	//dst, srcのどちらにしろNO_SIGNAL;
 			destination->setImportance(NO_SIGNAL);
 		}
-#else
+#else	//IMPORTANCE_BASED
 		///乱数で生成
 		currentFactor = _rand();
 #endif	//IMPORTANCE_BASED
@@ -155,27 +162,26 @@ double Arbiter::generateSignal(){
 	if(currentFactor >= 0.0 && currentFactor <= 1.0){
 		//Act like Suppressor, Selecter or Superposer
 		magnitude = 1.0;
-
+		
 #ifdef INVERSE_SUPPRESSOR
 		if(getDest() != NO_SIGNAL){
 			destRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) currentFactor * PI ) + 1.0 ) ) + 1.0 );
 			sourceRatio = 1.0 - destRatio;
+		}else{
+			//getDest() == NO_SIGNAL
+			destRatio = 0.0;
+			sourceRatio = 1.0;
+		}
 #else	// if NORMAL_SUPRESSOR
 		if(getSrc() != NO_SIGNAL){
 			sourceRatio = 0.5 * ( cos ( 0.5 * PI * ( cos ( (double) currentFactor * PI ) + 1.0 ) ) + 1.0 );
 			destRatio = 1.0 - sourceRatio;
-#endif	//INVERSE_SUPPRESSOR
 		}else{
-#ifdef INVERSE_SUPPRESSOR
-			//getDest() == NO_SIGNAL
-			destRatio = 0.0;
-			sourceRatio = 1.0;
-#else	// if NORMAL_SUPRESSOR
 			//getSrc() == NO_SIGNAL
 			destRatio = 1.0;
 			sourceRatio = 0.0;
-#endif	//INVERSE_SUPPRESSOR
 		}
+#endif	//INVERSE_SUPPRESSOR
 	}else if(currentFactor < 0.0 && currentFactor >= -1.0){
 		//Act like Inhibitor
 		sourceRatio = 0.0;
@@ -185,27 +191,61 @@ double Arbiter::generateSignal(){
 		sourceRatio = 1.0;
 		destRatio = 0.0;
 		magnitude = 1.0;
+#ifdef	IMPORTANCE_BASED
+		//////////////////////////ここがおかしい///////////////////
+		////無理矢理dst = ActPosの時だけ，importanceを上書きするように設定
+		float imp = source->getImportance();
+		if(imp != NO_SIGNAL){	//Srcの重要度がNO_SIGNALでないとき
+			currentFactor = imp;	//Srcの重要度をそのまま，Dstの重要度にするよう設定
+		}else{					//Srcの重要度がNO_SIGNALの時，
+			if(destination->getNumOfInputPorts() == 2
+				&& destination->getNumOfOutputPorts() == 0
+				&& destination->getFBoardTitles()->size() == 2
+				&& destination->getIBoardTitles()->size() == 0){
+				currentFactor = NO_SIGNAL;	//Dstの重要度もNO_SIGNALとする
+			}else{
+				currentFactor = destination->getImportance();
+			}
+		}
+#endif	//IMPORTANCE_BASED
 	}
 	this->currentRatio = sourceRatio;
 
-	double valDest = getDest();
-	double valSrc = getSrc();
-	double signal = NO_SIGNAL;
+	double valDest = (double)getDest();
+	double valSrc = (double)getSrc();
+	double signal = (double)NO_SIGNAL;
 	if(valDest == NO_SIGNAL && valSrc == NO_SIGNAL){
 		signal = NO_SIGNAL;
-	}else if(valDest != NO_SIGNAL && valSrc == NO_SIGNAL){
+#ifdef IMPORTANCE_BASED
+		destination->setImportance(NO_SIGNAL);
+#endif	//IMPORTANCE_BASED
+	}/*else if(valDest != NO_SIGNAL && valSrc == NO_SIGNAL){
 		signal = magnitude * valDest;
+#ifdef IMPORTANCE_BASED
+		destination->setImportance(destination->getImportance());
+#endif	//IMPORTANCE_BASED
 	}else if(valDest == NO_SIGNAL && valSrc != NO_SIGNAL){
 		signal = magnitude * valSrc;
-	}else{
-		signal = magnitude * (destRatio * (double)getDest() + sourceRatio * (double)getSrc());
+#ifdef IMPORTANCE_BASED
+		destination->setImportance(source->getImportance());
+#endif	//IMPORTANCE_BASED
+	}*/else{
+		signal = magnitude * (destRatio * valDest + sourceRatio * valSrc);
+#ifdef IMPORTANCE_BASED
+		destination->setImportance(currentFactor);
+#endif	//IMPORTANCE_BASED
 	}
-#ifdef _DEBUG
 	
+#ifdef _DEBUG
+	std::cout << "=========================" << std::endl;
 	//std::cout << "magnitude: " << magnitude << std::endl;
-	//std::cout << "dest: " << this->outputTitles->at(0) << ":" << getDest() << std::endl;
-	//std::cout << "src: " << this->inputTitles->at(0) << ":" << getSrc() << std::endl;
-	//std::cout << "signal: " << signal << std::endl;
+	std::cout << "dest: " << this->outputTitles->at(0) << ":" << valDest << std::endl;
+	std::cout << "src: " << this->inputTitles->at(0) << ":" << valSrc << std::endl;
+#ifdef	IMPORTANCE_BASED
+		std::cout << "impDst: " << destination->getImportance() << std::endl;
+		std::cout << "impSrc: " << source->getImportance() << std::endl;
+#endif	//IMPORTANCE_BASED
+	std::cout << "signal: " << signal << std::endl;
 	
 #endif
 	return signal;

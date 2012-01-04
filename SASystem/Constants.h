@@ -1,12 +1,6 @@
 #ifndef _Constants_H_
 #define _Constants_H_
 
-/**
-	NOW MODIFYING the meaning of SUPPRESSOR
-	If using normal suppressor, Comment out this.
- */
-//#define INVERSE_SUPPRESSOR
-
 //ContConnectをContExploreよりも低い優先度にするとき宣言する
 //#define SWAP_CCCE
 
@@ -15,7 +9,17 @@
 
 //Importance-Basedでやるとき宣言
 #define IMPORTANCE_BASED
-#define IMPORTANCE_POWER	4
+#ifdef IMPORTANCE_BASED
+#define IMPORTANCE_POWER	2
+#endif
+
+/**
+	NOW MODIFYING the meaning of SUPPRESSOR
+	If using normal suppressor, Comment out this.
+ */
+#ifndef	IMPORTANCE_BASED
+#define INVERSE_SUPPRESSOR
+#endif
 
 #define NUM_ROBOT			10
 
@@ -166,6 +170,7 @@
 
 ///無信号状態
 #define NO_SIGNAL		-99.0f
+#define	DISABLED		-999.0f
 
 ///円周率π : 1.15桁まで (double の有効数字は10進数で16桁未満)
 #define PI				3.141592653589793
