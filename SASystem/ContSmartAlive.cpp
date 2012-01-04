@@ -67,7 +67,7 @@ void ContSmartAlive::Run(){
 	signalX = MAX_DRIVE * cosf(direc * PI / 180.0f);
 	signalY = MAX_DRIVE * sinf(direc * PI / 180.0f);
 #ifdef IMPORTANCE_BASED
-	this->importance = this->calcImportance(0.9f);
+	this->importance = this->calcImportance(0.3f);
 #endif	//IMPORTANCE_BASED
 
 	this->setOutput(0, signalX);

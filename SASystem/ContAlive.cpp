@@ -18,12 +18,21 @@ void ContAlive::Run(){
 		if(norm > START_R - 1.0f){	//充電地まで進む
 			signalX = MAX_DRIVE * deltaX / norm;
 			signalY = MAX_DRIVE * deltaY / norm;
+			//重要度を設定
+			this->importance = this->calcImportance(1.0f - batLevel / ((float)MAX_BAT));
 		}else{	//充電中は停止する
-			signalX = 0.0f;
-			signalY = 0.0f;
+			if(batLevel / ((float)MAX_BAT) < threshold){
+				signalX = 0.0f;
+				signalY = 0.0f;
+				//重要度を設定:停止しているので，Avoidよりも優先しても良い．
+				this->importance = 100.0f;	//超重要:だって動いてると充電できないかもじゃん？
+			}else{
+				signalX = NO_SIGNAL;
+				signalY = NO_SIGNAL;
+				//重要度を設定
+				this->importance = NO_SIGNAL;
+			}
 		}
-		//重要度を設定
-		this->importance = this->calcImportance(1.0f - batLevel / ((float)MAX_BAT));
 	}else{
 		this->importance = NO_SIGNAL;
 	}
