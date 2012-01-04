@@ -32,13 +32,6 @@ void ContWander::Run(){
 #endif	//IMPORTANCE_BASED
 	}
 	//出力
-	////////テスト中//////
-	float direc = ((RobotMAV*)(this->parent))->getDirection();
-	signalX = MAX_DRIVE * cosf(direc * PI / 180.0f);
-	signalY = MAX_DRIVE * sinf(direc * PI / 180.0f);
-#ifdef IMPORTANCE_BASED
-	this->importance = this->calcImportance(0.9f);
-#endif	//IMPORTANCE_BASED
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
