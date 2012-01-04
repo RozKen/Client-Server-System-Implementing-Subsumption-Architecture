@@ -45,13 +45,6 @@ void ContExplore::Run(){
 		}
 	}
 	//Set Outputs
-	//for Test//////////////////////
-	float direc = ((RobotMAV*)(this->parent))->getDirection();
-	signalX = MAX_DRIVE * cosf(direc * PI / 180.0f);
-	signalY = MAX_DRIVE * sinf(direc * PI / 180.0f);
-#ifdef IMPORTANCE_BASED
-	this->importance = this->calcImportance(0.1f);
-#endif	//IMPORTANCE_BASED
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }

@@ -602,17 +602,6 @@ void RobotMAV::ProcessArbiters(){
 		color[1] = 0.3f;
 		color[2] = 0.3f;
 	}else{
-		/*
-		for(int j = 0; j < 3; j++){
-			color[j] = modColor[NUM_OF_LAYERS - 1][j] * ratios[NUM_OF_LAYERS - 2] 
-			+ modColor[NUM_OF_LAYERS - 2][j] * (1.0f - ratios[NUM_OF_LAYERS - 2]);
-		}
-
-		for(int i = NUM_OF_LAYERS - 3; i >= 0; i--){
-			for(int j= 0; j < 3; j++){
-				color[j] = color[j] * ratios[i] + modColor[i][j] * (1.0f - ratios[i]);
-			}
-		}*/
 		for(int j = 0; j < 3; j++){
 			color[j] = modColor[0][j];
 		}
