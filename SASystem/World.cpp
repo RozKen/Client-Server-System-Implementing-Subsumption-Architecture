@@ -90,7 +90,7 @@ void World::Update(){
 			}else if(newX > FIELD_SIZE){
 				newX = FIELD_SIZE;
 			}
-			robot->setPosX(newX);
+			
 			//fPosY = fPosY + fDeltaY
 			float posY = robot->getPosY();
 			float dY = robot->getDY();
@@ -105,6 +105,25 @@ void World::Update(){
 			}else if(newY > FIELD_SIZE){
 				newY = FIELD_SIZE;
 			}
+			
+			//è·äQï®Ç∆è’ìÀÇµÇƒÇ¢ÇΩÇÁÅCÇ¨ÇËÇ¨ÇËÇÃÇ∆Ç±ÇÎÇ…ñﬂÇ∑
+			for(int i = -1; i <= 1; i++){
+				for(int j = -1; j <= 1; j++){
+					int tmpX = (int)newX + i;
+					int tmpY = (int)newY + j;
+					if(tmpX >= 0 && tmpX < FIELD_SIZE && tmpY >= 0 && tmpY < FIELD_SIZE){
+						//àÍâÒÇËëÂÇ´Ç¢èÍèäÇ…Ç†ÇÈÉZÉãÇ™è·äQï®ÇæÇ¡ÇΩÇÁ
+						if(geoField[tmpX][tmpY] == OUTOFAREA){
+							//è·äQï®Ç∆Ç‘Ç¬Ç©ÇÁÇ»Ç¢ÇÊÇ§Ç…à⁄ìÆÇ≥ÇπÇÈ
+							newX = (int)newX - i;
+							newY = (int)newY - j;
+						}
+					}
+				}
+			}
+
+			//set Position
+			robot->setPosX(newX);
 			robot->setPosY(newY);
 			//PositionÇ…âûÇ∂ÇƒBatteryÇå∏ÇÁÇ∑
 			if(sqrt(dX) > 0 || sqrt(dY) > 0){
