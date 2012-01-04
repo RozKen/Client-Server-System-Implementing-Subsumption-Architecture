@@ -113,6 +113,10 @@ inline void ContAvoid::Run(){
 #ifdef	IMPORTANCE_BASED
 		if(range < RANGE_DANGER){
 			this->importance = this->calcImportance(1.0f - (range - 1.0f) / RANGE_DANGER * 2.0f);
+			//ぶつかりそうだったら，超重要にする
+			if(range < 2.0f){
+				this->importance = 100.0f;
+			}
 		}else{
 			this->importance = NO_SIGNAL;
 		}
@@ -122,7 +126,8 @@ inline void ContAvoid::Run(){
 			signalX = 0.0f;
 			signalY = 0.0f;
 #ifdef	IMPORTANCE_BASED
-			this->importance = this->calcImportance(1.0f);
+			//超重要とする
+			this->importance = 100.0f;
 #endif	//IMPORTANCE_BASED
 		}else{
 			//旧version
@@ -154,7 +159,8 @@ inline void ContAvoid::Run(){
 				signalX = 0.0f;
 				signalY = 0.0f;
 #ifdef	IMPORTANCE_BASED
-				this->importance = this->calcImportance(1.0f);
+				//超重要に設定する
+				this->importance = 100.0f;
 #endif	//IMPORTANCE_BASED
 			}
 		}

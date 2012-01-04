@@ -120,7 +120,7 @@ double Arbiter::generateSignal(){
 			impDst = NO_SIGNAL;
 		}
 
-		if(impSrc != NO_SIGNAL && impDst == NO_SIGNAL){
+		if(impSrc != NO_SIGNAL && impDst == NO_SIGNAL || impSrc == 100.0f){
 #ifdef	INVERSE_SUPPRESSOR
 			currentFactor = 0.0f;	//src‚ª‹­‚¢
 #else	//INVERSE_SUPPRESSOR
@@ -128,7 +128,7 @@ double Arbiter::generateSignal(){
 #endif	//INVERSE_SUPPRESSOR
 			//destination‚Ìd—v“x‚ðÝ’è‚·‚é
 			destination->setImportance(impSrc);
-		}else if(impSrc == NO_SIGNAL && impDst != NO_SIGNAL){
+		}else if(impSrc == NO_SIGNAL && impDst != NO_SIGNAL || impDst == 100.0f){
 #ifdef	INVERSE_SUPPRESSOR
 			currentFactor = 1.0f;	//dst‚ª‹­‚¢
 #else	//INVERSE_SUPPRESSOR
