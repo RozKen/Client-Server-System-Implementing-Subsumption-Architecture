@@ -226,7 +226,12 @@ double Arbiter::generateSignal(){
 		}
 #endif	//IMPORTANCE_BASED
 	}
+
+#ifdef	INVERSE_SUPPRESSOR
 	this->currentRatio = sourceRatio;
+#else	//INVERSE_SUPPRESSOR
+	this->currentRatio = destRatio;
+#endif	//INVERSE_SUPPRESSOR
 
 	double valDest = (double)getDest();
 	double valSrc = (double)getSrc();
