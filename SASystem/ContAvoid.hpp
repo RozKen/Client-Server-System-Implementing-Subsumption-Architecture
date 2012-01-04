@@ -111,10 +111,10 @@ inline void ContAvoid::Run(){
 
 	if(danger){
 #ifdef	IMPORTANCE_BASED
-		if(range < RANGE_DANGER){
+		if(range < RANGE_DANGER * 2){
 			this->importance = this->calcImportance(1.0f - (range - 1.0f) / RANGE_DANGER * 2.0f);
 			//Ç‘Ç¬Ç©ÇËÇªÇ§ÇæÇ¡ÇΩÇÁÅCí¥èdóvÇ…Ç∑ÇÈ
-			if(range < 2.0f){
+			if(range < 4.0f){
 				this->importance = 100.0f;
 			}
 		}else{

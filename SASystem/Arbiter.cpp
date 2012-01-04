@@ -120,7 +120,7 @@ double Arbiter::generateSignal(){
 			impDst = NO_SIGNAL;
 		}
 
-		if(impSrc != NO_SIGNAL && impDst == NO_SIGNAL || impSrc == 100.0f){
+		if((impSrc != NO_SIGNAL && impDst == NO_SIGNAL) || impSrc > 1.0f){
 #ifdef	INVERSE_SUPPRESSOR
 			currentFactor = 0.0f;	//srcが強い
 #else	//INVERSE_SUPPRESSOR
@@ -128,7 +128,7 @@ double Arbiter::generateSignal(){
 #endif	//INVERSE_SUPPRESSOR
 			//destinationの重要度を設定する
 			destination->setImportance(impSrc);
-		}else if(impSrc == NO_SIGNAL && impDst != NO_SIGNAL || impDst == 100.0f){
+		}else if((impSrc == NO_SIGNAL && impDst != NO_SIGNAL) || impDst > 1.0f){
 #ifdef	INVERSE_SUPPRESSOR
 			currentFactor = 1.0f;	//dstが強い
 #else	//INVERSE_SUPPRESSOR
@@ -204,16 +204,24 @@ double Arbiter::generateSignal(){
 		//////////////////////////ここがおかしい///////////////////
 		////無理矢理dst = ActPosの時だけ，importanceを上書きするように設定
 		float imp = source->getImportance();
+		if(getSrc() == NO_SIGNAL){
+			imp = NO_SIGNAL;
+		}
 		if(imp != NO_SIGNAL){	//Srcの重要度がNO_SIGNALでないとき
-			currentFactor = imp;	//Srcの重要度をそのまま，Dstの重要度にするよう設定
+			destination->setImportance(imp);	//Srcの重要度をそのまま，Dstの重要度にするよう設定
 		}else{					//Srcの重要度がNO_SIGNALの時，
 			if(destination->getNumOfInputPorts() == 2
 				&& destination->getNumOfOutputPorts() == 0
 				&& destination->getFBoardTitles()->size() == 2
-				&& destination->getIBoardTitles()->size() == 0){
-				currentFactor = NO_SIGNAL;	//Dstの重要度もNO_SIGNALとする
+				&& destination->getIBoardTitles()->size() == 0){	//つまり，destinationがActPosの時
+					destination->setImportance(NO_SIGNAL);	//Dstの重要度もNO_SIGNALとする
 			}else{
-				currentFactor = destination->getImportance();
+				//currentFactor = destination->getImportance();
+				float impDst = destination->getImportance();
+				if(getDest() == NO_SIGNAL){
+					impDst = NO_SIGNAL;
+				}
+				destination->setImportance(impDst);
 			}
 		}
 #endif	//IMPORTANCE_BASED
@@ -223,26 +231,8 @@ double Arbiter::generateSignal(){
 	double valDest = (double)getDest();
 	double valSrc = (double)getSrc();
 	double signal = (double)NO_SIGNAL;
-	if(valDest == NO_SIGNAL && valSrc == NO_SIGNAL){
-		signal = NO_SIGNAL;
-#ifdef IMPORTANCE_BASED
-		//destination->setImportance(NO_SIGNAL);
-#endif	//IMPORTANCE_BASED
-	}/*else if(valDest != NO_SIGNAL && valSrc == NO_SIGNAL){
-		signal = magnitude * valDest;
-#ifdef IMPORTANCE_BASED
-		destination->setImportance(destination->getImportance());
-#endif	//IMPORTANCE_BASED
-	}else if(valDest == NO_SIGNAL && valSrc != NO_SIGNAL){
-		signal = magnitude * valSrc;
-#ifdef IMPORTANCE_BASED
-		destination->setImportance(source->getImportance());
-#endif	//IMPORTANCE_BASED
-	}*/else{
+	if(valDest != NO_SIGNAL || valSrc != NO_SIGNAL){
 		signal = magnitude * (destRatio * valDest + sourceRatio * valSrc);
-#ifdef IMPORTANCE_BASED
-		//destination->setImportance(currentFactor);
-#endif	//IMPORTANCE_BASED
 	}
 	
 #ifdef _DEBUG
