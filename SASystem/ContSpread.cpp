@@ -63,14 +63,19 @@ void ContSpread::Run(){
 			float dY = this->getInput(i * 2 + 2 + 1) - this->getInput(1);
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚Ì‹——£
 			float d = this->norm(dX, dY);
+#ifdef	IMPORTANCE_BASED
 			float impD = computeImportance(d);
 			if(maxImp < impD){
 				maxImp = impD;
 			}
+#endif	//IMPORTANCE_BASED
 			float signalStrength = calcStrength(d);
 			signalX = (float)MAX_DRIVE * signalStrength * dX / d;
 			signalY = (float)MAX_DRIVE * signalStrength * dY / d;
 		}
+
+		signalX /= robots;
+		signalY /= robots;
 #ifdef	IMPORTANCE_BASED
 			this->importance = maxImp;
 #endif	//IMPORTANCE_BASED
@@ -95,10 +100,18 @@ int ContSpread::countNumberOfRobots(){
 float ContSpread::calcStrength(float distance){
 	float strength = NO_SIGNAL;
 	if(distance < WIFI_REACH * WIFI_NEUTRAL){
-		strength = 1.0f;
-	}else{
 		strength = -1.0f;
+	}else{
+		strength = 1.0f;
 	}
+
+#ifndef	IMPORTANCE_BASED
+	float ratio = distance / (WIFI_REACH * WIFI_NEUTRAL);
+	if(ratio > 0.8f && ratio < 1.2f){
+		strength = 0.0f;
+	}
+#endif	//IMPORTANCE_BASED
+
 	return strength;
 }
 

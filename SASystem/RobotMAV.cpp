@@ -649,7 +649,7 @@ void RobotMAV::ProcessArbiters(){
 
 	//ratios[6] doesn't used. ContArbitrateDestination
 #ifdef	INVERSE_SUPPRESSOR
-	ratops[7] = 1.0f;
+	ratios[7] = 1.0f;
 #else	//INVERSE_SUPPRESSOR
 	ratios[7] = 0.0f;
 #endif	//INVERSE_SUPPRESSOR

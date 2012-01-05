@@ -22,7 +22,7 @@
 #define INVERSE_SUPPRESSOR
 #endif
 
-#define NUM_ROBOT			10
+#define NUM_ROBOT			2
 
 //íœ—\’è
 #define LENGTH				100
