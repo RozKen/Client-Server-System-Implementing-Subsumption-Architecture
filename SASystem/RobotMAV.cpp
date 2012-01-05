@@ -274,7 +274,14 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cCaP[i]);
 	}
 
-	///44,45 : Suppress LinkToHQ -> 位置Actuator
+	///44, 45 : Suppress Spread -> 位置Actuator
+	Arbiter* cSpaP[2];
+	for(int i = 0; i < 2; i++){
+		cSpaP[i] = new Arbiter(cSp, i, aP, i);
+		this->addArbiter(cSpaP[i]);
+	}
+
+	///46, 47 : Suppress LinkToHQ -> 位置Actuator
 	Arbiter* cL2HQaP[2];
 	for(int i = 0; i < 2; i++){
 		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i);
@@ -289,14 +296,21 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cCaP[i]);
 	}
 
-	///42, 43 : Suppress LinkToHQ -> 位置Actuator
+	///42, 43 : Suppress Spread -> 位置Actuator
+	Arbiter* cSpaP[2];
+	for(int i = 0; i < 2; i++){
+		cSpaP[i] = new Arbiter(cSp, i, aP, i);
+		this->addArbiter(cSpaP[i]);
+	}
+
+	///44, 45 : Suppress LinkToHQ -> 位置Actuator
 	Arbiter* cL2HQaP[2];
 	for(int i = 0; i < 2; i++){
 		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i);
 		this->addArbiter(cL2HQaP[i]);
 	}
 
-	///44, 45 : Suppress Explore -> 位置Actuator
+	///46, 47 : Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i);
@@ -340,7 +354,14 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cCaP[i]);
 	}
 
-	///44,45 : Suppress LinkToHQ -> 位置Actuator
+	///44, 45 : Suppress Spread -> 位置Actuator
+	Arbiter* cSpaP[2];
+	for(int i = 0; i < 2; i++){
+		cSpaP[i] = new Arbiter(cSp, i, aP, i, 1.0f);
+		this->addArbiter(cSpaP[i]);
+	}
+
+	///46, 47 : Suppress LinkToHQ -> 位置Actuator
 	Arbiter* cL2HQaP[2];
 	for(int i = 0; i < 2; i++){
 		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i, 1.0f);
@@ -355,14 +376,21 @@ void RobotMAV::Initialize(){
 		this->addArbiter(cCaP[i]);
 	}
 
-	///42, 43 : Suppress LinkToHQ -> 位置Actuator
+	///42, 43 : Suppress Spread -> 位置Actuator
+	Arbiter* cSpaP[2];
+	for(int i = 0; i < 2; i++){
+		cSpaP[i] = new Arbiter(cSp, i, aP, i, 1.0f);
+		this->addArbiter(cSpaP[i]);
+	}
+
+	///44, 45 : Suppress LinkToHQ -> 位置Actuator
 	Arbiter* cL2HQaP[2];
 	for(int i = 0; i < 2; i++){
 		cL2HQaP[i] = new Arbiter(cL2HQ, i, aP, i, 1.0f);
 		this->addArbiter(cL2HQaP[i]);
 	}
 
-	///44, 45 : Suppress Explore -> 位置Actuator
+	///46, 47 : Suppress Explore -> 位置Actuator
 	Arbiter* cEaP[2];
 	for(int i = 0; i < 2; i++){
 		cEaP[i] = new Arbiter(cE, i, aP, i, 1.0f);
@@ -371,18 +399,32 @@ void RobotMAV::Initialize(){
 #endif	//SWAP_CCCE
 #endif	//IMPORTANCE_BASED
 
-	///46, 47 : Wire 位置Sensor -> ArbitrateDestination
+	///48, 49 : Wire 位置Sensor -> ArbitrateDestination
 	Arbiter* sPcAd[2];
 	for(int i = 0; i < 2; i++){
 		sPcAd[i] = new Arbiter(sP, i, cAd, i, 2.0f);
 		this->addArbiter(sPcAd[i]);
 	}
 
-	///48, 49 : Wire 位置Sensor -> LinkToHQ
+	///50, 51 : Wire 位置Sensor -> LinkToHQ
 	Arbiter* sPcL2HQ[2];
 	for(int i = 0; i < 2; i++){
 		sPcL2HQ[i] = new Arbiter(sP, i, cL2HQ, i, 2.0f);
 		this->addArbiter(sPcL2HQ[i]);
+	}
+
+	///52, 53 : Wire 位置Sensor -> Spread
+	Arbiter* sPcSp[2];
+	for(int i = 0; i < 2; i++){
+		sPcSp[i] = new Arbiter(sP, i, cSp, i, 2.0f);
+		this->addArbiter(sPcSp[i]);
+	}
+
+	///54 - 63 : Wire Network Sensor -> Spread
+	Arbiter* sNcSp[WIFI_CONNECT * 2];
+	for(int i = 0; i < WIFI_CONNECT * 2; i++){
+		sNcSp[i] = new Arbiter(sN, i, cSp, i + 2, 2.0f);
+		this->addArbiter(sNcSp[i]);
 	}
 	
 	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
@@ -589,13 +631,16 @@ void RobotMAV::ProcessArbiters(){
 		case 38:	//SmartAlive Suppress
 			ratios[2] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 40:	//ContLinkToHQ Suppress
+		case 40:	//Connect Suppress SmartAlive, Wander, Alive, Avoid and ActPos
 			ratios[3] = arbiters->at(i)->getCurrentRatio();
-		case 42:	//Connect Suppress SmartAlive, Wander, Alive, Avoid and ActPos
+		case 42:	//Spread Suppress
 			ratios[4] = arbiters->at(i)->getCurrentRatio();
 			break;
-		case 44:	//Explore Suppress Connect, SmartAlive, Wander, Alive, Avoid and ActPos
+		case 44:	//ContLinkToHQ Suppress
 			ratios[5] = arbiters->at(i)->getCurrentRatio();
+			break;
+		case 46:	//Explore Suppress Connect, SmartAlive, Wander, Alive, Avoid and ActPos
+			ratios[6] = arbiters->at(i)->getCurrentRatio();
 			break;
 		default:
 			break;
@@ -604,10 +649,8 @@ void RobotMAV::ProcessArbiters(){
 
 	//ratios[6] doesn't used. ContArbitrateDestination
 #ifdef	INVERSE_SUPPRESSOR
-	ratios[6] = 1.0f;
 	ratops[7] = 1.0f;
 #else	//INVERSE_SUPPRESSOR
-	ratios[6] = 0.0f;
 	ratios[7] = 0.0f;
 #endif	//INVERSE_SUPPRESSOR
 

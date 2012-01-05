@@ -56,19 +56,24 @@ void ContSpread::Run(){
 		this->importance = NO_SIGNAL;
 #endif	//IMPORTANCE_BASED
 	}else{
+		float maxD = NO_SIGNAL;
 		for(int i = 0; i < robots; i++){
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚ÌˆÊ’u‚Ì·
 			float dX = this->getInput(i * 2 + 2) - this->getInput(0);
 			float dY = this->getInput(i * 2 + 2 + 1) - this->getInput(1);
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚Ì‹——£
 			float d = this->norm(dX, dY);
+			float impD = calcImportance(d);
+			if(maxD < impD){
+				maxD = impD;
+			}
 			float signalStrength = calcStrength(d);
 			signalX = (float)MAX_DRIVE * signalStrength * dX / d;
 			signalY = (float)MAX_DRIVE * signalStrength * dY / d;
-#ifdef	IMPORTANCE_BASED
-			this->importance = calcImportance(d);
-#endif	//IMPORTANCE_BASED
 		}
+		#ifdef	IMPORTANCE_BASED
+			this->importance = calcImportance(maxD);
+#endif	//IMPORTANCE_BASED
 	}
 
 	this->setOutput(0, signalX);
