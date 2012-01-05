@@ -82,6 +82,7 @@
     <ClCompile Include="ContExplore.cpp" />
     <ClCompile Include="ContLinkToHQ.cpp" />
     <ClCompile Include="ContSmartAlive.cpp" />
+    <ClCompile Include="ContSpread.cpp" />
     <ClCompile Include="ContWander.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="ContLinkToHQ.hpp" />
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="ContSmartAlive.hpp" />
+    <ClInclude Include="ContSpread.hpp" />
     <ClInclude Include="ContWander.hpp" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
     <ClInclude Include="Logger.h" />

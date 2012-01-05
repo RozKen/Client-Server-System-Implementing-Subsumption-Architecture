@@ -96,7 +96,7 @@ bool ContLinkToHQ::update(){
 	float signalX = NO_SIGNAL;
 	float signalY = NO_SIGNAL;
 	
-	//findHQするかどうかを決めていく
+	//findHQするかどうかを決めつつ，hopを再計算
 
 	//ときおり，relativeRootを書き換える機会を与える
 	if(P_RECONNECT > rand()){
@@ -127,6 +127,9 @@ bool ContLinkToHQ::update(){
 	if(hop == NO_SIGNAL){
 		find = true;
 	}
+
+	//とにかく探索してみる
+	find = true;
 
 	//新たに探索する場合
 	if(find){

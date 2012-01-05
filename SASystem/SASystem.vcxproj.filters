@@ -81,6 +81,9 @@
     <ClCompile Include="ContConnect.cpp">
       <Filter>ソース ファイル\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="ContSpread.cpp">
+      <Filter>ソース ファイル\Controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SAModule.h">
@@ -183,6 +186,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ContLinkToHQ.hpp">
+      <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="ContSpread.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
   </ItemGroup>

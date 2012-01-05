@@ -117,6 +117,12 @@
 ///Wifiで接続するロボットの数
 #define WIFI_CONNECT	5
 
+/////////ContSpread/////////
+///他のRobotと保ちたい平均距離
+#define WIFI_NEUTRAL	0.6f
+///だいたいNEUTRALであると考えられる近傍(0.0 - 1.0)
+#define WIFI_NEUTRAL_AROUND		0.2f
+
 /////////ContLinkToHQ/////////
 #define P_RECONNECT		0.0f			//0.01f
 
