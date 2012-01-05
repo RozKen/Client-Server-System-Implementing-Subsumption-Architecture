@@ -24,7 +24,7 @@ void ContLinkToHQ::Run(){
 #endif	//IMPORTANCE_BASED
 
 	bool toStart = !update();
-	
+	//start地点へ向かう場合
 	if(toStart){
 		float dX = ((float)START_X) - posX;
 		float dY = ((float)START_Y) - posY;
@@ -39,14 +39,14 @@ void ContLinkToHQ::Run(){
 		this->importance = this->calcImportance(value);
 #endif	//IMPORTANCE_BASED
 		//std::cout << "Headquarter 0: " << signalX << ", " << signalY << std::endl;
-	}else{
+	}else{	//start地点へ向かう必要はない場合．
 		float dXP;
 		float dYP;
-		//hop = 0の時はrelativeRootがいない
+		//hop = 0の時はrelativeRootがいない：Start地点へ向かう
 		if(hop == 0 || hop == NO_SIGNAL){
 			dXP = (float)START_X - posX;
 			dYP = (float)START_Y - posY;
-		}else{
+		}else{	//hop != 0のときは，relativeRootへ向かう．
 			float pPosX = ((RobotMAV*)this->parent)->getRelativeRoot()->getPosX();
 			float pPosY = ((RobotMAV*)this->parent)->getRelativeRoot()->getPosY();
 			dXP = pPosX - posX;
@@ -54,7 +54,7 @@ void ContLinkToHQ::Run(){
 		}
 		float dP = norm(dXP, dYP);
 		//relativeRoot / START が少し遠いとき
-		if(dP <= WIFI_CONNECT * WIFI_WEAK){
+		if(dP >= WIFI_CONNECT * WIFI_WEAK){
 			//目的地に向かう
 			signalX = (float)MAX_DRIVE * dXP / dP;
 			signalY = (float)MAX_DRIVE * dYP / dP;
@@ -64,7 +64,7 @@ void ContLinkToHQ::Run(){
 #endif	//IMPORTANCE_BASED
 			//std::cout << "Headquarter 1: " << signalX << ", " << signalY << std::endl;
 		}else{
-			//そうでないとき，信号は出さない
+			//Wifiを接続するのに充分近いとき，信号は出さない
 			signalX = NO_SIGNAL;
 			signalY = NO_SIGNAL;
 #ifdef	IMPORTANCE_BASED
@@ -73,12 +73,12 @@ void ContLinkToHQ::Run(){
 		}
 	}
 	//set Outputs
-	////For Now
+/*	////For Now
 	signalX = NO_SIGNAL;
 	signalY = NO_SIGNAL;
 #ifdef	IMPORTANCE_BASED
 	this->importance = NO_SIGNAL;
-#endif	//IMPORTANCE_BASED
+#endif	//IMPORTANCE_BASED*/
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
