@@ -113,12 +113,19 @@ void RobotMAV::Initialize(){
 	modColor[5][1] = 1.0f;
 	modColor[5][2] = 1.0f;
 
-	///Module 13 : ContLinkToHQ : Purple
+	///Module 13 : ContSpread : DarkGreen
+	cSp = new ContSpread();
+	this->addModule(cSp);
+	modColor[6][0] = 0.0f;
+	modColor[6][1] = 0.5f;
+	modColor[6][2] = 0.0f;
+
+	///Module 14 : ContLinkToHQ : Purple
 	cL2HQ = new ContLinkToHQ();
 	this->addModule(cL2HQ);
-	modColor[6][0] = 1.0f;
-	modColor[6][1] = 0.0f;
-	modColor[6][2] = 1.0f;
+	modColor[7][0] = 1.0f;
+	modColor[7][1] = 0.0f;
+	modColor[7][2] = 1.0f;
 
 #else
 
@@ -129,31 +136,38 @@ void RobotMAV::Initialize(){
 	modColor[4][1] = 1.0f;
 	modColor[4][2] = 1.0f;
 
-	///Module 12 : ContLinkToHQ : Purple
+	///Module 12 : ContSpread : DarkGreen
+	cSp = new ContSpread();
+	this->addModule(cSp);
+	modColor[5][0] = 0.0f;
+	modColor[5][1] = 0.5f;
+	modColor[5][2] = 0.0f;
+
+	///Module 13 : ContLinkToHQ : Purple
 	cL2HQ = new ContLinkToHQ();
 	this->addModule(cL2HQ);
-	modColor[5][0] = 1.0f;
-	modColor[5][1] = 0.0f;
-	modColor[5][2] = 1.0f;
+	modColor[6][0] = 1.0f;
+	modColor[6][1] = 0.0f;
+	modColor[6][2] = 1.0f;
 
-	///Module 13 : ContExplore : Sky Blue
+	///Module 14 : ContExplore : Sky Blue
 	cE = new ContExplore();
 	this->addModule(cE);
-	modColor[6][0] = 0.0f;
-	modColor[6][1] = 1.0f;
-	modColor[6][2] = 1.0f;
+	modColor[7][0] = 0.0f;
+	modColor[7][1] = 1.0f;
+	modColor[7][2] = 1.0f;
 
 #endif	//SWAP_CCCE
 
-	///Module 14 : ContArbitrateDestination : Dark Gray
+	///Module 15 : ContArbitrateDestination : Dark Gray
 	cAd = new ContArbitrateDestination(this);
 	this->addModule(cAd);
-	modColor[7][0] = 0.3f;
-	modColor[7][1] = 0.3f;
-	modColor[7][2] = 0.3f;
+	modColor[8][0] = 0.3f;
+	modColor[8][1] = 0.3f;
+	modColor[8][2] = 0.3f;
 
 	/////Actuator‚ð’Ç‰Á
-	///Module 15 : ˆÊ’uActuator‚ð’Ç‰Á
+	///Module 16 : ˆÊ’uActuator‚ð’Ç‰Á
 	aP = new ActPos();
 	this->addModule(aP);
 
@@ -371,11 +385,11 @@ void RobotMAV::Initialize(){
 		this->addArbiter(sPcL2HQ[i]);
 	}
 	
-	//std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
-	//std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
-	//std::cout << "Number of Outputs" << this->getNumOfOutputPorts() << std::endl;
-	//std::cout << "Number of fBoards" << this->innerMemory->getNumOfFBoards() << std::endl;
-	//std::cout << "Number of iBoards" << this->innerMemory->getNumOfIBoards() << std::endl;
+	std::cout << "Number of Arbiters" << this->getNumOfArbiters() << std::endl;
+	std::cout << "Number of Inputs" << this->getNumOfInputPorts() << std::endl;
+	std::cout << "Number of Outputs" << this->getNumOfOutputPorts() << std::endl;
+	std::cout << "Number of fBoards" << this->innerMemory->getNumOfFBoards() << std::endl;
+	std::cout << "Number of iBoards" << this->innerMemory->getNumOfIBoards() << std::endl;
 
 	///////Initialize Map Log Files///////
 	std::string filename = this->getLogFilePath();
@@ -591,8 +605,10 @@ void RobotMAV::ProcessArbiters(){
 	//ratios[6] doesn't used. ContArbitrateDestination
 #ifdef	INVERSE_SUPPRESSOR
 	ratios[6] = 1.0f;
+	ratops[7] = 1.0f;
 #else	//INVERSE_SUPPRESSOR
 	ratios[6] = 0.0f;
+	ratios[7] = 0.0f;
 #endif	//INVERSE_SUPPRESSOR
 
 	///Set RobotColor According to Suppress

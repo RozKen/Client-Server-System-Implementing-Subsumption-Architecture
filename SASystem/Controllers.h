@@ -6,10 +6,11 @@
 #include "ContWander.hpp"
 #include "ContSmartAlive.hpp"
 #include "ContConnect.hpp"
+#include "ContSpread.hpp"
 #include "ContLinkToHQ.hpp"
 #include "ContExplore.hpp"
 #include "ContArbitrateDestination.hpp"
 
-#define NUM_OF_LAYERS	8
+#define NUM_OF_LAYERS	9
 
 #endif	//_Controllers_H_

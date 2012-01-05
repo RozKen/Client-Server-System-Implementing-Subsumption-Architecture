@@ -330,6 +330,7 @@ private:
 	ContWander* cW;
 	ContSmartAlive* cSa;
 	ContConnect* cC;
+	ContSpread* cSp;
 	ContLinkToHQ* cL2HQ;
 	ContExplore* cE;
 	ContArbitrateDestination* cAd;
