@@ -144,7 +144,7 @@ float ContSpread::computeImportance(float distance, int i){
 		importance = this->calcImportance(distance - WIFI_REACH * WIFI_NEUTRAL);
 	}
 
-	importance *= this->calcImportance(WIFI_CONNECT - 1 - i);
+	importance *= this->calcImportance(1 - i);
 
 	return importance;
 }

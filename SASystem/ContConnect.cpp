@@ -20,7 +20,7 @@ void ContConnect::Run(){
 			signalY = (float)MAX_DRIVE * dy / distance;
 #ifdef	IMPORTANCE_BASED
 			//重要度は，接続しているRobotの数に依存する
-			this->importance = this->calcImportance(WIFI_CONNECT - 1 - i);
+			this->importance = this->calcImportance((WIFI_CONNECT - i) / WIFI_CONNECT);
 #endif	//IMPORTANCE_BASED
 		}
 	}
