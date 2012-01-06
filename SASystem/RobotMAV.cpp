@@ -140,7 +140,7 @@ void RobotMAV::Initialize(){
 	cSp = new ContSpread();
 	this->addModule(cSp);
 	modColor[5][0] = 0.0f;
-	modColor[5][1] = 0.5f;
+	modColor[5][1] = 0.2f;
 	modColor[5][2] = 0.0f;
 
 	///Module 13 : ContLinkToHQ : Purple

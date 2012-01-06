@@ -406,7 +406,7 @@ void glDisplay(){
 
 	glutSwapBuffers();
 	glDisable(GL_BLEND);
-	gs.screenshot("output.bmp", 24);
+	//gs.screenshot("output.bmp", 24);
 }
 
 void glReshape(int w, int h)

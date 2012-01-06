@@ -72,11 +72,11 @@ bool ContSmartAlive::findNearestCharger(){
 	float posX = this->getInput(0);
 	float posY = this->getInput(1);
 	//どうしようもなく司令部から遠いときは，諦める．
-	if(norm(posX - START_X, posY - START_Y) > (float)MAX_DRIVE * MAX_BAT / BAT_LOSS){
+	if(norm(posX - START_X, posY - START_Y) - 5.0f > this->getInput(2) / BAT_LOSS){
 		result = false;
 	}else{
 		int x, y;
-		float distance = 1000.0;
+		float distance = 1000.0f;
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){
 				if(((RobotMAV*)(this->parent))->semMap[i][j] == ONCHARGER
@@ -97,6 +97,8 @@ bool ContSmartAlive::findNearestCharger(){
 			//マンハッタン距離にしてみる
 			this->distance = (posX - x) + (posY - y);
 		}else{
+			nearestCharger[0] = NO_SIGNAL;
+			nearestCharger[1] = NO_SIGNAL;
 			distance = NO_SIGNAL;
 		}
 	}

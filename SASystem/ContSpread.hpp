@@ -48,7 +48,7 @@ protected:
 
 	float calcStrength(float distance);
 #ifdef	IMPORTANCE_BASED
-	float computeImportance(float distance);
+	float computeImportance(float distance, int i);
 #endif	//IMPORTANCE_BASED
 };
 

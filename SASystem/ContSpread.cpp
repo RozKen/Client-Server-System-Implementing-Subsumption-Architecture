@@ -68,15 +68,18 @@ void ContSpread::Run(){
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚Ì‹——£
 			float d = this->norm(dX, dY);
 #ifdef	IMPORTANCE_BASED
-			float impD = computeImportance(d);
+			float impD = computeImportance(d, i);
 			if(maxImp < impD){
 				maxImp = impD;
 				float signalStrength = calcStrength(d);
 				if(signalStrength != NO_SIGNAL){
 					signalX = (float)MAX_DRIVE * signalStrength * dX / d;
 					signalY = (float)MAX_DRIVE * signalStrength * dY / d;
+					this->importance = maxImp;
+					if(signalStrength == 0.0f){
+						this->importance = NO_SIGNAL;
+					}
 				}
-				this->importance = maxImp;
 			}
 		}
 #else	//IMPORTANCE_BASED
@@ -120,18 +123,16 @@ float ContSpread::calcStrength(float distance){
 		strength = 1.0f;
 	}
 
-#ifndef	IMPORTANCE_BASED
 	float ratio = distance / (WIFI_REACH * WIFI_NEUTRAL);
 	if(ratio > 0.8f && ratio < 1.2f){
 		strength = 0.0f;
 	}
-#endif	//IMPORTANCE_BASED
 
 	return strength;
 }
 
 #ifdef	IMPORTANCE_BASED
-float ContSpread::computeImportance(float distance){
+float ContSpread::computeImportance(float distance, int i){
 	float importance = NO_SIGNAL;
 	if(distance < 1.0f || distance > WIFI_REACH * WIFI_WEAK){
 		importance = 1.0f;
@@ -142,6 +143,8 @@ float ContSpread::computeImportance(float distance){
 		float k = 1.0f / (WIFI_REACH * (WIFI_WEAK - WIFI_NEUTRAL));
 		importance = this->calcImportance(distance - WIFI_REACH * WIFI_NEUTRAL);
 	}
+
+	importance *= this->calcImportance(WIFI_CONNECT - 1 - i);
 
 	return importance;
 }
