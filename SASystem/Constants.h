@@ -173,7 +173,7 @@
 
 ////ContSmartAlive
 ///—]—T‚ğ‚Á‚Ä–ß‚é‚½‚ß,‹——£‚É‚©‚¯‚éŒW”
-#define SURPLUS			6.0f
+#define SURPLUS			3.0f
 
 ///–³M†ó‘Ô
 #define NO_SIGNAL		-99.0f

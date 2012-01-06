@@ -51,12 +51,12 @@ void ContSmartAlive::Run(){
 		}else{	//充電器の上にはいない時
 			if(findNearestCharger()){
 				//Batteryが足りなくなりそうだったら
-				if(distance > SURPLUS * this->getInput(2) / BAT_LOSS){
+				if(SURPLUS * (distance * 1.0f) > this->getInput(2) / BAT_LOSS){
 					//最も近い充電エリアへ向かう
 					signalX = (float)MAX_DRIVE * (nearestCharger[0] - this->getInput(0)) / distance;
 					signalY = (float)MAX_DRIVE * (nearestCharger[1] - this->getInput(1)) / distance;
 #ifdef	IMPORTANCE_BASED
-					this->importance = 1.0f;
+					this->importance = 20.0f;
 #endif	//IMPORTANCE_BASED
 				}
 			}//else 見つからなかったら，諦める．
@@ -86,6 +86,17 @@ bool ContSmartAlive::findNearestCharger(){
 						distance = tmp;
 						x = i;
 						y = j;
+						//目標をひとつ内側にする．
+						if(x < START_X){
+							x += 1;
+						}else{
+							x -= 1;
+						}
+						if(y < START_Y){
+							y += 1;
+						}else{
+							y -= 1;
+						}
 						result = true;
 					}
 				}
@@ -95,7 +106,9 @@ bool ContSmartAlive::findNearestCharger(){
 			nearestCharger[0] = x;
 			nearestCharger[1] = y;
 			//マンハッタン距離にしてみる
-			this->distance = (posX - x) + (posY - y);
+			//this->distance = (posX - x) + (posY - y);
+
+			this->distance = this->norm(posX - x, posY - y);
 		}else{
 			nearestCharger[0] = NO_SIGNAL;
 			nearestCharger[1] = NO_SIGNAL;
