@@ -85,6 +85,7 @@
     <ClCompile Include="ContSpread.cpp" />
     <ClCompile Include="ContWander.cpp" />
     <ClCompile Include="DataInDirectoryInvestigator.cpp" />
+    <ClCompile Include="gl_screenshot.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Robot.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="ContSpread.hpp" />
     <ClInclude Include="ContWander.hpp" />
     <ClInclude Include="DataInDirectoryInvestigator.h" />
+    <ClInclude Include="gl_screenshot.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="RobotMAV.h" />

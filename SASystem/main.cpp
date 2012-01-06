@@ -6,6 +6,7 @@
 
 #include <Windows.h>
 #include <time.h>
+#include "gl_screenshot.h"
 #include "Utilities.h"
 
 ///////For OpenGL Manipulation///////
@@ -21,6 +22,8 @@ int lasty=0;
 unsigned char Buttons[3] = {0};
 
 #define DISP_LAYER	10
+
+gl_screenshot gs;
 
 ///////For Map Display Selection///////
 ///robot‚²‚Æ‚Ì’nŒ`‚Ì•\Ž¦‚ðON/OFF
@@ -403,6 +406,7 @@ void glDisplay(){
 
 	glutSwapBuffers();
 	glDisable(GL_BLEND);
+	gs.screenshot("output.bmp", 24);
 }
 
 void glReshape(int w, int h)

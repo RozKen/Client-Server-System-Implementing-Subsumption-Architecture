@@ -84,6 +84,9 @@
     <ClCompile Include="ContSpread.cpp">
       <Filter>ソース ファイル\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="gl_screenshot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SAModule.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="ContSpread.hpp">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_screenshot.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
