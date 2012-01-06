@@ -63,8 +63,8 @@ void ContSpread::Run(){
 		float maxImp = NO_SIGNAL;
 		for(int i = 0; i < robots; i++){
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚ÌˆÊ’u‚Ì·
-			float dX = this->getInput(i * 2 + 2) - this->getInput(0);
-			float dY = this->getInput(i * 2 + 2 + 1) - this->getInput(1);
+			float dX = this->getInput(i * 2 + 2);
+			float dY = this->getInput(i * 2 + 2 + 1);
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚Ì‹——£
 			float d = this->norm(dX, dY);
 #ifdef	IMPORTANCE_BASED
