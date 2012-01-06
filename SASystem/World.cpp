@@ -32,7 +32,7 @@ World::~World(){
 }
 
 void World::Initialize(){
-	generateGeoField("geoField_3.csv");
+	generateGeoField("geoField.csv");
 	generateSemField();
 	generateRadField();
 #ifdef	CONSIDER_DELAY
