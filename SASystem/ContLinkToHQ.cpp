@@ -74,10 +74,10 @@ void ContLinkToHQ::Run(){
 	}
 	//set Outputs
 	////For Now
-	signalX = NO_SIGNAL;
-	signalY = NO_SIGNAL;
+	//signalX = NO_SIGNAL;
+	//signalY = NO_SIGNAL;
 #ifdef	IMPORTANCE_BASED
-	this->importance = NO_SIGNAL;
+	//this->importance = NO_SIGNAL;
 #endif	//IMPORTANCE_BASED
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);

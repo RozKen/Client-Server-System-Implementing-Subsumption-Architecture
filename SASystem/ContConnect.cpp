@@ -43,7 +43,9 @@ void ContConnect::Run(){
 			signalX *= (float)MAX_DRIVE;
 			signalY *= (float)MAX_DRIVE;
 #ifdef	IMPORTANCE_BASED
-			this->importance = this->calcImportance(1.0f - random / WIFI_BALANCE);
+			if(WIFI_BALANCE != 0){
+				this->importance = this->calcImportance(1.0f - random / WIFI_BALANCE);
+			}
 #endif	//IMPORTANCE_BASED
 		}
 	}
