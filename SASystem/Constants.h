@@ -8,7 +8,7 @@
 //#define CONSIDER_DELAY
 
 //Importance-Basedでやるとき宣言
-#define IMPORTANCE_BASED
+//#define IMPORTANCE_BASED
 #ifdef IMPORTANCE_BASED
 #define IMPORTANCE_POWER	2
 #define VERY_IMPORTANT		100.0f
@@ -22,7 +22,7 @@
 #define INVERSE_SUPPRESSOR
 #endif
 
-#define NUM_ROBOT			2
+#define NUM_ROBOT			10
 
 //削除予定
 #define LENGTH				100
@@ -173,7 +173,7 @@
 
 ////ContSmartAlive
 ///余裕を持って戻るため,距離にかける係数
-#define SURPLUS			3.0f
+#define SURPLUS			6.0f
 
 ///無信号状態
 #define NO_SIGNAL		-99.0f
@@ -184,12 +184,11 @@
 
 ///Start地点の座標
 #define START_X			50.0
-#define START_Y			15.0
+#define START_Y			5.0
 /*
 	Start地点の近傍と見なすところ．
 	<ul>
 		<li>BatteryがChargeされる</li>
-		<li>指令からの無線が届く</li>
 	</ul>
  */
 #define START_R			10.0

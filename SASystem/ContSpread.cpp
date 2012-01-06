@@ -1,7 +1,7 @@
 #include "ContSpread.hpp"
 
 ContSpread::ContSpread(){
-	std::string head = "posX";
+	std::string head = "pos";
 	std::string foot = "CSp";
 	//Add Inputs
 	////Add Position Input
@@ -56,6 +56,10 @@ void ContSpread::Run(){
 		this->importance = NO_SIGNAL;
 #endif	//IMPORTANCE_BASED
 	}else{
+#ifndef IMPORTANCE_BASED
+		signalX = 0.0f;
+		signalY = 0.0f;
+#endif	//IMPORTANCE_BASED
 		float maxImp = NO_SIGNAL;
 		for(int i = 0; i < robots; i++){
 			//i”Ô–Ú‚É‹ß‚¢Robot‚Æ‚ÌˆÊ’u‚Ì·
@@ -67,18 +71,27 @@ void ContSpread::Run(){
 			float impD = computeImportance(d);
 			if(maxImp < impD){
 				maxImp = impD;
+				float signalStrength = calcStrength(d);
+				if(signalStrength != NO_SIGNAL){
+					signalX = (float)MAX_DRIVE * signalStrength * dX / d;
+					signalY = (float)MAX_DRIVE * signalStrength * dY / d;
+				}
+				this->importance = maxImp;
 			}
-#endif	//IMPORTANCE_BASED
-			float signalStrength = calcStrength(d);
-			signalX = (float)MAX_DRIVE * signalStrength * dX / d;
-			signalY = (float)MAX_DRIVE * signalStrength * dY / d;
 		}
-
-		signalX /= robots;
-		signalY /= robots;
-#ifdef	IMPORTANCE_BASED
-			this->importance = maxImp;
-#endif	//IMPORTANCE_BASED
+#else	//IMPORTANCE_BASED
+			float signalStrength = calcStrength(d);
+			if(signalStrength != NO_SIGNAL){
+				signalX += signalStrength * dX / d;
+				signalY += signalStrength * dY / d;
+			}
+			float signal = this->norm(signalX, signalY);
+			if(signal != 0.0f){
+				signalX *= (float)MAX_DRIVE / signal;
+				signalY *= (float)MAX_DRIVE / signal;
+			}
+		}
+#endif	//IMPORTANCE_BASED	
 	}
 
 	this->setOutput(0, signalX);
@@ -91,6 +104,8 @@ int ContSpread::countNumberOfRobots(){
 	for(int i = 0; i < WIFI_CONNECT; i++){
 		if(this->getInput(i * 2) != NO_SIGNAL){
 			result = i;
+		}else{
+			break;
 		}
 	}
 

@@ -7,9 +7,7 @@ void ContAlive::Run(){
 	float signalY = NO_SIGNAL;
 #ifdef	IMPORTANCE_BASED
 	this->importance = NO_SIGNAL;
-#endif	//IMPORTANCE_BASED
 	if(batLevel != NO_SIGNAL){
-#ifdef	IMPORTANCE_BASED
 		float posX = this->getInput(1);
 		float posY = this->getInput(2);
 		float deltaX = START_X - posX;
@@ -37,6 +35,7 @@ void ContAlive::Run(){
 		this->importance = NO_SIGNAL;
 	}
 #else
+	if(batLevel != NO_SIGNAL){
 		if(batLevel / ((float)MAX_BAT) < threshold){
 			float posX = this->getInput(1);
 			float posY = this->getInput(2);

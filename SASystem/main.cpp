@@ -127,7 +127,7 @@ void Init(){
 	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
 	
 	//Å‰‚ÌˆÊ’u‚ÌXÀ•W‚ðƒ‰ƒ“ƒ_ƒ€‚É‚¸‚ç‚·
-	Random<boost::uniform_int<> > _numBatGen(-15, 15);
+	Random<boost::uniform_int<> > _numBatGen(-5, 5);
 
 	mav = new std::vector<RobotMAV*>();
 	for(int i = 0; i < NUM_ROBOT; i++){

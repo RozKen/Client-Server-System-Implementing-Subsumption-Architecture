@@ -573,12 +573,10 @@ void RobotMAV::setRelativeRoot(RobotMAV* root){
 }
 
 int RobotMAV::getHop() const{
-	//TODO Implement
 	return this->getOutput(1);
 }
 
 void RobotMAV::setHop(int hop){
-	//TODO Implement
 	this->setInput(53, hop);
 }
 

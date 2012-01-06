@@ -1,7 +1,7 @@
 #include "ContSmartAlive.hpp"
 #include "RobotMAV.h"
 
-ContSmartAlive::ContSmartAlive(){
+ContSmartAlive::ContSmartAlive() : distance(NO_SIGNAL){
 
 	for(int i = 0; i < 2; i++){
 		nearestCharger[i] = NO_SIGNAL;
@@ -35,6 +35,7 @@ void ContSmartAlive::Run(){
 		if(this->getInput(2) >= MAX_BAT){
 			//Charge済みとする
 			this->setIBoard(0, 0);
+			this->distance = NO_SIGNAL;
 		}
 	}else{	//Charge中じゃないとき
 		//Batteryが少なくて，充電器の上にいるとき
@@ -47,13 +48,13 @@ void ContSmartAlive::Run(){
 #ifdef	IMPORTANCE_BASED
 			this->importance = VERY_IMPORTANT;
 #endif	//IMPORTANCE_BASED
-		}else{
+		}else{	//充電器の上にはいない時
 			if(findNearestCharger()){
 				//Batteryが足りなくなりそうだったら
 				if(distance > SURPLUS * this->getInput(2) / BAT_LOSS){
 					//最も近い充電エリアへ向かう
-					signalX = (float)MAX_DRIVE * (this->getInput(0) - nearestCharger[0]) / distance;
-					signalY = (float)MAX_DRIVE * (this->getInput(1) - nearestCharger[1]) / distance;
+					signalX = (float)MAX_DRIVE * (nearestCharger[0] - this->getInput(0)) / distance;
+					signalY = (float)MAX_DRIVE * (nearestCharger[1] - this->getInput(1)) / distance;
 #ifdef	IMPORTANCE_BASED
 					this->importance = 1.0f;
 #endif	//IMPORTANCE_BASED
@@ -95,6 +96,8 @@ bool ContSmartAlive::findNearestCharger(){
 			nearestCharger[1] = y;
 			//マンハッタン距離にしてみる
 			this->distance = (posX - x) + (posY - y);
+		}else{
+			distance = NO_SIGNAL;
 		}
 	}
 
