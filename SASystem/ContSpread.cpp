@@ -73,8 +73,22 @@ void ContSpread::Run(){
 				maxImp = impD;
 				float signalStrength = calcStrength(d);
 				if(signalStrength != NO_SIGNAL){
-					signalX = (float)MAX_DRIVE * signalStrength * dX / d;
+					/*signalX = (float)MAX_DRIVE * signalStrength * dX / d;
 					signalY = (float)MAX_DRIVE * signalStrength * dY / d;
+					*/
+					if(d != 0.0f){
+						signalX = signalStrength * dX / d;
+						signalY = signalStrength * dY / d;
+					}else{
+						signalX = signalStrength * dX;
+						signalY = signalStrength * dY;
+					}
+					float signal = this->norm(signalX, signalY);
+					if(signal != 0.0f){
+						signalX *= impD * (float)MAX_DRIVE / signal;
+						signalY *= impD * (float)MAX_DRIVE / signal;
+					}
+
 					this->importance = maxImp;
 					if(signalStrength == 0.0f){
 						this->importance = NO_SIGNAL;
@@ -85,8 +99,13 @@ void ContSpread::Run(){
 #else	//IMPORTANCE_BASED
 			float signalStrength = calcStrength(d);
 			if(signalStrength != NO_SIGNAL){
-				signalX += signalStrength * dX / d;
-				signalY += signalStrength * dY / d;
+				if(d != 0.0f){
+					signalX += signalStrength * dX / d;
+					signalY += signalStrength * dY / d;
+				}else{
+					signalX += signalStrength * dX;
+					signalY += signalStrength * dY;
+				}
 			}
 			float signal = this->norm(signalX, signalY);
 			if(signal != 0.0f){
@@ -96,7 +115,12 @@ void ContSpread::Run(){
 		}
 #endif	//IMPORTANCE_BASED	
 	}
-
+	////For Now
+	//signalX = NO_SIGNAL;
+	//signalY = NO_SIGNAL;
+#ifdef	IMPORTANCE_BASED
+	this->importance = NO_SIGNAL;
+#endif	//IMPORTANCE_BASED
 	this->setOutput(0, signalX);
 	this->setOutput(1, signalY);
 }
@@ -144,7 +168,9 @@ float ContSpread::computeImportance(float distance, int i){
 		importance = this->calcImportance(distance - WIFI_REACH * WIFI_NEUTRAL);
 	}
 
-	importance *= this->calcImportance(1 - i);
+	if(WIFI_CONNECT != 0){
+		importance *= this->calcImportance((WIFI_CONNECT - i) / WIFI_CONNECT);
+	}
 
 	return importance;
 }

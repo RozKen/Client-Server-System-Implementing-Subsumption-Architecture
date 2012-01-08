@@ -119,7 +119,7 @@
 
 /////////ContSpread/////////
 ///‘¼‚ÌRobot‚Æ•Û‚¿‚½‚¢•½‹Ï‹——£
-#define WIFI_NEUTRAL	0.6f
+#define WIFI_NEUTRAL	0.8f	//0.6f
 ///‚¾‚¢‚½‚¢NEUTRAL‚Å‚ ‚é‚Æl‚¦‚ç‚ê‚é‹ß–T(0.0 - 1.0)
 #define WIFI_NEUTRAL_AROUND		0.2f
 
@@ -161,9 +161,9 @@
 #define BAT_GAIN		157.9
 #else
 #define BAT_LOSS		11.04
-#define BAT_GAIN		473.6
+#define BAT_GAIN		9000	//473.6
 #endif
-#define MAX_BAT			900			//142.1
+#define MAX_BAT			9000			//142.1
 
 ////ContArbitrateDestination
 ///Destination‚ª‰“‚¢‚Æ”»’f‚·‚éÛ‚Ìthreshold
