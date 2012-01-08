@@ -1,6 +1,7 @@
 #include "Utilities.h"
 #include "Constants.h"
 #include <iostream>
+#include <sstream>
 
 std::string logPathGenerator(){
 	time_t now;
@@ -77,3 +78,28 @@ int fieldGenerator(int* field){
 	}
 	delete(field);
 */
+
+std::string intToString5(int num){
+	std::stringstream ss;
+	int power = 100000;
+	for(int i = 0; i < 5; i++){
+		power /= 10;
+		if(num / power == 0){
+			ss << "0";
+		}
+	}
+	ss << num;
+	return ss.str();
+}
+
+std::wstring s2ws(const std::string& s){
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	//std::cout << "Length: " << len << std::endl;
+	wchar_t * buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring result(buf);
+	delete[] buf;
+	return result;
+}

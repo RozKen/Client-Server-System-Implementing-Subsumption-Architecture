@@ -23,7 +23,14 @@ unsigned char Buttons[3] = {0};
 
 #define DISP_LAYER	10
 
+////////For OpenGL Screen Capturing//////////
+#define	CAPTURE
+#ifdef	CAPTURE
 gl_screenshot gs;
+std::string captureFolder = "F:\Captures\\";
+int frame = 0;
+bool capture = false;
+#endif	//CAPTURE
 
 ///////For Map Display Selection///////
 ///robotごとの地形の表示をON/OFF
@@ -60,6 +67,7 @@ void glMouse(int b,int s,int x,int y);
 void glKeyboard(unsigned char key , int x, int y);
 
 World* world;
+std::string directory;
 std::vector<RobotMAV*>* mav;
 clock_t start, end;
 
@@ -125,9 +133,18 @@ void Init(){
 
 	glEnable(GL_DEPTH_TEST);
 
-	std::string directory = logPathGenerator();
+	directory = logPathGenerator();
 	world = new World(directory, "world.csv");
 	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
+
+#ifdef	CAPTURE
+	captureFolder = directory;
+	captureFolder.append("\\capture");
+	if(!PathIsDirectory(s2ws(captureFolder).c_str())){
+		_mkdir(captureFolder.c_str());
+	}
+	captureFolder.append("\\");
+#endif	//CAPTURE
 	
 	//最初の位置のX座標をランダムにずらす
 	Random<boost::uniform_int<> > _numBatGen(-5, 5);
@@ -406,7 +423,16 @@ void glDisplay(){
 
 	glutSwapBuffers();
 	glDisable(GL_BLEND);
-	//gs.screenshot("output.bmp", 24);
+	
+#ifdef	CAPTURE
+	if(capture){
+		std::string fileName = captureFolder;
+		fileName.append(intToString5(frame));
+		fileName.append(".bmp");
+		gs.screenshot(fileName.c_str(), 24);
+		frame++;
+	}
+#endif	//CAPTURE
 }
 
 void glReshape(int w, int h)
@@ -583,6 +609,9 @@ void glKeyboard(unsigned char key , int x, int y){
 				geoFlags[i]  = false;
 			}
 		}
+		break;
+	case 'q':
+		capture = !capture;
 		break;
 	default:
 		break;

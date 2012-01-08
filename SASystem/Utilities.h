@@ -6,6 +6,7 @@
 #include <Windows.h>
 //for _mkdir
 #include <direct.h>
+#include <Shlwapi.h>	//PathIsDirectory‚É•K—v
 
 #include "Random.hpp"
 
@@ -13,5 +14,7 @@
 
 int fieldGenerator(int* field);
 std::string logPathGenerator();
+std::string intToString5(int num);
+std::wstring s2ws(const std::string& s);
 
 #endif	//_Utilities_H_
