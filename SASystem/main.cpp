@@ -641,7 +641,7 @@ bool CalcDisplay(bool* flags, bool rad, int i, int j){
 	bool answer = false;
 	
 	if(rad){
-		for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
+		for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER; robot++){
 			if(flags[robot] && ((int)(world->getRobot(robot)->radMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
 				//std::cout << (int)(world->getRobot(robot)->radMap[i][j] - 0.5f) << std::endl;
 				//std::cout << NO_DATA_ON_FIELD << std::endl;
@@ -650,7 +650,7 @@ bool CalcDisplay(bool* flags, bool rad, int i, int j){
 			}
 		}	
 	}else{
-		for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER - 1; robot++){
+		for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER; robot++){
 			if(flags[robot] && ((int)(world->getRobot(robot)->geoMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
 				answer = true;
 				break;
