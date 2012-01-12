@@ -1,6 +1,6 @@
 #include "ContArbitrateDestination.hpp"
 
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 #include "ContExplore.hpp"
 
 ContArbitrateDestination::ContArbitrateDestination(){
@@ -25,13 +25,13 @@ void ContArbitrateDestination::Initialize(){
 #else
 	int modNum = 14;
 #endif
-	ContExplore* cE = (ContExplore*)(((RobotMAV*)(this->parent))->getModule(modNum));
+	ContExplore* cE = (ContExplore*)(((RobotUGV*)(this->parent))->getModule(modNum));
 	this->addIBoardIndex(cE->getIBoardIndex(0));
 	this->addIBoardIndex(cE->getIBoardIndex(1));
 }
 
 void ContArbitrateDestination::Run(){
-	RobotMAV* parent = (RobotMAV*)(this->getParent());
+	RobotUGV* parent = (RobotUGV*)(this->getParent());
 	float posXself = this->getInput(0);
 	float posYself = this->getInput(1);
 	int destXself = this->getIBoard(0);
@@ -55,7 +55,7 @@ void ContArbitrateDestination::Run(){
 		float destCenterY = 0.0f;
 
 		for(int robot = 0; robot < connect; robot++){
-			RobotMAV* mav = parent->getNearestAt(robot);
+			RobotUGV* mav = parent->getNearestAt(robot);
 			float tmpPosX = mav->getPosX();
 			float tmpPosY = mav->getPosY();
 			int tmpDestX = mav->getObjectiveX();

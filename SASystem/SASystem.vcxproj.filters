@@ -54,9 +54,6 @@
     <ClCompile Include="World.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="RobotMAV.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -85,6 +82,9 @@
       <Filter>ソース ファイル\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="gl_screenshot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotUGV.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,9 +140,6 @@
     <ClInclude Include="Controllers.h">
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="RobotMAV.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SenseBattery.hpp">
       <Filter>ヘッダー ファイル\Modules\Sensors</Filter>
     </ClInclude>
@@ -195,6 +192,9 @@
       <Filter>ヘッダー ファイル\Modules\Controllers</Filter>
     </ClInclude>
     <ClInclude Include="gl_screenshot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotUGV.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

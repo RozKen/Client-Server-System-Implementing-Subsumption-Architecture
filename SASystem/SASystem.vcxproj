@@ -89,7 +89,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Robot.cpp" />
-    <ClCompile Include="RobotMAV.cpp" />
+    <ClCompile Include="RobotUGV.cpp" />
     <ClCompile Include="SAModule.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="World.cpp" />
@@ -115,7 +115,7 @@
     <ClInclude Include="gl_screenshot.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="RobotMAV.h" />
+    <ClInclude Include="RobotUGV.h" />
     <ClInclude Include="Modules.h" />
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="Robot.h" />

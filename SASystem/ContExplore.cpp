@@ -1,6 +1,6 @@
 #include "ContExplore.hpp"
 
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 void ContExplore::Run(){
 	int destX = this->getIBoard(0);
@@ -8,10 +8,10 @@ void ContExplore::Run(){
 	
 	if(destX != NO_SIGNAL && destY != NO_SIGNAL){
 		if(//geoMap
-			((RobotMAV*)(this->parent))->geoMap[destX][destY] != NO_SIGNAL
+			((RobotUGV*)(this->parent))->geoMap[destX][destY] != NO_SIGNAL
 			&&
 			//radMap
-			((RobotMAV*)(this->parent))->radMap[destX][destY] != NO_SIGNAL
+			((RobotUGV*)(this->parent))->radMap[destX][destY] != NO_SIGNAL
 			){
 				DecideDestination();
 				destX = this->getIBoard(0);
@@ -31,8 +31,8 @@ void ContExplore::Run(){
 #endif	//IMPORTANCE_BASED
 	if(destX != (int)NO_SIGNAL && destY != (int)NO_SIGNAL){
 		//Current Position
-		float x = ((RobotMAV*)(this->parent))->getPosX();
-		float y = ((RobotMAV*)(this->parent))->getPosY();
+		float x = ((RobotUGV*)(this->parent))->getPosX();
+		float y = ((RobotUGV*)(this->parent))->getPosY();
 		
 		float norm = sqrt(pow((double)destX - x, 2) + pow((double)destY - y, 2));
 		if(norm != 0.0f){
@@ -52,8 +52,8 @@ void ContExplore::Run(){
 
 void ContExplore::DecideDestination(){
 	//Current Position
-	float x = ((RobotMAV*)(this->parent))->getPosX();
-	float y = ((RobotMAV*)(this->parent))->getPosY();
+	float x = ((RobotUGV*)(this->parent))->getPosX();
+	float y = ((RobotUGV*)(this->parent))->getPosY();
 	//Destination
 	int destX = (int)NO_SIGNAL;
 	int destY = (int)NO_SIGNAL;
@@ -63,10 +63,10 @@ void ContExplore::DecideDestination(){
 	for(int i = 0; i < FIELD_SIZE; i++){
 		for(int j = 0; j < FIELD_SIZE; j++){
 			if(	//geoMap
-				((RobotMAV*)(this->parent))->geoMap[i][j] == NO_SIGNAL
+				((RobotUGV*)(this->parent))->geoMap[i][j] == NO_SIGNAL
 				||
 				//radMap
-				((RobotMAV*)(this->parent))->radMap[i][j] == NO_SIGNAL
+				((RobotUGV*)(this->parent))->radMap[i][j] == NO_SIGNAL
 				){
 					float tmp = sqrt(pow((double)i - x, 2) + pow((double)j - y, 2));
 					if(distance > tmp){

@@ -1,5 +1,5 @@
 #include "ContWander.hpp"
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 void ContWander::Run(){
 	//—š—ð‚ðˆÚ“®

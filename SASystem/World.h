@@ -1,7 +1,7 @@
 #ifndef _World_H_
 #define _World_H_
 
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 /**
 	@class World
@@ -46,7 +46,7 @@ public:
 	/**
 		@brief WorldにRobotを追加する
 	 */
-	virtual void addRobot(RobotMAV* robot);
+	virtual void addRobot(RobotUGV* robot);
 	//void moveRobot(int deltaX, int deltaY);
 	//std::vector<int>* getRobotMap(int x, int y);
 	/**
@@ -79,7 +79,7 @@ public:
 		@param index Robotのindex
 		@return Robotへのポインタ
 	 */
-	RobotMAV* getRobot(const int index);
+	RobotUGV* getRobot(const int index);
 	/**
 		@brief hash値を得る
 		@param which x = 0/ y = 1を代入
@@ -124,13 +124,13 @@ protected:
 		@param robot robotへのpointer
 		@return Batteryの上にいるかどうか？
 	 */
-	bool onBatteryCharger(const RobotMAV* robot);
+	bool onBatteryCharger(const RobotUGV* robot);
 	/**
 		@brief indexの該当するロボットのBatteryが切れていないかどうか，判別する
 		@param robot robotへのpointer
 		@return Batteryが切れていないか？
 	 */
-	bool isAlive(const RobotMAV* robot);
+	bool isAlive(const RobotUGV* robot);
 	/**
 		@brief 各ロボットの近接センサへの入力を更新
 		近くかどうかは，RANGE_DANGER (現在は3.0f)で決まる
@@ -138,7 +138,7 @@ protected:
 		@sa RANGE_DANGER
 		@sa Constants.h
 	 */
-	void updateRange(RobotMAV* robot);
+	void updateRange(RobotUGV* robot);
 	/**
 		@brief 各ロボットの放射線センサへの入力を更新
 		近くかどうかは，MAX_RANGEで決まる
@@ -146,7 +146,7 @@ protected:
 		@sa MAX_RANGE
 		@sa Constants.h
 	 */
-	void updateRadiation(RobotMAV* robot);
+	void updateRadiation(RobotUGV* robot);
 	/**
 		@brief 各ロボットのNetworkセンサへの入力等を更新
 		各ロボットの内部変数「近傍ロボットへのポインタの配列」も更新する
@@ -155,13 +155,13 @@ protected:
 		@sa WIFI_REACH
 		@sa Constants.h
 	 */
-	void updateNetWork(RobotMAV* robot);
+	void updateNetWork(RobotUGV* robot);
 	/**
 		@brief 各ロボットのBatteryChargerセンサへの入力などを更新
 		@param robot robotへのpointer
 		@sa SenseBatteryCharger
 	 */
-	void updateBatteryCharger(RobotMAV* robot);
+	void updateBatteryCharger(RobotUGV* robot);
 	/**
 		@brief geoFieldをRandomに生成する．
 		@sa geoField
@@ -188,13 +188,13 @@ protected:
 #endif	//CONSIDER_DELAY
 };
 
-inline void World::addRobot(RobotMAV* robot){
+inline void World::addRobot(RobotUGV* robot){
 	//Robotで定義されているaddModuleを実行
 	this->addModule(robot);
 	robot->setBattery(MAX_BAT);
 }
 
-inline RobotMAV* World::getRobot(const int index){
-	return ((RobotMAV*)this->modules->at(index));
+inline RobotUGV* World::getRobot(const int index){
+	return ((RobotUGV*)this->modules->at(index));
 }
 #endif	//_World_H_

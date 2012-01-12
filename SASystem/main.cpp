@@ -68,7 +68,7 @@ void glKeyboard(unsigned char key , int x, int y);
 
 World* world;
 std::string directory;
-std::vector<RobotMAV*>* mav;
+std::vector<RobotUGV*>* mav;
 clock_t start, end;
 
 bool onSimulation = false;
@@ -149,9 +149,9 @@ void Init(){
 	//最初の位置のX座標をランダムにずらす
 	Random<boost::uniform_int<> > _numBatGen(-5, 5);
 
-	mav = new std::vector<RobotMAV*>();
+	mav = new std::vector<RobotUGV*>();
 	for(int i = 0; i < NUM_ROBOT; i++){
-		mav->push_back(new RobotMAV(directory, "mav" + world->intToString(i) + ".csv"));
+		mav->push_back(new RobotUGV(directory, "mav" + world->intToString(i) + ".csv"));
 		world->addRobot(mav->at(i));
 		//初期値を設定
 		mav->at(i)->setInput(0, MAX_BAT);
@@ -258,7 +258,7 @@ void glDisplay(){
 		glTranslatef(0.0f, -10.0f, 0.0f);
 	}
 
-	RobotMAV* robot;
+	RobotUGV* robot;
 
 	double offset = -50.0;		//FIELD_SIZEの半分
 	glTranslatef(offset, 0, offset);

@@ -23,7 +23,7 @@
 	</ul>
 	<h1>Others</h1>
 	<ul>
-		<li>Using (RobotMAV *)relative_root which data is stored on RobotMAV : setRelativeRoot, getRelativeRoot</li>
+		<li>Using (RobotUGV *)relative_root which data is stored on RobotUGV : setRelativeRoot, getRelativeRoot</li>
 	</ul>
  */
 class ContLinkToHQ : public SAModule{

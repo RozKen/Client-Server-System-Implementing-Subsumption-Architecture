@@ -1,5 +1,5 @@
 #include "World.h"
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 #include "CistreamCSV.hpp"
 World::World(){
 	//robotPos = new std::vector<position>();
@@ -60,12 +60,12 @@ void World::Run(){
 
 void World::RunRobots(){
 	for(int i = 0; i < this->modules->size(); i++){
-		((RobotMAV*)(this->modules->at(i)))->Run();
+		((RobotUGV*)(this->modules->at(i)))->Run();
 	}
 }
 
 void World::Update(){
-	RobotMAV* robot;
+	RobotUGV* robot;
 	for(int i = 0; i < this->modules->size(); i++){
 		robot = this->getRobot(i);
 		////////Battery////////
@@ -340,7 +340,7 @@ void World::generateRadField(){
 
 }
 
-bool World::onBatteryCharger(const RobotMAV* robot){
+bool World::onBatteryCharger(const RobotUGV* robot){
 	bool result = false;
 	int i = robot->getPosX();
 	int j = robot->getPosY();
@@ -350,7 +350,7 @@ bool World::onBatteryCharger(const RobotMAV* robot){
 	return result;
 }
 
-bool World::isAlive(const RobotMAV* robot){
+bool World::isAlive(const RobotUGV* robot){
 	bool result = true;
 	if(robot->getBattery() < 1.0){
 		result = false;
@@ -358,7 +358,7 @@ bool World::isAlive(const RobotMAV* robot){
 	return result;
 }
 
-void World::updateRadiation(RobotMAV* robot){
+void World::updateRadiation(RobotUGV* robot){
 	//robotの座標 (int)
 	int x = round(robot->getPosX());
 	int y = round(robot->getPosY());
@@ -378,7 +378,7 @@ void World::updateRadiation(RobotMAV* robot){
 	return;
 }
 
-void World::updateRange(RobotMAV* robot){
+void World::updateRange(RobotUGV* robot){
 	//robotの座標 (int)
 	int x = round(robot->getPosX());
 	int y = round(robot->getPosY());
@@ -561,12 +561,12 @@ void World::updateRange(RobotMAV* robot){
 
 }
 
-void World::updateNetWork(RobotMAV* robot){
+void World::updateNetWork(RobotUGV* robot){
 	//現在位置
 	float x = robot->getPosX();
 	float y = robot->getPosY();
 	//現在位置に近いロボットをPickUp
-	std::vector<RobotMAV*>* neighbors = new std::vector<RobotMAV*>();
+	std::vector<RobotUGV*>* neighbors = new std::vector<RobotUGV*>();
 	std::vector<float>* neighborsIndex = new std::vector<float>();
 	for(int i = 0; i < this->numOfModules; i++){
 		float xi = (this->getRobot(i))->getPosX();
@@ -607,6 +607,6 @@ void World::updateNetWork(RobotMAV* robot){
 	delete neighborsIndex;
 }
 
-void World::updateBatteryCharger(RobotMAV* robot){
+void World::updateBatteryCharger(RobotUGV* robot){
 	robot->setBatteryCharger(this->semField[round(robot->getPosX())][round(robot->getPosY())]);
 }

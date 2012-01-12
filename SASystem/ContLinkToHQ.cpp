@@ -1,5 +1,5 @@
 #include "ContLinkToHQ.hpp"
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 ContLinkToHQ::ContLinkToHQ() : rand(0.0, 1.0){
 	this->addInput("posXCLTHQ");
@@ -47,8 +47,8 @@ void ContLinkToHQ::Run(){
 			dXP = (float)START_X - posX;
 			dYP = (float)START_Y - posY;
 		}else{	//hop != 0のときは，relativeRootへ向かう．
-			float pPosX = ((RobotMAV*)this->parent)->getRelativeRoot()->getPosX();
-			float pPosY = ((RobotMAV*)this->parent)->getRelativeRoot()->getPosY();
+			float pPosX = ((RobotUGV*)this->parent)->getRelativeRoot()->getPosX();
+			float pPosY = ((RobotUGV*)this->parent)->getRelativeRoot()->getPosY();
 			dXP = pPosX - posX;
 			dYP = pPosY - posY;
 		}
@@ -111,9 +111,9 @@ bool ContLinkToHQ::update(){
 				find = false;
 			}
 		}else if(hop != NO_SIGNAL){
-			int pHop = ((RobotMAV*)parent)->getRelativeRoot()->getHop();
+			int pHop = ((RobotUGV*)parent)->getRelativeRoot()->getHop();
 			//relativeRootのHopが，自分のHopよりも大きかったら，NO_SIGNALとする
-			if( pHop >= ((RobotMAV*)this->parent)->getHop()){
+			if( pHop >= ((RobotUGV*)this->parent)->getHop()){
 				hop = NO_SIGNAL;
 			}else{
 				//そうじゃないときは，自分のHopを計算し直す．
@@ -156,7 +156,7 @@ bool ContLinkToHQ::findHQ(){
 	float dX = START_X - posX;
 	float dY = START_Y - posY;
 	float d = norm(dX, dY);
-	RobotMAV* parent = ((RobotMAV*)this->parent);
+	RobotUGV* parent = ((RobotUGV*)this->parent);
 
 	//nearest->size() = 0の時
 	if(parent->getNearest()->size() == 0){

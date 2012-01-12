@@ -1,5 +1,5 @@
 #include "ContSmartAlive.hpp"
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 ContSmartAlive::ContSmartAlive() : distance(NO_SIGNAL){
 
@@ -79,8 +79,8 @@ bool ContSmartAlive::findNearestCharger(){
 		float distance = 1000.0f;
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){
-				if(((RobotMAV*)(this->parent))->semMap[i][j] == ONCHARGER
-					|| ((RobotMAV*)(this->parent))->semMap[i][j] == ONSTART){
+				if(((RobotUGV*)(this->parent))->semMap[i][j] == ONCHARGER
+					|| ((RobotUGV*)(this->parent))->semMap[i][j] == ONSTART){
 					float tmp = norm(posX - i, posY - j);
 					if(distance > tmp){
 						distance = tmp;

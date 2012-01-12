@@ -1,5 +1,5 @@
 #include "ContConnect.hpp"
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 void ContConnect::Run(){
 	//出力信号：基本NO_SIGNAL

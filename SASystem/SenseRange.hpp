@@ -2,7 +2,7 @@
 #define _Sense_Range_HPP_
 
 #include "SAModule.h"
-#include "RobotMAV.h"
+#include "RobotUGV.h"
 
 /**
 	@class SenseRange
