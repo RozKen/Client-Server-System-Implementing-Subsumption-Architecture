@@ -10,13 +10,13 @@
 #include "Utilities.h"
 
 ///////For OpenGL Manipulation///////
-float zoom = 30.0f;
+float zoom = 130.0f;
 //X-axis Rotation [degree]
-float rotx = 30.0f;
+float rotx = 90.0f;
 //Y-axis Rotation [degree]
 float roty = 0.0f;
-float tx = 0;
-float ty = -15.0f;	//負号があるのは，カメラが動くのではなく，カメラ以外を動かすから．???
+float tx = 0.0f;
+float ty = 0.0f;	//負号があるのは，カメラが動くのではなく，カメラ以外を動かすから．???
 int lastx=0;
 int lasty=0;
 unsigned char Buttons[3] = {0};
@@ -71,6 +71,8 @@ std::string directory;
 std::vector<RobotUGV*>* mav;
 clock_t start, end;
 
+std::ofstream development;
+
 bool onSimulation = false;
 
 /**
@@ -99,7 +101,7 @@ int main(int argc, char** argv){
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
-	glutInitWindowSize(640, 480);
+	glutInitWindowSize(900, 900);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Radiation Mapping Agents");
 
@@ -120,6 +122,7 @@ int main(int argc, char** argv){
 	}
 	mav->clear();
 	delete(mav);
+	development.close();
 	
 	return 0;
 }
@@ -136,6 +139,10 @@ void Init(){
 	directory = logPathGenerator();
 	world = new World(directory, "world.csv");
 	std::cout << "world:Directory: " << world->getLogFilePath() << std::endl;
+
+	std::string developmentFile = directory;
+	developmentFile.append("\\development.csv");
+	development.open(s2ws(developmentFile).c_str());
 
 #ifdef	CAPTURE
 	captureFolder = directory;
@@ -209,7 +216,7 @@ void glDisplay(){
 	GLfloat matB[] = {0.0, 0.0, 1.0, 1.0};
 
 	//Draw X,Y,Z-Axis
-	if(axisSwitch){
+	/*if(axisSwitch){
 		glTranslatef(0.0f, 10.0f, 0.0f);
 		if(renderShadow){
 				glMaterialfv(GL_FRONT, GL_DIFFUSE, matR);
@@ -256,7 +263,7 @@ void glDisplay(){
 		glTranslatef(0.0f, 0.0f, -1.0f);
 
 		glTranslatef(0.0f, -10.0f, 0.0f);
-	}
+	}*/
 
 	RobotUGV* robot;
 
@@ -287,6 +294,22 @@ void glDisplay(){
 		//Draw Barriers as Boxes
 		for(int i = 0; i < FIELD_SIZE; i++){
 			for(int j = 0; j < FIELD_SIZE; j++){
+				// 探索済みのところをファイルに出力
+				bool answer = false;
+				for(int robot = 0; robot < world->getNumOfModules() && robot < DISP_LAYER; robot++){
+					if(radFlags[robot] && ((int)(world->getRobot(robot)->radMap[i][j] - 0.5f) != (int)NO_DATA_ON_FIELD )){
+						answer = true;
+						break;
+					}
+				}
+				std::string data;
+				if(answer){
+					data = world->intToString(world->geoField[i][j]).append(",");
+				}else{
+					data = "-99,";
+				}
+				development << data;
+
 				//On Barrier
 				if(world->geoField[i][j] == OUTOFAREA){
 					if(CalcDisplay(geoFlags, false, i, j) || geoFlagW){
@@ -335,6 +358,7 @@ void glDisplay(){
 				}
 			}
 		}
+		development << std::endl;
 
 		//Draw Robots as Spheres
 		for(int index = 0; index < world->getNumOfModules(); index++){

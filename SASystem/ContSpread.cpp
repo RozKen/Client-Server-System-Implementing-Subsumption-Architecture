@@ -91,6 +91,8 @@ void ContSpread::Run(){
 
 					this->importance = maxImp;
 					if(signalStrength == 0.0f){
+						signalX = NO_SIGNAL;
+						signalY = NO_SIGNAL;
 						this->importance = NO_SIGNAL;
 					}
 				}
@@ -165,7 +167,7 @@ float ContSpread::computeImportance(float distance, int i){
 		importance = this->calcImportance(1.0f - k * (distance - 1.0f) );
 	}else{
 		float k = 1.0f / (WIFI_REACH * (WIFI_WEAK - WIFI_NEUTRAL));
-		importance = this->calcImportance(distance - WIFI_REACH * WIFI_NEUTRAL);
+		importance = this->calcImportance(k * (distance - WIFI_REACH * WIFI_NEUTRAL));
 	}
 
 	if(WIFI_CONNECT != 0){

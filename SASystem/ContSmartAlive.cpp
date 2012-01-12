@@ -56,7 +56,8 @@ void ContSmartAlive::Run(){
 					signalX = (float)MAX_DRIVE * (nearestCharger[0] - this->getInput(0)) / distance;
 					signalY = (float)MAX_DRIVE * (nearestCharger[1] - this->getInput(1)) / distance;
 #ifdef	IMPORTANCE_BASED
-					this->importance = 20.0f;
+					//this->importance = 20.0f;
+					this->importance = 20.0f * this->calcImportance(1.0f - this->getInput(2) / ((float)MAX_BAT));
 #endif	//IMPORTANCE_BASED
 				}
 			}//else Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚çC’ú‚ß‚éD

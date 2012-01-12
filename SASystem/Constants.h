@@ -161,7 +161,7 @@
 #define BAT_GAIN		157.9
 #else
 #define BAT_LOSS		11.04
-#define BAT_GAIN		9000	//473.6
+#define BAT_GAIN		450				//473.6
 #endif
 #define MAX_BAT			9000			//142.1
 
